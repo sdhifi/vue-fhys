@@ -11,8 +11,8 @@ export default {
 </script>
 
 <style lang="less">
-
+@import 'style/common.less';
 body {
-  background-color: #fbf9fe;
+  background-color: #fff;
 }
 </style>

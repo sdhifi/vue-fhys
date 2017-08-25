@@ -6,10 +6,18 @@ import VueRouter from 'vue-router'
 import App from './App'
 
 import router from './router'
+import store from './store';
+import axios from 'axios';
+
+import YDUI from 'vue-ydui';
+import 'vue-ydui/dist/ydui.rem.css'
+import '../static/fonts/iconfont.css'
 Vue.use(VueRouter)
+Vue.use(YDUI)
 
 FastClick.attach(document.body)
-
+Vue.prototype.axios = axios;
+axios.defaults.headers={"app-version":"v1.0"}
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -1,0 +1,25 @@
+
+@font-face {font-family: "iconfont";
+  src: url('iconfont.ttf') format('truetype'); 
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+}
+.iconfont-large{
+  font-family:"iconfont" !important;
+  font-size: 24px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+}
+.self-shop:before { content: "\e60c"; }
+
+.self-near:before { content: "\e603"; }
+
+.self-me:before { content: "\e6c7"; }
+
+.self-home:before { content: "\e63f"; }
+

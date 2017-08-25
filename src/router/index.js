@@ -8,8 +8,8 @@ export default new Router({
   routes: [
     {
       path:'/',
-      name:'Hello',
-      component:require('../components/hello')
+      name:'Index',
+      component:require('../pages/index/index')
     }
   ]
 })
