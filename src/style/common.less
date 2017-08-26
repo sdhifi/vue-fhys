@@ -13,3 +13,30 @@
   background-color: @red;
   color: #fff;
 }
+.flex{
+  display: flex;
+  flex-wrap: wrap;
+}
+just-center{
+  justify-content: center;
+}
+.just-around{
+  justify-content: space-around;
+}
+.just-between{
+  justify-content: space-between;
+}
+.align-center{
+  align-items: center;
+}
+.text-center{
+  text-align: center;
+}
+.generate-fz(@n, @i: 10) when (@i<=@n) {
+  .fs-@{i} {
+      font-size: 1px * @i!important;
+  }
+  .generate-fz(@n, (@i + 1));
+}
+
+.generate-fz(22);

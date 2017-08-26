@@ -8,18 +8,18 @@
   font-size:16px;
   font-style:normal;
   -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
 }
 .iconfont-large{
   font-family:"iconfont" !important;
   font-size: 24px;
   font-style:normal;
   -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
 }
 .self-shop:before { content: "\e60c"; }
-
 .self-near:before { content: "\e603"; }
-
 .self-me:before { content: "\e6c7"; }
-
 .self-home:before { content: "\e63f"; }
-
+.self-down:before { content: "\e617"; }
+.self-search:before { content: "\e613"; }
