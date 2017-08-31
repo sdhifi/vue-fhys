@@ -7,9 +7,39 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path:'/',
+      path:'/home/index',
       name:'Index',
-      component:require('../pages/index/index')
+      component:require('../pages/home/index')
+    },{
+      path:'/home/subcolumn/:id',
+      name:'SubColumn',
+      component:require('../pages/home/subcolumn')
+    },
+    {
+      path:'/address/city',
+      name:'City',
+      component:require('../pages/address/city')
+    },
+    {
+      path:'/me/index',
+      name:'Me',
+      component:require('../pages/me/index'),
+      // meta:{
+      //   requireAuth:true
+      // }
+    },
+    {
+      path:'/me/login',
+      name:'Login',
+      component:require('../pages/me/login')
+    },{
+      path:'/me/regpro',
+      name:'RegPro',
+      component:require('../pages/me/regpro')
+    },
+    {
+      path:'*',
+      redirect:'/home/index'
     }
   ]
 })

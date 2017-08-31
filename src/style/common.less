@@ -4,6 +4,34 @@
   width: 100%;
   top: 1rem;
   bottom: 1.01rem;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+.scroll-content-1{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 0;
+  bottom: 1.01rem;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+.scroll-content-2{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 1rem;
+  bottom: 0;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+::-webkit-scrollbar{
+  width: 0;
+}
+input[type='button'],button{
+  appearance: none;
+  border: none;
+  outline: none;
 }
 @red: #ff5350;
 .danger-color{
@@ -13,11 +41,12 @@
   background-color: @red;
   color: #fff;
 }
+
 .flex{
   display: flex;
   flex-wrap: wrap;
 }
-just-center{
+.just-center{
   justify-content: center;
 }
 .just-around{
@@ -40,3 +69,16 @@ just-center{
 }
 
 .generate-fz(22);
+.px-1{
+  position: relative;
+  &::after {
+  position: absolute;
+  content: '';
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: #ccc;
+  transform: scaleY(.5);
+  }
+}

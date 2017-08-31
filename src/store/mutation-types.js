@@ -1,3 +1,4 @@
-export default {
-  
-}
+export const RECORD_ADDRESS = 'RECORD_ADDRESS';
+export const RECORD_CITY = 'RECORD_CITY';
+export const TOGGLE_LOADING  = 'TOGGLE_LOADING';
+export const SET_ACCOUNT = 'SET_ACCOUNT';
