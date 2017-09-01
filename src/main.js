@@ -12,7 +12,7 @@ import axios from 'axios';
 
 import YDUI from 'vue-ydui';
 import 'vue-ydui/dist/ydui.rem.css'
-import '../static/fonts/iconfont.css'
+import './style/iconfont.css'
 Vue.use(VueRouter)
 Vue.use(YDUI)
 

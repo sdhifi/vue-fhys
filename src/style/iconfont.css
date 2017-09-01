@@ -1,0 +1,80 @@
+
+@font-face {font-family: "iconfont";
+  src: url('iconfont.ttf') format('truetype'); 
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+}
+.iconfont-large{
+  font-family:"iconfont" !important;
+  font-size: 24px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+}
+.self-shopcart:before { content: "\e601"; }
+
+.self-mobile:before { content: "\e621"; }
+
+.self-rmb:before { content: "\e62f"; }
+
+.self-about:before { content: "\e605"; }
+
+.self-star:before { content: "\e75c"; }
+
+.self-shop:before { content: "\e60c"; }
+
+.self-delivery:before { content: "\e67f"; }
+
+.self-code:before { content: "\e629"; }
+
+.self-pay:before { content: "\e606"; }
+
+.self-near:before { content: "\e603"; }
+
+.self-download:before { content: "\e626"; }
+
+.self-down:before { content: "\e617"; }
+
+.self-service:before { content: "\e607"; }
+
+.self-setting:before { content: "\e60d"; }
+
+.self-heart:before { content: "\e822"; }
+
+.self-lock:before { content: "\e60f"; }
+
+.self-wallet:before { content: "\e615"; }
+
+.self-address:before { content: "\e609"; }
+
+.self-recept:before { content: "\e628"; }
+
+.self-libao:before { content: "\e602"; }
+
+.self-location:before { content: "\e608"; }
+
+.self-nodata:before { content: "\e637"; }
+
+.self-fenghuang:before { content: "\e604"; }
+
+.self-seller:before { content: "\e60a"; }
+
+.self-group:before { content: "\e66e"; }
+
+.self-me:before { content: "\e6c7"; }
+
+.self-crown:before { content: "\e600"; }
+
+.self-search:before { content: "\e613"; }
+
+.self-home:before { content: "\e63f"; }
+
+.self-qrcode:before { content: "\e6e8"; }
+
+.self-success:before { content: "\e60e"; }

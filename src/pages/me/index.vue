@@ -29,10 +29,10 @@
       </section>
       <section v-for="(item,index) in menu" :key="index">
         <yd-cell-group>
-          <yd-cell-item v-for="(cell,i) in item" :key="i" arrow type="link" :href="cell.link">
+          <yd-cell-item v-for="(cell,i) in item" :key="i" :arrow="cell.type=='link'" :type="cell.type" :href="cell.link">
             <span class="iconfont-large" :class="cell.icon" slot="icon"></span>
             <span slot="left">{{cell.name}}</span>
-            <span slot="right" v-if="cell.right">{{cell.right}}</span>
+            <a slot="right" v-if="cell.right" style="color:gold;" @click="showTel" :href="'tel:'+cell.right">{{cell.right}}</a>
           </yd-cell-item>
         </yd-cell-group>
       </section>
@@ -71,60 +71,70 @@ export default {
           {
             name: '我的二维码',
             icon: 'self-qrcode c1',
-            link: '/me/qrcode'
+            link: '/me/qrcode',
+            type: 'link'
           },
           {
             name: '我的钱包',
             icon: 'self-wallet c2',
-            link: '/me/wallet'
+            link: '/me/wallet',
+            type: 'link'
           },
           {
             name: '购物车',
             icon: 'self-shopcart c1',
-            link: '/me/qrcode'
+            link: '/me/qrcode',
+            type: 'link'
           },
           {
             name: '设置支付密码',
             icon: 'self-setting c1',
-            link: '/me/setting'
+            link: '/me/setting',
+            type: 'link'
           }
         ], [
           {
             name: '我是商家',
             icon: 'self-seller c1',
-            link: '/me/seller'
+            link: '/me/seller',
+            type: 'link'
           },
           {
             name: '我推荐的人',
             icon: 'self-group c1',
-            link: '/me/recommend'
+            link: '/me/recommend',
+            type: 'link'
           },
           {
             name: '地址管理',
             icon: 'self-address c2',
-            link: '/me/address'
+            link: '/me/address',
+            type: 'link'
           },
           {
             name: '我的收藏',
             icon: 'self-heart c1',
-            link: '/me/collect'
+            link: '/me/collect',
+            type: 'link'
           }
         ], [
           {
             name: '联系客服',
             icon: 'self-service c1',
-            link: '/me/service',
+
             right: '020-29030366'
           },
           {
             name: '关于凤凰云商O2O',
             icon: 'self-about c2',
-            link: '/me/wallet'
+            link: '/me/wallet',
+            type: 'link'
           },
           {
             name: 'app下载',
             icon: 'self-download c2',
-            link: '/me/download'
+            link: '/me/download',
+            type: 'link'
           }
         ]
       ]
@@ -152,6 +162,9 @@ export default {
           vm.member = res.result;
         }
       })
+    },
+    showTel(){
+      
     }
   }
 }
@@ -176,7 +189,7 @@ section {
   text-align: center;
   .head-cover {
     height: 1.4rem;
-    background-image: url(/static/img/mine_background.png);
+    background-image: url(/static/mine_background.png);
     background-size: cover;
     a {
       .hv-cen;
