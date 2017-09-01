@@ -24,9 +24,9 @@ export default new Router({
       path:'/me/index',
       name:'Me',
       component:require('../pages/me/index'),
-      // meta:{
-      //   requireAuth:true
-      // }
+      meta:{
+        requireAuth:true
+      }
     },
     {
       path:'/me/login',
@@ -36,6 +36,11 @@ export default new Router({
       path:'/me/regpro',
       name:'RegPro',
       component:require('../pages/me/regpro')
+    },
+    {
+      path:'/product/product/:id',
+      name:'Product',
+      component:require('../pages/product/product')
     },
     {
       path:'*',

@@ -111,7 +111,7 @@ export default {
                 })
             }
             else
-            this.getYourlike()
+                this.getYourlike()
         },
         getColumns() {
             axios.post(o2o, { token: md5('gjfengo2o') })
@@ -138,8 +138,8 @@ export default {
                         token: md5(`gjfenglike${longitude}${latitude}`)
                     },
                     headers: { "app-version": "v1.0" },
-                    success(data) {
-                        let _list = data.result;
+                    success(res) {
+                        let _list = res.result;
                         vm.productList = [...vm.productList, ..._list];
                         if (_list.length < 10) {
                             vm.noData = true;
@@ -168,8 +168,8 @@ export default {
     .search-box {
         flex: 1;
         padding: .1rem;
-        color: rgba(255, 255, 255, .2);
-        background-color: currentColor;
+        color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.3);
         border-radius: 5px;
         &:last-child {
             font-size: 14px;
@@ -178,7 +178,7 @@ export default {
 }
 
 .type-list {
-    padding-bottom: .2rem;
+    padding: .2rem 0 0 0;
     margin-bottom: .1rem;
     background-color: @white;
     .type-item {
@@ -187,12 +187,14 @@ export default {
             display: block;
         }
         img {
-            width: 100%;
-            padding: .2rem .4rem .15rem .4rem;
+            .wh(.8rem, .8rem);
+            display: block;
+            margin: 0 auto .1rem auto;
         }
         p {
             color: #707070;
             font-size: 14px;
+            margin-bottom: .4rem;
         }
     }
 }
@@ -201,35 +203,6 @@ export default {
     margin-top: 10px;
     padding-bottom: 10px;
     background: @white;
-    .title-wrap {
-        padding: .2rem;
-    }
-    .like-title {
-        display: inline-block;
-        position: relative;
-        color: @red;
-        border-bottom: 2px solid currentColor;
-        &::before {
-            position: absolute;
-            content: '';
-            width: 1px;
-            height: 100%;
-            background-color: currentcolor;
-            left: -15%;
-            top: 0;
-            transform: rotate(45deg);
-        }
-        &::after {
-            position: absolute;
-            content: '';
-            width: 1px;
-            height: 100%;
-            background-color: currentcolor;
-            right: -17%;
-            top: 0;
-            transform: rotate(45deg);
-        }
-    }
     .like-item {
         padding: .2rem 0;
         margin: 0 .2rem;

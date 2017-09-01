@@ -78,3 +78,5 @@
 .self-qrcode:before { content: "\e6e8"; }
 
 .self-success:before { content: "\e60e"; }
+
+.self-tel:before { content: "\e652"; }

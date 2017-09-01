@@ -2,9 +2,9 @@
   <div id="app">
     <transition name="router-fade" mode="out-in">
 
-    <!-- <keep-alive> -->
+    <keep-alive>
     <router-view></router-view>
-    <!-- </keep-alive> -->
+    </keep-alive>
     </transition>
     <loading v-model="isloading"></loading>
   </div>
@@ -24,7 +24,7 @@ export default {
     redirect() {
       this.$router.beforeEach((to, from, next) => {
         if (to.matched.some(record => record.meta.requireAuth)) {
-          if (!this.account || !localStorage.getItem("account")) {
+          if ( !localStorage.getItem("account")||!this.account) {
             next({
               path: '/me/login'
             })

@@ -73,12 +73,41 @@ input[type='button'],button{
   position: relative;
   &::after {
   position: absolute;
-  content: '';
+  content: '.';
   left: 0;
   right: 0;
   bottom: 0;
   height: 1px;
   background-color: #ccc;
   transform: scaleY(.5);
+  }
+}
+.title-wrap {
+  padding: .2rem;
+}
+.like-title {
+  display: inline-block;
+  position: relative;
+  color: @red;
+  border-bottom: 2px solid currentColor;
+  &::before {
+      position: absolute;
+      content: '';
+      width: 1px;
+      height: 100%;
+      background-color: currentcolor;
+      left: -15%;
+      top: 0;
+      transform: rotate(45deg);
+  }
+  &::after {
+      position: absolute;
+      content: '';
+      width: 1px;
+      height: 100%;
+      background-color: currentcolor;
+      right: -17%;
+      top: 0;
+      transform: rotate(45deg);
   }
 }

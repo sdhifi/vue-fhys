@@ -5,6 +5,8 @@ let like = baseUrl + '/index/v1_0/o2o/like' //o2o商城的首页猜你喜欢
 let subcolumn = baseUrl + '/index/v1_0/o2o/subColumn/' //O2O商城子栏目页
 
 let products = baseUrl + '/product/v1_0/o2o/products' //o2o商城一级栏目或本栏目下的商品
+let product = baseUrl + '/product/v1_0/o2o/productDetail/' //查询O2O商品信息
+let hotProduct = baseUrl + '/product/v1_0/o2o/hotProduct' //O2O查询本店热销商品
 
 let getProvinceByLetter = baseUrl + '/address/v1_0/getProvinceByLetter' //根据字母获取省市区
 
@@ -15,7 +17,9 @@ export {
   o2o,
   like,
   subcolumn,
+  hotProduct,
   products,
+  product,
   getProvinceByLetter,
   register,
   sendcode,

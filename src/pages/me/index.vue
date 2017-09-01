@@ -32,7 +32,7 @@
           <yd-cell-item v-for="(cell,i) in item" :key="i" :arrow="cell.type=='link'" :type="cell.type" :href="cell.link">
             <span class="iconfont-large" :class="cell.icon" slot="icon"></span>
             <span slot="left">{{cell.name}}</span>
-            <a slot="right" v-if="cell.right" style="color:gold;" @click="showTel" :href="'tel:'+cell.right">{{cell.right}}</a>
+            <a slot="right" v-if="cell.right" style="color:gold;" :href="'tel:'+cell.right">{{cell.right}}</a>
           </yd-cell-item>
         </yd-cell-group>
       </section>
@@ -145,7 +145,7 @@ export default {
     this.getInfo();
   },
   activated() {
-    this.getInfo();
+    //this.getInfo();
   },
   methods: {
     getInfo() {
@@ -162,9 +162,6 @@ export default {
           vm.member = res.result;
         }
       })
-    },
-    showTel(){
-      
     }
   }
 }
