@@ -131,22 +131,22 @@ export default {
 .subcolumns-list {
   background-color: @white;
   padding: .4rem 0;
-  margin-bottom: .2rem;
+  margin-bottom: @pd;
   .type-item {
     width: 20%;
-    margin-bottom: .2rem;
+    margin-bottom: @pd;
     img {
       width: 100%;
-      padding: 0 .4rem .2rem .4rem;
+      padding: 0 .4rem @pd .4rem;
     }
   }
 }
 
 .nav-list {
   background-color: @white;
-  padding: .2rem;
+  padding: @pd;
   ul {
-    padding-bottom: .2rem;
+    padding-bottom: @pd;
     border-bottom: 1px solid #ddd;
   }
   .nav-item {

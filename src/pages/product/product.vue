@@ -48,7 +48,7 @@
         <yd-cell-item :arrow="comment.count>0">
           <span slot="left">
             <span>用户评价({{pdDetail.score||0}}分)</span>
-            <rater :value="pdDetail.score"></rater>
+            <crown :value="pdDetail.score"></crown>
           </span>
           <span slot="right">共{{comment.count||0}}条</span>
         </yd-cell-item>
@@ -73,7 +73,7 @@
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
-import Rater from 'components/common/Rater'
+import Crown from 'components/common/Crown'
 import { product, hotProduct } from '../../api/index'
 import { mixin } from 'components/common/mixin'
 
@@ -88,7 +88,7 @@ export default {
       productList: []
     }
   },
-  components: { HeaderTop, Rater },
+  components: { HeaderTop, Crown },
   computed: { ...mapState(['longitude', 'latitude']) },
   mixins: [mixin],
   created() {
@@ -154,7 +154,6 @@ export default {
 </script>
 <style lang='less' scoped>
 @import '../../style/mixin.less';
-@pd: .2rem;
 section {
   padding: @pd;
   background-color: @white;
@@ -181,7 +180,7 @@ section {
     }
   }
   .pd-price {
-    color: #999;
+    color: @lightgray;
     padding: @pd 0 0 0;
     .pd-price1 {
       margin: 0 @pd 0 -3px;
@@ -206,14 +205,13 @@ section {
     }
     .seller-address {
       p {
-        color: #999;
+        color: @lightgray;
         margin-left: .4rem;
       }
     }
   }
   .seller-tel {
-    width: 40px;
-    height: 40px;
+    .wh(40px,40px);
   }
 }
 

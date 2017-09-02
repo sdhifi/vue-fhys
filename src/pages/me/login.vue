@@ -12,6 +12,10 @@
           <input type="tel" slot="right" placeholder="请输入验证码" v-model="code" maxlength="6" @input="formatDigit($event)">
           <yd-sendcode slot="right" v-model="startSend" @click.native="sendCode" :type="rightMobile?'warning':'disabled'"></yd-sendcode>
         </yd-cell-item>
+        <yd-cell-item>
+          <span class="iconfont self-lock" slot="icon"></span>
+          <yd-input slot="right" type='password' v-model="password" :max='16' :min='6' placeholder='请输入6-16位数字或字母的密码'></yd-input>
+        </yd-cell-item>
       </yd-cell-group>
       <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
       <router-link to="/me/regpro" class="protocol">《凤凰云商o2o用户注册协议》</router-link>
@@ -30,8 +34,9 @@ export default {
       mobile: '',
       code: '',
       correctCode: '',
+      password: '',
       startSend: false,
-      checkProtocol: false
+      checkProtocol: true
     }
   },
   components: { HeaderTop },

@@ -10,7 +10,7 @@
 
         </div>
         <div class="product-score flex align-center">
-          <rater :value="item.score"></rater>
+          <crown :value="item.score"></crown>
           <div class="score-num">{{item.score||0}}分</div>
           <div class="product-address">
             <span class="iconfont self-location danger-color"></span>
@@ -30,7 +30,7 @@
 </template>
 <script>
 import { mixin } from 'components/common/mixin'
-import Rater from './Rater'
+import Crown from './Crown'
 export default {
   name: 'ProductItem',
   props: {
@@ -41,7 +41,7 @@ export default {
       }
     }
   },
-  components: { Rater },
+  components: { Crown },
   mixins: [mixin],
 
 }
@@ -49,13 +49,13 @@ export default {
 <style lang='less' scoped>
 @import '../../style/mixin.less';
 .like-item {
-  padding: .2rem 0;
-  margin: 0 .2rem;
+  .pd-v;
+  .mg-h;
 }
 
 .like-link {
   display: flex;
-  color: #999;
+  color: @lightgray;
   .product-cover {
     .wh(2rem, 2rem);
     img {
@@ -65,7 +65,7 @@ export default {
   .product-info {
     flex: 1;
     width: 1%;
-    margin-left: .2rem;
+    margin-left: @pd;
     .product-head {
       font-size: 14px;
       h3 {
@@ -103,7 +103,7 @@ export default {
     }
     .product-content {
       .ellipsis;
-      margin: 0 0 .2rem 0;
+      margin: 0 0 @pd 0;
     }
     .product-price {
       .price {

@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-  name: 'Rater',
+  name: 'Crown',
   props: {
     max: {
       type: Number,

@@ -57,7 +57,6 @@
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import FooterBar from 'components/footer/index'
-import Rater from 'components/common/rater'
 import ProductItem from 'components/common/ProductItem'
 import { o2o, like } from '../../api/index'
 
@@ -72,7 +71,7 @@ export default {
             productList: [],
         }
     },
-    components: { HeaderTop, FooterBar, Rater, ProductItem },
+    components: { HeaderTop, FooterBar, ProductItem },
     computed: {
         ...mapState(['longitude', 'latitude', 'city'])
     },
@@ -160,7 +159,7 @@ export default {
 @import '../../style/mixin.less';
 .city-search {
     height: 44px;
-    padding: 0 .2rem;
+    .pd-h;
     .current-city {
         width: 2rem;
         font-size: 14px;
@@ -168,8 +167,8 @@ export default {
     .search-box {
         flex: 1;
         padding: .1rem;
-        color: rgba(255, 255, 255, 0.8);
-        background-color: rgba(255, 255, 255, 0.3);
+        color: @lightgray;
+        background-color: rgba(255, 255, 255, 1);
         border-radius: 5px;
         &:last-child {
             font-size: 14px;
@@ -204,8 +203,8 @@ export default {
     padding-bottom: 10px;
     background: @white;
     .like-item {
-        padding: .2rem 0;
-        margin: 0 .2rem;
+        .pd-v;
+        .mg-h;
     }
 
     .like-link {
@@ -220,7 +219,7 @@ export default {
         .product-info {
             flex: 1;
             width: 1%;
-            margin-left: .2rem;
+            margin-left: @pd;
             .product-head {
                 font-size: 14px;
                 h3 {

@@ -170,7 +170,7 @@ export default {
 @import '../../style/mixin.less';
 section {
   background-color: #fff;
-  margin-bottom: .2rem
+  margin-bottom: @pd;
 }
 
 .c1 {
@@ -193,8 +193,7 @@ section {
       top: 42%;
     }
     img {
-      width: 1.6rem;
-      height: 1.6rem;
+      .wh(1.6rem,1.6rem);
       border-radius: 50%;
       border: 3px solid rgba(255, 255, 255, .5);
     }
@@ -218,7 +217,7 @@ section {
 
 .order-container {
   .order-item {
-    padding: .2rem 0;
+    .pd-v;
     .order-left {
       padding-left: .2rem;
     }
@@ -238,10 +237,10 @@ section {
       }
     }
   }
-  color: #999;
+  color: @lightgray;
   text-align: center;
   ul {
-    padding: .2rem 0;
+    .pd-v;
   }
   p {
     font-size: 12px;

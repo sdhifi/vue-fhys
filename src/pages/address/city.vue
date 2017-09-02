@@ -124,6 +124,9 @@ export default {
             if (i == len - 1) {
               vm.$store.commit('TOGGLE_LOADING', false);
             }
+          },
+          error(res){
+              vm.$store.commit('TOGGLE_LOADING', false);
           }
         })
       }
@@ -150,8 +153,8 @@ export default {
 .current-city {
   background-color: @white;
   line-height: 1rem;
-  margin-top: .2rem;
-  padding: 0 .2rem;
+  margin-top: @pd;
+  .pd-h;
   font-size: 16px;
   .position {
     font-size: 14px;
@@ -160,10 +163,10 @@ export default {
 }
 
 .title-container {
-  padding: .2rem;
+  .pd;
   ul {
     background-color: @white;
-    padding: .2rem 0;
+    .pd-v;
     font-size: 13px;
     li {
       display: inline-block;
@@ -171,7 +174,7 @@ export default {
       margin: .15rem;
       border: 1px solid #ccc;
       border-radius: 3px;
-      padding: .2rem 0;
+      .pd-v;
       text-align: center;
       .ellipsis;
       a {
@@ -182,7 +185,7 @@ export default {
   h3 {
     font-size: 14px;
     color: @lightgray;
-    padding: 0 0 .2rem 0;
+    padding: 0 0 @pd 0;
   }
   &.title-outline {
     li {
