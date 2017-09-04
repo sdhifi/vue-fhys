@@ -73,7 +73,7 @@ input[type='button'],button{
   position: relative;
   &::after {
   position: absolute;
-  content: '.';
+  content: ' ';
   left: 0;
   right: 0;
   bottom: 0;
@@ -110,4 +110,15 @@ input[type='button'],button{
       top: 0;
       transform: rotate(45deg);
   }
+}
+.layer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  .flex;
+  .just-center;
+  .align-center;
+  background-color: rgba(0,0,0,.5);
 }

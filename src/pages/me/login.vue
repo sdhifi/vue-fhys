@@ -14,7 +14,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <span class="iconfont self-lock" slot="icon"></span>
-          <yd-input slot="right" type='password' v-model="password" :max='16' :min='6' placeholder='请输入6-16位数字或字母的密码'></yd-input>
+          <yd-input slot="right" type='password' v-model="password" required :max='16' :min='6' placeholder='请输入6-16位数字或字母的密码' regex="^[0-9a-zA-Z]{6,16}$"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
       <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
@@ -26,7 +26,7 @@
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import {sendcode} from '../../api/index'
+import { sendcode } from '../../api/index'
 export default {
   name: 'Login',
   data() {
@@ -47,19 +47,34 @@ export default {
     rightCode() {
       return /^\d{6}$/gi.test(this.code) && (this.code == this.correctCode)
     },
+    rightPwd() {
+      return /[0-9a-zA-Z]{6,16}/.test(this.password)
+    },
     valid() {
-      return this.rightMobile && this.rightCode && this.checkProtocol
+      return this.rightMobile && this.rightCode && this.rightPwd && this.checkProtocol
     }
   },
   methods: {
-    formatDigit(event){
-      this.code= event.target.value.replace(/\D/g,'');
+    formatDigit(event) {
+      this.code = event.target.value.replace(/\D/g, '');
     },
     sendCode() {
-      let vm =this;
+      let vm = this;
       this.code = '';
       this.correctCode = '';
       this.$dialog.loading.open('发送中...');
+       mui.ajax({
+        url: sendcode,
+        type: 'post',
+        headers: { "app-version": "v1.0" },
+        data: {
+          mobile: this.mobile,
+          token: md5(`send${this.mobile}`)
+        },
+        success(res) {
+          vm.correctCode = res.content;
+        }
+      })
       setTimeout(() => {
         this.startSend = true;
         this.$dialog.loading.close();
@@ -70,23 +85,14 @@ export default {
           timeout: 1500
         });
       }, 1000);
-      mui.ajax({
-        url:sendcode,
-        type:'post',
-        headers:{"app-version":"v1.0"},
-        data:{
-          mobile:this.mobile,
-          token:md5(`send${this.mobile}`)
-        },
-        success(res){
-          vm.correctCode = res.content;
-        }
-      })
     },
-    login(){
-      this.$store.commit('SET_ACCOUNT',this.mobile);
-      localStorage.setItem('account',this.mobile);
-      this.$router.push({path:'/me/index'})
+    checkpwd() {
+      console.log(this.$refs.pwd.errorMsg);
+    },
+    login() {
+      this.$store.commit('SET_ACCOUNT', this.mobile);
+      localStorage.setItem('account', this.mobile);
+      this.$router.push({ path: '/me/index' })
     }
   }
 }
@@ -95,9 +101,8 @@ export default {
 @import '../../style/mixin.less';
 .login-form {
   padding: .3rem;
-  .protocol{
+  .protocol {
     color: #10aeff;
   }
 }
-
 </style>

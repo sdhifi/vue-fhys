@@ -6,7 +6,7 @@
       </div>
       <div class="product-info">
         <div class="product-head flex">
-          <h3>{{item.name}}</h3>
+          <h3>{{item.storeName}}</h3>
 
         </div>
         <div class="product-score flex align-center">
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="product-content">
-          {{item.content||"暂无详情"}}
+          {{item.name||"暂无"}}
         </div>
         <div class="product-price">
           <span class="price">￥{{item.price}}.00</span>
@@ -80,25 +80,23 @@ export default {
     .product-score {
       margin: .1rem 0;
       .score-num {
-        margin-left: .5rem;
+        margin-left: @pd;
       }
     }
     .product-address {
       position: absolute;
       right: 0;
       font-size: 0;
-      span:first-child {
-        font-size: 20px;
-      }
+      
       .product-distance {
         color: @red;
         border: 1px solid currentColor;
         border-left: none;
-        padding: 2px 2px 2px 0;
+        padding: 2px 2px 2px 2px;
         border-radius: 0 5px 5px 0;
-        font-size: 12px;
+        font-size: 10px;
         margin-left: -3px;
-        vertical-align: -5px;
+        vertical-align: -4px;
       }
     }
     .product-content {

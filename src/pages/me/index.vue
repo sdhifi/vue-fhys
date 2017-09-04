@@ -4,9 +4,10 @@
     <main class="scroll-content">
       <section class="head-container">
         <div class="head-cover">
-          <router-link :to="{path:'/me/update'}">
+          <router-link :to="{name:'Update',params:{member}}">
             <img :src="member.imgHeadUrl" :alt="member.name">
           </router-link>
+          <span class="sex-tag" :style="{'background-color':member.sex=='1'?'#57A9FF':'#f860ef'}">{{member.sex=='0'?'无':(member.sex=='1'?'男':'女')}}</span>
         </div>
         <div class="head-info">
           <div class="name">{{member.name||member.nickName}}</div>
@@ -145,7 +146,7 @@ export default {
     this.getInfo();
   },
   activated() {
-    //this.getInfo();
+    this.getInfo();
   },
   methods: {
     getInfo() {
@@ -182,20 +183,32 @@ section {
 }
 
 .head-container {
-  position: relative;
   text-align: center;
   .head-cover {
+    position: relative;
     height: 1.4rem;
     background-image: url(/static/mine_background.png);
     background-size: cover;
     a {
-      .hv-cen;
-      top: 42%;
+      .h-cen;
+      top: .4rem;
+      z-index: 10;
     }
     img {
-      .wh(1.6rem,1.6rem);
+      .wh(1.6rem, 1.6rem);
       border-radius: 50%;
       border: 3px solid rgba(255, 255, 255, .5);
+    }
+    .sex-tag {
+      position: absolute;
+      left: 30%;
+      top: .8rem;
+      padding: 5px 10px;
+      border-radius: 15px 0 0 0;
+      width: 48px;
+      color: @white;
+      background-color: @green;
+      z-index: 5;
     }
   }
   .head-info {
@@ -218,6 +231,7 @@ section {
 .order-container {
   .order-item {
     .pd-v;
+    font-size: 14px;
     .order-left {
       padding-left: .2rem;
     }

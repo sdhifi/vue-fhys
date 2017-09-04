@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-top :back="false"></header-top>
+        <header-top :back="false" :login="!loginAccount"></header-top>
         <main class="scroll-content">
             <section class="city-search flex text-center align-center danger-bg">
                 <router-link to="/address/city" class="current-city">
@@ -69,16 +69,21 @@ export default {
             slideTypes: [],
             banner: [],
             productList: [],
+            loginAccount:false
         }
     },
     components: { HeaderTop, FooterBar, ProductItem },
     computed: {
         ...mapState(['longitude', 'latitude', 'city'])
+        
     },
     created() {
         this.plusReady();
         this.getPosition();
         this.getColumns();
+    },
+    activated(){
+        this.loginAccount= localStorage.getItem('account').length
     },
     methods: {
         plusReady() {

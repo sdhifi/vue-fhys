@@ -13,6 +13,8 @@ let getProvinceByLetter = baseUrl + '/address/v1_0/getProvinceByLetter' //根据
 let register = baseUrl + 'v1_0/register' //注册
 let sendcode = 'http://fenghuang.77jie.cn/gjfeng-web-client/sms/send' //后获取验证码
 let my = baseUrl + '/member/v1_0/my' //我的信息
+let realNameByAly = baseUrl + '/member/v1_0/realNameByAly' //用户实名认证
+let update = baseUrl + '/member/v1_0/update' //编辑个人信息
 export {
   o2o,
   like,
@@ -23,5 +25,7 @@ export {
   getProvinceByLetter,
   register,
   sendcode,
-  my
+  my,
+  realNameByAly,
+  update
 }

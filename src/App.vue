@@ -2,9 +2,9 @@
   <div id="app">
     <transition name="router-fade" mode="out-in">
 
-    <keep-alive>
-    <router-view></router-view>
-    </keep-alive>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </transition>
     <loading v-model="isloading"></loading>
   </div>
@@ -16,7 +16,7 @@ import Loading from 'components/common/loading'
 export default {
   name: 'app',
   components: { Loading },
-  computed: { ...mapState(['isloading','account']) },
+  computed: { ...mapState(['isloading', 'account']) },
   created() {
     this.redirect();
   },
@@ -24,7 +24,7 @@ export default {
     redirect() {
       this.$router.beforeEach((to, from, next) => {
         if (to.matched.some(record => record.meta.requireAuth)) {
-          if ( !localStorage.getItem("account")||!this.account) {
+          if (!localStorage.getItem("account").length) {
             next({
               path: '/me/login'
             })
@@ -47,10 +47,14 @@ export default {
 body {
   background-color: #fff;
 }
-.router-fade-enter-active, .router-fade-leave-active {
-	  	transition: opacity .3s;
-	}
-	.router-fade-enter, .router-fade-leave-active {
-	  	opacity: 0;
-	}
+
+.router-fade-enter-active,
+.router-fade-leave-active {
+  transition: opacity .3s;
+}
+
+.router-fade-enter,
+.router-fade-leave-active {
+  opacity: 0;
+}
 </style>
