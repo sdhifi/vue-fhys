@@ -1,13 +1,17 @@
 <template>
   <div>
     <header-top></header-top>
-    <div class="login-form">
+    <div class="page-container">
       <yd-cell-group>
+        <yd-cell-item type="div">
+          <h3 slot="left">{{loginWay?'没有账号，注册':'已有账号，登录'}}</h3>
+          <yd-switch slot="right" v-model="loginWay"></yd-switch>
+        </yd-cell-item>
         <yd-cell-item>
           <span class="iconfont self-mobile" slot="icon"></span>
           <yd-input :debug="true" v-model="mobile" placeholder="请输入手机号码" required regex="mobile" slot="right"></yd-input>
         </yd-cell-item>
-        <yd-cell-item>
+        <yd-cell-item v-if="loginWay">
           <span class="iconfont self-code" slot="icon"></span>
           <input type="tel" slot="right" placeholder="请输入验证码" v-model="code" maxlength="6" @input="formatDigit($event)">
           <yd-sendcode slot="right" v-model="startSend" @click.native="sendCode" :type="rightMobile?'warning':'disabled'"></yd-sendcode>
@@ -17,20 +21,24 @@
           <yd-input slot="right" type='password' v-model="password" required :max='16' :min='6' placeholder='请输入6-16位数字或字母的密码' regex="^[0-9a-zA-Z]{6,16}$"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
-      <router-link to="/me/regpro" class="protocol">《凤凰云商o2o用户注册协议》</router-link>
-      <yd-button size="large" type="primary" :disabled="!valid" @click.native="login">完成</yd-button>
+      <div v-if="loginWay">
+        <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
+        <router-link to="/me/regpro" class="protocol">《凤凰云商o2o用户注册协议》</router-link>
+      </div>
+      <yd-button size="large" type="primary" :disabled="!validRegister" @click.native="register" v-if="loginWay">注册</yd-button>
+      <yd-button size="large" type="primary" :disabled="!validLogin" @click.native="login" v-else>登录</yd-button>
     </div>
 
   </div>
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import { sendcode } from '../../api/index'
+import { sendcode, register, login } from '../../api/index'
 export default {
   name: 'Login',
   data() {
     return {
+      loginWay: true,//judge login or register,default way is register
       mobile: '',
       code: '',
       correctCode: '',
@@ -50,8 +58,11 @@ export default {
     rightPwd() {
       return /[0-9a-zA-Z]{6,16}/.test(this.password)
     },
-    valid() {
+    validRegister() {
       return this.rightMobile && this.rightCode && this.rightPwd && this.checkProtocol
+    },
+    validLogin() {
+      return this.rightMobile && this.rightPwd;
     }
   },
   methods: {
@@ -63,7 +74,7 @@ export default {
       this.code = '';
       this.correctCode = '';
       this.$dialog.loading.open('发送中...');
-       mui.ajax({
+      mui.ajax({
         url: sendcode,
         type: 'post',
         headers: { "app-version": "v1.0" },
@@ -86,18 +97,89 @@ export default {
         });
       }, 1000);
     },
-    
+
+    register() {
+      let vm = this;
+      mui.ajax({
+        url: register,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          account: this.mobile,
+          password: this.password,
+          nickname:'',
+          token: md5('register')
+        },
+        success(res) {
+          if (res.code == '200') {
+            vm.$dialog.toast({
+              mes: '注册成功',
+              timeout: 1500,
+              callback: () => {
+                vm.$store.commit('SET_ACCOUNT', vm.mobile);
+                localStorage.setItem('account', vm.mobile);
+                vm.$router.push({ path: '/me/index' })
+              }
+            })
+          }
+          else{
+            vm.$dialog.toast({
+              mes: res.msg||'注册失败',
+              timeout: 1500
+            })
+            return;
+          }
+        },
+        error(res){
+          vm.$dialog.toast({
+              mes:  res.msg||'注册失败',
+              timeout: 1500
+            })
+            return;
+        }
+      })
+
+    },
     login() {
-      this.$store.commit('SET_ACCOUNT', this.mobile);
-      localStorage.setItem('account', this.mobile);
-      this.$router.push({ path: '/me/index' })
+      let vm = this;
+      mui.ajax({
+        url: login,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          account: this.mobile,
+          password: this.password,
+          token: md5('login')
+        },
+        success(res) {
+          if (res.code == '200') {
+            vm.$dialog.toast({
+              mes: '登录成功',
+              timeout: 1000,
+              callback: () => {
+                vm.$store.commit('SET_ACCOUNT', vm.mobile);
+                localStorage.setItem('account', vm.mobile);
+                vm.$router.push({ path: '/me/index' })
+              }
+            })
+          }
+          else{
+            vm.$dialog.toast({
+              mes:  res.msg||'登录信息有误请检查',
+              timeout: 1500
+            })
+            return;
+          }
+        }
+      })
     }
   }
 }
 </script>
 <style lang='less' scoped>
 @import '../../style/mixin.less';
-.login-form {
+
+.page-container {
   padding: .3rem;
   .protocol {
     color: #10aeff;

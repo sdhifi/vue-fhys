@@ -17,7 +17,7 @@
           </router-link>
         </ul>
       </section>
-      <section class="nav-list">
+      <!-- <section class="nav-list">
         <ul class="flex just-around text-center">
           <li class="nav-item" :class="{'nav-active':index+1==filterIndex}" @click="filter(item)" v-for="(item,index) in orderType" :key="index">{{item.name}}</li>
         </ul>
@@ -27,8 +27,8 @@
           </div>
           <p slot="doneTip">没有数据啦</p>
         </yd-infinitescroll>
-      </section>
-
+      </section> -->
+      <product-list></product-list>
     </main>
   </div>
 </template>
@@ -36,6 +36,7 @@
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import ProductItem from 'components/common/ProductItem'
+import ProductList from 'components/common/ProductList'
 import { subcolumn, products } from '../../api/index'
 import { mixin } from 'components/common/mixin'
 export default {
@@ -56,19 +57,26 @@ export default {
       pageNo: 1,
     }
   },
-  components: { HeaderTop, ProductItem },
+  components: { HeaderTop, ProductItem ,ProductList},
   computed: { ...mapState(['longitude', 'latitude']) },
   mixins: [mixin],
   created() {
     this.init();
   },
-  activated(){
+  activated() {
     this.init();
   },
   methods: {
     init() {
       this.getColumn();
       this.getProduct();
+      this.reset();
+    },
+    reset() {
+      this.noData = false;
+      this.productList = [];
+      this.filterIndex = 1;
+      this.pageNo = 1;
     },
     getColumn() {
       let vm = this;

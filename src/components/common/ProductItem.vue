@@ -1,5 +1,5 @@
 <template>
-  <div class="like-item px-1">
+  <div class="like-item">
     <router-link :to="{path:'/product/product/' + item.id}" class="like-link">
       <div class="product-cover">
         <img :src="item.imgUrl" :alt="item.name" />
@@ -49,6 +49,8 @@ export default {
 <style lang='less' scoped>
 @import '../../style/mixin.less';
 .like-item {
+  position: relative;
+  border-bottom: 1px solid #f7f5f5; /*兼容部分机型*/
   .pd-v;
   .mg-h;
 }

@@ -1,13 +1,13 @@
 <template>
     <div>
-        <header-top :back="false" :login="!loginAccount"></header-top>
+        <header-top :back="false" :login="!loginAccount">注册|登录</header-top>
         <main class="scroll-content">
             <section class="city-search flex text-center align-center danger-bg">
                 <router-link to="/address/city" class="current-city">
                     <span>{{city}}</span>
                     <span class="iconfont self-down"></span>
                 </router-link>
-                <router-link to="/search" class="search-box">
+                <router-link to="/home/search" class="search-box">
                     <span class="iconfont-large self-search"></span>
                     <span>搜索商家或商品</span>
                 </router-link>
@@ -64,29 +64,40 @@ export default {
     name: 'Home',
     data() {
         return {
+            oldBack:mui.back,
             noData: false,
             pageNo: 1,
             slideTypes: [],
             banner: [],
             productList: [],
-            loginAccount:false
+            loginAccount: false
         }
     },
     components: { HeaderTop, FooterBar, ProductItem },
     computed: {
         ...mapState(['longitude', 'latitude', 'city'])
-        
+    },
+    beforeRouteEnter(to, from, next) {
+        next(vm=>{
+            vm.plusReady();
+        })
     },
     created() {
-        this.plusReady();
         this.getPosition();
         this.getColumns();
     },
-    activated(){
-        this.loginAccount= localStorage.getItem('account').length
+    activated() {
+        this.loginAccount = (localStorage.getItem('account') && localStorage.getItem('account').length) > 0
+    },
+    beforeRouteLeave(to,from,next){
+        mui.back = this.oldBack;
+        next();
     },
     methods: {
         plusReady() {
+            mui.init({
+                swipeBack: false
+            });
             let first = null;
             mui.back = function() {
                 if (!first) {
@@ -207,73 +218,5 @@ export default {
     margin-top: 10px;
     padding-bottom: 10px;
     background: @white;
-    .like-item {
-        .pd-v;
-        .mg-h;
-    }
-
-    .like-link {
-        display: flex;
-        color: #999;
-        .product-cover {
-            .wh(2rem, 2rem);
-            img {
-                .wh(100%, 100%);
-            }
-        }
-        .product-info {
-            flex: 1;
-            width: 1%;
-            margin-left: @pd;
-            .product-head {
-                font-size: 14px;
-                h3 {
-                    width: 68%;
-                    .ellipsis;
-                    color: #333333;
-                    font-size: 14px;
-                    font-weight: bold;
-                    flex: 1;
-                }
-                .product-address {
-                    font-size: 0;
-                    span:first-child {
-                        font-size: 20px;
-                    }
-                    .product-distance {
-                        color: @red;
-                        border: 1px solid currentColor;
-                        border-left: none;
-                        padding: 2px 2px 2px 0;
-                        border-radius: 0 5px 5px 0;
-                        font-size: 12px;
-                        margin-left: -3px;
-                        vertical-align: -5px;
-                    }
-                }
-            }
-            .product-score {
-                margin: .1rem 0;
-                .score-num {
-                    margin-left: .5rem;
-                }
-            }
-            .product-content {
-                .ellipsis;
-                margin: 0 0 .2rem 0;
-            }
-            .product-price {
-                .price {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: @red;
-                }
-                .market-price {
-                    font-size: 12px;
-                    margin-left: .4rem;
-                }
-            }
-        }
-    }
 }
 </style>

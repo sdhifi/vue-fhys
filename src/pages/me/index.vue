@@ -5,12 +5,13 @@
       <section class="head-container">
         <div class="head-cover">
           <router-link :to="{name:'Update',params:{member}}">
-            <img :src="member.imgHeadUrl" :alt="member.name">
+            <!-- <img :src="member.imgHeadUrl" :alt="member.name"> -->
+            <div class="head-img" :style="{'background-image':'url('+getImgPath(member.imgHeadUrl)+')'}"></div>
           </router-link>
-          <span class="sex-tag" :style="{'background-color':member.sex=='1'?'#57A9FF':'#f860ef'}">{{member.sex=='0'?'无':(member.sex=='1'?'男':'女')}}</span>
+          <span class="sex-tag" :style="{'background-color':member.sex=='0'?'#4cd864':(member.sex=='1'?'#57A9FF':'#f860ef')}">{{member.sex=='0'?'无':(member.sex=='1'?'男':'女')}}</span>
         </div>
         <div class="head-info">
-          <div class="name">{{member.name||member.nickName}}</div>
+          <div class="name">{{member.name||member.nickName||member.mobile}}</div>
           <p class="desc">{{member.remark||'备注信息'}}</p>
         </div>
       </section>
@@ -45,6 +46,7 @@
 import HeaderTop from 'components/header/index'
 import FooterBar from 'components/footer/index'
 import { my } from '../../api/index'
+import { mixin } from 'components/common/mixin'
 export default {
   name: 'Me',
   data() {
@@ -145,19 +147,21 @@ export default {
   created() {
     //this.getInfo();
   },
+  mixins:[mixin],
   activated() {
     this.getInfo();
   },
   methods: {
     getInfo() {
       let vm = this;
+      let account = localStorage.getItem('account');
       mui.ajax({
         url: my,
         type: 'post',
         headers: { 'app-version': 'v1.0' },
         data: {
-          account: '13544384685',
-          token: md5('my13544384685')
+          account,
+          token: md5(`my${account}`)
         },
         success(res) {
           vm.member = res.result;
@@ -198,9 +202,17 @@ section {
       border-radius: 50%;
       border: 3px solid rgba(255, 255, 255, .5);
     }
+    .head-img {
+      .wh(1.6rem, 1.6rem);
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, .5);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: #fff;
+    }
     .sex-tag {
       position: absolute;
-      left:2.3rem;
+      left: 2.3rem;
       top: .8rem;
       padding: @pd / 2 @pd;
       border-radius: 15px 0 0 0;
@@ -212,7 +224,7 @@ section {
     }
   }
   .head-info {
-    height: 1.4rem;
+    height: 1.6rem;
     padding-top: .4rem;
     .flex;
     .just-cont(center);

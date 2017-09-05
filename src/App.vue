@@ -24,7 +24,7 @@ export default {
     redirect() {
       this.$router.beforeEach((to, from, next) => {
         if (to.matched.some(record => record.meta.requireAuth)) {
-          if (!localStorage.getItem("account").length) {
+          if (!(localStorage.getItem("account")&&localStorage.getItem("account").length>0)) {
             next({
               path: '/me/login'
             })

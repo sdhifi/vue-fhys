@@ -6,7 +6,8 @@
         <yd-cell-item arrow style="padding:.2rem 0 .2rem .24rem;">
           <span slot="left">头像</span>
           <div slot="right">
-            <img :src="info.imgHeadUrl" :alt="info.name||info.nickName" id="head-img">
+            <!-- <img :src="info.imgHeadUrl" :alt="info.name||info.nickName" id="head-img"> -->
+            <div id="head-img" :style="{'background-image':'url('+info.imgHeadUrl+')'}"></div>
             <input type="file" accept="image/*" class="head-img" name="head-img"  @change="previewImg($event)">
           </div>
         </yd-cell-item>
@@ -21,6 +22,14 @@
           <input slot="right" v-model="info.nickName" type="text" style="text-align:right;" class="hight-input"></input>
         </yd-cell-item>
         <yd-cell-item>
+          <span slot="left">性别</span>
+          <yd-radio-group slot="right" v-model="info.sex">
+            <yd-radio val="1">男</yd-radio>
+            <yd-radio val="2">女</yd-radio>
+            <yd-radio val="0">未知</yd-radio>
+          </yd-radio-group>
+        </yd-cell-item>
+        <yd-cell-item>
           <span slot="left" style="margin-right:.4rem;">简介</span>
           <yd-textarea slot="right" placeholder="请输入简介" maxlength="30" v-model="info.remark" class="hight-input"></yd-textarea>
         </yd-cell-item>
@@ -30,6 +39,7 @@
     <modal v-model="showCert">
       <h3 slot="header">
         身份认证
+      <p class="danger-color fs-12">注意：一经认证，无法再修改</p>
       </h3>
       <div slot="main" class="cert-container">
         <div class="input-group">
@@ -88,7 +98,7 @@ export default {
       fr.readAsDataURL(file);
       fr.onloadend = function(e){
         let newImg = e.target.result
-        headImg.src=newImg;
+        headImg.style.backgroundImage=`url(${newImg})`;
         vm.base64Url = newImg;
       }
     },
@@ -100,6 +110,9 @@ export default {
           icon: 'error'
         })
         return;
+      }
+      if(this.info.remark=='null'){
+        this.info.remark = '';
       }
       let vm = this;
       let rm = Math.random().toString().substring(2);
@@ -113,6 +126,7 @@ export default {
           fileName:`${rm}.png`,
           nickName:this.info.nickName,
           remark:this.info.remark,
+          sex:this.info.sex,          
           account:localStorage.getItem('account'),
           token:md5(`update${this.info.id}`)
         },
@@ -139,7 +153,7 @@ export default {
         })
         return;
       }
-      if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.certNum)) {
+      if (!/(^\d{15}$)|(^\d{17}([0-9]|[X|x])$)/.test(this.certNum)) {
         this.$dialog.toast({
           mes: '请输入正确的身份证号',
           timeout: 1500,
@@ -152,7 +166,7 @@ export default {
         type: 'post',
         headers: { 'app-version': 'v1.0' },
         data: {
-          idCardNo: this.certNum,
+          idCardNo: this.certNum.replace(/x/gi,'X'),
           idCardName: this.realName,
           account,
           token: md5(`realNameByAly${account}`)
@@ -189,6 +203,12 @@ export default {
   img {
     border-radius: 50%;
     .wh(1.2rem, 1.2rem);
+  }
+  #head-img{
+    border-radius: 50%;
+    .wh(1.2rem, 1.2rem);
+    background-size: cover;
+    background-repeat: no-repeat;
   }
   .head-img {
     position: absolute;
