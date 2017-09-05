@@ -6,23 +6,23 @@
         <yd-cell-item arrow style="padding:.2rem 0 .2rem .24rem;">
           <span slot="left">头像</span>
           <div slot="right">
-            <img :src="info.imgHeadUrl" :alt="info.name||info.nickName">
-            <input type="file" accept="image/*" class="head-img" name="head-img" id="head-img" @change="previewImg($event)">
+            <img :src="info.imgHeadUrl" :alt="info.name||info.nickName" id="head-img">
+            <input type="file" accept="image/*" class="head-img" name="head-img"  @change="previewImg($event)">
           </div>
         </yd-cell-item>
         <yd-cell-item :arrow="info.isReadName=='0'">
           <span slot="left">身份实名</span>
-          <!-- <span slot="right" @click="showCert=true" v-if="info.isReadName=='0'">去认证</span>
-              <span slot="right" v-else>{{info.name}}</span> -->
-          <span slot="right" @click="showCert=true">去认证</span>
+          <span slot="right" @click="showCert=true" v-if="info.isReadName=='0'">去认证</span>
+              <span slot="right" v-else>{{info.name}}</span>
+          <!-- <span slot="right" @click="showCert=true">去认证</span> -->
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">昵称</span>
-          <input slot="right" v-model="info.nickName" type="text" style="text-align:right;"></input>
+          <input slot="right" v-model="info.nickName" type="text" style="text-align:right;" class="hight-input"></input>
         </yd-cell-item>
         <yd-cell-item>
-          <span slot="left">简介</span>
-          <yd-textarea slot="right" placeholder="请输入简介" maxlength="30" v-model="info.remark"></yd-textarea>
+          <span slot="left" style="margin-right:.4rem;">简介</span>
+          <yd-textarea slot="right" placeholder="请输入简介" maxlength="30" v-model="info.remark" class="hight-input"></yd-textarea>
         </yd-cell-item>
       </yd-cell-group>
       <yd-button size="large" type="primary" @click.native="saveInfo">保存</yd-button>
@@ -55,6 +55,7 @@ export default {
   data() {
     return {
       info: {},
+      base64Url:'',
       realName: '',
       certNum: '',
       showCert: false
@@ -71,11 +72,61 @@ export default {
     this.info = this.$route.params.member;
   },
   methods: {
-    previewImg(e) {
-
+    previewImg(event) {
+      let headImg = document.getElementById('head-img'),
+      file = event.target.files[0];
+      if(!/image\/\w+/.test(file.type)){
+        this.$dialog.toast({
+          mes:'请上传图片',
+          timeout:1000,
+          icon:'error'
+        })
+        return;
+      }
+      let fr = new FileReader(),
+      vm = this;
+      fr.readAsDataURL(file);
+      fr.onloadend = function(e){
+        let newImg = e.target.result
+        headImg.src=newImg;
+        vm.base64Url = newImg;
+      }
     },
     saveInfo() {
-
+      if(!this.info.nickName){
+        this.$dialog.toast({
+          mes: '昵称不能为空',
+          timeout: 1500,
+          icon: 'error'
+        })
+        return;
+      }
+      let vm = this;
+      let rm = Math.random().toString().substring(2);
+      mui.ajax({
+        url: update,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {
+          id:this.info.id,
+          fileContent:this.base64Url,
+          fileName:`${rm}.png`,
+          nickName:this.info.nickName,
+          remark:this.info.remark,
+          account:localStorage.getItem('account'),
+          token:md5(`update${this.info.id}`)
+        },
+        success(res){
+          vm.$dialog.toast({
+            mes:'修改成功',
+            timeout:1000,
+            icon:'success',
+            callback:()=>{
+              vm.$router.go(-1);
+            }
+          })
+        }
+      })
     },
     saveCert() {
       let vm = this;
@@ -83,7 +134,7 @@ export default {
       if (!this.realName || !this.certNum) {
         this.$dialog.toast({
           mes: '请完善信息',
-          timeoue: 1500,
+          timeout: 1500,
           icon: 'error'
         })
         return;
@@ -91,7 +142,7 @@ export default {
       if (!/(^\d{15}$)|(^\d{17}([0-9]|X)$)/.test(this.certNum)) {
         this.$dialog.toast({
           mes: '请输入正确的身份证号',
-          timeoue: 1500,
+          timeout: 1500,
           icon: 'error'
         })
         return;
@@ -114,13 +165,14 @@ export default {
               icon: 'success',
               callback: () => {
                 vm.showCert = false;
+                vm.info = Object.assign({},vm.info,{isReadName:'1',name:vm.realName})
               }
             })
           }
           else {
             vm.$dialog.toast({
               mes: res.msg,
-              timeoue: 1500,
+              timeout: 1500,
               icon: 'error'
             })
           }
@@ -145,6 +197,13 @@ export default {
     right: .44rem;
     top: .24rem;
     opacity: 0;
+  }
+  .hight-input{
+    &:focus{
+      box-shadow: 0 0 5px @green inset;
+      padding-right: @pd * 2;
+      margin-left: @pd;
+    }
   }
 }
 

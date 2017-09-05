@@ -4,7 +4,7 @@
     <main class="scroll-content-2">
       <section class="current-city flex just-between">
         <div class="">
-          当前城市:{{city}}
+          当前城市: <span class="danger-color">{{city}}</span> 
         </div>
         <div class="position" v-show="false">定位</div>
       </section>

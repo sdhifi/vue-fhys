@@ -86,9 +86,7 @@ export default {
         });
       }, 1000);
     },
-    checkpwd() {
-      console.log(this.$refs.pwd.errorMsg);
-    },
+    
     login() {
       this.$store.commit('SET_ACCOUNT', this.mobile);
       localStorage.setItem('account', this.mobile);

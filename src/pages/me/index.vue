@@ -143,7 +143,7 @@ export default {
   },
   components: { HeaderTop, FooterBar },
   created() {
-    this.getInfo();
+    //this.getInfo();
   },
   activated() {
     this.getInfo();
@@ -185,7 +185,6 @@ section {
 .head-container {
   text-align: center;
   .head-cover {
-    position: relative;
     height: 1.4rem;
     background-image: url(/static/mine_background.png);
     background-size: cover;
@@ -201,14 +200,15 @@ section {
     }
     .sex-tag {
       position: absolute;
-      left: 30%;
+      left:2.3rem;
       top: .8rem;
-      padding: 5px 10px;
+      padding: @pd / 2 @pd;
       border-radius: 15px 0 0 0;
-      width: 48px;
+      width: .9rem;
       color: @white;
       background-color: @green;
       z-index: 5;
+      text-align: left;
     }
   }
   .head-info {
