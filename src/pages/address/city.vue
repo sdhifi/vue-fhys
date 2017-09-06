@@ -175,7 +175,7 @@ export default {
       border: 1px solid #ccc;
       border-radius: 3px;
       .pd-v;
-      text-align: center;
+      .text-center;
       .ellipsis;
       a {
         display: block;

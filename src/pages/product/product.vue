@@ -191,7 +191,7 @@ section {
 .seller-container {
   h2 {
     font-weight: normal;
-    text-align: center;
+    .text-center;
     padding: .1rem;
     border-bottom: 1px solid #dfdfdf;
   }

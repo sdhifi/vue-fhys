@@ -13,6 +13,7 @@
 <script>
 import { mapState } from 'vuex'
 import Loading from 'components/common/loading'
+import {getStore} from 'components/common/mixin'
 export default {
   name: 'app',
   components: { Loading },
@@ -24,7 +25,7 @@ export default {
     redirect() {
       this.$router.beforeEach((to, from, next) => {
         if (to.matched.some(record => record.meta.requireAuth)) {
-          if (!(localStorage.getItem("account")&&localStorage.getItem("account").length>0)) {
+          if (!(getStore("account")&&getStore("account").length>0)) {
             next({
               path: '/me/login'
             })

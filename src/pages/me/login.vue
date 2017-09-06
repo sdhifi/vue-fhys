@@ -27,6 +27,7 @@
       </div>
       <yd-button size="large" type="primary" :disabled="!validRegister" @click.native="register" v-if="loginWay">注册</yd-button>
       <yd-button size="large" type="primary" :disabled="!validLogin" @click.native="login" v-else>登录</yd-button>
+      <router-link to="/me/forgetpwd" v-if="!loginWay" class="forget-pwd">忘记密码</router-link>
     </div>
 
   </div>
@@ -34,6 +35,7 @@
 <script>
 import HeaderTop from 'components/header/index'
 import { sendcode, register, login } from '../../api/index'
+import {setStore} from 'components/common/mixin'
 export default {
   name: 'Login',
   data() {
@@ -64,6 +66,9 @@ export default {
     validLogin() {
       return this.rightMobile && this.rightPwd;
     }
+  },
+  activated(){
+    this.password = '';
   },
   methods: {
     formatDigit(event) {
@@ -117,7 +122,7 @@ export default {
               timeout: 1500,
               callback: () => {
                 vm.$store.commit('SET_ACCOUNT', vm.mobile);
-                localStorage.setItem('account', vm.mobile);
+                setStore('account', vm.mobile);
                 vm.$router.push({ path: '/me/index' })
               }
             })
@@ -183,6 +188,20 @@ export default {
   padding: .3rem;
   .protocol {
     color: #10aeff;
+  }
+  .forget-pwd{
+    display: block;
+    width: 2rem;
+    padding: .1rem 0; 
+    .text-center;
+    margin: .8rem auto;
+    color: @blue;
+    border: 1px solid currentColor;
+    border-radius: 5px;
+    &:active{
+      background-color: @blue;
+      color: @white;
+    }
   }
 }
 </style>

@@ -17,17 +17,6 @@
           </router-link>
         </ul>
       </section>
-      <!-- <section class="nav-list">
-        <ul class="flex just-around text-center">
-          <li class="nav-item" :class="{'nav-active':index+1==filterIndex}" @click="filter(item)" v-for="(item,index) in orderType" :key="index">{{item.name}}</li>
-        </ul>
-        <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
-          <div slot="list">
-            <product-item v-for="item in productList" :key="item.id" :item="item"></product-item>
-          </div>
-          <p slot="doneTip">没有数据啦</p>
-        </yd-infinitescroll>
-      </section> -->
       <product-list></product-list>
     </main>
   </div>
@@ -35,33 +24,22 @@
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
-import ProductItem from 'components/common/ProductItem'
 import ProductList from 'components/common/ProductList'
-import { subcolumn, products } from '../../api/index'
+import { subcolumn} from '../../api/index'
 import { mixin } from 'components/common/mixin'
 export default {
   name: 'SubColumn',
   data() {
     return {
-      noData: false,
       banner: [],
       subcolumns: [],
-      orderType: [
-        { type: "1", name: "距离近" },
-        { type: "2", name: "人气高" },
-        { type: "3", name: "价格低" },
-        { type: "4", name: "最新" },
-      ],
-      productList: [],
-      filterIndex: 1,
-      pageNo: 1,
     }
   },
-  components: { HeaderTop, ProductItem ,ProductList},
+  components: { HeaderTop,ProductList},
   computed: { ...mapState(['longitude', 'latitude']) },
   mixins: [mixin],
   created() {
-    this.init();
+   // this.init();
   },
   activated() {
     this.init();
@@ -69,15 +47,8 @@ export default {
   methods: {
     init() {
       this.getColumn();
-      this.getProduct();
-      this.reset();
     },
-    reset() {
-      this.noData = false;
-      this.productList = [];
-      this.filterIndex = 1;
-      this.pageNo = 1;
-    },
+
     getColumn() {
       let vm = this;
       mui.ajax({
@@ -93,43 +64,6 @@ export default {
           vm.subcolumns = res.result.subColumns;
         }
       })
-    },
-    filter(e) {
-      this.filterIndex = +e.type
-      this.pageNo = 1;
-      this.noData = false;
-      this.productList = [];
-      this.getProduct();
-    },
-    getProduct() {
-      let vm = this;
-      if (!this.noData) {
-        mui.ajax({
-          url: products,
-          type: "post",
-          headers: { "app-version": "v1.0" },
-          data: {
-            longitude: this.longitude,
-            latitude: this.latitude,
-            columnId: this.$route.params.id,
-            columnType: 1,
-            orderType: this.filterIndex,
-            token: md5(`products${this.longitude}${this.latitude}`)
-          },
-          success(res) {
-            let _list = res.result;
-            vm.productList = [...vm.productList, ..._list];
-            if (_list.length < 10) {
-              vm.noData = true;
-              vm.$refs.pdlist.$emit('ydui.infinitescroll.loadedDone');
-              return;
-            }
-            vm.$refs.pdlist.$emit('ydui.infinitescroll.finishLoad');
-            vm.pageNo++;
-          }
-        })
-      }
-
     }
   }
 }

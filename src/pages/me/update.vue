@@ -8,30 +8,43 @@
           <div slot="right">
             <!-- <img :src="info.imgHeadUrl" :alt="info.name||info.nickName" id="head-img"> -->
             <div id="head-img" :style="{'background-image':'url('+info.imgHeadUrl+')'}"></div>
-            <input type="file" accept="image/*" class="head-img" name="head-img"  @change="previewImg($event)">
+            <input type="file" accept="image/*" class="head-img" name="head-img" @change="previewImg($event)">
           </div>
         </yd-cell-item>
         <yd-cell-item :arrow="info.isReadName=='0'">
           <span slot="left">身份实名</span>
           <span slot="right" @click="showCert=true" v-if="info.isReadName=='0'">去认证</span>
-              <span slot="right" v-else>{{info.name}}</span>
-          <!-- <span slot="right" @click="showCert=true">去认证</span> -->
+          <span slot="right" v-else>{{info.name}}</span>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">昵称</span>
-          <input slot="right" v-model="info.nickName" type="text" style="text-align:right;" class="hight-input"></input>
+          <input slot="right" v-model="info.nickName" type="text" style="text-align:right;" class="hight-input" placeholder="不要输入特殊符号"></input>
         </yd-cell-item>
-        <yd-cell-item>
+        <!-- <yd-cell-item>
           <span slot="left">性别</span>
-          <yd-radio-group slot="right" v-model="info.sex">
+          <yd-radio-group slot="right" v-model="sex">
             <yd-radio val="1">男</yd-radio>
             <yd-radio val="2">女</yd-radio>
             <yd-radio val="0">未知</yd-radio>
           </yd-radio-group>
-        </yd-cell-item>
+        </yd-cell-item> -->
         <yd-cell-item>
           <span slot="left" style="margin-right:.4rem;">简介</span>
           <yd-textarea slot="right" placeholder="请输入简介" maxlength="30" v-model="info.remark" class="hight-input"></yd-textarea>
+        </yd-cell-item>
+      </yd-cell-group>
+      <yd-cell-group title="性别">
+        <yd-cell-item type="radio">
+            <span slot="left">男</span>
+            <input slot="right" type="radio" value="1" v-model="info.sex"/>
+        </yd-cell-item>
+        <yd-cell-item type="radio">
+            <span slot="left">女</span>
+            <input slot="right" type="radio" value="2" v-model="info.sex"/>
+        </yd-cell-item>
+        <yd-cell-item type="radio">
+            <span slot="left">未知</span>
+            <input slot="right" type="radio" value="0" v-model="info.sex"/>
         </yd-cell-item>
       </yd-cell-group>
       <yd-button size="large" type="primary" @click.native="saveInfo">保存</yd-button>
@@ -39,7 +52,7 @@
     <modal v-model="showCert">
       <h3 slot="header">
         身份认证
-      <p class="danger-color fs-12">注意：一经认证，无法再修改</p>
+        <p class="danger-color fs-12">注意：一经认证，无法再修改</p>
       </h3>
       <div slot="main" class="cert-container">
         <div class="input-group">
@@ -60,12 +73,14 @@ import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import Modal from 'components/common/Modal'
 import { realNameByAly, update } from '../../api/index'
+import {mixin} from 'components/common/mixin'
+
 export default {
   name: 'Update',
   data() {
     return {
       info: {},
-      base64Url:'',
+      base64Url: '',
       realName: '',
       certNum: '',
       showCert: false
@@ -75,8 +90,9 @@ export default {
   computed: {
     ...mapState(['account'])
   },
+  mixins:[mixin],
   created() {
-    this.info = this.$route.params.member;
+    //this.info = this.$route.params.member;
   },
   activated() {
     this.info = this.$route.params.member;
@@ -84,26 +100,26 @@ export default {
   methods: {
     previewImg(event) {
       let headImg = document.getElementById('head-img'),
-      file = event.target.files[0];
-      if(!/image\/\w+/.test(file.type)){
+        file = event.target.files[0];
+      if (!/image\/\w+/.test(file.type)) {
         this.$dialog.toast({
-          mes:'请上传图片',
-          timeout:1000,
-          icon:'error'
+          mes: '请上传图片',
+          timeout: 1000,
+          icon: 'error'
         })
         return;
       }
       let fr = new FileReader(),
-      vm = this;
+        vm = this;
       fr.readAsDataURL(file);
-      fr.onloadend = function(e){
+      fr.onloadend = function(e) {
         let newImg = e.target.result
-        headImg.style.backgroundImage=`url(${newImg})`;
+        headImg.style.backgroundImage = `url(${newImg})`;
         vm.base64Url = newImg;
       }
     },
     saveInfo() {
-      if(!this.info.nickName){
+      if (!this.info.nickName) {
         this.$dialog.toast({
           mes: '昵称不能为空',
           timeout: 1500,
@@ -111,7 +127,7 @@ export default {
         })
         return;
       }
-      if(this.info.remark=='null'){
+      if (this.info.remark == 'null') {
         this.info.remark = '';
       }
       let vm = this;
@@ -119,23 +135,23 @@ export default {
       mui.ajax({
         url: update,
         type: 'post',
-        headers: {'app-version': 'v1.0'},
+        headers: { 'app-version': 'v1.0' },
         data: {
-          id:this.info.id,
-          fileContent:this.base64Url,
-          fileName:`${rm}.png`,
-          nickName:this.info.nickName,
-          remark:this.info.remark,
-          sex:this.info.sex,          
-          account:localStorage.getItem('account'),
-          token:md5(`update${this.info.id}`)
+          id: this.info.id,
+          fileName: `${rm}.png`,
+          nickName: this.info.nickName,
+          remark: this.info.remark,
+          sex: this.info.sex,
+          account: localStorage.getItem('account'),
+          token: md5(`update${this.info.id}`),
+          fileContent: this.base64Url
         },
-        success(res){
+        success(res) {
           vm.$dialog.toast({
-            mes:'修改成功',
-            timeout:1000,
-            icon:'success',
-            callback:()=>{
+            mes: '修改成功',
+            timeout: 1000,
+            icon: 'success',
+            callback: () => {
               vm.$router.go(-1);
             }
           })
@@ -166,7 +182,7 @@ export default {
         type: 'post',
         headers: { 'app-version': 'v1.0' },
         data: {
-          idCardNo: this.certNum.replace(/x/gi,'X'),
+          idCardNo: this.certNum.replace(/x/gi, 'X'),
           idCardName: this.realName,
           account,
           token: md5(`realNameByAly${account}`)
@@ -179,7 +195,7 @@ export default {
               icon: 'success',
               callback: () => {
                 vm.showCert = false;
-                vm.info = Object.assign({},vm.info,{isReadName:'1',name:vm.realName})
+                vm.info = Object.assign({}, vm.info, { isReadName: '1', name: vm.realName })
               }
             })
           }
@@ -204,7 +220,7 @@ export default {
     border-radius: 50%;
     .wh(1.2rem, 1.2rem);
   }
-  #head-img{
+  #head-img {
     border-radius: 50%;
     .wh(1.2rem, 1.2rem);
     background-size: cover;
@@ -218,8 +234,8 @@ export default {
     top: .24rem;
     opacity: 0;
   }
-  .hight-input{
-    &:focus{
+  .hight-input {
+    &:focus {
       box-shadow: 0 0 5px @green inset;
       padding-right: @pd * 2;
       margin-left: @pd;

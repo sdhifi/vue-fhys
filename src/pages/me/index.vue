@@ -38,6 +38,9 @@
           </yd-cell-item>
         </yd-cell-group>
       </section>
+      <section style="padding:1px .5rem;">
+          <yd-button type="danger" size="large" @click.native="loginOut">退出登录</yd-button>
+      </section>
     </main>
     <footer-bar></footer-bar>
   </div>
@@ -46,7 +49,7 @@
 import HeaderTop from 'components/header/index'
 import FooterBar from 'components/footer/index'
 import { my } from '../../api/index'
-import { mixin } from 'components/common/mixin'
+import { mixin ,getStore,removeStore} from 'components/common/mixin'
 export default {
   name: 'Me',
   data() {
@@ -132,12 +135,6 @@ export default {
             icon: 'self-about c2',
             link: '/me/wallet',
             type: 'link'
-          },
-          {
-            name: 'app下载',
-            icon: 'self-download c2',
-            link: '/me/download',
-            type: 'link'
           }
         ]
       ]
@@ -149,12 +146,17 @@ export default {
   },
   mixins:[mixin],
   activated() {
+    if((getStore("account")&&getStore("account").length>0)){
     this.getInfo();
+    }
+    else{
+      this.$router.push('/me/login')
+    }
   },
   methods: {
     getInfo() {
       let vm = this;
-      let account = localStorage.getItem('account');
+      let account = getStore('account');
       mui.ajax({
         url: my,
         type: 'post',
@@ -165,6 +167,17 @@ export default {
         },
         success(res) {
           vm.member = res.result;
+        }
+      })
+    },
+    loginOut(){
+      removeStore('account');
+      this.$store.commit('SET_ACCOUNT','');
+      this.$dialog.toast({
+        mes:'退出成功',
+        timeout:1000,
+        callback:()=>{
+          this.$router.push('/me/login');
         }
       })
     }
@@ -187,7 +200,7 @@ section {
 }
 
 .head-container {
-  text-align: center;
+  .text-center;
   .head-cover {
     height: 1.4rem;
     background-image: url(/static/mine_background.png);
@@ -264,7 +277,7 @@ section {
     }
   }
   color: @lightgray;
-  text-align: center;
+  .text-center;
   ul {
     .pd-v;
   }

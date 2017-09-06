@@ -13,6 +13,7 @@ let getProvinceByLetter = baseUrl + '/app/address/v1_0/getProvinceByLetter' //�
 let register = baseUrl + '/app/v1_0/register' //注册
 let sendcode = baseUrl + '/sms/send' //获取验证码
 let login = baseUrl + '/app/v1_0/login' //登录
+let forgetPassWord = baseUrl + '/app/v1_0/forgetPassWord' //忘记密码
 let service = baseUrl + '/app/rule /v1_0/service' //服务协议
 let my = baseUrl + '/app/member/v1_0/my' //我的信息
 let realNameByAly = baseUrl + '/app/member/v1_0/realNameByAly' //用户实名认证
@@ -28,6 +29,7 @@ export {
   register,
   sendcode,
   login,
+  forgetPassWord,
   service,
   my,
   realNameByAly,

@@ -23,6 +23,8 @@
 
 .self-rmb:before { content: "\e62f"; }
 
+.self-delete:before { content: "\e677"; }
+
 .self-about:before { content: "\e605"; }
 
 .self-star:before { content: "\e75c"; }
@@ -73,10 +75,10 @@
 
 .self-search:before { content: "\e613"; }
 
+.self-tel:before { content: "\e652"; }
+
 .self-home:before { content: "\e63f"; }
 
 .self-qrcode:before { content: "\e6e8"; }
 
 .self-success:before { content: "\e60e"; }
-
-.self-tel:before { content: "\e652"; }
