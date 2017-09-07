@@ -18,6 +18,10 @@ export default new Router({
     name: 'Search',
     component: require('../pages/home/search')
   }, {
+    path: '/home/searchresult',
+    name: 'SearchResult',
+    component: require('../pages/home/searchresult')
+  }, {
     path: '/address/city',
     name: 'City',
     component: require('../pages/address/city')

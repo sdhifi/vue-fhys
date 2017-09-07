@@ -46,7 +46,7 @@
                     <div slot="list">
                         <product-item v-for="item in productList" :key="item.id" :item="item"></product-item>
                     </div>
-                    <p slot="doneTip">没有数据啦</p>
+                    <p slot="doneTip"><span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
                 </yd-infinitescroll>
             </section>
         </main>
@@ -59,12 +59,12 @@ import HeaderTop from 'components/header/index'
 import FooterBar from 'components/footer/index'
 import ProductItem from 'components/common/ProductItem'
 import { o2o, like } from '../../api/index'
-
+import { mixin, getStore } from 'components/common/mixin'
 export default {
     name: 'Home',
     data() {
         return {
-            oldBack:mui.back,
+            oldBack: mui.back,
             noData: false,
             pageNo: 1,
             slideTypes: [],
@@ -77,42 +77,29 @@ export default {
     computed: {
         ...mapState(['longitude', 'latitude', 'city'])
     },
+    mixins: [mixin],
     beforeRouteEnter(to, from, next) {
-        next(vm=>{
+        next(vm => {
             vm.plusReady();
         })
+    },
+    beforeRouteLeave(to, from, next) {
+        mui.back = this.oldBack;
+        next();
     },
     created() {
         this.getPosition();
         this.getColumns();
     },
     activated() {
-        this.loginAccount = (localStorage.getItem('account') && localStorage.getItem('account').length) > 0
+        if(getStore('account') && getStore('account').length > 0){
+            this.loginAccount = true;
+            this.$store.commit('SET_ACCOUNT', getStore('account'));
+        }
     },
-    beforeRouteLeave(to,from,next){
-        mui.back = this.oldBack;
-        next();
-    },
+    
     methods: {
-        plusReady() {
-            mui.init({
-                swipeBack: false
-            });
-            let first = null;
-            mui.back = function() {
-                if (!first) {
-                    first = new Date().getTime();
-                    mui.toast('再按一次退出应用');
-                    setTimeout(function() {
-                        first = null;
-                    }, 1000);
-                } else {
-                    if (new Date().getTime() - first < 1000) {
-                        plus.runtime.quit();
-                    }
-                }
-            }
-        },
+
         getPosition() {
             if (!this.city) {
                 axios.get('https://api.map.baidu.com/location/ip?ak=xVyOYxDsYKpFBx8zdICSlWxsqltd8QoC&coor=gcj02').then(res => {

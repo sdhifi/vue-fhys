@@ -64,7 +64,7 @@
           <div slot="list">
             <product-item v-for="item in productList" :key="item.id" :item="item"></product-item>
           </div>
-          <p slot="doneTip">没有数据啦</p>
+          <p slot="doneTip"><span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
         </yd-infinitescroll>
       </section>
     </main>

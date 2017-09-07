@@ -39,7 +39,7 @@
         </yd-cell-group>
       </section>
       <section style="padding:1px .5rem;">
-          <yd-button type="danger" size="large" @click.native="loginOut">退出登录</yd-button>
+        <yd-button type="danger" size="large" @click.native="loginOut">退出登录</yd-button>
       </section>
     </main>
     <footer-bar></footer-bar>
@@ -49,11 +49,12 @@
 import HeaderTop from 'components/header/index'
 import FooterBar from 'components/footer/index'
 import { my } from '../../api/index'
-import { mixin ,getStore,removeStore} from 'components/common/mixin'
+import { mixin, getStore, removeStore } from 'components/common/mixin'
 export default {
   name: 'Me',
   data() {
     return {
+      oldBack: mui.back,
       member: {},
       order: [{
         name: '待付款',
@@ -144,12 +145,21 @@ export default {
   created() {
     //this.getInfo();
   },
-  mixins:[mixin],
+  mixins: [mixin],
+  beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.plusReady();
+        })
+    },
+    beforeRouteLeave(to, from, next) {
+        mui.back = this.oldBack;
+        next();
+    },
   activated() {
-    if((getStore("account")&&getStore("account").length>0)){
-    this.getInfo();
+    if ((getStore("account") && getStore("account").length > 0)) {
+      this.getInfo();
     }
-    else{
+    else {
       this.$router.push('/me/login')
     }
   },
@@ -170,13 +180,13 @@ export default {
         }
       })
     },
-    loginOut(){
+    loginOut() {
       removeStore('account');
-      this.$store.commit('SET_ACCOUNT','');
+      this.$store.commit('SET_ACCOUNT', '');
       this.$dialog.toast({
-        mes:'退出成功',
-        timeout:1000,
-        callback:()=>{
+        mes: '退出成功',
+        timeout: 1000,
+        callback: () => {
           this.$router.push('/me/login');
         }
       })
@@ -209,16 +219,16 @@ section {
       .h-cen;
       top: .4rem;
       z-index: 10;
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
     }
     img {
       .wh(1.6rem, 1.6rem);
       border-radius: 50%;
-      border: 3px solid rgba(255, 255, 255, .5);
     }
     .head-img {
       .wh(1.6rem, 1.6rem);
       border-radius: 50%;
-      border: 3px solid rgba(255, 255, 255, .5);
       background-size: cover;
       background-repeat: no-repeat;
       background-color: #fff;

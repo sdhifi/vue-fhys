@@ -2,17 +2,17 @@
   <div>
     <header-top></header-top>
     <main class='scroll-content-2' style="background-color:#fff;">
-      <form class="search-form" autocomplete="off">
+      <div class="search-form" autocomplete="off">
         <div class="input-group  flex align-center">
           <span class="iconfont-large self-search"></span>
           <input type="search" name="search" class="search-input" placeholder="搜索商家或商品" v-model="searchValue">
-          <button type="submit" name="submit" class="search-submit" @click.prevent="search('')">搜索</button>
+          <button type="button" name="submit" class="search-submit" @click="search(searchValue)">搜索</button>
         </div>
-      </form>
-      <section class="search-history">
+      </div>
+      <section class="search-history" v-if="account&&searchHistory.length">
         <div class="search-title fs-16">
           <h3>搜索历史</h3>
-          <span class="iconfont self-delete danger-color fs-12">清空</span>
+          <span class="iconfont self-delete danger-color fs-12" @click="clearHistory">清空</span>
         </div>
         <ul class="search-list flex">
           <li class="search-item" v-for="(item,index) in searchHistory" :key="index" @click="search(item)">
@@ -25,13 +25,14 @@
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import { setStore, getStore } from 'components/common/mixin'
+import { setStore, getStore, removeStore} from 'components/common/mixin'
 export default {
   name: 'Search',
   data() {
     return {
+      account: '',
       searchValue: '',
-      searchHistory: ['汉堡', '汉堡', '汉堡', '汉堡']
+      searchHistory: []
     }
   },
   components: { HeaderTop },
@@ -42,10 +43,38 @@ export default {
 
   },
   activated() {
-
+    if (getStore('account') && getStore('account').length > 0) {
+      this.account = getStore('account');
+    }
+    if (getStore(`${this.account}_search`)) {
+      this.searchHistory = JSON.parse(getStore(`${this.account}_search`))
+    }
   },
   methods: {
-    search(v) { }
+    search(v) {
+      if (!v) return;
+      this.searchValue = v;
+      this.$store.commit('RECORD_SEARCH_VALUE',this.searchValue);
+      let history = getStore(`${this.account}_search`);
+      if (history) {
+        let repeat = false;
+        this.searchHistory = JSON.parse(history);
+        this.searchHistory.forEach(item => {
+          if (item == this.searchValue) repeat = true;
+        })
+        if (!repeat)
+          this.searchHistory.push(this.searchValue)
+      }
+      else {
+        this.searchHistory.push(this.searchValue)
+      }
+      setStore(`${this.account}_search`, this.searchHistory)
+      this.$router.push({ name: 'SearchResult', params: { searchValue: this.searchValue } })
+    },
+    clearHistory() {
+      this.searchHistory = [];
+      removeStore(`${this.account}_search`)
+    }
   }
 }
 </script>
@@ -82,6 +111,7 @@ export default {
     .flex;
     .just-cont(space-between);
     .mg-v;
+    color: @lightgray;
   }
   .search-list {
     .search-item {

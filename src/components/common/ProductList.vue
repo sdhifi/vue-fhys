@@ -7,7 +7,8 @@
       <div slot="list">
         <product-item v-for="item in productList" :key="item.id" :item="item"></product-item>
       </div>
-      <p slot="doneTip">没有数据啦</p>
+      <p slot="doneTip">
+        <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
     </yd-infinitescroll>
   </section>
 </template>
@@ -33,10 +34,14 @@ export default {
     }
   },
   props: {
-    value: {
+    likeValue: {
       // 模糊查询-商品或店铺值
       type: String,
       default: ''
+    },
+    columnType: {
+      type: String,
+      default: '1'
     }
   },
   components: { ProductItem },
@@ -44,18 +49,21 @@ export default {
     ...mapState(['longitude', 'latitude'])
   },
   created() {
-    this.getProduct();
   },
   activated() {
-
+    this.filterIndex = 1;
+    this.reset();
   },
   methods: {
-    filter(e) {
-      this.filterIndex = +e.type
-      this.pageNo = 1;
+    reset() {
       this.noData = false;
       this.productList = [];
+      this.pageNo = 1;
       this.getProduct();
+    },
+    filter(e) {
+      this.filterIndex = +e.type
+      this.reset();
     },
     getProduct() {
       let vm = this;
@@ -68,8 +76,9 @@ export default {
             longitude: this.longitude,
             latitude: this.latitude,
             columnId: this.$route.params.id,
-            columnType: 1,
+            columnType: this.columnType,
             orderType: this.filterIndex,
+            likeValue: this.likeValue,
             token: md5(`products${this.longitude}${this.latitude}`)
           },
           success(res) {

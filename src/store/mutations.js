@@ -2,7 +2,8 @@ import {
   RECORD_ADDRESS,
   RECORD_CITY,
   TOGGLE_LOADING,
-  SET_ACCOUNT
+  SET_ACCOUNT,
+  RECORD_SEARCH_VALUE
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -20,5 +21,8 @@ export default {
   },
   [SET_ACCOUNT](state, account) {
     state.account = account;
+  },
+  [RECORD_SEARCH_VALUE](state, searchValue) {
+    state.searchValue = searchValue;
   }
 }

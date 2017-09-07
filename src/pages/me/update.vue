@@ -8,7 +8,7 @@
           <div slot="right">
             <!-- <img :src="info.imgHeadUrl" :alt="info.name||info.nickName" id="head-img"> -->
             <div id="head-img" :style="{'background-image':'url('+info.imgHeadUrl+')'}"></div>
-            <input type="file" accept="image/*" class="head-img" name="head-img" @change="previewImg($event)">
+            <input type="file" capture="camera" accept="image/*" class="head-img" name="head-img" @change="previewImg($event)">
           </div>
         </yd-cell-item>
         <yd-cell-item :arrow="info.isReadName=='0'">
@@ -74,7 +74,7 @@ import HeaderTop from 'components/header/index'
 import Modal from 'components/common/Modal'
 import { realNameByAly, update } from '../../api/index'
 import {mixin} from 'components/common/mixin'
-
+import '../../../node_modules/lrz/dist/lrz.bundle.js'
 export default {
   name: 'Update',
   data() {
@@ -101,6 +101,7 @@ export default {
     previewImg(event) {
       let headImg = document.getElementById('head-img'),
         file = event.target.files[0];
+       let vm = this;
       if (!/image\/\w+/.test(file.type)) {
         this.$dialog.toast({
           mes: '请上传图片',
@@ -109,14 +110,10 @@ export default {
         })
         return;
       }
-      let fr = new FileReader(),
-        vm = this;
-      fr.readAsDataURL(file);
-      fr.onloadend = function(e) {
-        let newImg = e.target.result
-        headImg.style.backgroundImage = `url(${newImg})`;
-        vm.base64Url = newImg;
-      }
+      lrz(file,{width:800}).then(rst=>{
+        headImg.style.backgroundImage = `url(${rst.base64})`;
+        vm.base64Url = rst.base64;
+      })
     },
     saveInfo() {
       if (!this.info.nickName) {
@@ -155,6 +152,14 @@ export default {
               vm.$router.go(-1);
             }
           })
+        },
+        error(res){
+          vm.$dialog.toast({
+              mes:'上传失败',
+              timeout: 1500,
+              icon: 'error'
+            })
+            return;
         }
       })
     },
