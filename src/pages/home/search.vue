@@ -5,7 +5,7 @@
       <div class="search-form" autocomplete="off">
         <div class="input-group  flex align-center">
           <span class="iconfont-large self-search"></span>
-          <input type="search" name="search" class="search-input" placeholder="搜索商家或商品" v-model="searchValue">
+          <input type="search" name="search" class="search-input" placeholder="搜索商家或商品" v-model="searchValue" autofocus>
           <button type="button" name="submit" class="search-submit" @click="search(searchValue)">搜索</button>
         </div>
       </div>
@@ -25,7 +25,7 @@
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import { setStore, getStore, removeStore} from 'components/common/mixin'
+import { setStore, getStore, removeStore } from 'components/common/mixin'
 export default {
   name: 'Search',
   data() {
@@ -43,6 +43,7 @@ export default {
 
   },
   activated() {
+    this.searchValue = '';
     if (getStore('account') && getStore('account').length > 0) {
       this.account = getStore('account');
     }
@@ -54,7 +55,7 @@ export default {
     search(v) {
       if (!v) return;
       this.searchValue = v;
-      this.$store.commit('RECORD_SEARCH_VALUE',this.searchValue);
+      this.$store.commit('RECORD_SEARCH_VALUE', this.searchValue);
       let history = getStore(`${this.account}_search`);
       if (history) {
         let repeat = false;

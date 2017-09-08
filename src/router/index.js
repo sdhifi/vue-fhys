@@ -53,6 +53,10 @@ export default new Router({
     name: 'Product',
     component: require('../pages/product/product')
   }, {
+    path: '/product/subcolumn/:id',
+    name: 'PdSubcolumn',
+    component: require('../pages/product/subcolumn')
+  }, {
     path: '*',
     redirect: '/home/index'
   }],

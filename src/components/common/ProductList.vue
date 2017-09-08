@@ -1,7 +1,10 @@
 <template>
   <section class="nav-list">
-    <ul class="flex just-around text-center">
+    <ul class="flex just-around text-center block" v-if="tabType=='block'">
       <li class="nav-item" :class="{'nav-active':index+1==filterIndex}" @click="filter(item)" v-for="(item,index) in orderType" :key="index">{{item.name}}</li>
+    </ul>
+    <ul class="flex just-around text-center" v-else>
+      <li class="nav-item" :class="{'nav-active':index+1==filterIndex}" @click="filter(item)" v-for="(item,index) in orderType2" :key="index">{{item.name}}</li>
     </ul>
     <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
       <div slot="list">
@@ -30,12 +33,26 @@ export default {
         { type: "2", name: "人气高" },
         { type: "3", name: "价格低" },
         { type: "4", name: "最新" },
+      ],
+      orderType2: [
+        { type: "1", name: "距离最近" },
+        { type: "2", name: "人气优先" },
+        { type: "3", name: "价格最低" },
+        { type: "4", name: "最新发布" },
       ]
     }
   },
   props: {
+    tabType: {
+      type: String,
+      default: 'block' //tab类型，默认【block】块状，还有【line】下划线状
+    },
     likeValue: {
       // 模糊查询-商品或店铺值
+      type: String,
+      default: ''
+    },
+    columnId: {
       type: String,
       default: ''
     },
@@ -75,7 +92,7 @@ export default {
           data: {
             longitude: this.longitude,
             latitude: this.latitude,
-            columnId: this.$route.params.id,
+            columnId: this.columnId,
             columnType: this.columnType,
             orderType: this.filterIndex,
             likeValue: this.likeValue,
@@ -104,18 +121,29 @@ export default {
   background-color: @white;
   padding: @pd;
   ul {
-    padding-bottom: @pd;
+    padding-bottom: 0;
     border-bottom: 1px solid #ddd;
-  }
-  .nav-item {
-    width: 20%;
-    padding: .15rem;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    transition: all .2s;
-    &.nav-active {
-      color: @red;
-      border-color: currentColor;
+    .nav-item {
+      flex: 1;
+      margin:0 3%;
+      padding: .15rem 0;
+      border-bottom: 2px solid transparent;
+      transition: all .2s;
+      &.nav-active {
+        color: @red;
+        border-bottom: 2px solid currentColor;
+      }
+    }
+    &.block {
+      padding-bottom: @pd;
+      .nav-item {
+        border-radius: 3px;
+        border: 1px solid #ddd;
+        &.nav-active {
+          color: @red;
+          border-color: currentColor;
+        }
+      }
     }
   }
 }

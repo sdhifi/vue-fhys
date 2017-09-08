@@ -2,6 +2,12 @@
   <div>
     <header-top></header-top>
     <main class="scroll-content-2">
+      <section class="search-container">
+        <router-link to="/home/search" class="search-input">
+          <span class="iconfont-large self-search"></span>
+          <span>搜索商家或商品</span>
+        </router-link>
+      </section>
       <section class="banner-list">
         <yd-slider>
           <yd-slider-item v-for="(item,index) in banner" :key="item.id">
@@ -17,7 +23,7 @@
           </router-link>
         </ul>
       </section>
-      <product-list></product-list>
+      <product-list :column-id="$route.params.id" ></product-list>
     </main>
   </div>
 </template>

@@ -2,30 +2,35 @@
   <div>
     <header-top></header-top>
     <main class='scroll-content-2'>
-      <product-list :like-value="searchValue" tab-type="line"></product-list>
+      <section class="search-container">
+        <router-link to="/home/search" class="search-input">
+          <span class="iconfont-large self-search"></span>
+          <span>搜索商家或商品</span>
+        </router-link>
+      </section>
+      <product-list tab-type="line" :column-id="$route.params.id" column-type="2"></product-list>
     </main>
   </div>
 </template>
 <script>
-import {mapState} from 'vuex'
 import HeaderTop from 'components/header/index'
 import ProductList from 'components/common/ProductList'
 export default {
-  name: 'SearchResult',
+  name: 'ProductSubcolumn',
   data() {
     return {
 
     }
   },
-  components: { HeaderTop, ProductList},
+  components: { HeaderTop, ProductList },
   computed: {
-    ...mapState(['searchValue'])
+
   },
   created() {
 
   },
   activated() {
-   
+
   },
   methods: {
 
@@ -34,6 +39,4 @@ export default {
 </script>
 <style lang='less' scoped>
 @import '../../style/mixin.less';
-
-
 </style>
