@@ -42,6 +42,13 @@ export const mixin = {
       return path ? path : (process.env.NODE_ENV == 'development' ? "/static/img/default.png" : "./static/img/default.png")
     },
     /**
+     * 格式化背景图片,例如abc.png
+     * @param {*图片名称} url
+     */
+    formatBg(url){
+      return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(../img/${url})`
+    },
+    /**
      * 过滤表情符号
      * @param {*值} v 
      */

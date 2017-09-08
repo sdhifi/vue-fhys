@@ -63,6 +63,8 @@
 
 .self-nodata:before { content: "\e637"; }
 
+.self-female:before { content: "\e627"; }
+
 .self-fenghuang:before { content: "\e604"; }
 
 .self-seller:before { content: "\e60a"; }
@@ -78,6 +80,8 @@
 .self-tel:before { content: "\e652"; }
 
 .self-home:before { content: "\e63f"; }
+
+.self-male:before { content: "\e61e"; }
 
 .self-qrcode:before { content: "\e6e8"; }
 

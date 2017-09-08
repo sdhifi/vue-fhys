@@ -212,7 +212,7 @@ section {
   .text-center;
   .head-cover {
     height: 1.4rem;
-    background-image: url(/static/mine_background.png);
+    background-image: url(/static/img/mine_background.png);
     background-size: cover;
     a {
       .h-cen;
