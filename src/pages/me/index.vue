@@ -128,13 +128,12 @@ export default {
           {
             name: '联系客服',
             icon: 'self-service c1',
-
             right: '020-29030366'
           },
           {
             name: '关于凤凰云商O2O',
             icon: 'self-about c2',
-            link: '/me/wallet',
+            link: '/me/about',
             type: 'link'
           }
         ]

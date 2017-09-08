@@ -129,6 +129,7 @@ export default {
       padding: .15rem 0;
       border-bottom: 2px solid transparent;
       transition: all .2s;
+      font-size: .28rem;
       &.nav-active {
         color: @red;
         border-bottom: 2px solid currentColor;

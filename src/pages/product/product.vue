@@ -92,7 +92,7 @@ export default {
   computed: { ...mapState(['longitude', 'latitude']) },
   mixins: [mixin],
   created() {
-    this.init();
+    //this.init();
   },
   activated() {
     this.init();
@@ -116,8 +116,20 @@ export default {
         },
         success(res) {
           let result = res.result
-          vm.pdDetail = result.product;
-          vm.comment = Object.assign({}, { count: result.comCount, cmt: result.comment })
+          if(result.product){
+            vm.pdDetail = result.product;
+            vm.comment = Object.assign({}, { count: result.comCount, cmt: result.comment })
+          }
+          else{
+            vm.$dialog.toast({
+              mes:'暂无商品详情',
+              timeout:1500,
+              callback:()=>{
+                vm.$router.go(-1);
+              }
+            })
+            return;
+          }
         }
       })
     },

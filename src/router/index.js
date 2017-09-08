@@ -32,6 +32,14 @@ export default new Router({
     meta: {
       requireAuth: true
     }
+  },{
+    path: '/me/qrcode',
+    name: 'Qrcode',
+    component: require('../pages/me/qrcode')
+  },{
+    path: '/me/about',
+    name: 'About',
+    component: require('../pages/me/about')
   }, {
     path: '/me/login',
     name: 'Login',

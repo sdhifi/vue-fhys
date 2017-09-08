@@ -11,11 +11,11 @@
       </div>
       <section class="search-history" v-if="account&&searchHistory.length">
         <div class="search-title fs-16">
-          <h3>搜索历史</h3>
+          <h3 class="fs-14">搜索历史</h3>
           <span class="iconfont self-delete danger-color fs-12" @click="clearHistory">清空</span>
         </div>
         <ul class="search-list flex">
-          <li class="search-item" v-for="(item,index) in searchHistory" :key="index" @click="search(item)">
+          <li class="search-item" v-for="(item,index) in searchHistory" :key="index" @click="search(item)" :style="{'background-color':bg[index%7]}">
             {{item}}
           </li>
         </ul>
@@ -32,7 +32,8 @@ export default {
     return {
       account: '',
       searchValue: '',
-      searchHistory: []
+      searchHistory: [],
+      bg:['#178CEC','#E51417','#34B34C','#FDBA2D','#FE5B24','#829DAE','#1FBFCB']
     }
   },
   components: { HeaderTop },
@@ -116,13 +117,13 @@ export default {
   }
   .search-list {
     .search-item {
-      width: 30%;
       .text-center;
-      padding: .1rem;
+      padding: .04rem .3rem;
       margin: 0 1.5% @pd;
-      border: 1px solid @blue;
+      color: @white;
       border-radius: 10px;
       .ellipsis;
+      font-size: .28rem;
     }
   }
 }
