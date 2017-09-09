@@ -6,7 +6,7 @@
         <div class="head-info">
           <img :src="qrInfo.imgHeadUrl" alt="">
           <div class="head-name fs-16">
-            <p>{{qrInfo.name||qrInfo.nickName||Qrcode.mobile}}</p>
+            <p>{{qrInfo.name||qrInfo.nickName||qrInfo.mobile}}</p>
             <span class="iconfont self-male" v-if="qrInfo.sex=='1'"></span>
             <span class="iconfont self-female" v-if="qrInfo.sex=='2'"></span>
           </div>
