@@ -17,7 +17,7 @@
       </section>
       <section class="subcolumns-list">
         <ul class="flex" v-show="subcolumns.length">
-          <router-link :to="{path:'/product/subcolumn/'+e.id}" v-for="e in subcolumns" :key="e.id" class="type-item text-center" tag="li">
+          <router-link :to="{path:'/home/subcolumn2/'+e.id}" v-for="e in subcolumns" :key="e.id" class="type-item text-center" tag="li">
             <img :src="getImgPath(e.pic2)" :alt="e.names">
             <p>{{e.names}}</p>
           </router-link>

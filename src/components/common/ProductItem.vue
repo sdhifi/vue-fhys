@@ -1,28 +1,29 @@
 <template>
   <div class="like-item">
-    <router-link :to="{path:'/product/product/' + item.id}" class="like-link">
+    <router-link :to="{path:'/shop/index/' + id}" class="like-link">
       <div class="product-cover">
-        <img :src="item.imgUrl" :alt="item.name" />
+        <img :src="imgUrl" :alt="title" />
       </div>
-      <div class="product-info">
-        <div class="product-head flex">
-          <h3>{{item.storeName}}</h3>
-
+      <div class="product-info flex align-center">
+        <div class="product-head">
+          <h3>{{title}}</h3>
         </div>
-        <div class="product-score flex align-center">
-          <crown :value="item.score"></crown>
-          <div class="score-num">{{item.score||0}}分</div>
-          <div class="product-address">
+        <div class="product-score flex align-center just-between">
+          <crown :value="score"></crown>
+          <div class="product-address" v-if="distance">
             <span class="iconfont self-location danger-color"></span>
-            <span class="product-distance">{{formatDis(item.distance)}}</span>
+            <span class="product-distance">{{formatDis(distance)}}</span>
+          </div>
+          <div v-if="saleNum">
+            已售{{saleNum}}份
           </div>
         </div>
         <div class="product-content">
-          {{item.name||"暂无"}}
+          {{content}}
         </div>
         <div class="product-price">
-          <span class="price">￥{{item.price}}.00</span>
-          <span class="market-price">门市价：￥{{formatPrice(item.marketPrice)}}</span>
+          <span class="price">￥{{price1}}.00</span>
+          <span class="market-price">门市价：￥{{formatPrice(price2)}}</span>
         </div>
       </div>
     </router-link>
@@ -34,12 +35,15 @@ import Crown from './Crown'
 export default {
   name: 'ProductItem',
   props: {
-    item: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
+    id:[String,Number],
+    imgUrl:String,
+    title:String,
+    score:Number,
+    distance:Number,
+    content:String,
+    price1:Number,
+    price2:Number,
+    saleNum:Number,
   },
   components: { Crown },
   mixins: [mixin],
@@ -70,26 +74,19 @@ export default {
     margin-left: @pd;
     .product-head {
       font-size: 14px;
+      width: 100%;
       h3 {
-        width: 68%;
         .ellipsis;
         color: #333333;
         font-size: 14px;
-        font-weight: bold;
-        flex: 1;
       }
     }
     .product-score {
       margin: .1rem 0;
-      .score-num {
-        margin-left: @pd;
-      }
+      width: 100%;
     }
     .product-address {
-      position: absolute;
-      right: 0;
       font-size: 0;
-      
       .product-distance {
         color: @red;
         border: 1px solid currentColor;
@@ -104,6 +101,7 @@ export default {
     .product-content {
       .ellipsis;
       margin: 0 0 @pd 0;
+      width: 100%;
     }
     .product-price {
       .price {

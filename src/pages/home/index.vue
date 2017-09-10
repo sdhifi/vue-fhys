@@ -29,7 +29,7 @@
             <section class="banner-list">
                 <yd-slider>
                     <yd-slider-item v-for="(item,index) in banner" :key="item.id">
-                        <router-link :to="'/product/product/'+item.address.substring(item.address.lastIndexOf('/')+1)">
+                        <router-link :to="'/shop/index/'+item.address.substring(item.address.lastIndexOf('/')+1)">
                             <img :src="item.photo" :alt="item.names">
                         </router-link>
                     </yd-slider-item>
@@ -44,7 +44,7 @@
                 </div>
                 <yd-infinitescroll :on-infinite="getYourlike" ref="pdlist">
                     <div slot="list">
-                        <product-item v-for="item in productList" :key="item.id" :item="item"></product-item>
+                        <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.name" :score="item.score" :distance="item.distance" :content="item.content" :price1="item.price" :price2="item.marketPrice"></product-item>
                     </div>
                     <p slot="doneTip"><span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
                 </yd-infinitescroll>

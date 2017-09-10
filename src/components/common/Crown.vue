@@ -5,6 +5,7 @@
         <span v-if="cutPercent >0 && cutIndex == i-1" class="iconfont self-star rater-outer" :style="{color:activeColor,width:cutPercent+'%'}"></span>
       </span>
     </a>
+    <span class="score-num">{{currentValue}}分</span>
   </div>
 </template>
 <script>
@@ -66,6 +67,7 @@ export default {
   text-align: left;
   display: inline-block;
   line-height: normal;
+  position: relative;
   .rater-box {
     position: relative;
     text-align: center;
@@ -82,6 +84,10 @@ export default {
       display: inline-block;
       overflow: hidden;
     }
+  }
+  .score-num{
+    margin-left: .1rem;
+    vertical-align: middle;
   }
 }
 </style>

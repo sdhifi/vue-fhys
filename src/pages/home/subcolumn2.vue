@@ -16,7 +16,7 @@
 import HeaderTop from 'components/header/index'
 import ProductList from 'components/common/ProductList'
 export default {
-  name: 'ProductSubcolumn',
+  name: 'SubColumn2',
   data() {
     return {
 

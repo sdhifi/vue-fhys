@@ -14,6 +14,10 @@ export default new Router({
     name: 'SubColumn',
     component: require('../pages/home/subcolumn')
   }, {
+    path: '/home/subcolumn2/:id',
+    name: 'SubColumn2',
+    component: require('../pages/home/subcolumn2')
+  }, {
     path: '/home/search',
     name: 'Search',
     component: require('../pages/home/search')
@@ -57,13 +61,9 @@ export default new Router({
     name: 'Update',
     component: require('../pages/me/update')
   }, {
-    path: '/product/product/:id',
-    name: 'Product',
-    component: require('../pages/product/product')
-  }, {
-    path: '/product/subcolumn/:id',
-    name: 'PdSubcolumn',
-    component: require('../pages/product/subcolumn')
+    path: '/shop/index/:id',
+    name: 'Shop',
+    component: require('../pages/shop/index')
   }, {
     path: '*',
     redirect: '/home/index'
