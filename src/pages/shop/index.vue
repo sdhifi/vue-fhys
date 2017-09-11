@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top></header-top>
+    <header-top title="商品详情"></header-top>
     <main class="scroll-content-2">
       <section class="pd-container">
         <div class="pd-cover">

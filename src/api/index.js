@@ -7,6 +7,7 @@ address=`${baseUrl}/app/address/${VERSION}`,
 rule = `${baseUrl}/app/rule/${VERSION}`,
 member = `${baseUrl}/app/member/${VERSION}`,
 order=`${baseUrl}/app/order/${VERSION}`;
+
 let o2o = `${index}/o2o` //获取o2o首页栏目和轮播图信息
 let like = `${index}/o2o/like` //o2o商城的首页猜你喜欢
 let subcolumn = `${index}/o2o/subColumn/` //O2O商城子栏目页

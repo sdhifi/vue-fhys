@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top></header-top>
+    <header-top title="栏目"></header-top>
     <main class="scroll-content-2">
       <section class="search-container">
         <router-link to="/home/search" class="search-input">

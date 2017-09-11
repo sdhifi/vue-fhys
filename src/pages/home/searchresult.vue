@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top></header-top>
+    <header-top title="搜索结果"></header-top>
     <main class='scroll-content-2'>
       <product-list :like-value="searchValue" tab-type="line"></product-list>
     </main>

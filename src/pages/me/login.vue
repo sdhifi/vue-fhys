@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top></header-top>
+    <header-top title="登录注册"></header-top>
     <div class="page-container">
       <yd-cell-group>
         <yd-cell-item type="div">

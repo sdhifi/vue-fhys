@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top></header-top>
+    <header-top title="修改资料"></header-top>
     <main class='scroll-content-2'>
       <yd-cell-group class="member-container">
         <yd-cell-item arrow style="padding:.2rem 0 .2rem .24rem;">
@@ -20,14 +20,6 @@
           <span slot="left">昵称</span>
           <input slot="right" v-model="info.nickName" type="text" style="text-align:right;" class="hight-input" placeholder="不要输入特殊符号"></input>
         </yd-cell-item>
-        <!-- <yd-cell-item>
-          <span slot="left">性别</span>
-          <yd-radio-group slot="right" v-model="sex">
-            <yd-radio val="1">男</yd-radio>
-            <yd-radio val="2">女</yd-radio>
-            <yd-radio val="0">未知</yd-radio>
-          </yd-radio-group>
-        </yd-cell-item> -->
         <yd-cell-item>
           <span slot="left" style="margin-right:.4rem;">简介</span>
           <yd-textarea slot="right" placeholder="请输入简介" maxlength="30" v-model="info.remark" class="hight-input"></yd-textarea>

@@ -37,6 +37,10 @@ export default new Router({
       requireAuth: true
     }
   },{
+    path: '/me/myorder',
+    name: 'MyOrder',
+    component: require('../pages/me/myorder')
+  },{
     path: '/me/qrcode',
     name: 'Qrcode',
     component: require('../pages/me/qrcode')

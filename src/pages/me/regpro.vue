@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top></header-top>
+    <header-top title="服务协议"></header-top>
     <main class="scroll-content-2 page-container">
       <iframe :src="url" frameborder="0"></iframe>
     </main>

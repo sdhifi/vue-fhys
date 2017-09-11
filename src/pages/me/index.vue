@@ -18,12 +18,12 @@
       <section class="order-container">
         <div class="order-item flex align-center px-1">
           <div class="order-left">我的订单</div>
-          <div class="order-right order-arrow">
+          <router-link :to="{path:'/me/myorder',query:{id:7}}" class="order-right order-arrow">
             <span>查看所有订单</span>
-          </div>
+          </router-link>
         </div>
         <ul class="flex just-around align-center">
-          <router-link :to="{path:item.link}" v-for="(item,index) in order" tag="li" :key="index">
+          <router-link :to="{path:item.link,query:{id:item.id}}" v-for="(item,index) in order" tag="li" :key="index">
             <span class="iconfont-large" :class="item.icon"></span>
             <p>{{item.name}}</p>
           </router-link>
@@ -57,21 +57,25 @@ export default {
       oldBack: mui.back,
       member: {},
       order: [{
+        id:0,
         name: '待付款',
         icon: 'self-pay',
-        link: '/me/pay'
+        link: '/me/myorder'
       }, {
+        id:1,
         name: '待发货',
         icon: 'self-delivery',
-        link: '/me/delivery'
+        link: '/me/myorder'
       }, {
+        id:2,
         name: '待收货',
         icon: 'self-recept',
-        link: '/me/recept'
+        link: '/me/myorder'
       }, {
+        id:3,
         name: '交易完成',
         icon: 'self-success',
-        link: '/me/trade'
+        link: '/me/myorder'
       }],
       menu: [
         [
@@ -268,6 +272,7 @@ section {
     font-size: 14px;
     .order-left {
       padding-left: .2rem;
+      color: #333;
     }
     .order-right {
       flex: 1;

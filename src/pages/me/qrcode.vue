@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top></header-top>
+    <header-top title="我的二维码"></header-top>
     <main class='scroll-content-2' style="background-color:#fff;">
       <div class="qr-container" :style="{'background-image':formatBg('qrbg.jpg')}">
         <div class="head-info">

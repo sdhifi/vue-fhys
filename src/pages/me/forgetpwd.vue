@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top></header-top>
+    <header-top title="忘记密码"></header-top>
     <main class='scroll-content-2' style="padding: .3rem;">
       <yd-cell-group>
         <yd-cell-item>

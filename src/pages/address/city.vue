@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top></header-top>
+    <header-top title="切换城市"></header-top>
     <main class="scroll-content-2">
       <section class="current-city flex just-between">
         <div class="">
