@@ -3,7 +3,7 @@
     <header-top :back="false"></header-top>
     <main class="scroll-content">
       <section class="head-container">
-        <div class="head-cover">
+        <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
           <router-link :to="{name:'Update',params:{member}}">
             <!-- <img :src="member.imgHeadUrl" :alt="member.name"> -->
             <div class="head-img" :style="{'background-image':'url('+getImgPath(member.imgHeadUrl)+')'}"></div>
@@ -88,7 +88,7 @@ export default {
           {
             name: '我的钱包',
             icon: 'self-wallet c2',
-            link: '/me/wallet',
+            link: '/me/mywallet',
             type: 'link'
           },
           {
@@ -160,6 +160,7 @@ export default {
     },
   activated() {
     if ((getStore("account") && getStore("account").length > 0)) {
+      this.$store.commit('SET_ACCOUNT',getStore("account"));
       this.getInfo();
     }
     else {
@@ -216,7 +217,6 @@ section {
   .text-center;
   .head-cover {
     height: 1.4rem;
-    background-image: url(/static/img/mine_background.png);
     background-size: cover;
     a {
       .h-cen;

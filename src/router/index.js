@@ -41,6 +41,10 @@ export default new Router({
     name: 'MyOrder',
     component: require('../pages/me/myorder')
   },{
+    path: '/me/mywallet',
+    name: 'MyWallet',
+    component: require('../pages/me/mywallet')
+  },{
     path: '/me/qrcode',
     name: 'Qrcode',
     component: require('../pages/me/qrcode')

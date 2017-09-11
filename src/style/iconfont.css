@@ -23,11 +23,15 @@
 
 .self-rmb:before { content: "\e62f"; }
 
+.self-yinhangka:before { content: "\e6e9"; }
+
 .self-delete:before { content: "\e677"; }
 
 .self-about:before { content: "\e605"; }
 
 .self-star:before { content: "\e75c"; }
+
+.self-tiqufuli:before { content: "\e69e"; }
 
 .self-shop:before { content: "\e60c"; }
 
@@ -41,6 +45,10 @@
 
 .self-near:before { content: "\e603"; }
 
+.self-xiaofeijilu:before { content: "\e624"; }
+
+.self-fulijilu:before { content: "\e6b1"; }
+
 .self-download:before { content: "\e626"; }
 
 .self-down:before { content: "\e617"; }
@@ -52,6 +60,8 @@
 .self-female:before { content: "\e67e"; }
 
 .self-heart:before { content: "\e822"; }
+
+.self-xiaofeiguize:before { content: "\e625"; }
 
 .self-lock:before { content: "\e60f"; }
 
@@ -84,5 +94,9 @@
 .self-home:before { content: "\e63f"; }
 
 .self-qrcode:before { content: "\e6e8"; }
+
+.self-tiqulishi:before { content: "\e627"; }
+
+.self-noorder:before { content: "\e60b"; }
 
 .self-success:before { content: "\e60e"; }

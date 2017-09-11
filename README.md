@@ -31,8 +31,25 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 搜索iconfont，把static修改为..
 搜索mine_background，把/static修改为..
 ```
-- router-link编程导航，如果是标签形式，路由传name形式，才能使用params
+- 路由传name形式，才能使用params
 ```html
   <router-link :to="{name:'Update',params:{member}}"></router-link>
+  this.$router.push({path:'/index',params:{cityId})
+```
+
+- 解决背景图片打包错误的问题
+
+```html
+<section  :style="{'background-image':formatBg('bg.png')}"></section>
+```
+
+```javascript
+/**
+ * 格式化背景图片,具体返回值根据项目路径调整
+ * @param {*图片名称} url例如abc.png
+ */
+formatBg(url){
+      return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(../img/${url})`
+    }
 ```
 
