@@ -79,15 +79,5 @@ export default new Router({
   }, {
     path: '*',
     redirect: '/home/index'
-  }],
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return {
-        x: 0,
-        y: 0
-      }
-    }
-  }
+  }]
 })
