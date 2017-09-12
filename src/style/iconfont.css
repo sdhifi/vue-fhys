@@ -17,6 +17,7 @@
   -webkit-font-smoothing: antialiased;
   vertical-align: middle;
 }
+
 .self-shopcart:before { content: "\e601"; }
 
 .self-mobile:before { content: "\e621"; }
@@ -31,8 +32,6 @@
 
 .self-star:before { content: "\e75c"; }
 
-.self-tiqufuli:before { content: "\e69e"; }
-
 .self-shop:before { content: "\e60c"; }
 
 .self-delivery:before { content: "\e67f"; }
@@ -43,6 +42,8 @@
 
 .self-male:before { content: "\e623"; }
 
+.self-xiaofeiguize:before { content: "\e837"; }
+
 .self-near:before { content: "\e603"; }
 
 .self-xiaofeijilu:before { content: "\e624"; }
@@ -50,6 +51,8 @@
 .self-fulijilu:before { content: "\e6b1"; }
 
 .self-download:before { content: "\e626"; }
+
+.self-tiqufuli:before { content: "\e610"; }
 
 .self-down:before { content: "\e617"; }
 
@@ -60,8 +63,6 @@
 .self-female:before { content: "\e67e"; }
 
 .self-heart:before { content: "\e822"; }
-
-.self-xiaofeiguize:before { content: "\e625"; }
 
 .self-lock:before { content: "\e60f"; }
 
@@ -80,6 +81,8 @@
 .self-fenghuang:before { content: "\e604"; }
 
 .self-seller:before { content: "\e60a"; }
+
+.self-shenfenzheng:before { content: "\e6fb"; }
 
 .self-group:before { content: "\e66e"; }
 

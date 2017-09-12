@@ -26,6 +26,10 @@ export default new Router({
     name: 'SearchResult',
     component: require('../pages/home/searchresult')
   }, {
+    path: '/near/index',
+    name: 'Near',
+    component: require('../pages/near/index')
+  }, {
     path: '/address/city',
     name: 'City',
     component: require('../pages/address/city')

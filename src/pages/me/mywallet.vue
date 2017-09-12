@@ -88,7 +88,7 @@ export default {
           icon: 'self-tiqufuli',
           text: '提取福利',
           link: '/trade/withdrawals',
-          color: '#33ee44'
+          color: '#e7d489'
         },
         {
           icon: 'self-tiqulishi',
@@ -100,7 +100,7 @@ export default {
           icon: 'self-yinhangka',
           text: '银行卡',
           link: '/trade/bancard',
-          color: '#ee3355'
+          color: '#e7d489'
         },
         {
           icon: 'self-fulijilu',
@@ -114,11 +114,17 @@ export default {
           link: '/trade/consumerecord',
           color: '#663355'
         },
+         {
+          icon: 'self-shenfenzheng',
+          text: '实名认证',
+          link: '/trade/certificate',
+          color: '#d4e4fc'
+        },
         {
           icon: 'self-xiaofeiguize',
           text: '消费规则',
           link: '/trade/consumerule',
-          color: '#a58a19'
+          color: '#e7d489'
         },
       ]
     }
@@ -161,23 +167,44 @@ export default {
   background-size: cover;
   color: @white;
   font-size: 14px;
-  p {
-    color: #f6ff00;
-    font-size: 20px;
+  .tab-list {
+    .flex;
+    .just-cont();
+    font-size: 14px;
+    padding-top: @pd * 2;
+    margin-bottom: @pd * 3;
+    .tab-item {
+      border: 1px solid @white;
+      padding: @pd 15px;
+      &.tab-active {
+        background-color: @white;
+        color: @red;
+      }
+    }
+    div:first-child {
+      border-radius: 20px 0 0 20px;
+    }
+    div:last-child {
+      border-radius: 0 20px 20px 0;
+    }
+  }
+  .wallet-today {
+    font-size: 16px;
+    p {
+      margin-top: @pd * 2;
+      color: #f6ff00;
+      font-size: 20px;
+    }
   }
 }
 
 .wallet-tab {
   background-color: @white;
-  border-top: 1px solid #dfdfdf;
   .tab-item {
     width: 33.3%;
     a {
       .pd-v;
       display: block;
-    }
-    +.tab-item{
-      border-left: 1px solid #fff;
     }
   }
 }

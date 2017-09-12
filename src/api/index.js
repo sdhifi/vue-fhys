@@ -11,6 +11,9 @@ order=`${baseUrl}/app/order/${VERSION}`;
 let o2o = `${index}/o2o` //获取o2o首页栏目和轮播图信息
 let like = `${index}/o2o/like` //o2o商城的首页猜你喜欢
 let subcolumn = `${index}/o2o/subColumn/` //O2O商城子栏目页
+let near = `${index}/near` //获取附近的栏目
+let findNearColumn = `${index}/findNearColumn` //获取附近的一级栏目
+let findNearSubColumn = `${index}/findNearSubColumn` //获取附近的一级栏目下的子栏目
 
 let products = `${pd}/o2o/products` //o2o商城一级栏目或本栏目下的商品
 let product = `${pd}/o2o/productDetail/` //查询O2O商品信息
@@ -55,7 +58,10 @@ export {
   o2o,
   like,
   subcolumn,
-
+  near,
+  findNearColumn,
+  findNearSubColumn,
+  
   hotProduct,
   products,
   product,

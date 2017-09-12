@@ -44,7 +44,7 @@
                 </div>
                 <yd-infinitescroll :on-infinite="getYourlike" ref="pdlist">
                     <div slot="list">
-                        <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.name" :score="item.score" :distance="item.distance" :content="item.content" :price1="item.price" :price2="item.marketPrice"></product-item>
+                        <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
                     </div>
                     <p slot="doneTip"><span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
                 </yd-infinitescroll>
