@@ -46,7 +46,7 @@ export const mixin = {
      * @param {*图片名称} url
      */
     formatBg(url){
-      return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(../img/${url})`
+      return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(./static/img/${url})`
     },
     /**
      * 过滤表情符号

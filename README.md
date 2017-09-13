@@ -49,7 +49,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
  * @param {*图片名称} url例如abc.png
  */
 formatBg(url){
-      return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(../img/${url})`
+      return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(./static/img/${url})`
     }
 ```
 
