@@ -38,11 +38,15 @@
 
 .self-code:before { content: "\e629"; }
 
+.self-qiye:before { content: "\e6dd"; }
+
 .self-pay:before { content: "\e606"; }
 
 .self-male:before { content: "\e623"; }
 
 .self-xiaofeiguize:before { content: "\e837"; }
+
+.self-edu:before { content: "\e692"; }
 
 .self-near:before { content: "\e603"; }
 
@@ -75,6 +79,8 @@
 .self-libao:before { content: "\e602"; }
 
 .self-location:before { content: "\e608"; }
+
+.self-geti:before { content: "\e62c"; }
 
 .self-nodata:before { content: "\e637"; }
 

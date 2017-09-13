@@ -4,18 +4,17 @@
     <main class='scroll-content-2'>
       <section class="wallet-top text-center" :style="{'background-image':formatBg('banner-wallet.png')}">
         <nav class="tab-list">
-          <div class="tab-item tab-active">个人福利</div>
-          <div class="tab-item">商户福利</div>
+          <div class="tab-item" :class="{'tab-active':!type}" @click="changeTab">个人福利</div>
+          <div class="tab-item" :class="{'tab-active':type}" @click="changeTab">商户福利</div>
         </nav>
         <div class="wallet-today">
           今日福利
           <p>+{{info.benefitYesterdayMoney}}</p>
         </div>
-
       </section>
-      <section class="wallet-tab">
+      <section class="wallet-tab" v-show="!type">
         <ul class="flex text-center">
-          <li v-for="(item,index) in tabs" :key="index" class="tab-item">
+          <li v-for="(item,index) in tabs0" :key="index" class="tab-item">
             <a href="" v-if="index<3" class="danger-bg">
               <p>{{item.text}}</p>
               <p>{{info[item.param]}}</p>
@@ -27,7 +26,21 @@
           </li>
         </ul>
       </section>
-      <section class="operate-container">
+      <section class="wallet-tab" v-show="type">
+        <ul class="flex text-center">
+          <li v-for="(item,index) in tabs1" :key="index" class="tab-item" :class="{'tab-item2':index<2}">
+            <a href="" v-if="index<2" class="danger-bg">
+              <p>{{item.text}}</p>
+              <p>{{info[item.param]}}</p>
+            </a>
+            <a href="" v-else>
+              <p>{{item.text}}</p>
+              <p class="danger-color">{{info[item.param]}}</p>
+            </a>
+          </li>
+        </ul>
+      </section>
+      <section class="operate-container" v-if="false">
         <p>*转移说明：可转余额金额 ￥0.00（转余额扣除10%税费）。</p>
         <yd-button type="warning" size="large">一键转余额</yd-button>
       </section>
@@ -38,6 +51,23 @@
         </yd-grids-item>
       </yd-grids-group>
     </main>
+    <yd-popup v-model="showPopup" position="center" width="90%">
+      <div class="ruzhu-container">
+        <h3 class="ruzhu-title">您还未入驻凤凰云商O2O</h3>
+        <div class="ruzhu-content">
+          <div class="ruzhu-item">
+            <span class="iconfont self-qiye"></span>
+            <p>企业入驻</p>
+          </div>
+          <div class="ruzhu-item">
+            <span class="iconfont self-geti"></span>
+            <p>企业入驻</p>
+          </div>
+        </div>
+        <yd-button type="danger" size="large" @click.native="showPopup=false;">确认</yd-button>
+      </div>
+
+    </yd-popup>
   </div>
 </template>
 <script>
@@ -49,40 +79,67 @@ export default {
   data() {
     return {
       info: {},
-      type: '0',
-      tabs: [{
-        text: '可参与福利权益',
-        param: 'canParticipate',
-        link: '',
-      }, {
-        text: '责任消费',
-        param: 'canMoney',
-        link: '',
-      }, {
-        text: '还可获得福利',
-        param: 'consumptionMoney',
-        link: '',
-      }, {
-        text: '销售福利',
-        param: 'dividendsTotalMoney',
-        link: '',
-      }, {
-        text: '累计消费',
-        param: 'cumulativeMoney',
-        link: '',
-      }, {
-        text: '余额账户',
-        param: 'balanceMoney',
-        link: '',
-      }, {
-        text: '福利账户余额',
-        param: 'balanceMoney',
-        link: '',
-      }, {
-        text: '销售福利余额',
-        param: 'balanceMoney',
-        link: '',
-      }],
+      type: 0,
+      showPopup: false,
+      tabs0: [
+        {
+          text: '可参与福利权益',
+          param: 'canParticipate',
+          link: '',
+        },
+        {
+          text: '责任消费',
+          param: 'canMoney',
+          link: '',
+        },
+        {
+          text: '还可获得福利',
+          param: 'consumptionMoney',
+          link: '',
+        },
+        {
+          text: '销售福利',
+          param: 'dividendsTotalMoney',
+          link: '',
+        },
+        {
+          text: '累计消费',
+          param: 'cumulativeMoney',
+          link: '',
+        },
+        {
+          text: '余额账户',
+          param: 'balanceMoney',
+          link: '',
+        }
+      ],
+      tabs1: [
+        {
+          text: '商户福利权益',
+          param: 'canParticipate',
+          link: '',
+        },
+        {
+          text: '已领取',
+          param: 'canMoney',
+          link: '',
+        },
+        {
+          text: '总销售额',
+          param: 'saleTotalMoney',
+          link: '',
+        },
+        {
+          text: '累计贡献',
+          param: 'cumulativeMoney',
+          link: '',
+        },
+        {
+          text: '还可获得福利',
+          param: 'consumptionMoney',
+          link: '',
+        }
+      ],
       menu: [
         {
           icon: 'self-tiqufuli',
@@ -114,7 +171,7 @@ export default {
           link: '/trade/consumerecord',
           color: '#663355'
         },
-         {
+        {
           icon: 'self-shenfenzheng',
           text: '实名认证',
           link: '/trade/certificate',
@@ -124,8 +181,20 @@ export default {
           icon: 'self-xiaofeiguize',
           text: '消费规则',
           link: '/trade/consumerule',
+          color: '#663355'
+        },
+        {
+          icon: 'self-edu',
+          text: '授信额度',
+          link: '/trade/shouxin',
           color: '#e7d489'
         },
+        {
+          icon: 'self-download',
+          text: '协议下载',
+          link: '/trade/download',
+          color: '#663355'
+        }
       ]
     }
   },
@@ -141,6 +210,10 @@ export default {
     this.getInfo();
   },
   methods: {
+    changeTab() {
+      this.type = this.type == 0 ? 1 : 0;
+      this.getInfo();
+    },
     getInfo() {
       let vm = this;
       mui.ajax({
@@ -153,6 +226,11 @@ export default {
           token: md5(`countMemberInfo${getStore('account')}${this.type}`)
         },
         success(res) {
+          if (/不/.test(res.msg)) {
+            vm.type = 0;
+            vm.showPopup = true;
+            return;
+          }
           vm.info = res.result
         }
       })
@@ -200,11 +278,19 @@ export default {
 
 .wallet-tab {
   background-color: @white;
+  margin-bottom: @pd;
   .tab-item {
     width: 33.3%;
+    position: relative;
     a {
       .pd-v;
       display: block;
+      p:last-child {
+        margin-top: .1rem;
+      }
+    }
+    &.tab-item2 {
+      width: 50%;
     }
   }
 }
@@ -213,5 +299,28 @@ export default {
   .pd;
   .mg-v;
   background-color: @white;
+}
+
+.ruzhu-container {
+  padding: @pd;
+  text-align: center;
+  .ruzhu-title {
+    font-size: .3rem;
+  }
+  .ruzhu-content {
+    padding: 0 .5rem;
+    overflow: hidden;
+    margin-top: .5rem;
+    .ruzhu-item {
+      float: left;
+      width: 50%;
+      span {
+        font-size: 35px;
+      }
+      p {
+        margin-top: .1rem;
+      }
+    }
+  }
 }
 </style>

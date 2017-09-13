@@ -29,7 +29,11 @@ export default new Router({
     path: '/near/index',
     name: 'Near',
     component: require('../pages/near/index')
-  }, {
+  },  {
+    path: '/online/index',
+    name: 'Online',
+    component: require('../pages/online/index')
+  },{
     path: '/address/city',
     name: 'City',
     component: require('../pages/address/city')
