@@ -8,11 +8,11 @@
           <span>搜索商家或商品</span>
         </router-link>
       </section>
-      <yd-tab ref="tab" >
+      <yd-tab ref="tab" :change="changeStatus">
         <yd-tab-panel :label="item.columnName" v-for="(item,index) in info" :key="index" :tabkey="item.subColumn[0].id">
           <div class="swiper-container">
             <div class="swiper-wrapper sub-list">
-              <div class="swiper-slide sub-item" v-for="sub in item.subColumn" :key="sub.id" :class="{'sub-active':columnId==sub.id}" @click="changeSubColumn(sub)">{{sub.names}}</div>
+              <div class="swiper-slide sub-item" v-for="(sub,i) in item.subColumn" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" @click="changeSubColumn(sub)">{{sub.names}}</div>
             </div>
           </div>
         </yd-tab-panel>
@@ -20,7 +20,7 @@
       <section class="pd-list">
         <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
           <div slot="list">
-            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.name" :score="item.score" :price1="item.price" :price2="item.marketPrice" :sale-num="item.saleNum"></product-item>
+            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
           </div>
           <p slot="doneTip">
             <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
@@ -34,8 +34,7 @@ import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import ProductItem from 'components/common/ProductItem'
 import { near, products } from '../../api/index'
-import Swiper from 'swiper/dist/js/swiper.min.js'
-import '../../../node_modules/swiper/dist/css/swiper.min.css'
+// import Swiper from 'swiper/dist/js/swiper.min.js'
 export default {
   name: 'Near',
   data() {
@@ -70,13 +69,11 @@ export default {
           vm.info = res.result;
           setTimeout(() => {
             vm.$refs.tab.init(false);
-            new Swiper('.swiper-container', {
-              slidesPerView: 4,
-              spaceBetween: 10,
-              observer: true,
-              observeParents: true,
-              slideToClickedSlide: true
-            })
+            // new Swiper('.swiper-container', {
+            //   slidesPerView: 4,
+            //   spaceBetween: 10,
+            //   slideToClickedSlide:true
+            // })
           }, 0)
         }
       })
@@ -88,10 +85,12 @@ export default {
       this.getProduct();
     },
     changeStatus(label, tabkey) {
+      let w = document.querySelector('.sub-list');
+      w.scrollLeft = 0;
       this.columnId = tabkey;
       this.reset();
     },
-    changeSubColumn(item){
+    changeSubColumn(item) {
       this.columnId = item.id;
       this.reset();
     },
@@ -130,22 +129,31 @@ export default {
 </script>
 <style lang='less' scoped>
 @import '../../style/mixin.less';
-.swiper-container{
-   .pd;
-   .sub-list {
-  .sub-item {
-    padding: .15rem 0;
-    border-radius: 3px;
-    border: 1px solid #ddd;
-    text-align: center;
-    transition: all .4s;
-    &.sub-active {
-      color: @red;
-      border-color: currentColor;
-      box-shadow: 0 0 5px currentColor;
+.swiper-container {
+  .sub-list {
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    .sub-item {
+      padding: .15rem 0;
+      border-radius: 3px;
+      border: 1px solid #ddd;
+      text-align: center;
+      transition: all .4s;
+      display: inline-block;
+      margin: .2rem;
+      width: 20%;
+      &.sub-active {
+        color: @red;
+        border-color: currentColor;
+        box-shadow: 0 0 5px currentColor;
+      }
     }
   }
 }
-}
 
+.pd-list {
+  background-color: @white;
+}
 </style>
