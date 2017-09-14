@@ -100,6 +100,8 @@
 
 .self-tel:before { content: "\e652"; }
 
+.self-close:before { content: "\e633"; }
+
 .self-home:before { content: "\e63f"; }
 
 .self-qrcode:before { content: "\e6e8"; }

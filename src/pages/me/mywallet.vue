@@ -55,18 +55,24 @@
       <div class="ruzhu-container">
         <h3 class="ruzhu-title">您还未入驻凤凰云商O2O</h3>
         <div class="ruzhu-content">
-          <div class="ruzhu-item">
-            <span class="iconfont self-qiye"></span>
-            <p>企业入驻</p>
+          <div>
+            <input type="radio" name="settle-way" id="1" value="1" v-model="settleWay">
+            <label class="ruzhu-item" for="1">
+              <span class="iconfont self-qiye"></span>
+              <p>企业入驻</p>
+            </label>
           </div>
-          <div class="ruzhu-item">
-            <span class="iconfont self-geti"></span>
-            <p>企业入驻</p>
+          <div>
+            <input type="radio" name="settle-way" id="0" value="0" v-model="settleWay">
+            <label class="ruzhu-item" for="0">
+              <span class="iconfont self-geti"></span>
+              <p>个体入驻</p>
+            </label>
           </div>
         </div>
-        <yd-button type="danger" size="large" @click.native="showPopup=false;">确认</yd-button>
+        <yd-button type="danger" size="large" @click.native="settle">确认</yd-button>
+        <span class="close" @click="showPopup=false;"></span>
       </div>
-
     </yd-popup>
   </div>
 </template>
@@ -81,6 +87,7 @@ export default {
       info: {},
       type: 0,
       showPopup: false,
+      settleWay: '',
       tabs0: [
         {
           text: '可参与福利权益',
@@ -234,6 +241,17 @@ export default {
           vm.info = res.result
         }
       })
+    },
+     settle() {
+      if (this.settleWay == '') {
+        this.$dialog.toast({
+          mes: '请选择一种入驻方式后再确认',
+          timeout: 1500
+        })
+        return;
+      }
+      this.showPopup = false;
+      this.$router.push({path:'/store/settle',query:{id:this.settleWay}})
     }
   }
 }
@@ -299,28 +317,5 @@ export default {
   .pd;
   .mg-v;
   background-color: @white;
-}
-
-.ruzhu-container {
-  padding: @pd;
-  text-align: center;
-  .ruzhu-title {
-    font-size: .3rem;
-  }
-  .ruzhu-content {
-    padding: 0 .5rem;
-    overflow: hidden;
-    margin-top: .5rem;
-    .ruzhu-item {
-      float: left;
-      width: 50%;
-      span {
-        font-size: 35px;
-      }
-      p {
-        margin-top: .1rem;
-      }
-    }
-  }
 }
 </style>

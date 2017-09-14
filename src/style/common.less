@@ -137,3 +137,71 @@ input[type='button'],button{
     border-radius: 15px;
   }
 }
+.ruzhu-container {
+  position: relative;
+  padding: .2rem;
+  text-align: center;
+  .ruzhu-title {
+    font-size: .3rem;
+  }
+  .ruzhu-content {
+    padding: 0 .5rem;
+    overflow: hidden;
+    margin-top: .5rem;
+    .ruzhu-item {
+      float: left;
+      width: 50%;
+      span {
+        font-size: 35px;
+      }
+      p {
+        margin-top: .1rem;
+      }
+    }
+  }
+  .close {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: -10%;
+    right: -2%;
+    background-color: #fff;
+    border-radius: 50%;
+    &::before {
+      position: absolute;
+      content: '';
+      top: 15%;
+      background-color: #333;
+      width: 1px;
+      height: 20px;
+      transform: rotate(45deg);
+    }
+    &::after {
+      position: absolute;
+      content: '';
+      top: 15%;
+      background-color: #333;
+      width: 1px;
+      height: 20px;
+      transform: rotate(135deg);
+    }
+  }
+  input[type=radio] {
+    display: none;
+  }
+
+  input[type=radio]:checked+label {
+    color: @red;
+  }
+}
+.empty-data{
+  padding: 65% 0 66%;
+  text-align: center;
+  span{
+    font-size: 1rem;
+    color: #333;
+  }
+  p{
+    margin-top: 0.2rem
+  }
+}

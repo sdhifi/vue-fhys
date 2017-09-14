@@ -33,8 +33,8 @@
         </yd-tab-panel>
         <yd-tab-panel label="交易完成" tabkey="3" :active="$route.query.id==3">
           <div v-if="orderList.length">有数据</div>
-          <div v-else class="empty-order text-center">
-            <div><span class="iconfont self-noorder"></span></div>
+          <div v-else class="empty-data">
+            <span class="iconfont self-noorder"></span>
             <p>没有数据</p>
           </div>
         </yd-tab-panel>
@@ -64,7 +64,7 @@ export default {
   },
   activated() {
     this.status = this.$route.query.id;
-    this.getMyOrder();
+    // this.getMyOrder();
   },
   methods: {
     changeStatus(label,tabkey){

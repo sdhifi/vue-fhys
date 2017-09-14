@@ -31,18 +31,41 @@
       </section>
       <section v-for="(item,index) in menu" :key="index">
         <yd-cell-group>
-          <yd-cell-item v-for="(cell,i) in item" :key="i" :arrow="cell.type=='link'" :type="cell.type" :href="cell.link">
+          <yd-cell-item v-for="(cell,i) in item" :key="i" arrow :type="cell.type" @click.native="navigate(cell)">
             <span class="iconfont-large" :class="cell.icon" slot="icon"></span>
             <span slot="left">{{cell.name}}</span>
             <a slot="right" v-if="cell.right" style="color:gold;" :href="'tel:'+cell.right">{{cell.right}}</a>
           </yd-cell-item>
         </yd-cell-group>
       </section>
-      <section style="padding:1px .5rem;">
-        <yd-button type="danger" size="large" @click.native="loginOut">退出登录</yd-button>
+      <section class="btn-container">
+        <button type="button" class="sign-btn" @click="signOut">退出登录</button>
       </section>
     </main>
     <footer-bar></footer-bar>
+    <yd-popup v-model="showPopup" position="center" width="90%">
+      <div class="ruzhu-container">
+        <h3 class="ruzhu-title">您还未入驻凤凰云商O2O</h3>
+        <div class="ruzhu-content">
+          <div>
+            <input type="radio" name="settle-way" id="1" value="1" v-model="settleWay">
+            <label class="ruzhu-item" for="1">
+              <span class="iconfont self-qiye"></span>
+              <p>企业入驻</p>
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="settle-way" id="0" value="0" v-model="settleWay">
+            <label class="ruzhu-item" for="0">
+              <span class="iconfont self-geti"></span>
+              <p>个体入驻</p>
+            </label>
+          </div>
+        </div>
+        <yd-button type="danger" size="large" @click.native="settle">确认</yd-button>
+        <span class="close" @click="showPopup=false;"></span>
+      </div>
+    </yd-popup>
   </div>
 </template>
 <script>
@@ -56,23 +79,25 @@ export default {
     return {
       oldBack: mui.back,
       member: {},
+      showPopup: false,
+      settleWay: '',
       order: [{
-        id:0,
+        id: 0,
         name: '待付款',
         icon: 'self-pay',
         link: '/me/myorder'
       }, {
-        id:1,
+        id: 1,
         name: '待发货',
         icon: 'self-delivery',
         link: '/me/myorder'
       }, {
-        id:2,
+        id: 2,
         name: '待收货',
         icon: 'self-recept',
         link: '/me/myorder'
       }, {
-        id:3,
+        id: 3,
         name: '交易完成',
         icon: 'self-success',
         link: '/me/myorder'
@@ -83,50 +108,50 @@ export default {
             name: '我的二维码',
             icon: 'self-qrcode c1',
             link: '/me/qrcode',
-            type: 'link'
+            type: 'label'
           },
           {
             name: '我的钱包',
             icon: 'self-wallet c2',
             link: '/me/mywallet',
-            type: 'link'
+            type: 'label'
           },
           {
             name: '购物车',
             icon: 'self-shopcart c1',
-            link: '/me/qrcode',
-            type: 'link'
+            link: '/me/shopcart',
+            type: 'label'
           },
           {
             name: '设置支付密码',
             icon: 'self-setting c1',
             link: '/me/setting',
-            type: 'link'
+            type: 'label'
           }
         ], [
           {
             name: '我是商家',
             icon: 'self-seller c1',
             link: '/me/seller',
-            type: 'link'
+            type: 'label'
           },
           {
             name: '我推荐的人',
             icon: 'self-group c1',
             link: '/me/recommend',
-            type: 'link'
+            type: 'label'
           },
           {
             name: '地址管理',
             icon: 'self-address c2',
             link: '/me/address',
-            type: 'link'
+            type: 'label'
           },
           {
             name: '我的收藏',
             icon: 'self-heart c1',
             link: '/me/collect',
-            type: 'link'
+            type: 'label'
           }
         ], [
           {
@@ -138,7 +163,7 @@ export default {
             name: '关于凤凰云商O2O',
             icon: 'self-about c2',
             link: '/me/about',
-            type: 'link'
+            type: 'label'
           }
         ]
       ]
@@ -150,17 +175,17 @@ export default {
   },
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
-        next(vm => {
-            vm.plusReady();
-        })
-    },
-    beforeRouteLeave(to, from, next) {
-        mui.back = this.oldBack;
-        next();
-    },
+    next(vm => {
+      vm.plusReady();
+    })
+  },
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
+  },
   activated() {
     if ((getStore("account") && getStore("account").length > 0)) {
-      this.$store.commit('SET_ACCOUNT',getStore("account"));
+      this.$store.commit('SET_ACCOUNT', getStore("account"));
       this.getInfo();
     }
     else {
@@ -184,7 +209,29 @@ export default {
         }
       })
     },
-    loginOut() {
+    navigate(item) {
+      if (/seller/.test(item.link) && this.member.type == '0') {
+        this.showPopup = true;
+        return;
+      }
+      if(/recommend/.test(item.link)){
+        this.$router.push({name:'Recommend',params:{id:this.member.id}})
+      }
+      item.link && this.$router.push(item.link);
+    },
+     settle() {
+      if (this.settleWay == '') {
+        this.$dialog.toast({
+          mes: '请选择一种入驻方式后再确认',
+          timeout: 1500
+        })
+        return;
+      }
+      this.showPopup = false;
+      this.$router.push({path:'/store/settle',query:{id:this.settleWay}})
+
+    },
+    signOut() {
       removeStore('account');
       this.$store.commit('SET_ACCOUNT', '');
       this.$dialog.toast({
@@ -298,6 +345,21 @@ section {
   p {
     font-size: 12px;
     margin-top: 3px;
+  }
+}
+
+.btn-container {
+  .pd;
+  .sign-btn {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    color: @white;
+    background-color: @red;
+    font-size: .34rem;
+    text-align: center;
+    padding: .2rem 0;
+    border-radius: 5px;
   }
 }
 </style>

@@ -57,6 +57,10 @@ export default new Router({
     name: 'Qrcode',
     component: require('../pages/me/qrcode')
   },{
+    path: '/me/recommend',
+    name: 'Recommend',
+    component: require('../pages/me/recommend')
+  },{
     path: '/me/about',
     name: 'About',
     component: require('../pages/me/about')
@@ -80,7 +84,11 @@ export default new Router({
     path: '/shop/index/:id',
     name: 'Shop',
     component: require('../pages/shop/index')
-  }, {
+  },{
+    path: '/store/settle',
+    name: 'Settle',
+    component: require('../pages/store/settle')
+  },  {
     path: '*',
     redirect: '/home/index'
   }]
