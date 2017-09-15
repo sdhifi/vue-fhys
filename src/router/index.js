@@ -77,6 +77,10 @@ export default new Router({
     name: 'Forgetpwd',
     component: require('../pages/me/forgetpwd')
   }, {
+    path: '/me/paypwd',
+    name: 'PayPwd',
+    component: require('../pages/me/paypwd')
+  },{
     path: '/me/update',
     name: 'Update',
     component: require('../pages/me/update')

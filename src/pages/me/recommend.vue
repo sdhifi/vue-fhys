@@ -2,21 +2,19 @@
   <div>
     <header-top title="我推荐的人"></header-top>
     <main class='scroll-content-2'>
-      <div v-if="info.length" class="page-container">
-        <yd-infinitescroll :callback="getRecommend" ref="re">
-          <ul class="recommend-list" slot="list">
-            <li v-for="item in info" :key="item.id" class="recommend-item flex">
-              <img :src="item.imgHeadUrl" alt="" class="recommend-cover">
-              <div class="recommend-info flex">
-                <h3>{{item.nickName}}</h3>
-                <p>推荐时间：{{formatTime(item.bindTime)}}</p>
-              </div>
-            </li>
-          </ul>
-          <span slot="doneTip">没有数据啦</span>
-        </yd-infinitescroll>
-      </div>
-      <div v-else class="empty-data">
+      <yd-infinitescroll :callback="getRecommend" ref="re">
+        <ul class="recommend-list" slot="list">
+          <li v-for="item in info" :key="item.id" class="recommend-item flex">
+            <img :src="item.imgHeadUrl" alt="" class="recommend-cover">
+            <div class="recommend-info flex">
+              <h3>{{item.nickName}}</h3>
+              <p>推荐时间：{{formatTime(item.bindTime)}}</p>
+            </div>
+          </li>
+        </ul>
+        <span slot="doneTip">没有数据啦</span>
+      </yd-infinitescroll>
+      <div class="empty-data" v-show="!info.length">
         <span class="iconfont self-noorder"></span>
         <p>没有数据</p>
       </div>
@@ -50,26 +48,36 @@ export default {
   methods: {
     getRecommend() {
       let vm = this;
-      // mui.ajax({
-      //   url: getMemberLowerLevel,
-      //   type: 'post',
-      //   headers: {'app-version': 'v1.0'},
-      //   data: {
-      //     superId:this.$route.params.id,
-      //     pageNo:this.pageNo,
-      //     pageSize:10,
-      //     token:md5(`getMemberLowerLevel${this.$route.params.id}`)
+      if (!this.noData) {
+        // mui.ajax({
+        //   url: getMemberLowerLevel,
+        //   type: 'post',
+        //   headers: { 'app-version': 'v1.0' },
+        //   data: {
+        //     superId: this.$route.params.id,
+        //     pageNo: this.pageNo,
+        //     pageSize: 10,
+        //     token: md5(`getMemberLowerLevel${this.$route.params.id}`)
 
-      //   },
-      //   success(res){
-      //     vm.info = res.result;
-      //   }
-      // })
+        //   },
+        //   success(res) {
+        //     let _list = res.data.result;
+        //     vm.info = [...vm.info, ..._list];
+        //     if (_list.length < 10) {
+        //       vm.noData = true;
+        //       vm.$refs.re.$emit('ydui.infinitescroll.loadedDone');
+        //       return;
+        //     }
+        //     vm.$refs.re.$emit('ydui.infinitescroll.finishLoad');
+        //     vm.pageNo++;
+        //   }
+        // })
+      }
+
       if (!this.noData) {
         axios.get('/static/service/recommend.json').then(res => {
           let _list = res.data.result;
           this.info = [...this.info, ..._list];
-          console.log(this.$refs.re)
           if (_list.length < 10) {
             this.noData = true;
             this.$refs.re.$emit('ydui.infinitescroll.loadedDone');
