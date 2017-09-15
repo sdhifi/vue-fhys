@@ -125,7 +125,7 @@ export default {
           {
             name: '设置支付密码',
             icon: 'self-setting c1',
-            link: '/me/setting',
+            link: '/me/paypwd',
             type: 'label'
           }
         ], [
