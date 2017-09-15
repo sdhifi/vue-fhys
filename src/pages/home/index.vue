@@ -42,11 +42,13 @@
                         <span class="fs-16">猜你喜欢</span>
                     </div>
                 </div>
-                <yd-infinitescroll :on-infinite="getYourlike" ref="pdlist">
+                <yd-infinitescroll :callback="getYourlike" ref="pdlist">
                     <div slot="list">
                         <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
                     </div>
-                    <p slot="doneTip"><span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
+                    <p slot="doneTip">
+                        <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦
+                    </p>
                 </yd-infinitescroll>
             </section>
         </main>
@@ -92,12 +94,12 @@ export default {
         this.getColumns();
     },
     activated() {
-        if(getStore('account') && getStore('account').length > 0){
+        if (getStore('account') && getStore('account').length > 0) {
             this.loginAccount = true;
             this.$store.commit('SET_ACCOUNT', getStore('account'));
         }
     },
-    
+
     methods: {
 
         getPosition() {
@@ -116,13 +118,20 @@ export default {
                 this.getYourlike()
         },
         getColumns() {
-            axios.post(o2o, { token: md5('gjfengo2o') })
-                .then((res) => {
-                    // plus.nativeUI.toast(res.data.msg)
-                    let result = res.data.result;
-                    this.slideTypes = [result.indexColumn.slice(0, 8), result.indexColumn.slice(8)];
-                    this.banner = result.indexAd;
-                })
+            let vm = this;
+            mui.ajax({
+                url: o2o,
+                type: 'post',
+                headers: { 'app-version': 'v1.0' },
+                data: {
+                    token: md5('gjfengo2o')
+                },
+                success(res) {
+                    let result = res.result;
+                    vm.slideTypes = [result.indexColumn.slice(0, 8), result.indexColumn.slice(8)];
+                    vm.banner = result.indexAd;
+                }
+            })
         },
         getYourlike() {
             if (!this.noData) {

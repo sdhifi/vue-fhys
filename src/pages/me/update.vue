@@ -66,7 +66,7 @@ import HeaderTop from 'components/header/index'
 import Modal from 'components/common/Modal'
 import { realNameByAly, update } from '../../api/index'
 import {mixin} from 'components/common/mixin'
-import '../../../node_modules/lrz/dist/lrz.bundle.js'
+import 'lrz/dist/lrz.bundle.js'
 export default {
   name: 'Update',
   data() {
@@ -147,7 +147,7 @@ export default {
         },
         error(res){
           vm.$dialog.toast({
-              mes:'上传失败',
+              mes:'修改失败',
               timeout: 1500,
               icon: 'error'
             })

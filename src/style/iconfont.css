@@ -18,6 +18,7 @@
   vertical-align: middle;
 }
 
+
 .self-shopcart:before { content: "\e601"; }
 
 .self-mobile:before { content: "\e621"; }
@@ -31,6 +32,8 @@
 .self-about:before { content: "\e605"; }
 
 .self-star:before { content: "\e75c"; }
+
+.self-upload:before { content: "\e61e"; }
 
 .self-shop:before { content: "\e60c"; }
 
@@ -80,9 +83,9 @@
 
 .self-location:before { content: "\e608"; }
 
-.self-geti:before { content: "\e62c"; }
-
 .self-nodata:before { content: "\e637"; }
+
+.self-geti:before { content: "\e62c"; }
 
 .self-fenghuang:before { content: "\e604"; }
 
@@ -99,8 +102,6 @@
 .self-search:before { content: "\e613"; }
 
 .self-tel:before { content: "\e652"; }
-
-.self-close:before { content: "\e633"; }
 
 .self-home:before { content: "\e63f"; }
 

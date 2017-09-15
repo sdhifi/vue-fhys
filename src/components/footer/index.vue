@@ -20,5 +20,8 @@ export default {
 }
 </script>
 <style lang='' scoped>
-
+.yd-tabbar{
+  position: fixed!important;
+  bottom: 0;
+}
 </style>

@@ -28,6 +28,29 @@ export const mixin = {
       return d > 1000 ? `${(d / 1000).toFixed(2)}公里` : `${d}米`;
     },
     /**
+     * 
+     * @param {*时间戳} t 
+     */
+    formatTime(t){
+      var date, year, month, day, hour, minute;
+      date = new Date(t);
+      /**
+       * es7 填充空位
+       * @param  {String} time 日期时间
+       * @return {String}      格式化日期时间
+       */
+      var complete = function (time) {
+          // return time.toString().replace(/^(\d)$/, "0$1");
+          return time.toString().padStart(2,'0');
+      };
+      year = date.getFullYear();
+      month = complete(date.getMonth() + 1);
+      day = complete(date.getDate());
+      hour = complete(date.getHours());
+      minute = complete(date.getMinutes());
+      return `${year}年${month}月${day}日 ${hour}:${minute}`;
+    },
+    /**
      * 格式化金额，返回两位小数
      * @param {*数值} m 
      */
