@@ -11,9 +11,9 @@
             <input type="file" capture="camera" accept="image/*" class="head-img" name="head-img" @change="previewImg($event)">
           </div>
         </yd-cell-item>
-        <yd-cell-item :arrow="info.isReadName=='0'">
+        <yd-cell-item :arrow="!certificateStatus">
           <span slot="left">身份实名</span>
-          <span slot="right" @click="showCert=true" v-if="info.isReadName=='0'">去认证</span>
+          <span slot="right" @click="showModal" v-if="!certificateStatus">去认证</span>
           <span slot="right" v-else>{{info.name}}</span>
         </yd-cell-item>
         <yd-cell-item>
@@ -41,30 +41,14 @@
       </yd-cell-group>
       <yd-button size="large" type="primary" @click.native="saveInfo">保存</yd-button>
     </main>
-    <modal v-model="showCert">
-      <h3 slot="header">
-        身份认证
-        <p class="danger-color fs-12">注意：一经认证，无法再修改</p>
-      </h3>
-      <div slot="main" class="cert-container">
-        <div class="input-group">
-          <label for="real-name">真实姓名</label>
-          <input id="real-name" type="text" placeholder="请输入真实姓名" v-model="realName">
-        </div>
-        <div class="input-group">
-          <label for="cert-num">身份证号码</label>
-          <input id="cert-num" type="tel" placeholder="请输入身份证号码" v-model="certNum">
-        </div>
-        <button class="sure-btn" @click="saveCert">确定</button>
-      </div>
-    </modal>
+    <cert-modal></cert-modal>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
-import Modal from 'components/common/Modal'
-import { realNameByAly, update } from '../../api/index'
+import CertModal from 'components/common/CertModal'
+import { update } from '../../api/index'
 import {mixin} from 'components/common/mixin'
 import 'lrz/dist/lrz.bundle.js'
 export default {
@@ -72,15 +56,12 @@ export default {
   data() {
     return {
       info: {},
-      base64Url: '',
-      realName: '',
-      certNum: '',
-      showCert: false
+      base64Url: ''
     }
   },
-  components: { HeaderTop, Modal },
+  components: { HeaderTop, CertModal },
   computed: {
-    ...mapState(['account'])
+    ...mapState(['account','certificateStatus'])
   },
   mixins:[mixin],
   created() {
@@ -106,6 +87,9 @@ export default {
         headImg.style.backgroundImage = `url(${rst.base64})`;
         vm.base64Url = rst.base64;
       })
+    },
+    showModal(){
+      this.$store.commit('SHOW_CERTIFICATE',true);
     },
     saveInfo() {
       if (!this.info.nickName) {
@@ -154,57 +138,6 @@ export default {
             return;
         }
       })
-    },
-    saveCert() {
-      let vm = this;
-      let account = localStorage.getItem('account');
-      if (!this.realName || !this.certNum) {
-        this.$dialog.toast({
-          mes: '请完善信息',
-          timeout: 1500,
-          icon: 'error'
-        })
-        return;
-      }
-      if (!/(^\d{15}$)|(^\d{17}([0-9]|[X|x])$)/.test(this.certNum)) {
-        this.$dialog.toast({
-          mes: '请输入正确的身份证号',
-          timeout: 1500,
-          icon: 'error'
-        })
-        return;
-      }
-      mui.ajax({
-        url: realNameByAly,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
-        data: {
-          idCardNo: this.certNum.replace(/x/gi, 'X'),
-          idCardName: this.realName,
-          account,
-          token: md5(`realNameByAly${account}`)
-        },
-        success(res) {
-          if (res.code == 200) {
-            vm.$dialog.toast({
-              mes: res.msg,
-              timeout: 1500,
-              icon: 'success',
-              callback: () => {
-                vm.showCert = false;
-                vm.info = Object.assign({}, vm.info, { isReadName: '1', name: vm.realName })
-              }
-            })
-          }
-          else {
-            vm.$dialog.toast({
-              mes: res.msg,
-              timeout: 1500,
-              icon: 'error'
-            })
-          }
-        }
-      })
     }
   }
 }
@@ -240,37 +173,4 @@ export default {
   }
 }
 
-.cert-container {
-  .pd-h;
-  .input-group {
-    margin-bottom: @pd;
-    border-bottom: 1px solid #fcfcfc;
-    font-size: 14px;
-    label {
-      display: block;
-      margin-bottom: @pd / 2;
-    }
-    input {
-      outline: none;
-      border: 1px solid #ddd;
-      padding: @pd;
-      width: 100%;
-      &:focus {
-        border-color: @blue;
-        box-shadow: 0 0 5px @blue;
-      }
-    }
-  }
-  .sure-btn {
-    display: block;
-    width: 70%;
-    margin: @pd auto;
-    padding: @pd 0 @pd @pd;
-    letter-spacing: @pd;
-    background-color: @blue;
-    color: @white;
-    font-size: 16px;
-    border-radius: 5px;
-  }
-}
 </style>

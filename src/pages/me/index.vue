@@ -18,7 +18,7 @@
       <section class="order-container">
         <div class="order-item flex align-center px-1">
           <div class="order-left">我的订单</div>
-          <router-link :to="{path:'/me/myorder',query:{id:7}}" class="order-right order-arrow">
+          <router-link :to="{path:'/order/index',query:{id:7}}" class="order-right order-arrow">
             <span>查看所有订单</span>
           </router-link>
         </div>
@@ -43,6 +43,7 @@
       </section>
     </main>
     <footer-bar></footer-bar>
+    <cert-modal></cert-modal>
     <yd-popup v-model="showPopup" position="center" width="90%">
       <div class="ruzhu-container">
         <h3 class="ruzhu-title">您还未入驻凤凰云商O2O</h3>
@@ -69,8 +70,10 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import FooterBar from 'components/footer/index'
+import CertModal from 'components/common/CertModal'
 import { my } from '../../api/index'
 import { mixin, getStore, removeStore } from 'components/common/mixin'
 export default {
@@ -85,22 +88,22 @@ export default {
         id: 0,
         name: '待付款',
         icon: 'self-pay',
-        link: '/me/myorder'
+        link: '/order/index'
       }, {
         id: 1,
         name: '待发货',
         icon: 'self-delivery',
-        link: '/me/myorder'
+        link: '/order/index'
       }, {
         id: 2,
         name: '待收货',
         icon: 'self-recept',
-        link: '/me/myorder'
+        link: '/order/index'
       }, {
         id: 3,
         name: '交易完成',
         icon: 'self-success',
-        link: '/me/myorder'
+        link: '/order/index'
       }],
       menu: [
         [
@@ -132,7 +135,7 @@ export default {
           {
             name: '我是商家',
             icon: 'self-seller c1',
-            link: '/me/seller',
+            link: '/store/my',
             type: 'label'
           },
           {
@@ -169,9 +172,12 @@ export default {
       ]
     }
   },
-  components: { HeaderTop, FooterBar },
+  components: { HeaderTop, FooterBar, CertModal},
   created() {
     //this.getInfo();
+  },
+  computed: {
+    ...mapState(['certificateStatus', 'showCertificate'])
   },
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
@@ -206,20 +212,28 @@ export default {
         },
         success(res) {
           vm.member = res.result;
+          vm.$store.commit('SET_CERTIFICATE', res.result.isReadName == '1' ? true : false);
         }
       })
     },
     navigate(item) {
-      if (/seller/.test(item.link) && this.member.type == '0') {
-        this.showPopup = true;
-        return;
+      if (/seller/.test(item.link)) {
+        if (!this.certificateStatus) {
+          this.$store.commit('SHOW_CERTIFICATE', true);
+          return;
+        }
+        if (this.member.type == '0') {
+          this.showPopup = true;
+          return;
+
+        }
       }
-      if(/recommend/.test(item.link)){
-        this.$router.push({name:'Recommend',params:{id:this.member.id}})
+      if (/recommend/.test(item.link)) {
+        this.$router.push({ name: 'Recommend', params: { id: this.member.id } })
       }
       item.link && this.$router.push(item.link);
     },
-     settle() {
+    settle() {
       if (this.settleWay == '') {
         this.$dialog.toast({
           mes: '请选择一种入驻方式后再确认',
@@ -228,7 +242,7 @@ export default {
         return;
       }
       this.showPopup = false;
-      this.$router.push({path:'/store/settle',query:{id:this.settleWay}})
+      this.$router.push({ path: '/store/settle', query: { id: this.settleWay } })
 
     },
     signOut() {

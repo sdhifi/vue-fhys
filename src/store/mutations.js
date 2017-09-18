@@ -3,7 +3,9 @@ import {
   RECORD_CITY,
   TOGGLE_LOADING,
   SET_ACCOUNT,
-  RECORD_SEARCH_VALUE
+  RECORD_SEARCH_VALUE,
+  SHOW_CERTIFICATE,
+  SET_CERTIFICATE
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -24,5 +26,11 @@ export default {
   },
   [RECORD_SEARCH_VALUE](state, searchValue) {
     state.searchValue = searchValue;
+  },
+  [SHOW_CERTIFICATE](state,showCertificate){
+    state.showCertificate = showCertificate;
+  },
+  [SET_CERTIFICATE](state,status){
+    state.certificateStatus = status;
   }
 }

@@ -45,9 +45,9 @@ export default new Router({
       requireAuth: true
     }
   },{
-    path: '/me/myorder',
+    path: '/order/index',
     name: 'MyOrder',
-    component: require('../pages/me/myorder')
+    component: require('../pages/order/index')
   },{
     path: '/me/mywallet',
     name: 'MyWallet',
@@ -92,6 +92,10 @@ export default new Router({
     path: '/store/settle',
     name: 'Settle',
     component: require('../pages/store/settle')
+  }, {
+    path: '/store/my',
+    name: 'MyStore',
+    component: require('../pages/store/my')
   },  {
     path: '*',
     redirect: '/home/index'

@@ -31,7 +31,7 @@
           <li v-for="(item,index) in tabs1" :key="index" class="tab-item" :class="{'tab-item2':index<2}">
             <a href="" v-if="index<2" class="danger-bg">
               <p>{{item.text}}</p>
-              <p>{{info[item.param]}}</p>
+              <p>{{info[item.param]}} <span v-if="item.param=='canMoney'">%</span></p>
             </a>
             <a href="" v-else>
               <p>{{item.text}}</p>
@@ -96,7 +96,7 @@ export default {
         },
         {
           text: '责任消费',
-          param: 'canMoney',
+          param: 'saleTotalMoney',
           link: '',
         },
         {
@@ -223,6 +223,7 @@ export default {
     },
     getInfo() {
       let vm = this;
+      this.$dialog.loading.open('数据加载中请稍后...')
       mui.ajax({
         url: countMemberInfo,
         type: 'post',
@@ -233,6 +234,7 @@ export default {
           token: md5(`countMemberInfo${getStore('account')}${this.type}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           if (/不/.test(res.msg)) {
             vm.type = 0;
             vm.showPopup = true;
@@ -305,6 +307,7 @@ export default {
       display: block;
       p:last-child {
         margin-top: .1rem;
+        font-size: 16px;
       }
     }
     &.tab-item2 {

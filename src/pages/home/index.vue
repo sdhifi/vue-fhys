@@ -138,6 +138,7 @@ export default {
                 let vm = this;
                 let longitude = this.longitude;
                 let latitude = this.latitude;
+                this.$dialog.loading.open('数据加载中，请稍后')
                 mui.ajax({
                     url: like,
                     type: 'post',
@@ -159,6 +160,7 @@ export default {
                         }
                         vm.$refs.pdlist.$emit('ydui.infinitescroll.finishLoad');
                         vm.pageNo++;
+                        vm.$dialog.loading.close();
                     }
                 })
 

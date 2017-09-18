@@ -5,4 +5,6 @@ export default {
   account: '', // 登录account
   isloading: false, // loading标志
   searchValue: '', //搜索值
+  showCertificate:false,//身份认证模态框
+  certificateStatus:false,//身份认证状态
 }
