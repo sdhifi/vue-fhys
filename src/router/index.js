@@ -115,7 +115,7 @@ export default new Router({
   }, {
     path: '/store/receipt',
     name: 'Receipt',
-    component: require('../pages/store/receipt')
+    component: require('../pages/store/receiptmanage')
   },  {
     path: '*',
     redirect: '/home/index'
