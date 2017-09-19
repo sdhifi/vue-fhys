@@ -242,8 +242,12 @@ export default {
         return;
       }
       this.showPopup = false;
-      this.$router.push({ path: '/store/settle', query: { id: this.settleWay } })
-
+      if(this.settleWay=='0'){
+        this.$router.push({path:'/store/settle'})
+      }
+      else{
+        this.$router.push({path:'/store/settle-1'})
+      }
     },
     signOut() {
       removeStore('account');

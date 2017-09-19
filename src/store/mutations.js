@@ -1,7 +1,6 @@
 import {
   RECORD_ADDRESS,
   RECORD_CITY,
-  TOGGLE_LOADING,
   SET_ACCOUNT,
   RECORD_SEARCH_VALUE,
   SHOW_CERTIFICATE,
@@ -17,9 +16,6 @@ export default {
   },
   [RECORD_CITY](state, city) {
     state.city = city;
-  },
-  [TOGGLE_LOADING](state, isloading) {
-    state.isloading = isloading;
   },
   [SET_ACCOUNT](state, account) {
     state.account = account;

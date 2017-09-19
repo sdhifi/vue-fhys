@@ -92,6 +92,10 @@ export default new Router({
     path: '/store/settle',
     name: 'Settle',
     component: require('../pages/store/settle')
+  },{
+    path: '/store/settle-1',
+    name: 'Settle1',
+    component: require('../pages/store/settle1')
   }, {
     path: '/store/my',
     name: 'MyStore',

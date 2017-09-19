@@ -6,18 +6,16 @@
         <router-view></router-view>
       </keep-alive>
     </transition>
-    <loading v-model="isloading"></loading>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import Loading from 'components/common/loading'
 import {getStore} from 'components/common/mixin'
 export default {
   name: 'app',
-  components: { Loading },
-  computed: { ...mapState(['isloading', 'account']) },
+  components: {  },
+  computed: { ...mapState(['account']) },
   created() {
     this.redirect();
   },

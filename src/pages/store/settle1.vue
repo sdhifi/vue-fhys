@@ -1,8 +1,8 @@
 <template>
   <div>
-    <header-top title="个体入驻"></header-top>
+    <header-top title="企业入驻"></header-top>
     <main class='scroll-content-2'>
-      <yd-cell-group title="店铺信息">
+      <yd-cell-group title="公司信息">
         <yd-cell-item>
           <span slot="left">店铺名称
             <small class="tips">(不可更改)</small>：
@@ -28,9 +28,9 @@
           <yd-input slot="right" v-model="companyRegisteredCapital" type="tel" regex="^\d{1,}" placeholder="请填写金额"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group title="店铺地址">
+      <yd-cell-group title="公司地址">
         <yd-cell-item arrow>
-          <span slot="left">省份城市：</span>
+          <span slot="left">所在地区：</span>
           <input slot="right" type="text" @click.stop="show1 = true" v-model="storeCityName" readonly placeholder="请选择" style="text-align:right;">
         </yd-cell-item>
         <yd-cell-item>
@@ -39,7 +39,7 @@
         </yd-cell-item>
       </yd-cell-group>
       <yd-cityselect v-model="show1" :done="result1" :items="district"></yd-cityselect>
-      <yd-cell-group title="信息完善">
+      <yd-cell-group title="营业执照信息（副本）">
         <yd-cell-item>
           <span slot="left">营业执照号：</span>
           <yd-input slot="right" v-model="businessLicenceNumber" placeholder="请填写营业执照号"></yd-input>
@@ -64,24 +64,58 @@
         </div>
       </yd-cell-group>
       <yd-cityselect v-model="show2" :done="result2" :items="district"></yd-cityselect>
-      <yd-cell-group>
-        <yd-cell-item :arrow="!certificateStatus">
-          <span slot="left">身份认证</span>
-          <span slot="right" @click="showModal" v-if="!certificateStatus">去认证</span>
-          <span slot="right" v-else>已认证</span>
-        </yd-cell-item>
-      </yd-cell-group>
-      <yd-cell-group title="结算账号">
+      <yd-cell-group title="财务资质信息">
         <yd-cell-item>
-          <span slot="left">银行开户名：</span>
-          <yd-input slot="right" v-model="bankAccountName" placeholder="请填写银行开户名"></yd-input>
+          <span slot="left">同时设置为结算账号</span>
+          <yd-switch slot="right" v-model="isSettlementAccount"></yd-switch>
         </yd-cell-item>
         <yd-cell-item>
-          <span slot="left">银行账号：</span>
-          <yd-input slot="right" v-model="bankAccountNumber" placeholder="请填写银行账号"></yd-input>
+          <span slot="left">开户名：</span>
+          <yd-input slot="right" v-model="bankAccountName" placeholder="请填写开户银行名"></yd-input>
+        </yd-cell-item>
+        <yd-cell-item>
+          <span slot="left">开户账号：</span>
+          <yd-input slot="right" v-model="bankAccountNumber" placeholder="请填写开户银行账号"></yd-input>
+        </yd-cell-item>
+        <yd-cell-item>
+          <span slot="left">银行名称：</span>
+          <yd-input slot="right" v-model="bankName" placeholder="请填写开户的银行名称"></yd-input>
+        </yd-cell-item>
+        <yd-cell-item arrow>
+          <span slot="left">开户银行所在地：</span>
+          <input slot="right" type="text" @click.stop="show3 = true" v-model="bankAddressName" readonly placeholder="请选择" style="text-align:right;">
         </yd-cell-item>
       </yd-cell-group>
-      <cert-modal></cert-modal>
+      <yd-cityselect v-model="show3" :done="result3" :items="district"></yd-cityselect>
+      <yd-cell-group v-if="!isSettlementAccount">
+        <yd-cell-item>
+          <span slot="left">结算开户名：</span>
+          <yd-input slot="right" v-model="bankAccountName" placeholder="请填写结算银行名"></yd-input>
+        </yd-cell-item>
+        <yd-cell-item>
+          <span slot="left">结算账号：</span>
+          <yd-input slot="right" v-model="bankAccountNumber" placeholder="请填写结算银行账号"></yd-input>
+        </yd-cell-item>
+        <yd-cell-item>
+          <span slot="left">银行名称：</span>
+          <yd-input slot="right" v-model="bankName" placeholder="请填写结算的银行名称"></yd-input>
+        </yd-cell-item>
+        <yd-cell-item arrow>
+          <span slot="left">结算银行所在地：</span>
+          <input slot="right" type="text" @click.stop="show4 = true" v-model="settlementBankAddressName" readonly placeholder="请选择" style="text-align:right;">
+        </yd-cell-item>
+      </yd-cell-group>
+      <yd-cityselect v-model="show4" :done="result4" :items="district"></yd-cityselect>
+      <yd-cell-group title="信息完善">
+        <yd-cell-item>
+          <span slot="left">组织机构代码：</span>
+          <yd-input slot="right" v-model="organizationCode" placeholder="企业组织机构代码"></yd-input>
+        </yd-cell-item>
+        <yd-cell-item>
+          <span slot="left">税务登记：</span>
+          <yd-input slot="right" v-model="taxRegistrationCertificate" placeholder="税务登记证号"></yd-input>
+        </yd-cell-item>
+      </yd-cell-group>
       <yd-button type="primary" size="large" @click.native="applicate">提交申请</yd-button>
     </main>
   </div>
@@ -89,7 +123,6 @@
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
-import CertModal from 'components/common/CertModal'
 import District from 'ydui-district/dist/gov_province_city_area_id'
 import { addStore } from '../../api/index'
 import 'lrz/dist/lrz.bundle.js'
@@ -99,31 +132,41 @@ export default {
     return {
       show1: false,//店铺地址判断标志
       show2: false,//营业执照所在地判断标志
-      
+      show3: false,//开户银行所在地判断标志
+      show4: false,//结算银行所在地判断标志
       storeName: '',//店铺名称
       sellerName: '',//联系人
       sellerMobile: '',//联系电话
       sellerEmail: '',//联系邮箱
-      
+      companyRegisteredCapital: '',//注册资金
       storeCitys: '',//店铺地址id
       storeCityName: '',//店铺地址
       addressDetail: '',//街道
-      
+      organizationCode: '',//组织机构代码
+      taxRegistrationCertificate: '',//税务登记
       businessLicenceNumber: '',//营业执照号
       businessLicenceAddress: '',//营业执照地id
       businessLicenceAddressName: '',//营业执照地
+      businessLicenceStart: '',//营业执照有效期
       businessSphere: '',//经营范围
-      
+      isSettlementAccount: true,//开户账户是否结算账号
       bankAccountName: '',//银行开户名
       bankAccountNumber: '',//银行账号
-      
+      bankName: '',//银行名称
+      bankAddress: '',//银行所在地id
+      bankAddressName: '',//银行所在地
+      settlementBankAccountName: '',//结算开户名
+      settlementBankAccountNumber: '',//结算账号
+      settlementBankName: '',//结算银行名称
+      settlementBankAddress: '',//结算银行地址id
+      settlementBankAddressName: '',//结算银行地址
       fileContent: '',//营业执照base64
       district: District//省市县数据
     }
   },
-  components: { HeaderTop, CertModal },
+  components: { HeaderTop },
   computed: {
-    ...mapState(['account', 'certificateStatus'])
+    ...mapState(['account'])
   },
   watch: {
   },
@@ -131,7 +174,7 @@ export default {
 
   },
   activated() {
-
+    
   },
   methods: {
     result1(res) {
@@ -142,8 +185,13 @@ export default {
       this.businessLicenceAddressName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
       this.businessLicenceAddress = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
     },
-    showModal() {
-      this.$store.commit('SHOW_CERTIFICATE', true);
+    result3(res) {
+      this.bankAddressName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
+      this.bankAddress = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
+    },
+    result4(res) {
+      this.settlementBankAddressName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
+      this.settlementBankAddress = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
     },
     choosePicture(event) {
       let p = document.querySelector('.licence-picture'),
@@ -162,42 +210,53 @@ export default {
         vm.fileContent = rst.base64;
       })
     },
-    applicate() {
+    applicate(){
       let vm = this;
-      let params = {
-        storeName: this.storeName,
-        sellerName: this.sellerName,
-        sellerMobile: this.sellerMobile,
-        sellerEmail: this.sellerEmail,
-        storeCitys: this.storeCitys,
-        addressDetail: this.addressDetail,
-        businessLicenceNumber: this.businessLicenceNumber,
-        businessLicenceAddress: this.businessLicenceAddress,
-        businessSphere: this.businessSphere,
-        bankAccountName: this.bankAccountName,
-        bankAccountNumber: this.bankAccountNumber,
-        fileName: '123.png',
-        account: this.account,
-        token: md5('addStore'),
-        fileContent: this.fileContent
+      let params={
+        storeName:this.storeName,
+          sellerName:this.sellerName,
+          sellerMobile:this.sellerMobile,
+          sellerEmail:this.sellerEmail,
+          companyRegisteredCapital:this.companyRegisteredCapital,
+          storeCitys:this.storeCitys,
+          addressDetail:this.addressDetail,
+          organizationCode:this.organizationCode,
+          taxRegistrationCertificate:this.taxRegistrationCertificate,
+          businessLicenceNumber:this.businessLicenceNumber,
+          businessLicenceAddress:this.businessLicenceAddress,
+          businessSphere:this.businessSphere,
+          isSettlementAccount:this.isSettlementAccount?'1':'0',
+          bankAccountName:this.bankAccountName,
+          bankAccountNumber:this.bankAccountNumber,
+          bankName:this.bankName,
+          bankAddress:this.bankAddress,
+          fileContent:this.fileContent,
+          fileName:'123.png',
+          account:this.account,
+          token:md5('addStore')
       };
-
+      if(this.isSettlementAccount){
+        params.settlementBankAccountName = params.bankAccountName;
+        params.settlementBankAccountNumber = params.bankAccountNumber,
+        params.settlementBankName=params.bankName;
+        params.settlementBankAddress = params.bankAddress;
+      }
       mui.ajax({
         url: addStore,
         type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        headers: {'app-version': 'v1.0'},
         data: params,
-        success(res) {
-          if (res.code != 200) {
+        success(res){
+          if(res.code!=200){
             vm.$dialog.toast({
-              mes: res.msg,
-              timeout: 1500
+              mes:res.msg,
+            timeout:1500
             })
             return;
           }
           vm.$dialog.toast({
-            mes: '申请提交成功',
-            timeout: 1500
+            mes:'申请提交成功',
+            timeout:1500
           })
         }
       })

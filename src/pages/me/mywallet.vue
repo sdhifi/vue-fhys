@@ -214,6 +214,7 @@ export default {
 
   },
   activated() {
+    this.type=0;
     this.getInfo();
   },
   methods: {
@@ -223,7 +224,7 @@ export default {
     },
     getInfo() {
       let vm = this;
-      this.$dialog.loading.open('数据加载中请稍后...')
+      this.$dialog.loading.open();
       mui.ajax({
         url: countMemberInfo,
         type: 'post',
@@ -253,7 +254,12 @@ export default {
         return;
       }
       this.showPopup = false;
-      this.$router.push({path:'/store/settle',query:{id:this.settleWay}})
+      if(this.settleWay=='0'){
+        this.$router.push({path:'/store/settle'})
+      }
+      else{
+        this.$router.push({path:'/store/settle-1'})
+      }
     }
   }
 }

@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     getCities() {
-      this.$store.commit('TOGGLE_LOADING', true);
+      this.$dialog.loading.open();
       const letters = [];
       for (let i = 65; i < 91; i++) {
         if (i == 73 || i == 79 || i == 85 || i == 86) continue
@@ -122,11 +122,11 @@ export default {
             item.result = res.result;
             area.push(item);
             if (i == len - 1) {
-              vm.$store.commit('TOGGLE_LOADING', false);
+              vm.$dialog.loading.close();
             }
           },
           error(res){
-              vm.$store.commit('TOGGLE_LOADING', false);
+              vm.$dialog.loading.close();
           }
         })
       }

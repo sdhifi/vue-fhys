@@ -138,7 +138,7 @@ export default {
                 let vm = this;
                 let longitude = this.longitude;
                 let latitude = this.latitude;
-                this.$dialog.loading.open('数据加载中，请稍后')
+                this.$dialog.loading.open()
                 mui.ajax({
                     url: like,
                     type: 'post',

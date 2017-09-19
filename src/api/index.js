@@ -56,6 +56,7 @@ let updateOrderStatus = `${order}/updateOrderStatus` //确认收货
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
 
 let addStore =`${store}/addStore` //入驻申请
+let myStore = `${store}/myStore` //商家信息
 export {
   o2o,
   like,
@@ -104,4 +105,5 @@ export {
   newProCommet,
 
   addStore,
+  myStore,
 }
