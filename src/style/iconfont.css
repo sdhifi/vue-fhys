@@ -108,6 +108,8 @@
 
 .self-group:before { content: "\e66e"; }
 
+.self-renzheng:before { content: "\e618"; }
+
 .self-me:before { content: "\e6c7"; }
 
 .self-crown:before { content: "\e600"; }

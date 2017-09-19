@@ -17,6 +17,7 @@ Vue.use(VueRouter)
 Vue.use(YDUI)
 
 FastClick.attach(document.body)
+
 Vue.prototype.axios = axios;
 window.axios = axios;
 Vue.config.productionTip = false

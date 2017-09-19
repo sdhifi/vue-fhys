@@ -7,25 +7,19 @@
           <span slot="left">店铺名称
             <small class="tips">(不可更改)</small>：
           </span>
-          <yd-input slot="right" v-model="storeName" placeholder="请输入店铺名称"></yd-input>
+          <yd-input slot="right" v-model="storeName" placeholder="请填写店铺名称" required></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">联系人：</span>
-          <yd-input slot="right" v-model="sellerName" placeholder="请输入企业联系人"></yd-input>
+          <yd-input slot="right" v-model="sellerName" placeholder="请填写企业联系人" required></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">联系电话：</span>
-          <yd-input slot="right" v-model="sellerMobile" type="tel" regex="mobile" placeholder="请输入联系人的手机号码"></yd-input>
+          <yd-input slot="right" v-model="sellerMobile" type="tel" regex="mobile" placeholder="请填写联系人的手机号码" required></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">电子邮箱：</span>
-          <yd-input slot="right" v-model="sellerEmail" type="email" regex="email" placeholder="请输入联系人的邮箱"></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">注册资金
-            <small class="tips">(万元)</small>：
-          </span>
-          <yd-input slot="right" v-model="companyRegisteredCapital" type="tel" regex="^\d{1,}" placeholder="请填写金额"></yd-input>
+          <yd-input slot="right" v-model="sellerEmail" type="email" regex="email" placeholder="请填写联系人的邮箱" required></yd-input>
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group title="店铺地址">
@@ -35,14 +29,14 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">详细地址：</span>
-          <yd-input slot="right" v-model="addressDetail" placeholder="街道、楼牌号码等"></yd-input>
+          <yd-input slot="right" v-model="addressDetail" placeholder="街道、楼牌号码等" required></yd-input>
         </yd-cell-item>
       </yd-cell-group>
       <yd-cityselect v-model="show1" :done="result1" :items="district"></yd-cityselect>
       <yd-cell-group title="信息完善">
         <yd-cell-item>
           <span slot="left">营业执照号：</span>
-          <yd-input slot="right" v-model="businessLicenceNumber" placeholder="请填写营业执照号"></yd-input>
+          <yd-input slot="right" v-model="businessLicenceNumber" placeholder="请填写营业执照号" required></yd-input>
         </yd-cell-item>
         <yd-cell-item arrow>
           <span slot="left">营业执照所在地：</span>
@@ -74,15 +68,15 @@
       <yd-cell-group title="结算账号">
         <yd-cell-item>
           <span slot="left">银行开户名：</span>
-          <yd-input slot="right" v-model="bankAccountName" placeholder="请填写银行开户名"></yd-input>
+          <yd-input slot="right" v-model="bankAccountName" placeholder="请填写银行开户名" required></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">银行账号：</span>
-          <yd-input slot="right" v-model="bankAccountNumber" placeholder="请填写银行账号"></yd-input>
+          <yd-input slot="right" v-model="bankAccountNumber" regex="bankcard" placeholder="请填写银行账号" required></yd-input>
         </yd-cell-item>
       </yd-cell-group>
       <cert-modal></cert-modal>
-      <yd-button type="primary" size="large" @click.native="applicate">提交申请</yd-button>
+      <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="applicate">提交申请</yd-button>
     </main>
   </div>
 </template>
@@ -92,6 +86,7 @@ import HeaderTop from 'components/header/index'
 import CertModal from 'components/common/CertModal'
 import District from 'ydui-district/dist/gov_province_city_area_id'
 import { addStore } from '../../api/index'
+import { validateSettle } from 'components/common/mixin'
 import 'lrz/dist/lrz.bundle.js'
 export default {
   name: 'Settle',
@@ -99,33 +94,36 @@ export default {
     return {
       show1: false,//店铺地址判断标志
       show2: false,//营业执照所在地判断标志
-      
+
       storeName: '',//店铺名称
       sellerName: '',//联系人
       sellerMobile: '',//联系电话
       sellerEmail: '',//联系邮箱
-      
+
       storeCitys: '',//店铺地址id
       storeCityName: '',//店铺地址
       addressDetail: '',//街道
-      
+
       businessLicenceNumber: '',//营业执照号
       businessLicenceAddress: '',//营业执照地id
       businessLicenceAddressName: '',//营业执照地
       businessSphere: '',//经营范围
-      
+
       bankAccountName: '',//银行开户名
       bankAccountNumber: '',//银行账号
-      
+
       fileContent: '',//营业执照base64
       district: District//省市县数据
     }
   },
   components: { HeaderTop, CertModal },
+  mixins: [validateSettle],
   computed: {
-    ...mapState(['account', 'certificateStatus'])
-  },
-  watch: {
+    ...mapState(['account', 'certificateStatus']),
+    valid() {
+      return this.validStoreName&&this.validSellerName&&this.validSellerMobile&&this.validEmail&&this.validStoreCitys
+      &&this.validAddressDetail&&this.validLicenseNumber&&this.validLicenseAddress&&this.validFileContent&&this.validBankAccount
+    }
   },
   created() {
 
@@ -165,6 +163,8 @@ export default {
     applicate() {
       let vm = this;
       let params = {
+        storePro: '0',
+        storeType: '0',//入驻类型-个体入驻
         storeName: this.storeName,
         sellerName: this.sellerName,
         sellerMobile: this.sellerMobile,
@@ -174,6 +174,8 @@ export default {
         businessLicenceNumber: this.businessLicenceNumber,
         businessLicenceAddress: this.businessLicenceAddress,
         businessSphere: this.businessSphere,
+        businessLicenceStart: '20160901',
+        businessLicenceEnd: '20700901',
         bankAccountName: this.bankAccountName,
         bankAccountNumber: this.bankAccountNumber,
         fileName: '123.png',
@@ -196,8 +198,11 @@ export default {
             return;
           }
           vm.$dialog.toast({
-            mes: '申请提交成功',
-            timeout: 1500
+            mes: res.msg,
+            timeout: 1500,
+            callback: () => {
+              vm.$router.go(-1);
+            }
           })
         }
       })

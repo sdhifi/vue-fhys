@@ -112,3 +112,38 @@ export const removeStore = name => {
   if (!name) return;
   window.localStorage.removeItem(name);
 }
+
+export const validateSettle = {
+  computed:{
+    validStoreName(){
+      return this.storeName && /^([A-Za-z]|[\u4E00-\u9FA5])+$/.test(this.storeName)
+    },
+    validSellerName(){
+      return this.sellerName && /^([A-Za-z]|[\u4E00-\u9FA5])+$/.test(this.sellerName)
+    },
+    validSellerMobile(){
+      return /^(86)?1[3,4,5,7,8]\d{9}$/.test(this.sellerMobile)
+    },
+    validEmail(){
+      return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(this.sellerEmail)
+    },
+    validStoreCitys(){
+      return !!this.storeCitys
+    },
+    validAddressDetail(){
+      return !!this.addressDetail
+    },
+    validLicenseNumber(){
+      return !!this.businessLicenceNumber
+    },
+    validLicenseAddress(){
+      return !!this.businessLicenceAddress
+    },
+    validFileContent(){
+      return !!this.fileContent
+    },
+    validBankAccount(){
+      return /^\d{15,19}$/.test(this.bankAccountNumber)
+    }
+  }
+}

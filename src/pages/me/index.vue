@@ -217,7 +217,7 @@ export default {
       })
     },
     navigate(item) {
-      if (/seller/.test(item.link)) {
+      if (/store/.test(item.link)) {
         if (!this.certificateStatus) {
           this.$store.commit('SHOW_CERTIFICATE', true);
           return;
@@ -225,7 +225,6 @@ export default {
         if (this.member.type == '0') {
           this.showPopup = true;
           return;
-
         }
       }
       if (/recommend/.test(item.link)) {

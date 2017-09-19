@@ -100,6 +100,22 @@ export default new Router({
     path: '/store/my',
     name: 'MyStore',
     component: require('../pages/store/my')
+  }, {
+    path: '/store/productmanage',
+    name: 'ProductManage',
+    component: require('../pages/store/productmanage')
+  }, {
+    path: '/store/ordermanage',
+    name: 'OrderManage',
+    component: require('../pages/store/ordermanage')
+  }, {
+    path: '/store/publishmanage',
+    name: 'PublishManage',
+    component: require('../pages/store/publishmanage')
+  }, {
+    path: '/store/receipt',
+    name: 'Receipt',
+    component: require('../pages/store/receipt')
   },  {
     path: '*',
     redirect: '/home/index'
