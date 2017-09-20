@@ -116,7 +116,7 @@ export default {
       position: absolute;
       left: 0;
       top: .21rem;
-      padding: 0 2px;
+      padding: 1px 2px 0;
       color: #fff;
       font-size: 10px;
       transform: rotate(-45deg);

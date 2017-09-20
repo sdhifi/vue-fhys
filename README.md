@@ -52,4 +52,8 @@ formatBg(url){
       return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(./static/img/${url})`
     }
 ```
-
+- 解决模拟数据加载路径错误问题
+```javascript
+  // app.js
+  搜索相关json文件，在路径前加‘.’，一般是./static/service/xx.json
+```
