@@ -34,14 +34,14 @@
           </yd-cell-item>
           <yd-cell-item arrow>
             <span slot="left">商品分类</span>
-            <select name="" id="" slot="right" v-model="column1" @change="initSubColumn">
+            <select slot="right" v-model="column1" @change="changeSubColumn">
               <option value="">请选择</option>
               <option :value="item.id" v-for="item in columnMenu1" :key="item.id">{{item.names}}</option>
             </select>
           </yd-cell-item>
           <yd-cell-item arrow>
             <span slot="left">商品分类下级</span>
-            <select name="" id="" slot="right" v-model="column2">
+            <select slot="right" v-model="column2">
               <option value="">请选择</option>
               <option :value="item.id" v-for="item in columnMenu2" :key="item.id">{{item.names}}</option>
             </select>
@@ -52,6 +52,7 @@
             <yd-textarea slot="right" placeholder="填写购买须知，让顾客更加放心购买" maxlength="500" v-model="notice"></yd-textarea>
           </yd-cell-item>
         </yd-cell-group>
+        <yd-button type="primary" size="large" @click.native="publish">立即发布</yd-button>
       </section>
     </main>
   </div>
@@ -59,6 +60,7 @@
 <script>
 import HeaderTop from 'components/header/index'
 import { o2o, subcolumn, addProduct } from '../../api/index'
+import { getStore } from 'components/common/mixin'
 export default {
   name: 'PublishManage',
   data() {
@@ -119,8 +121,58 @@ export default {
         }
       })
     },
-    initSubColumn() {
-
+    changeSubColumn() {
+      let vm = this;
+      mui.ajax({
+        url: subcolumn + this.column1,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          columnId: this.column1,
+          token: md5(`subcolumn${this.column1}`)
+        },
+        success(res) {
+          vm.columnMenu2 = res.result.subColumns;
+        }
+      })
+    },
+    publish() {
+      let vm = this;
+      if (!this.base64Url) {
+        this.$dialog.toast({
+          mes: '请上传商品图片'
+        })
+        return;
+      }
+      mui.ajax({
+        url: addProduct,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          name: this.pdName,
+          price: this.pdPrice,
+          marketPrice: this.mtPrice,
+          indate: `${this.date1}至${this.date2}`,
+          notice: this.notice,
+          columnId: this.column2,
+          account: getStore('account'),
+          token: md5(`addProduct`),
+          fileName: '123.png',
+          fileContent: this.base64Url
+        },
+        success(res) {
+          if (res.code == 200) {
+            vm.$dialog.toast({
+              mes: res.msg || '发布成功，待审核'
+            })
+          }
+          else {
+            vm.$dialog.toast({
+              mes: '发布异常，稍候重试'
+            })
+          }
+        }
+      })
     }
   }
 }
@@ -153,5 +205,10 @@ export default {
 
 .yd-cell-right .yd-datetime-input {
   justify-content: flex-end;
+}
+
+.yd-cell-right select {
+  direction: rtl;
+  text-align: center;
 }
 </style>

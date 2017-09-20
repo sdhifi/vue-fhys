@@ -113,4 +113,8 @@ export {
   addStore,
   myStore,
   updateBanner,
+  myStorePro,
+  delStorePro,
+  addProduct,
+  updatePro,
 }
