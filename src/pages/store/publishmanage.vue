@@ -30,7 +30,7 @@
           </yd-cell-item>
           <yd-cell-item arrow>
             <span slot="left">活动结束日期：</span>
-            <yd-datetime type="date" slot="right" v-model="date2"></yd-datetime>
+            <yd-datetime type="date" slot="right" v-model="date2" :startDate="date1"></yd-datetime>
           </yd-cell-item>
           <yd-cell-item arrow>
             <span slot="left">商品分类</span>
@@ -52,7 +52,7 @@
             <yd-textarea slot="right" placeholder="填写购买须知，让顾客更加放心购买" maxlength="500" v-model="notice"></yd-textarea>
           </yd-cell-item>
         </yd-cell-group>
-        <yd-button type="primary" size="large" @click.native="publish">立即发布</yd-button>
+        <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="publish">立即发布</yd-button>
       </section>
     </main>
   </div>
@@ -80,7 +80,9 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-
+    valid(){
+      return this.base64Url&&this.pdName&&this.pdPrice&&this.column1&&this.column2&&this.date1&&this.date2&&this.notice
+    }
   },
   created() {
     this.getColumn()
@@ -138,12 +140,7 @@ export default {
     },
     publish() {
       let vm = this;
-      if (!this.base64Url) {
-        this.$dialog.toast({
-          mes: '请上传商品图片'
-        })
-        return;
-      }
+     
       mui.ajax({
         url: addProduct,
         type: 'post',

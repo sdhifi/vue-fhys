@@ -19,6 +19,9 @@ let findNearSubColumn = `${index}/findNearSubColumn` //获取附近的一级栏�
 let products = `${pd}/o2o/products` //o2o商城一级栏目或本栏目下的商品
 let product = `${pd}/o2o/productDetail/` //查询O2O商品信息
 let hotProduct = `${pd}/o2o/hotProduct` //O2O查询本店热销商品
+let delStorePro = `${pd}/delStorePro` //删除商品
+let addProduct = `${pd}/addProduct` //发布商品
+let updatePro = `${pd}/updatePro` //编辑商品
 
 let myCart = `${cart}/myCart` //我的购物车
 let updateCartNum = `${cart}/updateCartNum` //修改购物车数量
@@ -59,9 +62,7 @@ let addStore =`${store}/addStore` //入驻申请
 let myStore = `${store}/myStore` //商家信息
 let updateBanner = `${store}/updateBanner` //更换banner图
 let myStorePro = `${store}/myStorePro` //商品管理列表
-let delStorePro = `${store}/delStorePro` //删除商品
-let addProduct = `${store}/addProduct` //发布商品
-let updatePro = `${store}/updatePro` //编辑商品
+
 
 export {
   o2o,
