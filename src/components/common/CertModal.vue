@@ -21,7 +21,7 @@
               <label for="cert-num">身份证号码</label>
               <input id="cert-num" type="tel" placeholder="请输入身份证号码" v-model="certNum">
             </div>
-            <button class="sure-btn" @click="saveCert">确定</button>
+            <button class="save-btn" @click="saveCert">确定</button>
           </div>
         </main>
         <footer>

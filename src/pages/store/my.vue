@@ -16,7 +16,7 @@
             <span class="iconfont-large self-location danger-color"></span>
             <span>{{info.provinceId.province}}{{info.cityId.city}}{{info.areaId.area}}{{info.addressDetail}}</span>
           </div>
-          <!-- <span class="iconfont-large self-bianji danger-color"></span> -->
+          <span class="iconfont self-bianji danger-color" @click="showEdit"></span>
         </div>
         <div>
           <span class="iconfont-large self-tel"></span>
@@ -27,6 +27,14 @@
           <span>店铺审核状态：审核通过</span>
         </div>
       </section>
+      <yd-cell-group title="店铺简介">
+        <yd-cell-item>
+          <yd-textarea slot="right" maxlength="200" placeholder="请输入店铺简介" v-model="info.storeDescription"></yd-textarea>
+        </yd-cell-item>
+        <yd-cell-item>
+          <span slot="right" @click="saveIntro">保存</span>
+        </yd-cell-item>
+      </yd-cell-group>
       <section class="store-menu">
         <yd-grids-group :rows="3">
           <yd-grids-item v-for="(item,index) in menu" :key="index" :link="item.link">
@@ -36,44 +44,76 @@
         </yd-grids-group>
       </section>
     </main>
+    <yd-popup v-model="showPopup" position="center" width="90%">
+      <div class="edit-container">
+        <yd-cell-group title="编辑店铺信息">
+          <yd-cell-item>
+            <span slot="left">联系电话：</span>
+            <input type="tel" slot="right" placeholder="请输入手机号码" style="text-align:right;" v-model="newMobile">
+          </yd-cell-item>
+          <yd-cell-item arrow>
+            <span slot="left">省份城市：</span>
+            <input type="text" slot="right" placeholder="请选择" style="text-align:right;" readonly @click.stop="show1=true" v-model="newStoreCityName">
+          </yd-cell-item>
+          <yd-cell-item>
+            <span slot="left">详细地址：</span>
+            <yd-textarea slot="right" placeholder="街道、楼牌号码等" v-model="newAddressDetail"></yd-textarea>
+          </yd-cell-item>
+        </yd-cell-group>
+        <button class="save-btn" @click="saveInfo" :disabled="!valid">保存</button>
+      </div>
+    </yd-popup>
+    <yd-cityselect v-model="show1" :done="result1" :items="district" :provance="info.provinceId.province" :city="info.cityId.city" :area="info.areaId.area"></yd-cityselect>
   </div>
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import 'lrz/dist/lrz.bundle.js'
 import { getStore } from 'components/common/mixin'
-import { myStore, updateBanner } from '../../api/index'
+import { myStore, updateBanner, updateIntro, updateAddressInfo } from '../../api/index'
+import District from 'ydui-district/dist/gov_province_city_area_id'
+import 'lrz/dist/lrz.bundle.js'
+
 export default {
   name: 'MyStore',
   data() {
     return {
       info: {},
+      showPopup: false,
+      intro: '',
+      district: District, //省市县数据
+      show1: false,//所在地标志
+      newMobile: '',
+      newStoreCity: '', //所在地id
+      newStoreCityName: '',//所在地名称
+      newAddressDetail: '',
       menu: [{
         icon: 'self-shangpinguanli',
         text: '商品管理',
         link: '/store/productmanage',
-        color:'#fc9557'
+        color: '#fc9557'
       }, {
         icon: 'self-dingdanguanli',
         text: '订单管理',
         link: '/store/ordermanage',
-        color:'#fab652'
+        color: '#fab652'
       }, {
         icon: 'self-fabu',
         text: '发布管理',
         link: '/store/publishmanage',
-        color:'#fab652'
+        color: '#fab652'
       }, {
         icon: 'self-shoukuan',
         text: '收款',
         link: '/store/receipt',
-        color:'#fc9557'
+        color: '#fc9557'
       }]
     }
   },
   components: { HeaderTop },
   computed: {
-
+    valid() {
+      return /^1[3|4|5|7|8][0-9]{9}$/.test(this.newMobile) && this.newAddressDetail
+    }
   },
   created() {
 
@@ -81,6 +121,7 @@ export default {
   activated() {
     this.getMyStore();
   },
+
   methods: {
     getMyStore() {
       let vm = this;
@@ -129,6 +170,59 @@ export default {
         })
       })
     },
+    showEdit() {
+      this.newMobile = this.info.sellerMobile;
+      this.newStoreCityName = `${this.info.provinceId.province},${this.info.cityId.city},${this.info.areaId.area}`
+      this.newAddressDetail = this.info.addressDetail
+      this.showPopup = true;
+    },
+    result1(res) {
+      this.newStoreCityName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
+      this.newStoreCity = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
+    },
+    saveInfo() {
+      let vm = this;
+      mui.ajax({
+        url: updateAddressInfo,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          storeId: this.info.id,
+          sellerMobile: this.newMobile,
+          cityValue: this.newStoreCity,
+          addressDetail: this.newAddressDetail,
+          token: md5(`updateAddressInfo${this.info.id}`)
+        },
+        success(res) {
+          vm.$dialog.toast({
+            mes: res.msg,
+            callback: () => {
+
+              vm.getMyStore();
+              vm.showPopup = false;
+            }
+          })
+        }
+      })
+    },
+    saveIntro() {
+      let vm = this;
+      mui.ajax({
+        url: updateIntro,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          description: this.info.storeDescription,
+          storeId: this.info.id,
+          token: md5(`updateIntro${this.info.id}`)
+        },
+        success(res) {
+          vm.$dialog.toast({
+            mes: res.msg
+          })
+        }
+      })
+    }
   }
 }
 </script>
@@ -172,4 +266,5 @@ export default {
     margin: .1rem 0;
   }
 }
+
 </style>

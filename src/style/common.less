@@ -26,6 +26,15 @@
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
 }
+.scroll-content-3{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 1rem;
+  bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
 ::-webkit-scrollbar{
   width: 0;
 }
@@ -209,5 +218,30 @@ input[type='button'],button{
   }
   p{
     margin-top: 0.2rem
+  }
+}
+.self-btn{
+  display: block;
+  width: 70%;
+  margin: .2rem auto;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+  padding: .2rem 0;
+  border-radius: 5px;
+  
+}
+.save-btn {
+  .self-btn;
+  background-color: #57A9FF;
+  &:disabled {
+    background-color: #999;
+  }
+}
+.delete-btn{
+  .self-btn;
+  background-color: @red;
+  &:disabled {
+    background-color: #999;
   }
 }

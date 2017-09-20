@@ -1,13 +1,13 @@
 let baseUrl = "http://fenghuang.77jie.cn/gjfeng-web-client";
 const VERSION = 'v1_0';
-let index=`${baseUrl}/app/index/${VERSION}`,
-pd=`${baseUrl}/app/product/${VERSION}`,
-cart=`${baseUrl}/app/cart/${VERSION}`,
-address=`${baseUrl}/app/address/${VERSION}`,
-rule = `${baseUrl}/app/rule/${VERSION}`,
-member = `${baseUrl}/app/member/${VERSION}`,
-order=`${baseUrl}/app/order/${VERSION}`,
-store= `${baseUrl}/app/store/${VERSION}`;
+let index = `${baseUrl}/app/index/${VERSION}`,
+  pd = `${baseUrl}/app/product/${VERSION}`,
+  cart = `${baseUrl}/app/cart/${VERSION}`,
+  address = `${baseUrl}/app/address/${VERSION}`,
+  rule = `${baseUrl}/app/rule/${VERSION}`,
+  member = `${baseUrl}/app/member/${VERSION}`,
+  order = `${baseUrl}/app/order/${VERSION}`,
+  store = `${baseUrl}/app/store/${VERSION}`;
 
 let o2o = `${index}/o2o` //获取o2o首页栏目和轮播图信息
 let like = `${index}/o2o/like` //o2o商城的首页猜你喜欢
@@ -22,6 +22,7 @@ let hotProduct = `${pd}/o2o/hotProduct` //O2O查询本店热销商品
 let delStorePro = `${pd}/delStorePro` //删除商品
 let addProduct = `${pd}/addProduct` //发布商品
 let updatePro = `${pd}/updatePro` //编辑商品
+let myStorePro = `${pd}/myStorePro` //商品管理列表
 
 let myCart = `${cart}/myCart` //我的购物车
 let updateCartNum = `${cart}/updateCartNum` //修改购物车数量
@@ -40,7 +41,7 @@ let login = baseUrl + `/app/${VERSION}/login` //登录
 let forgetPassWord = baseUrl + `/app/${VERSION}/forgetPassWord` //忘记密码
 
 let service = `${rule}/service` //服务协议
-let aboutGjf = `${rule}/aboutGjf`//关于凤凰云商O2O
+let aboutGjf = `${rule}/aboutGjf` //关于凤凰云商O2O
 
 let sendcode = baseUrl + `/sms/send` //获取验证码
 
@@ -58,12 +59,11 @@ let updateOrderStatus = `${order}/updateOrderStatus` //确认收货
 
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
 
-let addStore =`${store}/addStore` //入驻申请
+let addStore = `${store}/addStore` //入驻申请
 let myStore = `${store}/myStore` //商家信息
 let updateBanner = `${store}/updateBanner` //更换banner图
-let myStorePro = `${store}/myStorePro` //商品管理列表
-
-
+let updateIntro = `${store}/updateIntro` //编辑简介
+let updateAddressInfo = `${store}/updateAddressInfo` //编辑店铺信息
 export {
   o2o,
   like,
@@ -71,11 +71,14 @@ export {
   near,
   findNearColumn,
   findNearSubColumn,
-  
+
   hotProduct,
   products,
   product,
-
+  myStorePro,
+  delStorePro,
+  addProduct,
+  updatePro,
   myCart,
   updateCartNum,
   delCart,
@@ -91,7 +94,7 @@ export {
   register,
   login,
   forgetPassWord,
-  
+
   service,
   aboutGjf,
 
@@ -114,8 +117,6 @@ export {
   addStore,
   myStore,
   updateBanner,
-  myStorePro,
-  delStorePro,
-  addProduct,
-  updatePro,
+  updateIntro,
+  updateAddressInfo,
 }

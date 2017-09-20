@@ -22,7 +22,7 @@
           {{content}}
         </div>
         <div class="product-price">
-          <span class="price">￥{{price1}}.00</span>
+          <span class="price">￥{{formatPrice(price1)}}</span>
           <span class="market-price">门市价：￥{{formatPrice(price2)}}</span>
         </div>
       </div>
