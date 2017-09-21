@@ -113,6 +113,10 @@ export default new Router({
     name: 'PublishManage',
     component: require('../pages/store/publishmanage')
   }, {
+    path: '/store/updateproduct',
+    name: 'UpdateProduct',
+    component: require('../pages/store/publishmanage')
+  }, {
     path: '/store/receipt',
     name: 'Receipt',
     component: require('../pages/store/receiptmanage')

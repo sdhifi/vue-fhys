@@ -9,7 +9,8 @@
         </nav>
         <div class="wallet-today">
           今日福利
-          <p>+{{info.benefitYesterdayMoney}}</p>
+          <p v-if="!type">+{{info0.benefitYesterdayMoney}}</p>
+          <p v-else>+{{info0.benefitYesterdayMoney}}</p>
         </div>
       </section>
       <section class="wallet-tab" v-show="!type">
@@ -17,11 +18,11 @@
           <li v-for="(item,index) in tabs0" :key="index" class="tab-item">
             <a href="" v-if="index<3" class="danger-bg">
               <p>{{item.text}}</p>
-              <p>{{info[item.param]}}</p>
+              <p>{{info0[item.param]}}</p>
             </a>
             <a href="" v-else>
               <p>{{item.text}}</p>
-              <p class="danger-color">{{info[item.param]}}</p>
+              <p class="danger-color">{{info0[item.param]}}</p>
             </a>
           </li>
         </ul>
@@ -31,11 +32,13 @@
           <li v-for="(item,index) in tabs1" :key="index" class="tab-item" :class="{'tab-item2':index<2}">
             <a href="" v-if="index<2" class="danger-bg">
               <p>{{item.text}}</p>
-              <p>{{info[item.param]}} <span v-if="item.param=='canMoney'">%</span></p>
+              <p>{{info1[item.param]}}
+                <span v-if="item.param=='canMoney'">%</span>
+              </p>
             </a>
             <a href="" v-else>
               <p>{{item.text}}</p>
-              <p class="danger-color">{{info[item.param]}}</p>
+              <p class="danger-color">{{info1[item.param]}}</p>
             </a>
           </li>
         </ul>
@@ -84,8 +87,10 @@ export default {
   name: 'MyWallet',
   data() {
     return {
-      info: {},
+      info0: {},
+      info1: {},
       type: 0,
+      firstTag: false,
       showPopup: false,
       settleWay: '',
       tabs0: [
@@ -214,17 +219,20 @@ export default {
 
   },
   activated() {
-    this.type=0;
-    this.getInfo();
+    this.type = 0;
+    this.getInfo(this.type);
   },
   methods: {
     changeTab() {
       this.type = this.type == 0 ? 1 : 0;
+     if(this.firstTag){
+       return;
+     }
       this.getInfo();
     },
     getInfo() {
       let vm = this;
-      this.$dialog.loading.open();
+      this.$dialog.loading.open('您的福利正在赶来...');
       mui.ajax({
         url: countMemberInfo,
         type: 'post',
@@ -241,11 +249,14 @@ export default {
             vm.showPopup = true;
             return;
           }
-          vm.info = res.result
+          vm[`info${vm.type}`] = res.result
+          if(vm.type==1){
+          vm.firstTag = true
+          }
         }
       })
     },
-     settle() {
+    settle() {
       if (this.settleWay == '') {
         this.$dialog.toast({
           mes: '请选择一种入驻方式后再确认',
@@ -254,11 +265,11 @@ export default {
         return;
       }
       this.showPopup = false;
-      if(this.settleWay=='0'){
-        this.$router.push({path:'/store/settle'})
+      if (this.settleWay == '0') {
+        this.$router.push({ path: '/store/settle' })
       }
-      else{
-        this.$router.push({path:'/store/settle-1'})
+      else {
+        this.$router.push({ path: '/store/settle-1' })
       }
     }
   }
@@ -314,6 +325,7 @@ export default {
       p:last-child {
         margin-top: .1rem;
         font-size: 16px;
+        height: 16px;
       }
     }
     &.tab-item2 {

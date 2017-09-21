@@ -24,7 +24,7 @@
                 <span class="market-price">门市价：￥{{formatPrice(item.marketPrice)}}</span>
               </div>
             </div>
-            <div class="pd-edit">
+            <div class="pd-edit" @click="editpd(item)">
               <span class="iconfont self-bianji"></span>
             </div>
           </div>
@@ -39,14 +39,14 @@
 <script>
 import HeaderTop from 'components/header/index'
 import Crown from 'components/common/Crown'
-import { myStorePro, delStorePro } from '../../api/index'
+import { myStorePro, delStorePro, updatePro } from '../../api/index'
 import { getStore, mixin } from 'components/common/mixin'
 export default {
   name: 'ProductManage',
   data() {
     return {
       pdlist: [],
-      checkList: []
+      checkList: [],
     }
   },
   components: { HeaderTop, Crown },
@@ -80,13 +80,54 @@ export default {
             })
             return;
           }
-          vm.pdlist = res.result;
+          let _list = res.result;
+         _list.forEach((pd,index) => {
+            let dateStart = pd.indate.split('至')[0];
+            let dateEnd = pd.indate.split('至')[1];
+            pd.dateStart =dateStart;
+            pd.dateEnd=dateEnd; 
+          })
+          vm.pdlist=_list
         }
       })
     },
-   delpd(){
+    delpd() {
+      let vm = this;
+      this.$dialog.confirm({
+        title: '下架商品',
+        mes: '请确认是否下架所选商品',
+        opts: () => {
+          mui.ajax({
+            url: delStorePro,
+            type: 'post',
+            headers: { 'app-version': 'v1.0' },
+            data: {
+              ids: this.checkList.join(','),
+              account: getStore('account'),
+              token: md5(`delStorePro${getStore('account')}`)
+            },
+            success(res) {
+              if (res.code == 200) {
+                vm.$dialog.notify({
+                  mes: '下架成功',
+                  timeout: 2000,
+                  callback: () => {
 
-   }
+                    vm.getpd()
+                  }
+                })
+              }
+
+            }
+          })
+        }
+      });
+
+    },
+    editpd(pd) {
+
+      this.$router.push({ name: 'UpdateProduct', params: { pd } })
+    }
   }
 }
 </script>
@@ -103,11 +144,11 @@ export default {
 
 
 .pd-item {
-  position: relative;  
+  position: relative;
   .pd-v;
   .pd-cover {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
     .wh(2rem, 2rem);
     img {
       .wh(100%, 100%);
@@ -121,13 +162,13 @@ export default {
       font-size: 10px;
       transform: rotate(-45deg);
       text-align: center;
-      &.status-0{
+      &.status-0 {
         background-color: @lightgray;
       }
-      &.status-1{
+      &.status-1 {
         background-color: @red;
       }
-      &.status-2{
+      &.status-2 {
         background-color: @blue;
       }
     }
@@ -162,10 +203,17 @@ export default {
       }
     }
   }
-  .pd-edit{
+  .pd-edit {
     position: absolute;
     right: 0;
-    bottom: @pd;
+    top: 0;
+    bottom: 0;
+    .wh(100%, 100%);
+    span {
+      position: absolute;
+      right: 0;
+      bottom: @pd;
+    }
   }
 }
 </style>

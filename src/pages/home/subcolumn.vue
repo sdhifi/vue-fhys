@@ -31,7 +31,7 @@
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import ProductList from 'components/common/ProductList'
-import { subcolumn} from '../../api/index'
+import { subColumn} from '../../api/index'
 import { mixin } from 'components/common/mixin'
 export default {
   name: 'SubColumn',
@@ -58,7 +58,7 @@ export default {
     getColumn() {
       let vm = this;
       mui.ajax({
-        url: subcolumn + this.$route.params.id,
+        url: subColumn + this.$route.params.id,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {

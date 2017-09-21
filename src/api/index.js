@@ -11,7 +11,7 @@ let index = `${baseUrl}/app/index/${VERSION}`,
 
 let o2o = `${index}/o2o` //获取o2o首页栏目和轮播图信息
 let like = `${index}/o2o/like` //o2o商城的首页猜你喜欢
-let subcolumn = `${index}/o2o/subColumn/` //O2O商城子栏目页
+let subColumn = `${index}/o2o/subColumn/` //O2O商城子栏目页
 let near = `${index}/near` //获取附近的栏目
 let findNearColumn = `${index}/findNearColumn` //获取附近的一级栏目
 let findNearSubColumn = `${index}/findNearSubColumn` //获取附近的一级栏目下的子栏目
@@ -23,6 +23,8 @@ let delStorePro = `${pd}/delStorePro` //删除商品
 let addProduct = `${pd}/addProduct` //发布商品
 let updatePro = `${pd}/updatePro` //编辑商品
 let myStorePro = `${pd}/myStorePro` //商品管理列表
+let findO2oOrderByPage = `${pd}/findO2oOrderByPage` //店铺订单
+let goMoneyPage = `${pd}/goMoneyPage` //付款
 
 let myCart = `${cart}/myCart` //我的购物车
 let updateCartNum = `${cart}/updateCartNum` //修改购物车数量
@@ -67,7 +69,7 @@ let updateAddressInfo = `${store}/updateAddressInfo` //编辑店铺信息
 export {
   o2o,
   like,
-  subcolumn,
+  subColumn,
   near,
   findNearColumn,
   findNearSubColumn,
@@ -79,6 +81,9 @@ export {
   delStorePro,
   addProduct,
   updatePro,
+  findO2oOrderByPage,
+  goMoneyPage,
+
   myCart,
   updateCartNum,
   delCart,
