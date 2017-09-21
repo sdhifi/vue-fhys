@@ -117,7 +117,11 @@ export default {
                   }
                 })
               }
-
+            else{
+              vm.$dialog.toast({
+                mes:res.msg
+              })
+            }
             }
           })
         }
