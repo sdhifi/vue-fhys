@@ -46,7 +46,7 @@ export default {
 body {
   background-color: #fff;
 }
-
+/*
 .router-fade-enter-active,
 .router-fade-leave-active {
   transition: opacity .3s;
@@ -56,4 +56,5 @@ body {
 .router-fade-leave-active {
   opacity: 0;
 }
+*/
 </style>

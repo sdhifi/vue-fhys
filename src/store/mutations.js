@@ -4,7 +4,8 @@ import {
   SET_ACCOUNT,
   RECORD_SEARCH_VALUE,
   SHOW_CERTIFICATE,
-  SET_CERTIFICATE
+  SET_CERTIFICATE,
+  RECORD_STOREID
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -28,5 +29,8 @@ export default {
   },
   [SET_CERTIFICATE](state,status){
     state.certificateStatus = status;
+  },
+  [RECORD_STOREID](state,id){
+    state.storeId= id;
   }
 }

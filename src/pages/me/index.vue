@@ -147,7 +147,7 @@ export default {
           {
             name: '地址管理',
             icon: 'self-address c2',
-            link: '/me/address',
+            link: '/address/index',
             type: 'label'
           },
           {

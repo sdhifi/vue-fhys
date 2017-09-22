@@ -2,7 +2,7 @@
   <div>
     <header-top title="商品管理"></header-top>
     <main class='scroll-content-3'>
-      <yd-checklist v-model="checkList" ref="pdlist" :label="false">
+      <yd-checklist v-model="checkList" ref="pdlist" :label="false" :callback="change">
         <yd-checklist-item :val="item.id" v-for="item in pdlist" :key="item.id">
           <div class="pd-item flex align-center">
             <div class="pd-cover">
@@ -31,8 +31,11 @@
         </yd-checklist-item>
       </yd-checklist>
     </main>
-    <footer class="edit-bar flex align-center just-between" v-show="checkList.length">
-      <button class="delete-btn" @click="delpd">下架选中商品</button>
+    <footer class="fix-footer">
+      <div style="padding-left:10px;">
+        <yd-checkbox v-model="isCheckAll" shape="circle"  @click.native="checkAll">全选</yd-checkbox>
+      </div>
+      <button class="delete-btn" @click="delpd" v-show="checkList.length">下架选中商品</button>
     </footer>
   </div>
 </template>
@@ -47,6 +50,7 @@ export default {
     return {
       pdlist: [],
       checkList: [],
+      isCheckAll: false
     }
   },
   components: { HeaderTop, Crown },
@@ -61,6 +65,13 @@ export default {
     this.getpd();
   },
   methods: {
+    change(value, isCheckAll) {
+      this.isCheckAll = isCheckAll;
+    },
+    checkAll() {
+      this.isCheckAll = !this.isCheckAll;
+      this.$refs.pdlist.$emit('ydui.checklist.checkall', this.isCheckAll);
+    },
     getpd() {
       let vm = this;
       this.$dialog.loading.open();
@@ -81,13 +92,13 @@ export default {
             return;
           }
           let _list = res.result;
-         _list.forEach((pd,index) => {
+          _list.forEach((pd, index) => {
             let dateStart = pd.indate.split('至')[0];
             let dateEnd = pd.indate.split('至')[1];
-            pd.dateStart =dateStart;
-            pd.dateEnd=dateEnd; 
+            pd.dateStart = dateStart;
+            pd.dateEnd = dateEnd;
           })
-          vm.pdlist=_list
+          vm.pdlist = _list
         }
       })
     },
@@ -117,11 +128,11 @@ export default {
                   }
                 })
               }
-            else{
-              vm.$dialog.toast({
-                mes:res.msg
-              })
-            }
+              else {
+                vm.$dialog.toast({
+                  mes: res.msg
+                })
+              }
             }
           })
         }
@@ -137,15 +148,6 @@ export default {
 </script>
 <style lang='less' scoped>
 @import '../../style/mixin.less';
-.edit-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1rem;
-  background-color: @white;
-}
-
 
 .pd-item {
   position: relative;

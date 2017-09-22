@@ -111,7 +111,7 @@ export default {
       }
       .market-price {
         font-size: 12px;
-        margin-left: .4rem;
+        margin-left: .2rem;
       }
     }
   }

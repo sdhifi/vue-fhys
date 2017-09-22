@@ -44,6 +44,8 @@
 
 .self-qiye:before { content: "\e6dd"; }
 
+.self-add:before { content: "\e619"; }
+
 .self-pay:before { content: "\e606"; }
 
 .self-male:before { content: "\e623"; }

@@ -13,7 +13,7 @@
                 </router-link>
             </section>
             <section class="type-list">
-                <yd-slider>
+                <!-- <yd-slider>
                     <yd-slider-item v-for="(item,index) in slideTypes" :key="index">
                         <ul class="flex">
                             <li v-for="e in item" :key="e.id" class="type-item text-center">
@@ -24,7 +24,19 @@
                             </li>
                         </ul>
                     </yd-slider-item>
-                </yd-slider>
+                </yd-slider> -->
+                <swiper dots-position="center">
+                   <swiper-item v-for="(item,index) in slideTypes" :key="index">
+                       <ul class="flex">
+                            <li v-for="e in item" :key="e.id" class="type-item text-center">
+                                <router-link :to="{path:'/home/subcolumn/'+e.id}">
+                                    <img :src="e.pic2" :alt="e.names">
+                                    <p>{{e.names}}</p>
+                                </router-link>
+                            </li>
+                        </ul>
+                    </swiper-item> 
+                </swiper>
             </section>
             <section class="banner-list">
                 <yd-slider>
@@ -57,6 +69,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { Swiper,SwiperItem } from 'vux'
 import HeaderTop from 'components/header/index'
 import FooterBar from 'components/footer/index'
 import ProductItem from 'components/common/ProductItem'
@@ -75,7 +88,7 @@ export default {
             loginAccount: false
         }
     },
-    components: { HeaderTop, FooterBar, ProductItem },
+    components: { Swiper,SwiperItem,HeaderTop, FooterBar, ProductItem },
     computed: {
         ...mapState(['longitude', 'latitude', 'city'])
     },

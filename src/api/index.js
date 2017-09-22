@@ -23,7 +23,6 @@ let delStorePro = `${pd}/delStorePro` //删除商品
 let addProduct = `${pd}/addProduct` //发布商品
 let updatePro = `${pd}/updatePro` //编辑商品
 let myStorePro = `${pd}/myStorePro` //商品管理列表
-let findO2oOrderByPage = `${pd}/findO2oOrderByPage` //店铺订单
 let goMoneyPage = `${pd}/goMoneyPage` //付款
 
 let myCart = `${cart}/myCart` //我的购物车
@@ -55,9 +54,11 @@ let countMemberInfo = `${member}/countMemberInfo` //我的钱包
 let setPay = `${member}/setPay` //设置支付密码
 let myCollect = `${member}/myCollect` //我的收藏
 let getMemberLowerLevel = `${member}/getMemberLowerLevel` //获取用户下级
+let findMemberByMoblie = `${member}/findMemberByMoblie` //根据手机号获取用户信息
 
 let getOrder = `${order}/getOrder` //我的订单
 let updateOrderStatus = `${order}/updateOrderStatus` //确认收货
+let findO2oOrderByPage = `${order}/findO2oOrderByPage` //店铺订单
 
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
 
@@ -81,13 +82,12 @@ export {
   delStorePro,
   addProduct,
   updatePro,
-  findO2oOrderByPage,
   goMoneyPage,
-
+  
   myCart,
   updateCartNum,
   delCart,
-
+  
   getProvinceByLetter,
   getMyAddress,
   getAddressDetail,
@@ -95,16 +95,16 @@ export {
   defaultAddress,
   delAdress,
   newsAddress,
-
+  
   register,
   login,
   forgetPassWord,
-
+  
   service,
   aboutGjf,
-
+  
   sendcode,
-
+  
   my,
   realNameByAly,
   update,
@@ -113,9 +113,11 @@ export {
   setPay,
   myCollect,
   getMemberLowerLevel,
+  findMemberByMoblie,
 
   getOrder,
   updateOrderStatus,
+  findO2oOrderByPage,
 
   newProCommet,
 

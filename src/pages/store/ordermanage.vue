@@ -43,18 +43,21 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import { findO2oOrderByPage } from '../../api/index'
 export default {
   name: 'OrderManage',
   data() {
     return {
-
+      pageNo: 1,
+      status: '',
+      orderList: []
     }
   },
   components: { HeaderTop },
   computed: {
-
+...mapState(['storeId'])
   },
   created() {
 
@@ -63,7 +66,39 @@ export default {
 
   },
   methods: {
-
+changeStatus(label, tabkey) {
+      this.status = tabkey;
+      this.pageNo = 1;
+      this.orderList = [];
+      this.getMyOrder();
+    },
+    getMyOrder() {
+      let vm = this;
+      mui.ajax({
+        url: findO2oOrderByPage,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          status: this.status,
+          storeId:this.storeId,
+          pageNo: this.pageNo,
+          pageSize: 10,
+          beginTime:'',
+          endTime:'',
+          token: md5(`findO2oOrderByPage${this.storeId}`)
+        },
+        success(res) {
+          let _list = res.result.resultVo;
+          vm.orderList = [...vm.orderList,..._list];
+          if(_list.length<10){
+            vm.$refs.orderlist.$emit('ydui.infinitescroll.loadedDone');
+            return;
+          }
+          vm.$refs.orderlist.$emit('ydui.infinitescroll.finishLoad');
+          vm.pageNo++;
+        }
+      })
+    }
   }
 }
 </script>

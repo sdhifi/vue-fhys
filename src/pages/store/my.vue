@@ -67,8 +67,9 @@
   </div>
 </template>
 <script>
+
 import HeaderTop from 'components/header/index'
-import { getStore } from 'components/common/mixin'
+import { getStore ,setStore} from 'components/common/mixin'
 import { myStore, updateBanner, updateIntro, updateAddressInfo } from '../../api/index'
 import District from 'ydui-district/dist/gov_province_city_area_id'
 import 'lrz/dist/lrz.bundle.js'
@@ -135,6 +136,8 @@ export default {
         },
         success(res) {
           vm.info = res.result;
+          vm.$store.commit('RECORD_STOREID',vm.info.id);
+          setStore('storeId',vm.info.id);
         }
       })
     },

@@ -37,6 +37,10 @@ export default new Router({
     path: '/address/city',
     name: 'City',
     component: require('../pages/address/city')
+  },{
+    path: '/address/index',
+    name: 'AddressManage',
+    component: require('../pages/address/index')
   }, {
     path: '/me/index',
     name: 'Me',

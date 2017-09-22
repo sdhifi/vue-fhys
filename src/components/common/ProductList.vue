@@ -90,6 +90,8 @@ export default {
           type: "post",
           headers: { "app-version": "v1.0" },
           data: {
+            pageNo:this.pageNo,
+            pageSize:10,
             longitude: this.longitude,
             latitude: this.latitude,
             columnId: this.columnId,
