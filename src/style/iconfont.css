@@ -24,13 +24,15 @@
 
 .self-mobile:before { content: "\e621"; }
 
+.self-bianji:before { content: "\e83f"; }
+
 .self-rmb:before { content: "\e62f"; }
 
 .self-yinhangka:before { content: "\e6e9"; }
 
-.self-bianji:before { content: "\e83f"; }
-
 .self-delete:before { content: "\e677"; }
+
+.self-check2:before { content: "\e90a"; }
 
 .self-about:before { content: "\e605"; }
 
@@ -115,6 +117,8 @@
 .self-me:before { content: "\e6c7"; }
 
 .self-crown:before { content: "\e600"; }
+
+.self-check1:before { content: "\e6d7"; }
 
 .self-zhifubao:before { content: "\e62a"; }
 

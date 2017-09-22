@@ -41,6 +41,10 @@ export default new Router({
     path: '/address/index',
     name: 'AddressManage',
     component: require('../pages/address/index')
+  },{
+    path: '/address/editornew',
+    name: 'EditOrNew',
+    component: require('../pages/address/edit')
   }, {
     path: '/me/index',
     name: 'Me',

@@ -146,7 +146,7 @@ import { getStore } from 'components/common/mixin'
 import 'lrz/dist/lrz.bundle.js'
 
 export default {
-  name: 'PublishManage',
+  name: 'PublishOrUpdate',
   data() {
     return {
       pdName: '',
