@@ -24,7 +24,7 @@
             </div>
           </li>
         </ul>
-        <div class="hv-cen text-center">
+        <div class="hv-cen text-center" v-show="!addressList.length">
           <span class="iconfont self-noorder" style="font-size:40px;"></span>
           <p>没有地址，赶紧去添加</p>
         </div>
@@ -101,7 +101,7 @@ export default {
       })
     },
     editAddress(item){
-      this.$router.push({name:'EditOrNew',params:{id:item.id}})
+      this.$router.push({name:'AddressEdit',params:{address:item}})
     },
     deleteAddress(item){
       this.$dialog.confirm({
@@ -118,20 +118,20 @@ export default {
               token:md5(`delAdress${this.defaultId}${getStore('account')}`)
             },
             success(res){
-              vm.$dialog.notify({
-                mes:'删除成功',
-                timeout:2000,
-                callback:()=>{
-                  vm.getAddress();
-                }
-              })
+              if(res.code!==200){
+                vm.$dialog.toast({
+                  mes:res.msg
+                })
+                return;
+              }
+              vm.getAddress();
             }
           })
         }
       })
     },
     newAddress(){
-      this.$router.push({name:'EditOrNew'})
+      this.$router.push({name:'AddressNew'})
     }
   }
 }
@@ -164,11 +164,12 @@ export default {
   >input[type=radio] {
     position: absolute;
     left: 0;
-    width: 100%;
-    vertical-align: middle;
     top: 0;
-    opacity: 0;
+    width: 100%;
     height: 100%;
+    vertical-align: middle;
+    
+    opacity: 0;
     z-index: 5;
     &:checked+.check-icon {
       color: rgb(76, 216, 100);
@@ -183,7 +184,7 @@ export default {
   .check-icon {
     border: 1px solid #ccc;
     border-radius: 50%;
-    display: block;
+    display: inline-block;
     position: relative;
     z-index: 10;
     pointer-events: none;

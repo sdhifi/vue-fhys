@@ -39,7 +39,7 @@
             <div>{{pdDetail.indate||'暂无'}}</div>
           </li>
           <li class="tip-item">
-            使用规则：
+            备注：
             <div>{{pdDetail.notice||'暂无'}}</div>
           </li>
         </ul>
@@ -74,6 +74,7 @@
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import Crown from 'components/common/Crown'
+import ProductItem from 'components/common/ProductItem'
 import { product, hotProduct } from '../../api/index'
 import { mixin } from 'components/common/mixin'
 
@@ -81,14 +82,14 @@ export default {
   name: 'Product',
   data() {
     return {
-      noata: false,
+      noData: false,
       pageNo: 1,
       comment: {},
       pdDetail: {},
       productList: []
     }
   },
-  components: { HeaderTop, Crown },
+  components: { HeaderTop, Crown ,ProductItem},
   computed: { ...mapState(['longitude', 'latitude']) },
   mixins: [mixin],
   created() {
@@ -100,6 +101,7 @@ export default {
   methods: {
     init() {
       this.getDetail();
+      this.noData=false;
       this.getHotProduct();
     },
     getDetail() {

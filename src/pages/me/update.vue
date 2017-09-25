@@ -21,11 +21,28 @@
           <input slot="right" v-model="info.nickName" type="text" style="text-align:right;" class="hight-input" placeholder="不要输入特殊符号"></input>
         </yd-cell-item>
         <yd-cell-item>
+          <span slot="left">性别：</span>
+          <div slot="right">
+            <label for="male" class="self-radio">
+              <input type="radio" value="1" id="male" v-model="info.sex">
+              <span>男</span>
+            </label>
+            <label for="female" class="self-radio">
+              <input type="radio" value="2" id="female" v-model="info.sex">
+              <span>女</span>
+            </label>
+            <label for="sex-x" class="self-radio">
+              <input type="radio" value="3" id="sex-x" v-model="info.sex">
+              <span>未知</span>
+            </label>
+          </div>
+        </yd-cell-item>
+        <yd-cell-item>
           <span slot="left" style="margin-right:.4rem;">简介</span>
           <yd-textarea slot="right" placeholder="请输入简介" maxlength="30" v-model="info.remark" class="hight-input"></yd-textarea>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group title="性别">
+      <!-- <yd-cell-group title="性别">
         <yd-cell-item type="radio">
             <span slot="left">男</span>
             <input slot="right" type="radio" value="1" v-model="info.sex"/>
@@ -38,7 +55,7 @@
             <span slot="left">未知</span>
             <input slot="right" type="radio" value="0" v-model="info.sex"/>
         </yd-cell-item>
-      </yd-cell-group>
+      </yd-cell-group> -->
       <yd-button size="large" type="primary" @click.native="saveInfo">保存</yd-button>
     </main>
     <cert-modal></cert-modal>
@@ -172,5 +189,56 @@ export default {
     }
   }
 }
-
+.self-radio {
+  position: relative;
+  display: inline-block;
+  padding-right: 10px;
+  padding-left: 25px;
+  font-size: 14px;
+  >input[type=radio] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 15;
+    &:checked+span::before{
+      border-color: rgb(76, 216, 100);
+    }
+    &:checked+span::after {
+      color: rgb(76, 216, 100);
+      opacity: 1;
+      transform: scale(1);
+      transition: all .2s ease-in-out;
+    }
+  }
+  span {
+    &::before {
+      position: absolute;
+      content: "";
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      display: inline-block;
+      z-index: 10;
+      vertical-align: middle;
+    }
+    &::after {
+      position: absolute;
+      content: "";
+      left: 5px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: currentColor;
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
+}
 </style>

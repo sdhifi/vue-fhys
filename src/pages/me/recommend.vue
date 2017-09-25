@@ -12,12 +12,8 @@
             </div>
           </li>
         </ul>
-        <span slot="doneTip">没有数据啦</span>
+        
       </yd-infinitescroll>
-      <div class="empty-data" v-show="!info.length">
-        <span class="iconfont self-noorder"></span>
-        <p>没有数据</p>
-      </div>
     </main>
   </div>
 </template>
@@ -49,45 +45,30 @@ export default {
     getRecommend() {
       let vm = this;
       if (!this.noData) {
-        // mui.ajax({
-        //   url: getMemberLowerLevel,
-        //   type: 'post',
-        //   headers: { 'app-version': 'v1.0' },
-        //   data: {
-        //     superId: this.$route.params.id,
-        //     pageNo: this.pageNo,
-        //     pageSize: 10,
-        //     token: md5(`getMemberLowerLevel${this.$route.params.id}`)
+        mui.ajax({
+          url: getMemberLowerLevel,
+          type: 'post',
+          headers: { 'app-version': 'v1.0' },
+          data: {
+            superId: this.$route.params.id,
+            pageNo: this.pageNo,
+            pageSize: 10,
+            token: md5(`getMemberLowerLevel${this.$route.params.id}`)
 
-        //   },
-        //   success(res) {
-        //     let _list = res.data.result;
-        //     vm.info = [...vm.info, ..._list];
-        //     if (_list.length < 10) {
-        //       vm.noData = true;
-        //       vm.$refs.re.$emit('ydui.infinitescroll.loadedDone');
-        //       return;
-        //     }
-        //     vm.$refs.re.$emit('ydui.infinitescroll.finishLoad');
-        //     vm.pageNo++;
-        //   }
-        // })
-      }
-
-      if (!this.noData) {
-        axios.get('/static/service/recommend.json').then(res => {
-          let _list = res.data.result;
-          this.info = [...this.info, ..._list];
-          if (_list.length < 10) {
-            this.noData = true;
-            this.$refs.re.$emit('ydui.infinitescroll.loadedDone');
-            return;
+          },
+          success(res) {
+            let _list = res.result;
+            vm.info = [...vm.info, ..._list];
+            if (_list.length < 10) {
+              vm.noData = true;
+              vm.$refs.re.$emit('ydui.infinitescroll.loadedDone');
+              return;
+            }
+            vm.$refs.re.$emit('ydui.infinitescroll.finishLoad');
+            vm.pageNo++;
           }
-          this.$refs.re.$emit('ydui.infinitescroll.finishLoad');
-          this.pageNo++;
         })
       }
-
     },
   }
 }

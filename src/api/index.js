@@ -32,10 +32,10 @@ let delCart = `${cart}/delCart/` //移除购物车
 let getProvinceByLetter = `${address}/getProvinceByLetter` //根据字母获取省市区
 let getMyAddress = `${address}/getMyAddress` //我的收货地址
 let getAddressDetail = `${address}/getAddressDetail` //我的收货地址详细信息
-let updateAddress = `${address}/updateAddress` //修改收货地址
+let updateAddressInIos = `${address}/updateAddressInIos` //修改收货地址
 let defaultAddress = `${address}/default` //设置默认地址
 let delAdress = `${address}/delAdress` //删除收货地址
-let newsAddress = `${address}/newsAddress` //新增收货地址
+let newsAddressInIos = `${address}/newsAddressInIos` //新增收货地址
 
 let register = baseUrl + `/app/${VERSION}/register` //注册
 let login = baseUrl + `/app/${VERSION}/login` //登录
@@ -53,6 +53,8 @@ let myQr = `${member}/myQr` //我的二维码
 let countMemberInfo = `${member}/countMemberInfo` //我的钱包
 let setPay = `${member}/setPay` //设置支付密码
 let myCollect = `${member}/myCollect` //我的收藏
+let addMyCollect = `${member}/addMyCollect` //添加收藏
+let delectMyCollect = `${member}/delectMyCollect` //取消收藏
 let getMemberLowerLevel = `${member}/getMemberLowerLevel` //获取用户下级
 let findMemberByMoblie = `${member}/findMemberByMoblie` //根据手机号获取用户信息
 
@@ -91,10 +93,10 @@ export {
   getProvinceByLetter,
   getMyAddress,
   getAddressDetail,
-  updateAddress,
+  updateAddressInIos,
   defaultAddress,
   delAdress,
-  newsAddress,
+  newsAddressInIos,
   
   register,
   login,
@@ -112,6 +114,8 @@ export {
   countMemberInfo,
   setPay,
   myCollect,
+  addMyCollect,
+  delectMyCollect,
   getMemberLowerLevel,
   findMemberByMoblie,
 

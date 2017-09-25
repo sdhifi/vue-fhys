@@ -42,8 +42,12 @@ export default new Router({
     name: 'AddressManage',
     component: require('../pages/address/index')
   },{
-    path: '/address/editornew',
-    name: 'EditOrNew',
+    path: '/address/edit',
+    name: 'AddressEdit',
+    component: require('../pages/address/edit')
+  },{
+    path: '/address/new',
+    name: 'AddressNew',
     component: require('../pages/address/edit')
   }, {
     path: '/me/index',
@@ -92,6 +96,10 @@ export default new Router({
     path: '/me/update',
     name: 'Update',
     component: require('../pages/me/update')
+  }, {
+    path: '/me/collect',
+    name: 'MyCollect',
+    component: require('../pages/me/collect')
   }, {
     path: '/shop/index/:id',
     name: 'Shop',
