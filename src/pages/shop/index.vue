@@ -1,6 +1,7 @@
 <template>
   <div>
     <header-top title="商品详情"></header-top>
+    <!-- <main class="scroll-content-2" :key-id="newRender"> -->
     <main class="scroll-content-2">
       <section class="pd-container">
         <div class="pd-cover">
@@ -62,9 +63,10 @@
         </div>
         <yd-infinitescroll :on-infinite="getHotProduct" ref="pdlist">
           <div slot="list">
-            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.name" :score="item.score"  :price1="item.price" :price2="item.marketPrice" :sale-num="item.salesNum"></product-item>
+            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.name" :score="item.score" :price1="item.price" :price2="item.marketPrice" :sale-num="item.salesNum"></product-item>
           </div>
-          <p slot="doneTip"><span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
+          <p slot="doneTip">
+            <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
         </yd-infinitescroll>
       </section>
     </main>
@@ -82,6 +84,7 @@ export default {
   name: 'Product',
   data() {
     return {
+      id: '',
       noData: false,
       pageNo: 1,
       comment: {},
@@ -89,8 +92,20 @@ export default {
       productList: []
     }
   },
-  components: { HeaderTop, Crown ,ProductItem},
-  computed: { ...mapState(['longitude', 'latitude']) },
+  components: { HeaderTop, Crown, ProductItem },
+  computed: {
+    ...mapState(['longitude', 'latitude']),
+    // newRender() {
+    //   this.id = this.$route.params.id;
+    //   if (/shop\/index/.test(this.$route.path)) {
+    //     this.getDetail();
+    //     // this.noData=false;
+    //     // this.pageNo=1;
+    //     // this.productList=[];
+    //     this.getHotProduct();
+    //   }
+    // }
+  },
   mixins: [mixin],
   created() {
     //this.init();
@@ -101,7 +116,9 @@ export default {
   methods: {
     init() {
       this.getDetail();
-      this.noData=false;
+      this.noData = false;
+      this.pageNo=1;
+      this.productList=[];
       this.getHotProduct();
     },
     getDetail() {
@@ -118,15 +135,15 @@ export default {
         },
         success(res) {
           let result = res.result
-          if(result.product){
+          if (result.product) {
             vm.pdDetail = result.product;
             vm.comment = Object.assign({}, { count: result.comCount, cmt: result.comment })
           }
-          else{
+          else {
             vm.$dialog.toast({
-              mes:'暂无商品详情',
-              timeout:1500,
-              callback:()=>{
+              mes: '暂无商品详情',
+              timeout: 1500,
+              callback: () => {
                 vm.$router.go(-1);
               }
             })
@@ -163,9 +180,12 @@ export default {
       }
     }
   },
-  watch:{
-    '$route' (to,from){
-      console.log(2)
+  watch: {
+    '$route'(to, from) {
+      if(/\/shop\/index/.test(to.path)){
+        this.init();
+        document.querySelector('.scroll-content-2').scrollTop=0;
+      }
     }
   }
 }
@@ -229,7 +249,7 @@ section {
     }
   }
   .seller-tel {
-    .wh(40px,40px);
+    .wh(40px, 40px);
   }
 }
 

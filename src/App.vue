@@ -2,7 +2,7 @@
   <div id="app">
     <transition name="router-fade" mode="out-in">
       <keep-alive>
-        <router-view :key="key"></router-view>
+        <router-view></router-view>
       </keep-alive>
     </transition>
   </div>
@@ -46,9 +46,7 @@ export default {
 
 <style lang="less">
 @import 'style/common.less';
-body {
-  background-color: #fff;
-}
+
 /*
 .router-fade-enter-active,
 .router-fade-leave-active {
