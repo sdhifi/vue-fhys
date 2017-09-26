@@ -35,15 +35,15 @@ import Crown from './Crown'
 export default {
   name: 'ProductItem',
   props: {
-    id:[String,Number],
-    imgUrl:String,
-    title:String,
-    score:Number,
-    distance:Number,
-    content:String,
-    price1:Number,
-    price2:Number,
-    saleNum:Number,
+    id: [String, Number],
+    imgUrl: String,
+    title: String,
+    score: Number,
+    distance: Number,
+    content: String,
+    price1: Number,
+    price2: Number,
+    saleNum: Number,
   },
   components: { Crown },
   mixins: [mixin],
@@ -54,7 +54,8 @@ export default {
 @import '../../style/mixin.less';
 .like-item {
   position: relative;
-  border-bottom: 1px solid #f7f5f5; /*兼容部分机型*/
+  border-bottom: 1px solid #f7f5f5;
+  /*兼容部分机型*/
   .pd-v;
   .mg-h;
 }
