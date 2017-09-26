@@ -1,0 +1,47 @@
+<template>
+  <div>
+    <header-top title="资料下载"></header-top>
+    <main class='scroll-content-2'>
+      <yd-accordion accordion>
+        <yd-accordion-item :title="item.title" v-for="(item,index) in info" :key="index" :open="true">
+          <div class="download-item flex align-center">
+            <span>下载地址：</span>
+            <a :href="item.link">{{item.link}}</a>
+          </div>
+        </yd-accordion-item>
+      </yd-accordion>
+    </main>
+  </div>
+</template>
+<script>
+import HeaderTop from 'components/header/index'
+export default {
+  name: 'Download',
+  data() {
+    return {
+      info: [
+        {
+          title: "凤凰云商会员注册协议.docx",
+          link: "http://jfh.jfeimao.com/gjfeng-web-client/upload/file/凤凰云商会员注册协议.docx"
+        },
+        {
+          title: "广东凤凰网络科技股份有限公司商家入驻合同.doc",
+          link: "http://jfh.jfeimao.com/gjfeng-web-client/upload/file/广东凤凰网络科技股份有限公司商家入驻合同.doc"
+        }
+      ]
+    }
+  },
+  components: { HeaderTop },
+
+}
+</script>
+<style lang='less' scoped>
+@import '../../style/mixin.less';
+.download-item{
+  padding-left: @pd;
+  .mg-v;
+  a{
+    color: @blue;
+  }
+}
+</style>

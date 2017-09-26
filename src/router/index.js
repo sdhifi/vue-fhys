@@ -29,23 +29,23 @@ export default new Router({
     path: '/near/index',
     name: 'Near',
     component: require('../pages/near/index')
-  },  {
+  }, {
     path: '/online/index',
     name: 'Online',
     component: require('../pages/online/index')
-  },{
+  }, {
     path: '/address/city',
     name: 'City',
     component: require('../pages/address/city')
-  },{
+  }, {
     path: '/address/index',
     name: 'AddressManage',
     component: require('../pages/address/index')
-  },{
+  }, {
     path: '/address/edit',
     name: 'AddressEdit',
     component: require('../pages/address/edit')
-  },{
+  }, {
     path: '/address/new',
     name: 'AddressNew',
     component: require('../pages/address/edit')
@@ -56,23 +56,23 @@ export default new Router({
     meta: {
       requireAuth: true
     }
-  },{
+  }, {
     path: '/order/index',
     name: 'MyOrder',
     component: require('../pages/order/index')
-  },{
+  }, {
     path: '/me/mywallet',
     name: 'MyWallet',
     component: require('../pages/me/mywallet')
-  },{
+  }, {
     path: '/me/qrcode',
     name: 'Qrcode',
     component: require('../pages/me/qrcode')
-  },{
+  }, {
     path: '/me/recommend',
     name: 'Recommend',
     component: require('../pages/me/recommend')
-  },{
+  }, {
     path: '/me/about',
     name: 'About',
     component: require('../pages/me/about')
@@ -92,7 +92,7 @@ export default new Router({
     path: '/me/paypwd',
     name: 'PayPwd',
     component: require('../pages/me/paypwd')
-  },{
+  }, {
     path: '/me/update',
     name: 'Update',
     component: require('../pages/me/update')
@@ -104,11 +104,11 @@ export default new Router({
     path: '/shop/index/:id',
     name: 'Shop',
     component: require('../pages/shop/index')
-  },{
+  }, {
     path: '/store/settle',
     name: 'Settle',
     component: require('../pages/store/settle')
-  },{
+  }, {
     path: '/store/settle-1',
     name: 'Settle1',
     component: require('../pages/store/settle1')
@@ -136,7 +136,19 @@ export default new Router({
     path: '/store/receipt',
     name: 'Receipt',
     component: require('../pages/store/receiptmanage')
-  },  {
+  }, {
+    path: '/trade/download',
+    name: 'Download',
+    component: require('../pages/trade/download')
+  },{
+    path: '/trade/bankcard',
+    name: 'BankCard',
+    component: require('../pages/trade/bankcard')
+  },{
+    path: '/trade/newbank',
+    name: 'NewBank',
+    component: require('../pages/trade/newbank')
+  }, {
     path: '*',
     redirect: '/home/index'
   }]

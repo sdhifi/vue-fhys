@@ -21,7 +21,7 @@
           <input slot="right" v-model="info.nickName" type="text" style="text-align:right;" class="hight-input" placeholder="不要输入特殊符号"></input>
         </yd-cell-item>
         <yd-cell-item>
-          <span slot="left">性别：</span>
+          <span slot="left">性别</span>
           <div slot="right">
             <label for="male" class="self-radio">
               <input type="radio" value="1" id="male" v-model="info.sex">
@@ -42,20 +42,7 @@
           <yd-textarea slot="right" placeholder="请输入简介" maxlength="30" v-model="info.remark" class="hight-input"></yd-textarea>
         </yd-cell-item>
       </yd-cell-group>
-      <!-- <yd-cell-group title="性别">
-        <yd-cell-item type="radio">
-            <span slot="left">男</span>
-            <input slot="right" type="radio" value="1" v-model="info.sex"/>
-        </yd-cell-item>
-        <yd-cell-item type="radio">
-            <span slot="left">女</span>
-            <input slot="right" type="radio" value="2" v-model="info.sex"/>
-        </yd-cell-item>
-        <yd-cell-item type="radio">
-            <span slot="left">未知</span>
-            <input slot="right" type="radio" value="0" v-model="info.sex"/>
-        </yd-cell-item>
-      </yd-cell-group> -->
+      
       <yd-button size="large" type="primary" @click.native="saveInfo">保存</yd-button>
     </main>
     <cert-modal></cert-modal>

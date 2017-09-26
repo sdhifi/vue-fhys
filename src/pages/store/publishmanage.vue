@@ -10,56 +10,14 @@
         <input type="file" capture="camera" accept="image/*" name="upload-img" id="" @change="previewImg($event)">
       </section>
       <section class="info">
-        <!-- <yd-cell-group title="商品名称">
-          <yd-cell-item>
-            <yd-textarea slot="right" placeholder="输入商品名称" maxlength="30" v-model="pdName"></yd-textarea>
-          </yd-cell-item>
-        </yd-cell-group>
-        <yd-cell-group>
-          <yd-cell-item>
-            <span slot="left">商品价格</span>
-            <input type="tel" slot="right" placeholder="输入售卖的商品价格" v-model="pdPrice" style="text-align:right;">
-          </yd-cell-item>
-          <yd-cell-item>
-            <span slot="left">门市价格</span>
-            <input type="tel" slot="right" placeholder="输入商品在店的价格" v-model="mtPrice" style="text-align:right;">
-          </yd-cell-item>
-          <yd-cell-item arrow>
-            <span slot="left">活动开始日期：</span>
-            <yd-datetime type="date" slot="right" v-model="date1"></yd-datetime>
-          </yd-cell-item>
-          <yd-cell-item arrow>
-            <span slot="left">活动结束日期：</span>
-            <yd-datetime type="date" slot="right" v-model="date2" :startDate="date1"></yd-datetime>
-          </yd-cell-item>
-          <yd-cell-item arrow>
-            <span slot="left">商品分类</span>
-            <select slot="right" v-model="column1" @change="changeSubColumn">
-              <option value="">请选择</option>
-              <option :value="item.key" v-for="item in columnMenu1" :key="item.key">{{item.value}}</option>
-            </select>
-          </yd-cell-item>
-          <yd-cell-item arrow>
-            <span slot="left">商品分类下级</span>
-            <select slot="right" v-model="column2">
-              <option value="">请选择</option>
-              <option :value="item.key" v-for="item in columnMenu2" :key="item.key">{{item.value}}</option>
-            </select>
-          </yd-cell-item>
-        </yd-cell-group>
-        <yd-cell-group title="购买须知">
-          <yd-cell-item>
-            <yd-textarea slot="right" placeholder="填写购买须知，让顾客更加放心购买" maxlength="500" v-model="notice"></yd-textarea>
-          </yd-cell-item>
-        </yd-cell-group> -->
         <group title="商品名称">
           <x-textarea v-model="pdName" :max="30" placeholder="输入商品名称"></x-textarea>
         </group>
         <group>
           <x-input title="商品价格：" placeholder="输入售卖的商品价格" v-model="pdPrice"></x-input>
           <x-input title="门市价格：" placeholder="输入商品在店的价格" v-model="mtPrice"></x-input>
-          <datetime title="活动开始日期" v-model="date1" placeholder="选择日期"></datetime>
-          <datetime title="活动结束日期" v-model="date2" placeholder="选择日期"></datetime>
+          <datetime title="开始日期：" v-model="date1" placeholder="选择日期"></datetime>
+          <datetime title="结束日期：" v-model="date2" placeholder="选择日期"></datetime>
           <selector title="商品分类：" placeholder=" 请选择" v-model="column1" :options="columnMenu1" @on-change="changeSubColumn"></selector>
           <selector title="分类下级：" placeholder="请选择" v-model="column2" :options="columnMenu2"></selector>
         </group>
@@ -77,56 +35,14 @@
         <input type="file" capture="camera" accept="image/*" name="upload-img" id="" @change="previewImg($event)">
       </section>
       <section class="info">
-        <!-- <yd-cell-group title="商品名称">
-              <yd-cell-item>
-                <yd-textarea slot="right" placeholder="输入商品名称" maxlength="30" v-model="pd.name"></yd-textarea>
-              </yd-cell-item>
-            </yd-cell-group>
-            <yd-cell-group>
-              <yd-cell-item>
-                <span slot="left">商品价格</span>
-                <input type="tel" slot="right" placeholder="输入售卖的商品价格" v-model="pd.price" style="text-align:right;">
-              </yd-cell-item>
-              <yd-cell-item>
-                <span slot="left">门市价格</span>
-                <input type="tel" slot="right" placeholder="输入商品在店的价格" v-model="pd.marketPrice" style="text-align:right;">
-              </yd-cell-item>
-              <yd-cell-item arrow>
-                <span slot="left">活动开始日期：</span>
-                <yd-datetime type="date" slot="right" v-model="date3"></yd-datetime>
-              </yd-cell-item>
-              <yd-cell-item arrow>
-                <span slot="left">活动结束日期：</span>
-                <yd-datetime type="date" slot="right" v-model="date4" :startDate="date3"></yd-datetime>
-              </yd-cell-item>
-              <yd-cell-item arrow>
-                <span slot="left">商品分类</span>
-                <select slot="right" v-model="column1" @change="changeSubColumn">
-                  <option value="">请选择</option>
-                  <option :value="item.id" v-for="item in columnMenu1" :key="item.id">{{item.names}}</option>
-                </select>
-              </yd-cell-item>
-              <yd-cell-item arrow>
-                <span slot="left">商品分类下级</span>
-                <select slot="right" v-model="column2">
-                  <option value="">请选择</option>
-                  <option :value="item.id" v-for="item in columnMenu2" :key="item.id">{{item.names}}</option>
-                </select>
-              </yd-cell-item>
-            </yd-cell-group>
-            <yd-cell-group title="购买须知">
-              <yd-cell-item>
-                <yd-textarea slot="right" placeholder="填写购买须知，让顾客更加放心购买" maxlength="500" v-model="pd.notice"></yd-textarea>
-              </yd-cell-item>
-            </yd-cell-group> -->
         <group title="商品名称">
           <x-textarea v-model="pd.name" :max="30" placeholder="输入商品名称"></x-textarea>
         </group>
         <group>
           <x-input title="商品价格：" placeholder="输入售卖的商品价格" v-model="pd.price"></x-input>
           <x-input title="门市价格：" placeholder="输入商品在店的价格" v-model="pd.marketPrice"></x-input>
-          <datetime title="活动开始日期" v-model="date3" placeholder="选择日期"></datetime>
-          <datetime title="活动结束日期" v-model="date4" placeholder="选择日期"></datetime>
+          <datetime title="开始日期：" v-model="date3" placeholder="选择日期"></datetime>
+          <datetime title="结束日期：" v-model="date4" placeholder="选择日期"></datetime>
           <selector title="商品分类：" placeholder=" 请选择" v-model="column1" :options="columnMenu1" @on-change="changeSubColumn"></selector>
           <selector title="分类下级：" placeholder="请选择" v-model="column2" :options="columnMenu2"></selector>
         </group>

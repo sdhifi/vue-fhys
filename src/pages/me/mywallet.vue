@@ -168,7 +168,7 @@ export default {
         {
           icon: 'self-yinhangka',
           text: '银行卡',
-          link: '/trade/bancard',
+          link: '/trade/bankcard',
           color: '#e7d489'
         },
         {

@@ -7,7 +7,8 @@ let index = `${baseUrl}/app/index/${VERSION}`,
   rule = `${baseUrl}/app/rule/${VERSION}`,
   member = `${baseUrl}/app/member/${VERSION}`,
   order = `${baseUrl}/app/order/${VERSION}`,
-  store = `${baseUrl}/app/store/${VERSION}`;
+  store = `${baseUrl}/app/store/${VERSION}`,
+  trade = `${baseUrl}/app/trade/${VERSION}`;
 
 let o2o = `${index}/o2o` //获取o2o首页栏目和轮播图信息
 let like = `${index}/o2o/like` //o2o商城的首页猜你喜欢
@@ -69,6 +70,11 @@ let myStore = `${store}/myStore` //商家信息
 let updateBanner = `${store}/updateBanner` //更换banner图
 let updateIntro = `${store}/updateIntro` //编辑简介
 let updateAddressInfo = `${store}/updateAddressInfo` //编辑店铺信息
+
+let myBanks = `${trade}/myBanks` //银行卡列表
+let bindBank = `${trade}/bindBank` //添加银行卡
+let getAllBank = `${trade}/getAllBank` //所有银行卡信息
+let deleteMemBank = `${trade}/deleteMemBank` //删除银行卡
 export {
   o2o,
   like,
@@ -130,4 +136,11 @@ export {
   updateBanner,
   updateIntro,
   updateAddressInfo,
+
+  myBanks,
+  bindBank,
+  getAllBank,
+  deleteMemBank,
+
+  
 }
