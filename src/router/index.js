@@ -145,9 +145,21 @@ export default new Router({
     name: 'BankCard',
     component: require('../pages/trade/bankcard')
   },{
+    path: '/trade/consumerule',
+    name: 'ConsumeRule',
+    component: require('../pages/trade/consumerule')
+  },{
     path: '/trade/newbank',
     name: 'NewBank',
     component: require('../pages/trade/newbank')
+  }, {
+    path: '/trade/participate',
+    name: 'Participate',
+    component: require('../pages/trade/participate')
+  }, {
+    path: '/trade/salewelfare',
+    name: 'SaleWelfare',
+    component: require('../pages/trade/salewelfare')
   }, {
     path: '*',
     redirect: '/home/index'

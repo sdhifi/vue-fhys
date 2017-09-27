@@ -16,11 +16,11 @@
       <section class="wallet-tab" v-show="!type">
         <ul class="flex text-center">
           <li v-for="(item,index) in tabs0" :key="index" class="tab-item">
-            <a href="" v-if="index<3" class="danger-bg">
+            <a :href="item.link" v-if="index<3" class="danger-bg">
               <p>{{item.text}}</p>
               <p>{{info0[item.param]}}</p>
             </a>
-            <a href="" v-else>
+            <a :href="item.link" v-else>
               <p>{{item.text}}</p>
               <p class="danger-color">{{info0[item.param]}}</p>
             </a>
@@ -30,13 +30,13 @@
       <section class="wallet-tab" v-show="type">
         <ul class="flex text-center">
           <li v-for="(item,index) in tabs1" :key="index" class="tab-item" :class="{'tab-item2':index<2}">
-            <a href="" v-if="index<2" class="danger-bg">
+            <a :href="item.link" v-if="index<2" class="danger-bg">
               <p>{{item.text}}</p>
               <p>{{info1[item.param]}}
                 <span v-if="item.param=='canMoney'">%</span>
               </p>
             </a>
-            <a href="" v-else>
+            <a :href="item.link" v-else>
               <p>{{item.text}}</p>
               <p class="danger-color">{{info1[item.param]}}</p>
             </a>
@@ -97,59 +97,59 @@ export default {
         {
           text: '可参与福利权益',
           param: 'canParticipate',
-          link: '',
+          link: '#/trade/participate?type=0',
         },
         {
           text: '责任消费',
           param: 'saleTotalMoney',
-          link: '',
+          link: 'javascript:',
         },
         {
           text: '还可获得福利',
           param: 'consumptionMoney',
-          link: '',
+          link: 'javascript:',
         },
         {
           text: '销售福利',
           param: 'dividendsTotalMoney',
-          link: '',
+          link: '#/trade/salewelfare',
         },
         {
           text: '累计消费',
           param: 'cumulativeMoney',
-          link: '',
+          link: '#/trade/accuconsume?type=0',
         },
         {
           text: '余额账户',
           param: 'balanceMoney',
-          link: '',
+          link: 'javascript:',
         }
       ],
       tabs1: [
         {
           text: '商户福利权益',
           param: 'canParticipate',
-          link: '',
+          link: '#/trade/participate?type=1',
         },
         {
           text: '已领取',
           param: 'canMoney',
-          link: '',
+          link: 'javascript:',
         },
         {
           text: '总销售额',
           param: 'saleTotalMoney',
-          link: '',
+          link: 'javascript:',
         },
         {
           text: '累计贡献',
           param: 'cumulativeMoney',
-          link: '',
+          link: '#/trade/accuconsume?type=1',
         },
         {
           text: '还可获得福利',
           param: 'consumptionMoney',
-          link: '',
+          link: 'javascript:',
         }
       ],
       menu: [
@@ -172,6 +172,12 @@ export default {
           color: '#e7d489'
         },
         {
+          icon: 'self-hongbao',
+          text: '销售录入',
+          link: '/trade/salerecord',
+          color: '#ee3355'
+        },
+        {
           icon: 'self-fulijilu',
           text: '福利记录',
           link: '/trade/welfrecord',
@@ -182,12 +188,6 @@ export default {
           text: '消费记录',
           link: '/trade/consumerecord',
           color: '#663355'
-        },
-        {
-          icon: 'self-shenfenzheng',
-          text: '实名认证',
-          link: '/trade/certificate',
-          color: '#d4e4fc'
         },
         {
           icon: 'self-xiaofeiguize',

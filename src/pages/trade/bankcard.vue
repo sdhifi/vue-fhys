@@ -1,28 +1,38 @@
 <template>
   <div>
     <header-top title="银行卡"></header-top>
-    <main class='scroll-content-3'>
-      <section class="bank-list">
-        <ul v-show="bankList.length">
-          <li class="bank-item flex align-center" v-for="item in bankList" :key="item.id">
-            <div class="bank-info flex-1" :style="{color:item.bankColor}">
-              <div class="bank-label flex align-center">
-                <img :src="item.bankPic" alt="">
-                <div class="bank-name flex-1">
-                  <p>{{item.bankName}}</p>
-                  <p>{{item.bankSub}}</p>
+    <main class='scroll-content-3' style="background-color:#fff;">
+      <section class="bank-list" v-show="bankList.length">
+        <group-title>左滑银行卡可以删除</group-title>
+        <swipeout>
+          <swipeout-item transition-mode="follow" v-for="item in bankList" :key="item.id">
+            <div slot="right-menu">
+              <div class="delete-icon flex just-center align-center" @click="deleteBank(item)">
+                <span class="iconfont-large self-delete danger-color"></span>
+              </div>
+            </div>
+            <div slot="content" style="padding:12px;">
+              <div class="bank-item flex align-center">
+                <div class="bank-info flex-1" :style="{'background-color':item.bankColor}">
+                  <div class="bank-label flex align-center">
+                    <!-- <img :src="'http://jfh.jfeimao.com/gjfeng-web-client/common/image/bank/'+item.bankPic" alt="" class="icon"> -->
+                    <div class="icon" :style="{'background-image':formatBg(item.bankName+'.png')}"></div>
+                    <div class="bank-name flex-1">
+                      <p>{{item.bankName}}</p>
+                      <p>{{item.bankSub}}</p>
+                    </div>
+                  </div>
+                  <div class="bank-card text-center">{{formatCard(item.bankCard)}}</div>
                 </div>
               </div>
-              <div class="bank-card">{{item.bankCard}}</div>
             </div>
-            <span class="iconfont self-delete danger-color" @click="deleteBank(item)"></span>
-          </li>
-        </ul>
-        <div class="hv-cen text-center" v-show="!bankList.length">
-          <span class="iconfont self-noorder" style="font-size:40px;"></span>
-          <p>没有银行卡，赶紧去添加</p>
-        </div>
+          </swipeout-item>
+        </swipeout>
       </section>
+      <div class="hv-cen text-center" v-show="!bankList.length">
+        <span class="iconfont self-noorder" style="font-size:40px;"></span>
+        <p>没有银行卡，赶紧去添加</p>
+      </div>
     </main>
     <footer class="fix-footer">
       <button class="delete-btn btn-large" @click="newBank">
@@ -32,7 +42,8 @@
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import { getStore } from 'components/common/mixin'
+import { GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
+import { getStore, mixin } from 'components/common/mixin'
 import { myBanks, deleteMemBank } from '../../api/index'
 export default {
   name: 'BankCard',
@@ -41,10 +52,11 @@ export default {
       bankList: [],
     }
   },
-  components: { HeaderTop },
+  components: { HeaderTop, GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton },
   computed: {
 
   },
+  mixins: [mixin],
   created() {
 
   },
@@ -52,6 +64,9 @@ export default {
     this.getBanks();
   },
   methods: {
+    formatCard(num) {
+      return `**** **** **** ${num.slice(-4)}`;
+    },
     getBanks() {
       let vm = this;
       mui.ajax({
@@ -105,26 +120,41 @@ export default {
 <style lang='less' scoped>
 @import '../../style/mixin.less';
 .bank-item {
-  margin-bottom: @pd;
+  margin-top: @pd;
+  margin-left: @pd;
   color: @white;
   .bank-info {
-    .bank-label{
-      width:100%;
-      img{
-        .wh(.8rem,.8rem);
+    .pd;
+    border-radius: 5px;
+    .bank-label {
+      width: 100%;
+      .icon {
+        .wh(.8rem, .8rem);
+        background-size: cover;
       }
-      .bank-name{
+      .bank-name {
         margin-left: @pd;
-        p:first-of-type{
+        p:first-of-type {
           font-size: 16px;
+        }
+        p {
+          margin-bottom: @pd;
         }
       }
     }
-    .bank-card{
+    .bank-card {
       width: 100%;
       font-size: .3rem;
       letter-spacing: 3px;
     }
   }
+}
+
+.delete-icon {
+  .wh(.8rem, .8rem);
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 </style>

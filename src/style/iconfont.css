@@ -32,8 +32,6 @@
 
 .self-delete:before { content: "\e677"; }
 
-.self-check2:before { content: "\e90a"; }
-
 .self-about:before { content: "\e605"; }
 
 .self-star:before { content: "\e75c"; }
@@ -61,6 +59,8 @@
 .self-fabu:before { content: "\e68c"; }
 
 .self-near:before { content: "\e603"; }
+
+.self-hongbao:before { content: "\e640"; }
 
 .self-xiaofeijilu:before { content: "\e624"; }
 
@@ -117,8 +117,6 @@
 .self-me:before { content: "\e6c7"; }
 
 .self-crown:before { content: "\e600"; }
-
-.self-check1:before { content: "\e6d7"; }
 
 .self-zhifubao:before { content: "\e62a"; }
 

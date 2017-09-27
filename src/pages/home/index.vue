@@ -164,6 +164,7 @@ export default {
                     },
                     headers: { "app-version": "v1.0" },
                     success(res) {
+                        vm.$dialog.loading.close();
                         let _list = res.result;
                         vm.productList = [...vm.productList, ..._list];
                         if (_list.length < 10) {
@@ -173,7 +174,6 @@ export default {
                         }
                         vm.$refs.pdlist.$emit('ydui.infinitescroll.finishLoad');
                         vm.pageNo++;
-                        vm.$dialog.loading.close();
                     }
                 })
 

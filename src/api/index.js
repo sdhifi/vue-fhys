@@ -1,4 +1,5 @@
-let baseUrl = "http://fenghuang.77jie.cn/gjfeng-web-client";
+// let baseUrl = "http://fenghuang.77jie.cn/gjfeng-web-client";
+let baseUrl = "http://gz.gjfeng.net/gjfeng-web-client";
 const VERSION = 'v1_0';
 let index = `${baseUrl}/app/index/${VERSION}`,
   pd = `${baseUrl}/app/product/${VERSION}`,
@@ -75,6 +76,7 @@ let myBanks = `${trade}/myBanks` //银行卡列表
 let bindBank = `${trade}/bindBank` //添加银行卡
 let getAllBank = `${trade}/getAllBank` //所有银行卡信息
 let deleteMemBank = `${trade}/deleteMemBank` //删除银行卡
+let getParticipate = `${trade}/getParticipate` //福利权益
 export {
   o2o,
   like,
@@ -141,6 +143,6 @@ export {
   bindBank,
   getAllBank,
   deleteMemBank,
-
+  getParticipate,
   
 }

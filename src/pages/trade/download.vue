@@ -4,9 +4,8 @@
     <main class='scroll-content-2'>
       <yd-accordion accordion>
         <yd-accordion-item :title="item.title" v-for="(item,index) in info" :key="index" :open="true">
-          <div class="download-item flex align-center">
-            <span>下载地址：</span>
-            <a :href="item.link">{{item.link}}</a>
+          <div class="download-item flex align-center just-center">
+            <a :href="item.link"><span class="iconfont self-download"></span>点击下载</a>
           </div>
         </yd-accordion-item>
       </yd-accordion>

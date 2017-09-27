@@ -8,20 +8,23 @@
       </group>
       <yd-cell-group>
         <yd-cell-item>
-          <span slot="left">支行名称</span>
-          <input slot="right" v-model="bankSub" type="text" placeholder="请输入支行名称" style="text-align:right;">
+          <span slot="left">支行名称：</span>
+          <!-- <input slot="right" v-model="bankSub" type="text" placeholder="请输入支行名称" style="text-align:right;"> -->
+          <yd-input  slot="right" v-model="bankSub" type="text" placeholder="请输入支行名称"></yd-input>
         </yd-cell-item>
         <yd-cell-item arrow>
-          <span slot="left">省份城市</span>
-          <input slot="right" v-model="cityName" type="text" placeholder="请选择" style="text-align:right;" readonly @click.stop="show1=true">
+          <span slot="left">省份城市：</span>
+          <input slot="right" v-model="cityName" type="text" placeholder="请选择" readonly @click.stop="show1=true">
         </yd-cell-item>
         <yd-cell-item>
-          <span slot="left">开户人</span>
-          <input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称" style="text-align:right;">
+          <span slot="left">开户人&emsp;：</span>
+          <!-- <input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称" style="text-align:right;"> -->
+           <yd-input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称"></yd-input>
         </yd-cell-item>
         <yd-cell-item>
-          <span slot="left">卡号</span>
-          <input slot="right" v-model="bankCard" type="tel" placeholder="请输入卡号" style="text-align:right;">
+          <span slot="left">卡&emsp;&emsp;号：</span>
+          <!-- <input slot="right" v-model="bankCard" type="tel" placeholder="请输入卡号" style="text-align:right;"> -->
+          <yd-input slot="right" v-model="bankCard" type="tel" placeholder="请输入卡号" regex="bankcard"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
       <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="addBankCard">同意协议并绑定</yd-button>
