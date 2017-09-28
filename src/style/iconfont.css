@@ -78,6 +78,10 @@
 
 .self-setting:before { content: "\e60d"; }
 
+.self-mairu:before { content: "\e61a"; }
+
+.self-maichu:before { content: "\e61b"; }
+
 .self-female:before { content: "\e67e"; }
 
 .self-heart:before { content: "\e822"; }

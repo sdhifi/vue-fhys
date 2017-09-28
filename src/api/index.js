@@ -77,6 +77,13 @@ let bindBank = `${trade}/bindBank` //添加银行卡
 let getAllBank = `${trade}/getAllBank` //所有银行卡信息
 let deleteMemBank = `${trade}/deleteMemBank` //删除银行卡
 let getParticipate = `${trade}/getParticipate` //福利权益
+let getInterests = `${trade}/getInterests` //累计消费
+let getDrawHistory = `${trade}/getDrawHistory` //提取历史
+let diviHis = `${trade}/diviHis` //福利记录
+let addDrawCash = `${trade}/addDrawCash` //添加提现
+let addBenefit = `${trade}/addBenefit` //销售录入
+let addShouXin = `${trade}/addShouXin` //购买授信额度
+
 export {
   o2o,
   like,
@@ -144,5 +151,10 @@ export {
   getAllBank,
   deleteMemBank,
   getParticipate,
-  
+  getInterests,
+  getDrawHistory,
+  diviHis,
+  addDrawCash,
+  addBenefit,
+  addShouXin,
 }

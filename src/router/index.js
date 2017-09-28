@@ -140,15 +140,15 @@ export default new Router({
     path: '/trade/download',
     name: 'Download',
     component: require('../pages/trade/download')
-  },{
+  }, {
     path: '/trade/bankcard',
     name: 'BankCard',
     component: require('../pages/trade/bankcard')
-  },{
+  }, {
     path: '/trade/consumerule',
     name: 'ConsumeRule',
     component: require('../pages/trade/consumerule')
-  },{
+  }, {
     path: '/trade/newbank',
     name: 'NewBank',
     component: require('../pages/trade/newbank')
@@ -161,6 +161,26 @@ export default new Router({
     name: 'SaleWelfare',
     component: require('../pages/trade/salewelfare')
   }, {
+    path: '/trade/interest',
+    name: 'Interest',
+    component: require('../pages/trade/interest')
+  }, {
+    path: '/trade/cashhistory',
+    name: 'CashHistory',
+    component: require('../pages/trade/cashhistory')
+  }, {
+    path: '/trade/welfrecord',
+    name: 'WelfareRecord',
+    component: require('../pages/trade/welfrecord')
+  }, {
+    path: '/trade/withdrawals',
+    name: 'WithDrawals',
+    component: require('../pages/trade/withdrawals')
+  }, {
+    path: '/trade/shouxin',
+    name: 'Shouxin',
+    component: require('../pages/trade/shouxin')
+  },  {
     path: '*',
     redirect: '/home/index'
   }]

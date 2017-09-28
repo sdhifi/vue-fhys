@@ -2,6 +2,7 @@
   <div>
     <header-top title="消费规则"></header-top>
     <main class='scroll-content-2' style="background-color:#fff;">
+       <p class="tips">注意：会员与商户的福利是分开计算的。</p>
       <load-more tip="福利奖励方式：会员" :show-loading="false" background-color="rgb(236, 227, 124)"></load-more>
       <x-table :cell-bordered="false" :content-bordered="false">
         <thead>
@@ -29,7 +30,6 @@
           </tr>
         </tbody>
       </x-table>
-       <p class="tips">注：会员与商户的福利是分开计算的。</p>
       <load-more tip="福利奖励方式：商户" :show-loading="false" background-color="rgb(236, 227, 124)"></load-more>
       <x-table :cell-bordered="false" :content-bordered="false">
         <thead>

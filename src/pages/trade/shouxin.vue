@@ -1,15 +1,16 @@
 <template>
   <div>
-    <header-top title="销售福利"></header-top>
+    <header-top title="授信额度"></header-top>
     <main class='scroll-content-2'>
-      
+
     </main>
   </div>
 </template>
 <script>
 import HeaderTop from 'components/header/index'
+import { } from '../../api/index'
 export default {
-  name: '',
+  name: 'Shouxin',
   data() {
     return {
 

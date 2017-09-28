@@ -43,10 +43,6 @@
           </li>
         </ul>
       </section>
-      <section class="operate-container" v-if="false">
-        <p>*转移说明：可转余额金额 ￥0.00（转余额扣除10%税费）。</p>
-        <yd-button type="warning" size="large">一键转余额</yd-button>
-      </section>
       <yd-grids-group :rows="3">
         <yd-grids-item v-for="(item,index) in menu" :key="index" :link="item.link">
           <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
@@ -117,7 +113,7 @@ export default {
         {
           text: '累计消费',
           param: 'cumulativeMoney',
-          link: '#/trade/accuconsume?type=0',
+          link: '#/trade/interest?type=0',
         },
         {
           text: '余额账户',
@@ -144,7 +140,7 @@ export default {
         {
           text: '累计贡献',
           param: 'cumulativeMoney',
-          link: '#/trade/accuconsume?type=1',
+          link: '#/trade/interest?type=1',
         },
         {
           text: '还可获得福利',
@@ -186,7 +182,7 @@ export default {
         {
           icon: 'self-xiaofeijilu',
           text: '消费记录',
-          link: '/trade/consumerecord',
+          link: '/trade/interest?type=0',
           color: '#663355'
         },
         {
@@ -225,9 +221,9 @@ export default {
   methods: {
     changeTab() {
       this.type = this.type == 0 ? 1 : 0;
-     if(this.firstTag){
-       return;
-     }
+      if (this.firstTag) {
+        return;
+      }
       this.getInfo();
     },
     getInfo() {
@@ -250,8 +246,11 @@ export default {
             return;
           }
           vm[`info${vm.type}`] = res.result
-          if(vm.type==1){
-          vm.firstTag = true
+          if (vm.type == 0) {
+            vm.$store.commit('RECORD_BALANCE_MONEY', res.result.balanceMoney)
+          }
+          if (vm.type == 1) {
+            vm.firstTag = true;
           }
         }
       })

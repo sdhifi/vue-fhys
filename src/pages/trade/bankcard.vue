@@ -41,6 +41,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import { GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 import { getStore, mixin } from 'components/common/mixin'
@@ -49,38 +50,23 @@ export default {
   name: 'BankCard',
   data() {
     return {
-      bankList: [],
+     
     }
   },
   components: { HeaderTop, GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton },
   computed: {
-
+    ...mapState(['bankList'])
   },
   mixins: [mixin],
   created() {
 
   },
   activated() {
-    this.getBanks();
+    this.$store.dispatch('getBankList');
   },
   methods: {
     formatCard(num) {
       return `**** **** **** ${num.slice(-4)}`;
-    },
-    getBanks() {
-      let vm = this;
-      mui.ajax({
-        url: myBanks,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
-        data: {
-          account: getStore('account'),
-          token: md5(`myBanks${getStore('account')}`)
-        },
-        success(res) {
-          vm.bankList = res.result;
-        }
-      })
     },
     deleteBank(b) {
       let vm = this;
@@ -124,7 +110,7 @@ export default {
   margin-left: @pd;
   color: @white;
   .bank-info {
-    .pd;
+    padding: @pd @pd @pd @pd *2;
     border-radius: 5px;
     .bank-label {
       width: 100%;
@@ -133,7 +119,7 @@ export default {
         background-size: cover;
       }
       .bank-name {
-        margin-left: @pd;
+        margin-left: @pd * 2;
         p:first-of-type {
           font-size: 16px;
         }
