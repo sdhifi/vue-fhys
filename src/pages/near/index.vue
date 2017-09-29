@@ -34,7 +34,6 @@ import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import ProductItem from 'components/common/ProductItem'
 import { near, products } from '../../api/index'
-// import Swiper from 'swiper/dist/js/swiper.min.js'
 export default {
   name: 'Near',
   data() {
@@ -69,11 +68,6 @@ export default {
           vm.info = res.result;
           setTimeout(() => {
             vm.$refs.tab.init(false);
-            // new Swiper('.swiper-container', {
-            //   slidesPerView: 4,
-            //   spaceBetween: 10,
-            //   slideToClickedSlide:true
-            // })
           }, 0)
         }
       })

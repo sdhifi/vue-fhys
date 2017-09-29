@@ -17,7 +17,6 @@
   -webkit-font-smoothing: antialiased;
   vertical-align: middle;
 }
-
 .self-shopcart:before { content: "\e601"; }
 
 .self-qq:before { content: "\e616"; }
@@ -33,6 +32,8 @@
 .self-delete:before { content: "\e677"; }
 
 .self-about:before { content: "\e605"; }
+
+.self-dianhua:before { content: "\e671"; }
 
 .self-star:before { content: "\e75c"; }
 

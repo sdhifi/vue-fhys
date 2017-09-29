@@ -16,7 +16,7 @@
         </div>
       </section>
       <section class="order-container">
-        <div class="order-item flex align-center px-1">
+        <div class="order-item flex align-center vux-1px-b">
           <div class="order-left">我的订单</div>
           <router-link :to="{path:'/order/index',query:{id:7}}" class="order-right order-arrow">
             <span>查看所有订单</span>
@@ -34,7 +34,7 @@
           <yd-cell-item v-for="(cell,i) in item" :key="i" arrow :type="cell.type" @click.native="navigate(cell)">
             <span class="iconfont-large" :class="cell.icon" slot="icon"></span>
             <span slot="left">{{cell.name}}</span>
-            <a slot="right" v-if="cell.right" style="color:gold;" :href="'tel:'+cell.right">{{cell.right}}</a>
+            <a slot="right" v-if="cell.right" style="color:gold;">{{cell.right}}</a>
           </yd-cell-item>
         </yd-cell-group>
       </section>
@@ -67,6 +67,17 @@
         <span class="close" @click="showPopup=false;"></span>
       </div>
     </yd-popup>
+    <x-dialog :hide-on-blur="true" v-model="showDialog">
+      <div class="tel-container">
+        <a href="tel:020-29030366" class="tel-box">
+          <span class="iconfont-large self-dianhua"></span>
+          <span class="tel-num">拨打:020-29030366</span>
+        </a>
+        <p>
+          <span>工作日9:00-18:00 ,节假日不上班</span><br>不便之处,尽请谅解</p>
+        <yd-button type="danger" @click.native="showDialog=false">我知道了</yd-button>
+      </div>
+    </x-dialog>
   </div>
 </template>
 <script>
@@ -74,6 +85,7 @@ import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import FooterBar from 'components/footer/index'
 import CertModal from 'components/common/CertModal'
+import { XDialog } from 'vux'
 import { my } from '../../api/index'
 import { mixin, getStore, removeStore } from 'components/common/mixin'
 export default {
@@ -169,10 +181,11 @@ export default {
             type: 'label'
           }
         ]
-      ]
+      ],
+      showDialog: false,
     }
   },
-  components: { HeaderTop, FooterBar, CertModal},
+  components: { HeaderTop, FooterBar, CertModal, XDialog },
   created() {
     //this.getInfo();
   },
@@ -231,6 +244,9 @@ export default {
       if (/recommend/.test(item.link)) {
         this.$router.push({ name: 'Recommend', params: { id: this.member.id } })
       }
+      if (item.right) {
+        this.showDialog = true;
+      }
       item.link && this.$router.push(item.link);
     },
     settle() {
@@ -242,11 +258,11 @@ export default {
         return;
       }
       this.showPopup = false;
-      if(this.settleWay=='0'){
-        this.$router.push({path:'/store/settle'})
+      if (this.settleWay == '0') {
+        this.$router.push({ path: '/store/settle' })
       }
-      else{
-        this.$router.push({path:'/store/settle-1'})
+      else {
+        this.$router.push({ path: '/store/settle-1' })
       }
     },
     signOut() {
@@ -378,6 +394,28 @@ section {
     text-align: center;
     padding: .2rem 0;
     border-radius: 5px;
+  }
+}
+
+.tel-container {
+  .pd-h;
+  margin: @pd *2 0;
+  .tel-box {
+    display: block;
+    border-radius: 5px;
+    .pd;
+    .mg-v;
+    background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgb(255, 0, 0)), color-stop(0.15, rgb(255, 125, 0)), color-stop(0.3, rgb(255, 255, 0)), color-stop(0.45, rgb(0, 255, 0)), color-stop(0.6, rgb(0, 0, 255)), color-stop(0.75, rgb(0, 255, 255)), color-stop(0.9, rgb(255, 0, 255)), to(rgb(0, 0, 0)));
+    color: transparent;
+    -webkit-background-clip: text;
+    .tel-num {
+      margin-left: .1rem;
+      font-size: 16px;
+      vertical-align: -5px;
+    }
+  }
+  button{
+    margin-top: @pd * 2;
   }
 }
 </style>
