@@ -8,7 +8,8 @@ import {
   RECORD_STOREID,
   RECORD_BALANCE_MONEY,
   RECORD_BANK_CARD,
-  RECORD_BANK_List
+  RECORD_BANK_List,
+  RECORD_MEMBER_INFO,
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -44,5 +45,8 @@ export default {
   },
   [RECORD_BANK_List](state, list) {
     state.bankList = list;
-  }
+  },
+  [RECORD_MEMBER_INFO](state, info) {
+    state.member = info;
+  },
 }

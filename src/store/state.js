@@ -8,6 +8,7 @@ export default {
   certificateStatus:false,//身份认证状态
   storeId:'',//店铺id
   balanceMoney:0,//账户余额
-  bankList:[],
+  bankList:[],//银行卡列表
   defaultBankCard:null,//默认银行卡
+  member:null,//用户信息
 }

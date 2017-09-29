@@ -156,7 +156,15 @@ export default new Router({
     path: '/trade/participate',
     name: 'Participate',
     component: require('../pages/trade/participate')
-  }, {
+  },{
+    path: '/trade/salerecord',
+    name: 'SaleRecord',
+    component: require('../pages/trade/salerecord')
+  },{
+    path: '/trade/salehistory',
+    name: 'SaleHistory',
+    component: require('../pages/trade/salehistory')
+  },  {
     path: '/trade/salewelfare',
     name: 'SaleWelfare',
     component: require('../pages/trade/salewelfare')

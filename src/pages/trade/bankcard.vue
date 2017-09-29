@@ -45,7 +45,7 @@ import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import { GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 import { getStore, mixin } from 'components/common/mixin'
-import { myBanks, deleteMemBank } from '../../api/index'
+import {  deleteMemBank } from '../../api/index'
 export default {
   name: 'BankCard',
   data() {
@@ -90,7 +90,7 @@ export default {
             vm.$dialog.toast({
               mes: res.msg,
               callback: () => {
-                vm.getBanks();
+                vm.$store.dispatch('getBankList');
               }
             })
           }

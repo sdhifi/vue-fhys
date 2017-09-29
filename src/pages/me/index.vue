@@ -213,6 +213,7 @@ export default {
         success(res) {
           vm.member = res.result;
           vm.$store.commit('SET_CERTIFICATE', res.result.isReadName == '1' ? true : false);
+          vm.$store.commit('RECORD_MEMBER_INFO', res.result);
         }
       })
     },

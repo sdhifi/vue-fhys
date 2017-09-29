@@ -159,49 +159,4 @@ export default {
     padding: .1rem;
   }
 }
-
-.address-pick {
-  >input[type=radio] {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    vertical-align: middle;
-    
-    opacity: 0;
-    z-index: 5;
-    &:checked+.check-icon {
-      color: rgb(76, 216, 100);
-      background-color: currentColor;
-      border-color: currentColor;
-      >i {
-        transform: translate(-50%, -50%) rotate(45deg) scale(1);
-        transition: all .2s ease-in-out;
-      }
-    }
-  }
-  .check-icon {
-    border: 1px solid #ccc;
-    border-radius: 50%;
-    display: inline-block;
-    position: relative;
-    z-index: 10;
-    pointer-events: none;
-    width: 20px;
-    height: 20px;
-    >i {
-      width: 6px;
-      height: 12px;
-      content: "";
-      position: absolute;
-      top: 45%;
-      left: 50%;
-      border: 2px solid #fff;
-      border-top: 0;
-      border-left: 0;
-      transform: translate(-50%, -50%) rotate(45deg) scale(0);
-    }
-  }
-}
 </style>

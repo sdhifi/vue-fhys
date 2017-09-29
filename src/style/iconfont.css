@@ -88,6 +88,8 @@
 
 .self-lock:before { content: "\e60f"; }
 
+.self-yinlianzhifu1:before { content: "\e679"; }
+
 .self-wallet:before { content: "\e615"; }
 
 .self-address:before { content: "\e609"; }
@@ -135,6 +137,8 @@
 .self-qrcode:before { content: "\e6e8"; }
 
 .self-tiqulishi:before { content: "\e627"; }
+
+.self-weixinzhifu:before { content: "\e61c"; }
 
 .self-noorder:before { content: "\e60b"; }
 

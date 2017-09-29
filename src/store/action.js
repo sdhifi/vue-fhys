@@ -1,6 +1,6 @@
 import {
   RECORD_BANK_CARD,
-  RECORD_BANK_List
+  RECORD_BANK_List,
 } from './mutation-types'
 import {
   myBanks
@@ -26,6 +26,10 @@ export default {
           let defaultBankCard = bankList[0];
           commit(RECORD_BANK_List, bankList);
           commit(RECORD_BANK_CARD, defaultBankCard);
+        }
+        else{
+          commit(RECORD_BANK_List, []);
+          commit(RECORD_BANK_CARD, null);
         }
       }
     })

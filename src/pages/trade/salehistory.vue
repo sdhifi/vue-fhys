@@ -1,0 +1,109 @@
+<template>
+  <div>
+    <header-top title="让利记录"></header-top>
+    <main class='scroll-content-2'>
+      <section v-if="info.length">
+        <ul>
+          <li class="item" v-for="(item,index) in info" :key="index">
+            <div class="item-top flex just-between">
+              <p class="time">{{formatTime(item.addTime)}}</p>
+              <span class="status status-0" v-if="item.tradeStatus==0">待支付</span>
+              <span class="status status-1" v-if="item.tradeStatus==1">已支付</span>
+              <span class="status status-2" v-if="item.tradeStatus==2">支付失败</span>
+              <span class="status status-3" v-if="item.tradeStatus==3">取消</span>
+            </div>
+            <div class="item-bottom flex just-between align-center">
+              <span>
+                <span class="iconfont self-hongbao danger-color"></span>
+                <span class="money">{{item.benefitMoney}}</span>
+              </span>
+              <p>{{item.mobile}}</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <section class="hv-cen text-center" v-else>
+        <span class="iconfont self-noorder" style="font-size:40px;"></span>
+        <p>没有数据</p>
+      </section>
+    </main>
+  </div>
+</template>
+<script>
+import { mapState } from 'vuex'
+import HeaderTop from 'components/header/index'
+import { benefits } from '../../api/index'
+import { mixin } from 'components/common/mixin'
+export default {
+  name: '',
+  data() {
+    return {
+      info: []
+    }
+  },
+  components: { HeaderTop },
+  computed: {
+    ...mapState(['account'])
+  },
+  mixins: [mixin],
+  created() {
+
+  },
+  activated() {
+    this.getInfo();
+  },
+  methods: {
+    getInfo() {
+      let vm = this;
+      mui.ajax({
+        url: benefits,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          account: this.account,
+          token: md5(`benefits`)
+        },
+        success(res) {
+          if(res.code!==200){
+            vm.$dialog.toast({
+              mes:res.msg,
+            })
+            return;
+          }
+          vm.info = res.result;
+        }
+      })
+    }
+  }
+}
+</script>
+<style lang='less' scoped>
+@import '../../style/mixin.less';
+.item {
+  background-color: @white;
+  margin-top: @pd;
+  .pd;
+  .time {
+    font-size: 15px;
+  }
+  .money {
+    color: @red;
+    font-size: 20px;
+    vertical-align: top;
+  }
+  .status {
+    &.status-0 {
+      color: @blue;
+    }
+    &.status-1 {
+      color: @green;
+    }
+    &.status-2 {
+      color: @gold;
+    }
+    &.status-3 {
+      color: @lightgray;
+    }
+  }
+}
+</style>

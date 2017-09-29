@@ -83,6 +83,7 @@ let diviHis = `${trade}/diviHis` //福利记录
 let addDrawCash = `${trade}/addDrawCash` //添加提现
 let addBenefit = `${trade}/addBenefit` //销售录入
 let addShouXin = `${trade}/addShouXin` //购买授信额度
+let benefits = `${trade}/benefits` //让利记录
 
 export {
   o2o,
@@ -157,4 +158,5 @@ export {
   addDrawCash,
   addBenefit,
   addShouXin,
+  benefits,
 }
