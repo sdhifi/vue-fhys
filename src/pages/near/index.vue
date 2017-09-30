@@ -8,11 +8,11 @@
           <span>搜索商家或商品</span>
         </router-link>
       </section>
-      <yd-tab ref="tab" :change="changeStatus">
-        <yd-tab-panel :label="item.columnName" v-for="(item,index) in info" :key="index" :tabkey="item.subColumn[0].id">
+      <yd-tab ref="tab" :callback="changeStatus">
+        <yd-tab-panel :label="item.names" v-for="(item,index) in column" :key="index" :tabkey="item.id">
           <div class="swiper-container">
             <div class="swiper-wrapper sub-list">
-              <div class="swiper-slide sub-item" v-for="(sub,i) in item.subColumn" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" @click="changeSubColumn(sub)">{{sub.names}}</div>
+              <div class="swiper-slide sub-item" v-for="(sub,i) in subColumn" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" @click="changeSubColumn(sub)">{{sub.names}}</div>
             </div>
           </div>
         </yd-tab-panel>
@@ -33,13 +33,14 @@
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import ProductItem from 'components/common/ProductItem'
-import { near, products } from '../../api/index'
+import { findNearColum, findNearSubColum, products } from '../../api/index'
 export default {
   name: 'Near',
   data() {
     return {
       noData: false,
-      info: [],
+      column: [],
+      subColumn: [],
       pageNo: 1,
       columnId: '',
       productList: []
@@ -58,14 +59,14 @@ export default {
     getNear() {
       let vm = this;
       mui.ajax({
-        url: near,
+        url: findNearColum,
         type: 'post',
         headers: { 'app-version': 'v1.0' },
         data: {
-          token: md5('near')
+          token: md5('findNearColum')
         },
         success(res) {
-          vm.info = res.result;
+          vm.column = res.result;
           setTimeout(() => {
             vm.$refs.tab.init(false);
           }, 0)
@@ -82,7 +83,20 @@ export default {
       let w = document.querySelector('.sub-list');
       w.scrollLeft = 0;
       this.columnId = tabkey;
-      this.reset();
+      let vm = this;
+      mui.ajax({
+        url: findNearSubColum,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          columnId: tabkey,
+          token: md5('findNearSubColum')
+        },
+        success(res) {
+          vm.subColumn = res.result;
+          vm.reset();
+        }
+      })
     },
     changeSubColumn(item) {
       this.columnId = item.id;
