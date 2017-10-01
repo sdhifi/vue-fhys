@@ -1,26 +1,34 @@
 <template>
   <div>
     <header-top title="附近"></header-top>
-    <main class='scroll-content-2'>
+    <main class='scroll-content-2' style="background-color:#fff;">
       <section class="search-container">
         <router-link to="/home/search" class="search-input">
           <span class="iconfont-large self-search"></span>
           <span>搜索商家或商品</span>
         </router-link>
       </section>
-      <yd-tab ref="tab" :callback="changeStatus">
+      <!-- <yd-tab ref="tab" :callback="changeStatus">
         <yd-tab-panel :label="item.names" v-for="(item,index) in column" :key="index" :tabkey="item.id">
           <div class="swiper-container">
             <div class="swiper-wrapper sub-list">
-              <div class="swiper-slide sub-item" v-for="(sub,i) in subColumn" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" @click="changeSubColumn(sub)">{{sub.names}}</div>
+              <div class="swiper-slide sub-item" v-for="(sub,i) in subColumn" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}"
+               @click="changeSubColumn(sub)">{{sub.names}}</div>
             </div>
           </div>
         </yd-tab-panel>
-      </yd-tab>
+      </yd-tab> -->
+      <div class="swiper-container">
+            <div class="swiper-wrapper sub-list">
+              <div class="swiper-slide sub-item" v-for="(sub,i) in column" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}"
+               @click="changeSubColumn(sub)">{{sub.names}}</div>
+            </div>
+          </div>
       <section class="pd-list">
         <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
           <div slot="list">
-            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
+            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" 
+            :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
           </div>
           <p slot="doneTip">
             <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
@@ -54,6 +62,7 @@ export default {
     this.getNear();
   },
   activated() {
+    
   },
   methods: {
     getNear() {
@@ -68,7 +77,7 @@ export default {
         success(res) {
           vm.column = res.result;
           setTimeout(() => {
-            vm.$refs.tab.init(false);
+            //vm.$refs.tab.init(false);
           }, 0)
         }
       })

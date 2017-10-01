@@ -70,7 +70,7 @@
     <x-dialog :hide-on-blur="true" v-model="showDialog">
       <div class="tel-container">
         <a href="tel:020-29030366" class="tel-box">
-          <span class="iconfont-large self-dianhua"></span>
+          <span class="iconfont-large self-dianhua danger-color"></span>
           <span class="tel-num">拨打:020-29030366</span>
         </a>
         <p>
@@ -402,19 +402,21 @@ section {
   margin: @pd *2 0;
   .tel-box {
     display: block;
-    border-radius: 5px;
+    border-radius: 15px;
+    border: 1px solid @red;
+    box-shadow: 0 0 10px 5px @red inset;
     .pd;
     .mg-v;
-    background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgb(255, 0, 0)), color-stop(0.15, rgb(255, 125, 0)), color-stop(0.3, rgb(255, 255, 0)), color-stop(0.45, rgb(0, 255, 0)), color-stop(0.6, rgb(0, 0, 255)), color-stop(0.75, rgb(0, 255, 255)), color-stop(0.9, rgb(255, 0, 255)), to(rgb(0, 0, 0)));
+    /*background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgb(255, 0, 0)), color-stop(0.15, rgb(255, 125, 0)), color-stop(0.3, rgb(255, 255, 0)), color-stop(0.45, rgb(0, 255, 0)), color-stop(0.6, rgb(0, 0, 255)), color-stop(0.75, rgb(0, 255, 255)), color-stop(0.9, rgb(255, 0, 255)), to(rgb(0, 0, 0)));
     color: transparent;
-    -webkit-background-clip: text;
+    -webkit-background-clip: text;*/
     .tel-num {
       margin-left: .1rem;
       font-size: 16px;
       vertical-align: -5px;
     }
   }
-  button{
+  button {
     margin-top: @pd * 2;
   }
 }
