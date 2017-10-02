@@ -35,7 +35,7 @@
 <script>
 import HeaderTop from 'components/header/index'
 import { sendcode, register, login } from '../../api/index'
-import {setStore} from 'components/common/mixin'
+import { setStore } from 'components/common/mixin'
 export default {
   name: 'Login',
   data() {
@@ -67,7 +67,7 @@ export default {
       return this.rightMobile && this.rightPwd;
     }
   },
-  activated(){
+  activated() {
     this.password = '';
   },
   methods: {
@@ -88,19 +88,22 @@ export default {
           token: md5(`send${this.mobile}`)
         },
         success(res) {
-          vm.correctCode = res.content;
+          vm.$dialog.loading.close();
+          if (res.code == 200) {
+            vm.correctCode = res.content;
+            vm.startSend = true;
+            vm.$dialog.toast({
+              mes: '已发送',
+              icon: 'success',
+              timeout: 1500
+            });
+          }
+          else {
+             vm.correctCode = '';
+            vm.startSend = false;
+          }
         }
       })
-      setTimeout(() => {
-        this.startSend = true;
-        this.$dialog.loading.close();
-
-        this.$dialog.toast({
-          mes: '已发送',
-          icon: 'success',
-          timeout: 1500
-        });
-      }, 1000);
     },
 
     register() {
@@ -112,7 +115,7 @@ export default {
         data: {
           account: this.mobile,
           password: this.password,
-          nickname:'',
+          nickname: '',
           token: md5('register')
         },
         success(res) {
@@ -127,20 +130,20 @@ export default {
               }
             })
           }
-          else{
+          else {
             vm.$dialog.toast({
-              mes: res.msg||'注册失败',
+              mes: res.msg || '注册失败',
               timeout: 1500
             })
             return;
           }
         },
-        error(res){
+        error(res) {
           vm.$dialog.toast({
-              mes:  res.msg||'注册失败',
-              timeout: 1500
-            })
-            return;
+            mes: res.msg || '注册失败',
+            timeout: 1500
+          })
+          return;
         }
       })
 
@@ -168,9 +171,9 @@ export default {
               }
             })
           }
-          else{
+          else {
             vm.$dialog.toast({
-              mes:  res.msg||'登录信息有误请检查',
+              mes: res.msg || '登录信息有误请检查',
               timeout: 1500
             })
             return;
@@ -189,16 +192,16 @@ export default {
   .protocol {
     color: #10aeff;
   }
-  .forget-pwd{
+  .forget-pwd {
     display: block;
     width: 2rem;
-    padding: .1rem 0; 
+    padding: .1rem 0;
     .text-center;
     margin: .8rem auto;
     color: @blue;
     border: 1px solid currentColor;
     border-radius: 5px;
-    &:active{
+    &:active {
       background-color: @blue;
       color: @white;
     }
