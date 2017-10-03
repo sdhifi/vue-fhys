@@ -10,6 +10,8 @@ import {
   RECORD_BANK_CARD,
   RECORD_BANK_List,
   RECORD_MEMBER_INFO,
+  RECORD_ADDRESS_List,
+  RECORD_DEFAULT_ADDRESS,
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -48,5 +50,11 @@ export default {
   },
   [RECORD_MEMBER_INFO](state, info) {
     state.member = info;
+  },
+  [RECORD_DEFAULT_ADDRESS](state, address) {
+    state.defaultAddress = address;
+  },
+  [RECORD_ADDRESS_List](state, list) {
+    state.addressList = list;
   },
 }

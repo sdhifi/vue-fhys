@@ -12,7 +12,7 @@
                 <div>{{item.proviceId.province}}{{item.cityId.city}}{{item.areaId.area}}{{item.addressDetail}}</div>
               </label>
               <div class="address-pick">
-                <input type="radio" name="address" :id="item.id" :value="item.id" v-model="defaultId" @change="changeDefault">
+                <input type="radio" name="address" :id="item.id" :value="item.id" v-model="defaultId" @change="setDefault(item)">
                 <span class="check-icon">
                   <i></i>
                 </span>
@@ -30,7 +30,7 @@
         </div>
       </section>
     </main>
-    <footer class="fix-footer">
+    <footer class="fix-footer flex align-center">
       <button class="delete-btn btn-large" @click="newAddress">
         <span class="iconfont self-add"></span>添加新地址</button>
     </footer>
@@ -38,100 +38,103 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
-import { Group, Radio } from 'vux'
-import { getMyAddress, defaultAddress, delAdress } from '../../api/index'
+import { getMyAddress,defaultAddress, delAdress } from '../../api/index'
 import { getStore } from 'components/common/mixin'
 export default {
   name: 'AddressManage',
   data() {
     return {
-      addressList: [],
-      defaultId: ''
+      defaultId:''
     }
   },
-  components: { HeaderTop, Group, Radio },
+  components: { HeaderTop },
   computed: {
-
+    ...mapState(['account', 'addressList'])
   },
   created() {
 
   },
   activated() {
-    this.getAddress();
+    this.getAddressList();
   },
   methods: {
-    getAddress() {
+    getAddressList() {
       let vm = this;
+      
       mui.ajax({
         url: getMyAddress,
         type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        headers: {
+          'app-version': 'v1.0'
+        },
         data: {
-          account: getStore('account'),
+          account: this.account,
           token: md5('getMyAddress')
         },
         success(res) {
           let _result = res.result;
           _result.forEach((item, index) => {
             if (item.isDefault == '1') {
-              vm.defaultId = item.id;
+              vm.defaultId=item.id
             }
           })
-          vm.addressList = _result;
+         vm.$store.commit('RECORD_ADDRESS_List', _result)
         }
       })
     },
-    changeDefault() {
+    setDefault(address) {
       let vm = this;
       mui.ajax({
         url: defaultAddress,
         type: 'post',
-        headers: {'app-version': 'v1.0'},
+        headers: { 'app-version': 'v1.0' },
         data: {
-          id:this.defaultId,
-          account:getStore('account'),
-          token:md5(`default${this.defaultId}${getStore('account')}`)
+          id: address.id,
+          account: this.account,
+          token: md5(`default${address.id}${this.account}`)
         },
-        success(res){
+        success(res) {
+          this.$store.commit('RECORD_DEFAULT_ADDRESS', address)
           vm.$dialog.toast({
-            mes:'设置默认地址成功'
+            mes: res.msg
           })
         }
       })
     },
-    editAddress(item){
-      this.$router.push({name:'AddressEdit',params:{address:item}})
+    editAddress(item) {
+      this.$router.push({ name: 'AddressEdit', params: { address: item } })
     },
-    deleteAddress(item){
+    deleteAddress(item) {
       this.$dialog.confirm({
-        mes:"是否删除收货地址？",
-        opts:()=>{
+        mes: "是否删除收货地址？",
+        opts: () => {
           let vm = this;
           mui.ajax({
             url: delAdress,
             type: 'post',
-            headers: {'app-version': 'v1.0'},
+            headers: { 'app-version': 'v1.0' },
             data: {
-              id:item.id,
-              account:getStore('account'),
-              token:md5(`delAdress${this.defaultId}${getStore('account')}`)
+              id: item.id,
+              account: getStore('account'),
+              token: md5(`delAdress${item.id}${getStore('account')}`)
             },
-            success(res){
-              if(res.code!==200){
+            success(res) {
+              if (res.code !== 200) {
                 vm.$dialog.toast({
-                  mes:res.msg
+                  mes: res.msg
                 })
                 return;
               }
-              vm.getAddress();
+              vm.getAddressList();
             }
           })
         }
       })
     },
-    newAddress(){
-      this.$router.push({name:'AddressNew'})
+    newAddress() {
+      this.$router.push({ name: 'AddressNew' })
     }
   }
 }

@@ -101,6 +101,7 @@ export default {
       this.areaId = '';
       this.areaName = '';
       this.addressDetail = '';
+      this.adddressName = '';
     }
 
   },

@@ -1,9 +1,11 @@
 import {
   RECORD_BANK_CARD,
   RECORD_BANK_List,
+  RECORD_ADDRESS_List,
+  RECORD_DEFAULT_ADDRESS,
 } from './mutation-types'
 import {
-  myBanks
+  myBanks,
 } from '../api/index'
 export default {
   getBankList({
@@ -26,12 +28,12 @@ export default {
           let defaultBankCard = bankList[0];
           commit(RECORD_BANK_List, bankList);
           commit(RECORD_BANK_CARD, defaultBankCard);
-        }
-        else{
+        } else {
           commit(RECORD_BANK_List, []);
           commit(RECORD_BANK_CARD, null);
         }
       }
     })
-  }
+  },
+  
 }
