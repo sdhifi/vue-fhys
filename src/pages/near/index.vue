@@ -76,6 +76,8 @@ export default {
         },
         success(res) {
           vm.column = res.result;
+          vm.columnId=vm.column[0].id
+          vm.getProduct();
           setTimeout(() => {
             //vm.$refs.tab.init(false);
           }, 0)

@@ -136,7 +136,7 @@ export default {
         },
         success(res) {
           vm.info = res.result;
-          vm.$store.commit('RECORD_STOREID',vm.info.id);
+          vm.$store.commit('RECORD_STORE_INFO',vm.info);
           setStore('storeId',vm.info.id);
         }
       })

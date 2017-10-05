@@ -5,7 +5,7 @@ import {
   RECORD_SEARCH_VALUE,
   SHOW_CERTIFICATE,
   SET_CERTIFICATE,
-  RECORD_STOREID,
+  RECORD_STORE_INFO,
   RECORD_BALANCE_MONEY,
   RECORD_BANK_CARD,
   RECORD_BANK_List,
@@ -36,8 +36,8 @@ export default {
   [SET_CERTIFICATE](state, status) {
     state.certificateStatus = status;
   },
-  [RECORD_STOREID](state, id) {
-    state.storeId = id;
+  [RECORD_STORE_INFO](state, info) {
+    state.storeInfo = info;
   },
   [RECORD_BALANCE_MONEY](state, m) {
     state.balanceMoney = m;

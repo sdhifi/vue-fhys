@@ -40,7 +40,7 @@ export default {
   name: 'Login',
   data() {
     return {
-      loginWay: true,//judge login or register,default way is register
+      loginWay: false,//judge login or register,default way is login
       mobile: '',
       code: '',
       correctCode: '',
