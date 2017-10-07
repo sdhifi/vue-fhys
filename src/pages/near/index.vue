@@ -1,7 +1,7 @@
 <template>
   <div>
-    <header-top title="附近"></header-top>
-    <main class='scroll-content-2' style="background-color:#fff;">
+    <header-top title="附近" :back="false"></header-top>
+    <main class='scroll-content' style="background-color:#fff;">
       <section class="search-container">
         <router-link to="/home/search" class="search-input">
           <span class="iconfont-large self-search"></span>
@@ -35,17 +35,22 @@
         </yd-infinitescroll>
       </section>
     </main>
+    <footer-bar></footer-bar>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
+import FooterBar from 'components/footer/index'
 import ProductItem from 'components/common/ProductItem'
 import { findNearColum, findNearSubColum, products } from '../../api/index'
+import { mixin } from 'components/common/mixin'
+
 export default {
   name: 'Near',
   data() {
     return {
+      oldBack: mui.back,
       noData: false,
       column: [],
       subColumn: [],
@@ -54,10 +59,20 @@ export default {
       productList: []
     }
   },
-  components: { HeaderTop, ProductItem },
+  components: { HeaderTop,FooterBar, ProductItem },
   computed: {
     ...mapState(['longitude', 'latitude'])
   },
+  mixins:[mixin],
+  beforeRouteEnter(to, from, next) {
+        next(vm => {
+            vm.plusReady();
+        })
+    },
+    beforeRouteLeave(to, from, next) {
+        mui.back = this.oldBack;
+        next();
+    },
   created() {
     this.getNear();
   },

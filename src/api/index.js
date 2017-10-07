@@ -26,10 +26,15 @@ let addProduct = `${pd}/addProduct` //发布商品
 let updatePro = `${pd}/updatePro` //编辑商品
 let myStorePro = `${pd}/myStorePro` //商品管理列表
 let goMoneyPage = `${pd}/goMoneyPage` //付款
+let onlineProductsByAllColumn = `${pd}/online/onlineProductsByAllColumn` //网上商城栏目下的商品
+let onlineProductsDetailInfo = `${pd}/online/onlineProductsDetailInfo` //网上商城商品详情
+let stockAndPrice = `${pd}/online/stockAndPrice` //商品价格和库存
+
 
 let myCart = `${cart}/myCart` //我的购物车
 let updateCartNum = `${cart}/updateCartNum` //修改购物车数量
 let delCart = `${cart}/delCart/` //移除购物车
+let addCart = `${cart}/addCart` //添加购物车
 
 let getProvinceByLetter = `${address}/getProvinceByLetter` //根据字母获取省市区
 let getMyAddress = `${address}/getMyAddress` //我的收货地址
@@ -63,6 +68,8 @@ let findMemberByMoblie = `${member}/findMemberByMoblie` //根据手机号获取�
 let getOrder = `${order}/getOrder` //我的订单
 let updateOrderStatus = `${order}/updateOrderStatus` //确认收货
 let findO2oOrderByPage = `${order}/findO2oOrderByPage` //店铺订单
+let addOrder = `${order}/addOrder` //下单
+let actCart = `${order}/actCart` //结算购物车
 
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
 
@@ -101,11 +108,15 @@ export {
   addProduct,
   updatePro,
   goMoneyPage,
-  
+  onlineProductsByAllColumn,
+  onlineProductsDetailInfo,
+  stockAndPrice,
+
   myCart,
   updateCartNum,
   delCart,
-  
+  addCart,
+
   getProvinceByLetter,
   getMyAddress,
   getAddressDetail,
@@ -138,6 +149,8 @@ export {
   getOrder,
   updateOrderStatus,
   findO2oOrderByPage,
+  addOrder,
+  actCart,
 
   newProCommet,
 
