@@ -96,7 +96,7 @@ export default {
         border-radius: 0 5px 5px 0;
         font-size: 10px;
         margin-left: -3px;
-        vertical-align: -4px;
+        vertical-align: 2px;
       }
     }
     .product-content {

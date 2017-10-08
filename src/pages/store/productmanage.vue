@@ -156,6 +156,7 @@ export default {
     position: relative;
     overflow: hidden;
     .wh(2rem, 2rem);
+    border: 1px solid #dfdfdf;
     img {
       .wh(100%, 100%);
     }

@@ -4,7 +4,7 @@
     <main class="scroll-content-2">
       <section class="current-city flex just-between">
         <div class="">
-          当前城市: <span class="danger-color">{{city}}</span> 
+          当前城市：<span class="danger-color">{{city}}</span> 
         </div>
         <div class="position" v-show="false">定位</div>
       </section>
@@ -19,7 +19,7 @@
       <section class="title-container letter-container">
         <h3>全部城市</h3>
         <ul>
-          <li v-for="item in letters" :key="item" @click="scroll(item)">
+          <li v-for="item in letters" :key="item" @click="scroll(item)" :class="{'active':item==selectLetter}">
             {{item}}
           </li>
         </ul>
@@ -70,7 +70,8 @@ export default {
         city: '武汉市'
       }],
       letters: [],
-      area: []
+      area: [],
+      selectLetter:''
     }
   },
   components: {
@@ -143,7 +144,10 @@ export default {
             })
     },
     scroll(e) {
-      document.getElementById(e).scrollIntoView();
+      this.selectLetter=e;
+      setTimeout(()=>{
+        document.getElementById(e).scrollIntoView();
+      },300)
     }
   }
 }
@@ -195,11 +199,18 @@ export default {
   &.letter-container {
     li {
       width: 15%;
+      &.active{
+        transition: all .2s;
+        background-color: @purple;
+        color: @white;
+        border: 1px solid currentColor;
+        box-shadow: 0 0 15px @white inset;
+      }
     }
   }
   &.hot-city {
     li {
-      color: @blue;
+      color: rgb(23, 140, 236);
     }
   }
 }

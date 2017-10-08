@@ -87,7 +87,7 @@ export default {
   }
   .score-num{
     margin-left: .1rem;
-    vertical-align: middle;
+    vertical-align: 1px;
   }
 }
 </style>

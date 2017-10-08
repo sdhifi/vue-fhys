@@ -10,13 +10,13 @@
         </div>
       </div>
       <section class="search-history" v-if="account&&searchHistory.length">
-        <div class="search-title fs-16">
-          <h3 class="fs-14">搜索历史</h3>
-          <span class="iconfont self-delete danger-color fs-12" @click="clearHistory">清空</span>
+        <div class="search-title fs-14">
+          <h3>搜索历史</h3>
+          <span class="iconfont self-delete danger-color" @click="clearHistory">清空</span>
         </div>
         <ul class="search-list flex">
-          <li class="search-item" v-for="(item,index) in searchHistory" :key="index" @click="search(item)" :style="{'background-color':bg[index%7]}">
-            {{item}}
+          <li class="search-item flex align-center" v-for="(item,index) in searchHistory" :key="index" @click="searchValue=item" :style="{'background-color':bg[index%7]}">
+            <span style="">{{item}}</span>
           </li>
         </ul>
       </section>
