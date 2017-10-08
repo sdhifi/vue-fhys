@@ -4,13 +4,12 @@
     <main class='scroll-content-2'>
       <group style="margin-bottom:.2rem;">
         <selector title="开户银行" v-model="bankId" placeholder="请选择开户银行" :options="bankNameList" direction="rtl"></selector>
-        <!-- <x-input title="支行名称" v-model="bankSub" placeholder="请输入支行名称" :min="2" :max="20" placeholder-align="right" text-align="right"></x-input> -->
       </group>
       <yd-cell-group>
         <yd-cell-item>
           <span slot="left">支行名称：</span>
           <!-- <input slot="right" v-model="bankSub" type="text" placeholder="请输入支行名称" style="text-align:right;"> -->
-          <yd-input  slot="right" v-model="bankSub" type="text" placeholder="请输入支行名称"></yd-input>
+          <yd-input slot="right" v-model="bankSub" type="text" placeholder="请输入支行名称"></yd-input>
         </yd-cell-item>
         <yd-cell-item arrow>
           <span slot="left">省份城市：</span>
@@ -19,7 +18,7 @@
         <yd-cell-item>
           <span slot="left">开户人&emsp;：</span>
           <!-- <input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称" style="text-align:right;"> -->
-           <yd-input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称"></yd-input>
+          <yd-input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称"></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">卡&emsp;&emsp;号：</span>
@@ -29,14 +28,15 @@
       </yd-cell-group>
       <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="addBankCard">同意协议并绑定</yd-button>
       <yd-cityselect v-model="show1" :done="result1" :items="district"></yd-cityselect>
+
     </main>
   </div>
 </template>
 <script>
-import {mapState} from 'vuex'
+import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import { Group, Selector } from 'vux'
-import {getStore} from 'components/common/mixin'
+import { getStore } from 'components/common/mixin'
 import { bindBank } from '../../api/index'
 import District from 'ydui-district/dist/gov_province_city_id'
 export default {
@@ -104,19 +104,19 @@ export default {
         type: 'post',
         headers: { 'app-version': 'v1.0' },
         data: {
-          bankId:this.bankId,
-          bankSub:this.bankSub,
-          bankCard:this.bankCard,
-          holder:this.holder,
-          cityValue:this.cityValue,
-          account:getStore('account'),
-          token:md5(`bindBank${getStore('account')}`)
+          bankId: this.bankId,
+          bankSub: this.bankSub,
+          bankCard: this.bankCard,
+          holder: this.holder,
+          cityValue: this.cityValue,
+          account: getStore('account'),
+          token: md5(`bindBank${getStore('account')}`)
         },
         success(res) {
-          if(res.code==200){
+          if (res.code == 200) {
             vm.$dialog.toast({
-              mes:res.msg,
-              callback:()=>{
+              mes: res.msg,
+              callback: () => {
                 vm.$router.go(-1);
               }
             })
@@ -127,6 +127,3 @@ export default {
   }
 }
 </script>
-<style lang='less' scoped>
-@import '../../style/mixin.less';
-</style>
