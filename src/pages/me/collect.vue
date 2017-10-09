@@ -19,10 +19,10 @@
           </p>
         </yd-infinitescroll>
       </yd-tab-panel>
-      <yd-tab-panel label="关注的商品" tabkey='2'>
-        <yd-infinitescroll :callback="getCollect" ref="ctlist2">
+      <yd-tab-panel label="关注的商品" tabkey='0'>
+        <yd-infinitescroll :callback="getCollect" ref="ctlist0">
           <ul slot="list">
-            <li v-for="(item,index) in info2" :key="item.colId" class="collect-item flex align-center px-1">
+            <li v-for="(item,index) in info0" :key="item.colId" class="collect-item flex align-center px-1">
               <img :src="getImgPath(item.img)" alt="">
               <div class="collect-info flex-1">
                 <h3>{{item.goodName}}</h3>
@@ -49,12 +49,12 @@ export default {
   name: 'MyCollect',
   data() {
     return {
+      noData0: false,
       noData1: false,
-      noData2: false,
+      info0: [],
       info1: [],
-      info2: [],
+      pageNo0: 1,
       pageNo1: 1,
-      pageNo2: 1,
       collectType: '1',
     }
   },
@@ -67,12 +67,12 @@ export default {
 
   },
   activated() {
+    this.noData0 = false;
     this.noData1 = false;
-    this.noData2 = false;
+    this.info0 = [];
     this.info1 = [];
-    this.info2 = [];
+    this.pageNo0 = 1;
     this.pageNo1 = 1;
-    this.pageNo2 = 1;
     this.collectType = '1';
     if (!this.info1.length) {
       this.changeTab('关注的店铺', '1')

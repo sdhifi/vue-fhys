@@ -9,26 +9,24 @@
         </router-link>
       </section>
       <!-- <yd-tab ref="tab" :callback="changeStatus">
-        <yd-tab-panel :label="item.names" v-for="(item,index) in column" :key="index" :tabkey="item.id">
-          <div class="swiper-container">
-            <div class="swiper-wrapper sub-list">
-              <div class="swiper-slide sub-item" v-for="(sub,i) in subColumn" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}"
-               @click="changeSubColumn(sub)">{{sub.names}}</div>
-            </div>
-          </div>
-        </yd-tab-panel>
-      </yd-tab> -->
+            <yd-tab-panel :label="item.names" v-for="(item,index) in column" :key="index" :tabkey="item.id">
+              <div class="swiper-container">
+                <div class="swiper-wrapper sub-list">
+                  <div class="swiper-slide sub-item" v-for="(sub,i) in subColumn" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}"
+                   @click="changeSubColumn(sub)">{{sub.names}}</div>
+                </div>
+              </div>
+            </yd-tab-panel>
+          </yd-tab> -->
       <div class="swiper-container">
-            <div class="swiper-wrapper sub-list">
-              <div class="swiper-slide sub-item" v-for="(sub,i) in column" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}"
-               @click="changeSubColumn(sub)">{{sub.names}}</div>
-            </div>
-          </div>
+        <div class="swiper-wrapper sub-list">
+          <div class="swiper-slide sub-item" v-for="(sub,i) in column" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" @click="changeSubColumn(sub)">{{sub.names}}</div>
+        </div>
+      </div>
       <section class="pd-list">
         <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
           <div slot="list">
-            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" 
-            :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
+            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
           </div>
           <p slot="doneTip">
             <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
@@ -45,7 +43,8 @@ import FooterBar from 'components/footer/index'
 import ProductItem from 'components/common/ProductItem'
 import { findNearColum, findNearSubColum, products } from '../../api/index'
 import { mixin } from 'components/common/mixin'
-
+import '../../plugin/swiper.min.js'
+import '../../plugin/swiper.min.css'
 export default {
   name: 'Near',
   data() {
@@ -59,25 +58,25 @@ export default {
       productList: []
     }
   },
-  components: { HeaderTop,FooterBar, ProductItem },
+  components: { HeaderTop, FooterBar, ProductItem },
   computed: {
     ...mapState(['longitude', 'latitude'])
   },
-  mixins:[mixin],
+  mixins: [mixin],
   beforeRouteEnter(to, from, next) {
-        next(vm => {
-            vm.plusReady();
-        })
-    },
-    beforeRouteLeave(to, from, next) {
-        mui.back = this.oldBack;
-        next();
-    },
+    next(vm => {
+      vm.plusReady();
+    })
+  },
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
+  },
   created() {
     this.getNear();
   },
   activated() {
-    
+
   },
   methods: {
     getNear() {
@@ -91,10 +90,15 @@ export default {
         },
         success(res) {
           vm.column = res.result;
-          vm.columnId=vm.column[0].id
+          vm.columnId = vm.column[0].id
           vm.getProduct();
           setTimeout(() => {
             //vm.$refs.tab.init(false);
+            new Swiper('.swiper-container', {
+              slideToClickedSlide: true,
+              slidesPerView: 4,
+              spaceBetween: 10,
+            })
           }, 0)
         }
       })
@@ -165,19 +169,19 @@ export default {
 @import '../../style/mixin.less';
 .swiper-container {
   .sub-list {
-    width: 100%;
+    /*width: 100%;
     white-space: nowrap;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;*/
     .sub-item {
       padding: .15rem 0;
       border-radius: 3px;
       border: 1px solid #ddd;
       text-align: center;
-      transition: all .4s;
+      /*transition: all .4s;*/
       display: inline-block;
-      margin: .2rem;
-      width: 20%;
+      margin: .2rem 0;
+      /*width: 20%;*/
       &.sub-active {
         color: @red;
         border-color: currentColor;

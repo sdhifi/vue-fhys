@@ -57,3 +57,9 @@ formatBg(url){
   // app.js
   搜索相关json文件，在路径前加‘.’，一般是./static/service/xx.json
 ```
+- 引用swiper报错
+```javascript
+// .babelrc
+ - "plugins":["transform-runtime"],
+ + "plugins":[],
+```

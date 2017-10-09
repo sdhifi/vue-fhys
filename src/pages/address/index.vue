@@ -40,13 +40,13 @@
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
-import { getMyAddress,defaultAddress, delAdress } from '../../api/index'
+import { getMyAddress, defaultAddress, delAdress } from '../../api/index'
 import { getStore } from 'components/common/mixin'
 export default {
   name: 'AddressManage',
   data() {
     return {
-      defaultId:''
+      defaultId: ''
     }
   },
   components: { HeaderTop },
@@ -62,7 +62,7 @@ export default {
   methods: {
     getAddressList() {
       let vm = this;
-      
+
       mui.ajax({
         url: getMyAddress,
         type: 'post',
@@ -77,10 +77,10 @@ export default {
           let _result = res.result;
           _result.forEach((item, index) => {
             if (item.isDefault == '1') {
-              vm.defaultId=item.id
+              vm.defaultId = item.id
             }
           })
-         vm.$store.commit('RECORD_ADDRESS_List', _result)
+          vm.$store.commit('RECORD_ADDRESS_List', _result)
         }
       })
     },
@@ -96,10 +96,17 @@ export default {
           token: md5(`default${address.id}${this.account}`)
         },
         success(res) {
-          this.$store.commit('RECORD_DEFAULT_ADDRESS', address)
-          vm.$dialog.toast({
-            mes: res.msg
-          })
+          if (res.code == 200) {
+            vm.$store.commit('RECORD_DEFAULT_ADDRESS', address)
+            vm.$dialog.toast({
+              mes: '设置默认地址成功'
+            })
+          }
+          else {
+            vm.$dialog.toast({
+              mes: res.msg
+            })
+          }
         }
       })
     },
