@@ -119,7 +119,7 @@ export default {
       this.noData = false;
       this.pageNo=1;
       this.productList=[];
-      this.getHotProduct();
+      // this.getHotProduct();
     },
     getDetail() {
       let vm = this;
@@ -138,6 +138,7 @@ export default {
           if (result.product) {
             vm.pdDetail = result.product;
             vm.comment = Object.assign({}, { count: result.comCount, cmt: result.comment })
+            vm.getHotProduct();
           }
           else {
             vm.$dialog.toast({
@@ -182,6 +183,9 @@ export default {
   },
   watch: {
     '$route'(to, from) {
+      if(!/\shop\/index/.test(from.path)){
+        return;
+      }
       if(/\/shop\/index/.test(to.path)){
         this.init();
         document.querySelector('.scroll-content-2').scrollTop=0;

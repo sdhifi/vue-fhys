@@ -17,6 +17,7 @@ let subColumn = `${index}/o2o/subColumn/` //O2O商城子栏目页
 let near = `${index}/near` //获取附近的栏目
 let findNearColum = `${index}/findNearColum` //获取附近的一级栏目
 let findNearSubColum = `${index}/findNearSubColum` //获取附近的一级栏目下的子栏目
+let onlineInH5 = `${index}/onlineInH5` //网上商城首页
 
 let products = `${pd}/o2o/products` //o2o商城一级栏目或本栏目下的商品
 let product = `${pd}/o2o/productDetail/` //查询O2O商品信息
@@ -99,6 +100,7 @@ export {
   near,
   findNearColum,
   findNearSubColum,
+  onlineInH5,
 
   hotProduct,
   products,

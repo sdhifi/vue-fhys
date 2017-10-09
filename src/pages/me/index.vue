@@ -74,7 +74,7 @@
           <span class="tel-num">拨打:020-29030366</span>
         </a>
         <p>
-          <span>工作日9:00-18:00 ,节假日不上班</span><br>不便之处,尽请谅解</p>
+          <span>工作日9:00-18:00 ，节假日不上班</span><br>不便之处，尽请谅解</p>
         <yd-button type="danger" @click.native="showDialog=false">我知道了</yd-button>
       </div>
     </x-dialog>
