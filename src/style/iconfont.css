@@ -52,9 +52,13 @@
 
 .self-xiaofeiguize:before { content: "\e837"; }
 
+.self-dianfanguo:before { content: "\e61e"; }
+
 .self-edu:before { content: "\e692"; }
 
 .self-upload:before { content: "\e66f"; }
+
+.self-shenghuofuwu:before { content: "\e61f"; }
 
 .self-fabu:before { content: "\e68c"; }
 
@@ -84,7 +88,11 @@
 
 .self-female:before { content: "\e67e"; }
 
+.self-KTV:before { content: "\e620"; }
+
 .self-heart:before { content: "\e822"; }
+
+.self-qiche:before { content: "\e62b"; }
 
 .self-lock:before { content: "\e60f"; }
 
@@ -118,6 +126,8 @@
 
 .self-group:before { content: "\e66e"; }
 
+.self-bags:before { content: "\e625"; }
+
 .self-renzheng:before { content: "\e618"; }
 
 .self-me:before { content: "\e6c7"; }
@@ -142,4 +152,8 @@
 
 .self-noorder:before { content: "\e60b"; }
 
+.self-ruanjian:before { content: "\e663"; }
+
 .self-success:before { content: "\e60e"; }
+
+.self-huazhuangpin:before { content: "\e622"; }

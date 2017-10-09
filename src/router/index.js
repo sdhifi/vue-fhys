@@ -33,6 +33,18 @@ export default new Router({
     path: '/online/index',
     name: 'Online',
     component: require('../pages/online/index')
+  },  {
+    path: '/online/allcolumn',
+    name: 'AllColumn',
+    component: require('../pages/online/allcolumn')
+  },  {
+    path: '/online/products',
+    name: 'Products',
+    component: require('../pages/online/products')
+  },  {
+    path: '/online/product',
+    name: 'Product',
+    component: require('../pages/online/product')
   }, {
     path: '/address/city',
     name: 'City',

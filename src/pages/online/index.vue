@@ -12,7 +12,7 @@
         </yd-slider>
       </section>
       <section class="column-list flex text-center align-center">
-        <router-link :to="{path:'/online/products',query:{id:item.id}}" class="column-item" v-for="item in info.indexColumns" :key="item.id">
+        <router-link :to="{path:'/online/products',query:{type:0,id:item.id}}" class="column-item" v-for="item in info.indexColumns" :key="item.id">
           <img :src="getImgPath(item.pic2)" alt="" class="column-img">
           <p>{{item.names}}</p>
         </router-link>
@@ -23,19 +23,29 @@
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
         <yd-cell-group>
-          <yd-cell-item arrow type="link" :href="'/online/products/'+item[0].split(/[;|~]/)[2]">
+          <yd-cell-item arrow type="link" :href="'/online/products?type=0&id='+item[0].split(/[;|~]/)[2]">
             <span slot="icon" class="iconfont self-libao" style="color:#f98e25;"></span>
             <span slot="left">{{item[0].split(/[;|~]/)[0]}}</span>
             <span slot="right">更多</span>
           </yd-cell-item>
         </yd-cell-group>
         <ul class="flex just-between">
-          <router-link :to="{path:'/online/products',query:{id:pd.id}}" v-for="pd in item[1]" :key="pd.id" tag="li" class="pd-item">
-            <img :src="pd.imgUrl" alt="">
+          <router-link :to="{path:'/online/product',query:{id:pd.id}}" v-for="pd in item[1]" :key="pd.id" tag="li" class="pd-item">
+            <div class="img-cover">
+              <img :src="pd.imgUrl" :alt="pd.name">
+            </div>
             <h3 class="title">{{pd.name}}</h3>
-            <div class="price" v-if="item[0].split(/[;|~]/)[0]=='积分换购'"><span>￥{{formatPrice(pd.price)}}</span>+<span>{{formatPrice(pd.isCanUserCou)}}积分</span></div>
-            <div class="price" v-else-if="item[0].split(/[;|~]/)[0]=='责任消费'"><span>￥{{formatPrice(pd.price)}}</span>+<span>{{formatPrice(pd.isCanUserCou)}}责任金额</span></div>
-            <div class="price" v-else><span>￥{{formatPrice(pd.price)}}</span></div>
+            <div class="price" v-if="item[0].split(/[;|~]/)[0]=='积分换购'">
+              <span>￥{{formatPrice(pd.price)}}</span>+
+              <span>{{formatPrice(pd.isCanUserCou)}}积分</span>
+            </div>
+            <div class="price" v-else-if="item[0].split(/[;|~]/)[0]=='责任消费'">
+              <span>￥{{formatPrice(pd.price)}}</span>+
+              <span>{{formatPrice(pd.isCanUserCou)}}责任金额</span>
+            </div>
+            <div class="price" v-else>
+              <span>￥{{formatPrice(pd.price)}}</span>
+            </div>
           </router-link>
         </ul>
       </section>
@@ -124,7 +134,7 @@ section {
 }
 
 .pd-list {
-  ul{
+  ul {
     .pd-h;
   }
   .pd-item {
@@ -132,24 +142,32 @@ section {
     padding: .1rem;
     margin-bottom: @pd;
     border: 1px solid #dfdfdf;
-    img{
+    .img-cover {
+      position: relative;
       width: 100%;
+      overflow: hidden;
+      padding: 50% 0;
+      img {
+        width: 100%;
+        .hv-cen;
+      }
     }
-    .title{
+
+    .title {
       .multi-ellipsis(2);
       font-size: 12px;
       height: 32px;
     }
-    .price{
-     margin-top: .1rem;
-     font-size: 16px; 
-     span:first-of-type{
-       color:@red;
-     }
-     span:nth-of-type(2){
-       font-size: 12px;
-       color: @lightgray;
-     }
+    .price {
+      margin-top: .1rem;
+      font-size: 16px;
+      span:first-of-type {
+        color: @red;
+      }
+      span:nth-of-type(2) {
+        font-size: 12px;
+        color: @lightgray;
+      }
     }
   }
 }
