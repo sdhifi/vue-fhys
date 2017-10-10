@@ -11,17 +11,18 @@
     <main class='scroll-content-1' style="background-color:#fff;">
       <yd-infinitescroll :callback="getProduct" ref="pdlist">
         <div slot="list" class="pd-list">
-          <router-link :to="{path:'/online/product',query:{id:pd.id}}" class="pd-item flex align-center" v-for="(pd,index) in productList" :key='index'>
+          <div class="pd-item flex align-center" v-for="(pd,index) in productList" :key='index' @click="navigate($event,pd)">
             <img :src="pd.imgUrl" :alt="pd.name" class="pd-cover">
             <div class="pd-info flex-1">
               <h3>{{pd.name}}</h3>
               <div class="flex just-between align-center">
-                <span class="fs-14 price1">￥{{pd.price}}<span class="price2" v-if="pd.isCanUserCou">+{{pd.isCanUserCou}}</span></span>
-                
+                <span class="fs-14 price1">￥{{pd.price}}
+                  <span class="price2" v-if="pd.pointNicePrice">+{{pd.pointNicePrice}}积分</span>
+                </span>
                 <yd-button type="danger">立即购买</yd-button>
               </div>
             </div>
-          </router-link>
+          </div>
         </div>
       </yd-infinitescroll>
     </main>
@@ -34,6 +35,7 @@ export default {
   name: 'Products',
   data() {
     return {
+      pdtype: '',
       searchValue: '',
       columnId: '',
       type: '',
@@ -53,7 +55,7 @@ export default {
     this.reset();
     this.type = this.$route.query.type;
     this.columnId = this.$route.query.id;
-
+    this.pdtype = this.$route.query.pdtype;
     this.searchValue = '';
     this.$refs.pdlist.$emit('ydui.infinitescroll.reInit');
     // setTimeout(()=>{
@@ -104,7 +106,17 @@ export default {
     searchProduct() {
       this.reset();
       this.getProduct();
-    }
+    },
+    navigate(event, pd) {
+      //pdtype产品类型||积分换购：0，品牌商城：1，京东：2，责任消费：3
+      if (event.target.tagName == 'BUTTON') {
+        this.$router.push({ path: '/online/settle', query: { pd, pdtype: this.$route.query.pdtype } })
+      }
+      else {
+        this.$router.push({ path: '/online/product', query: { id: pd.id, pdtype: this.$route.query.pdtype } })
+      }
+    },
+
   }
 }
 </script>
@@ -130,7 +142,7 @@ export default {
     .price1 {
       color: @red;
     }
-    .price2{
+    .price2 {
       color: @lightgray;
     }
   }

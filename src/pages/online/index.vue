@@ -5,7 +5,7 @@
       <section>
         <yd-slider>
           <yd-slider-item v-for="(item,index) in info.indexAds" :key="item.id">
-            <router-link :to="'/online/product?'+item.address.substring(item.address.lastIndexOf('/')+1)">
+            <router-link :to="'/online/product?id='+item.address.substring(item.address.lastIndexOf('/')+1)">
               <img :src="item.photo" :alt="item.names">
             </router-link>
           </yd-slider-item>
@@ -23,7 +23,7 @@
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
         <yd-cell-group>
-          <yd-cell-item arrow type="link" :href="'/online/products?type=0&id='+item[0].split(/[;|~]/)[2]">
+          <yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+item[0].split(/[;|~]/)[2]+'&pdtype='+index">
             <span slot="icon" class="iconfont self-libao" style="color:#f98e25;"></span>
             <span slot="left">{{item[0].split(/[;|~]/)[0]}}</span>
             <span slot="right">更多</span>
@@ -157,10 +157,13 @@ section {
       .multi-ellipsis(2);
       font-size: 12px;
       height: 32px;
+      font-weight: normal;
+      word-wrap: break-word;
+      word-break: break-all;
     }
     .price {
       margin-top: .1rem;
-      font-size: 16px;
+      font-size: 14px;
       span:first-of-type {
         color: @red;
       }

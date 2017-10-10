@@ -46,6 +46,10 @@ export default new Router({
     name: 'Product',
     component: require('../pages/online/product')
   }, {
+    path: '/online/settle',
+    name: 'SettleBalance',
+    component: require('../pages/online/settle')
+  }, {
     path: '/address/city',
     name: 'City',
     component: require('../pages/address/city')
