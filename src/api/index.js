@@ -28,7 +28,7 @@ let updatePro = `${pd}/updatePro` //编辑商品
 let myStorePro = `${pd}/myStorePro` //商品管理列表
 let goMoneyPage = `${pd}/goMoneyPage` //付款
 let onlineProductsByAllColumn = `${pd}/online/onlineProductsByAllColumn` //网上商城栏目下的商品
-let onlineProductsDetailInfo = `${pd}/online/onlineProductsDetailInfo` //网上商城商品详情
+let onlineProductsDetailInfoInH5 = `${pd}/online/onlineProductsDetailInfoInH5` //网上商城商品详情
 let stockAndPrice = `${pd}/online/stockAndPrice` //商品价格和库存
 
 
@@ -111,7 +111,7 @@ export {
   updatePro,
   goMoneyPage,
   onlineProductsByAllColumn,
-  onlineProductsDetailInfo,
+  onlineProductsDetailInfoInH5,
   stockAndPrice,
 
   myCart,

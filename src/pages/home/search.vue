@@ -1,14 +1,14 @@
 <template>
   <div>
     <header-top title="搜索"></header-top>
-    <main class='scroll-content-2' style="background-color:#fff;">
-      <div class="search-form" autocomplete="off">
-        <div class="input-group  flex align-center">
-          <span class="iconfont-large self-search"></span>
-          <input type="search" name="search" class="search-input" placeholder="搜索商家或商品" v-model="searchValue" autofocus>
-          <button type="button" name="submit" class="search-submit" @click="search(searchValue)">搜索</button>
-        </div>
+    <div class="search-form" autocomplete="off">
+      <div class="input-group  flex align-center">
+        <span class="iconfont-large self-search"></span>
+        <input type="search" name="search" class="search-input" placeholder="搜索商家或商品" v-model="searchValue" autofocus>
+        <button type="button" name="submit" class="search-submit" @click="search(searchValue)">搜索</button>
       </div>
+    </div>
+    <main class='scroll-content-1' style="background-color:#fff;">
       <section class="search-history" v-if="account&&searchHistory.length">
         <div class="search-title fs-14">
           <h3>搜索历史</h3>
@@ -33,7 +33,7 @@ export default {
       account: '',
       searchValue: '',
       searchHistory: [],
-      bg:['#178CEC','#E51417','#34B34C','#FDBA2D','#FE5B24','#829DAE','#1FBFCB']
+      bg: ['#178CEC', '#E51417', '#34B34C', '#FDBA2D', '#FE5B24', '#829DAE', '#1FBFCB']
     }
   },
   components: { HeaderTop },
@@ -82,29 +82,6 @@ export default {
 </script>
 <style lang='less' scoped>
 @import '../../style/mixin.less';
-.search-form {
-  .mg-v;
-  .input-group {
-    background-color: @red;
-    color: @white;
-    .mg;
-    border: 1px solid @red;
-    border-radius: @pd;
-  }
-  .search-input {
-    flex: 1;
-    .pd;
-    font-size: .32rem;
-    border: none;
-    background-color: @white;
-    border-right: 1px solid @red;
-  }
-  .search-submit {
-    width: 1rem;
-    font-size: .28rem;
-    color: @white;
-  }
-}
 
 .search-history {
   .mg;

@@ -7,7 +7,7 @@
 					<span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
 					<span slot="left">{{item.names}}</span>
 				</yd-cell-item>
-						<yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+item.id" v-for="(m,i) in item.subcolumn" :key="i">
+						<yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+m.id" v-for="(m,i) in item.subcolumn" :key="i">
 					<span slot="left">{{m.names}}</span>
 				</yd-cell-item>
 			

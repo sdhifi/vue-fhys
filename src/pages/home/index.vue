@@ -63,6 +63,7 @@
                     </p>
                 </yd-infinitescroll>
             </section>
+            <yd-backtop></yd-backtop>
         </main>
         <footer-bar></footer-bar>
     </div>

@@ -30,7 +30,7 @@
           </yd-cell-item>
         </yd-cell-group>
         <ul class="flex just-between">
-          <router-link :to="{path:'/online/product',query:{id:pd.id}}" v-for="pd in item[1]" :key="pd.id" tag="li" class="pd-item">
+          <router-link :to="{path:'/online/product',query:{id:pd.id,pdtype:index}}" v-for="pd in item[1]" :key="pd.id" tag="li" class="pd-item">
             <div class="img-cover">
               <img :src="pd.imgUrl" :alt="pd.name">
             </div>
