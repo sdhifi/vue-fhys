@@ -39,7 +39,7 @@
     <footer class="fix-footer flex align-center" v-show="pdtype==2">
       <button @click="buynow" class="flex-1 btn-2">[京东]立即购买</button>
     </footer>
-    <footer class="fix-footer flex align-center" v-show="pdtype!=2">
+    <footer class="fix-footer flex align-center" v-show="pdtype!=2" style="border-top:1px solid #dfdfdf;">
       <div class="shopping-cart flex just-center align-center" @click="goShoppingCart">
         <!-- <span class="iconfont self-shopcart"></span> -->
         <!-- <p class="fs-10">购物车</p> -->
@@ -79,12 +79,12 @@
           <div class="middle-2">
             <h3>请选择数量：</h3>
             <div class="flex align-center">
-              <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="pdtype==0" readonly></yd-spinner>
-              <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock.repertory" v-else></yd-spinner>
+              <!-- <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="pdtype==0" readonly></yd-spinner> -->
+              <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock.repertory"></yd-spinner>
               <p style="margin-left:.2rem;">库存
                 <span class="danger-color">{{info.productAttrStock.repertory}}</span>件(商品限购
-                <span v-if="pdtype==0">1</span>
-                <span v-else>{{info.purchasNum}}</span>件)
+                <!-- <span v-if="pdtype==0">1</span> -->
+                <span>{{info.purchasNum}}</span>件)
               </p>
             </div>
           </div>
@@ -120,9 +120,11 @@ export default {
   computed: {
     ...mapState(['account', 'cartList']),
     totalNum() {
+      let _num = 0;
       this.cartList.forEach((item,index)=>{
-        
+        _num +=item.goodsNum;
       });
+      return _num;
     }
   },
   mixins: [mixin],
@@ -216,6 +218,7 @@ export default {
             vm.$dialog.toast({
               mes: res.msg
             })
+            vm.$store.dispatch('getCartList');
           }
         })
       }

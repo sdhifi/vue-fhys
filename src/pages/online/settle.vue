@@ -7,6 +7,7 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex'
 import HeaderTop from 'components/header/index'
 import { } from '../../api/index'
 export default {
@@ -18,7 +19,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-
+...mapState(['account','defaultAddress','addressList'])
   },
   created() {
 

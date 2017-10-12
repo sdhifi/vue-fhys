@@ -46,7 +46,7 @@
         </p>
         <p>不含运费</p>
       </div>
-      <button class="submit-btn" @click="actCart" :disabled="!checkList.length">结算
+      <button class="submit-btn" @click="settleCart" :disabled="!checkList.length">结算
         <span>({{checkList.length}})</span>
       </button>
     </footer>
@@ -55,7 +55,7 @@
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
-import { updateCartNum, delCart } from '../../api/index'
+import { updateCartNum, delCart, actCart } from '../../api/index'
 export default {
   name: 'ShoppingCart',
   data() {
@@ -75,7 +75,7 @@ export default {
   activated() {
     this.$store.dispatch('getCartList')
   },
-  mounted(){
+  mounted() {
 
   },
   methods: {
@@ -133,9 +133,9 @@ export default {
                 mes: res.msg
               })
               vm.calcTotal();
-              vm.checkList.splice(vm.checkList.indexOf(item.id),1);
-              if(!vm.checkList.length){
-                vm.checkAll=false;
+              vm.checkList.splice(vm.checkList.indexOf(item.id), 1);
+              if (!vm.checkList.length) {
+                vm.checkAll = false;
               }
             }
           })
@@ -159,8 +159,29 @@ export default {
       }
 
     },
-    actCart() {
-
+    settleCart() {
+      let vm = this;
+      let settleList = [];
+      for(let i=0;i<this.checkList.length;i++){
+        for(let j = 0;j<this.cartList.length;j++){
+          if (this.checkList[i] == this.cartList[j].id) {
+            settleList.push(this.cartList[j]);
+          }
+        }
+      }
+      mui.ajax({
+        url: actCart,
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
+        data: {
+          cartIds: this.checkList.join(','),
+          account: this.account,
+          token: md5(`actCart`)
+        },
+        success(res) {
+          vm.$router.push({ name: 'SettleBalance',params:{settleList} })
+        }
+      })
     }
   }
 }
@@ -214,5 +235,9 @@ export default {
   padding: 0 10px;
   font-size: 14px;
   margin-left: @pd;
+  &[disabled] {
+    background-color: #ccc;
+    color: #f0f0f0;
+  }
 }
 </style>
