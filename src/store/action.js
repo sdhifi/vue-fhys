@@ -3,10 +3,12 @@ import {
   RECORD_BANK_List,
   RECORD_ADDRESS_List,
   RECORD_DEFAULT_ADDRESS,
+  RECORD_CART_LIST,
 } from './mutation-types'
 import {
   myBanks,
   getMyAddress,
+  myCart,
 } from '../api/index'
 export default {
   getBankList({
@@ -63,4 +65,27 @@ export default {
       }
     })
   },
+  getCartList({
+    commit,
+    state
+  }) {
+    mui.ajax({
+      url: myCart,
+      type: 'post',
+      headers: {
+        'app-version': 'v1.0'
+      },
+      data: {
+        account: state.account,
+        token: md5(`myCart${state.account}`)
+      },
+      success(res) {
+        let _result = res.result;
+        _result.forEach((item,index)=>{
+          item.close= true;
+        })
+        commit(RECORD_CART_LIST, _result);
+      }
+    })
+  }
 }

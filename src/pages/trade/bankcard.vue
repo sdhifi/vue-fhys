@@ -38,24 +38,26 @@
       <button class="delete-btn btn-large" @click="newBank">
         <span class="iconfont self-add"></span>添加银行卡</button>
     </footer>
+    <cert-modal></cert-modal>
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
+import CertModal from 'components/common/CertModal'
 import { GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
 import { getStore, mixin } from 'components/common/mixin'
-import {  deleteMemBank } from '../../api/index'
+import { deleteMemBank } from '../../api/index'
 export default {
   name: 'BankCard',
   data() {
     return {
-     
+
     }
   },
-  components: { HeaderTop, GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton },
+  components: { HeaderTop, CertModal, GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton },
   computed: {
-    ...mapState(['bankList'])
+    ...mapState(['bankList', 'showCertificate', 'certificateStatus'])
   },
   mixins: [mixin],
   created() {
@@ -98,7 +100,12 @@ export default {
       })
     },
     newBank() {
-      this.$router.push({ name: 'NewBank' })
+      if (!this.certificateStatus) {
+        this.$store.commit('SHOW_CERTIFICATE', true);
+      }
+      else {
+        this.$router.push({ name: 'NewBank' })
+      }
     }
   }
 }

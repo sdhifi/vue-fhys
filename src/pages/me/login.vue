@@ -167,7 +167,8 @@ export default {
               callback: () => {
                 vm.$store.commit('SET_ACCOUNT', vm.mobile);
                 localStorage.setItem('account', vm.mobile);
-                vm.$router.push({ path: '/me/index' })
+                // vm.$router.push({ path: '/me/index' })
+                vm.$router.go(-1)
               }
             })
           }

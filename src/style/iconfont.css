@@ -38,6 +38,8 @@
 
 .self-shop:before { content: "\e60c"; }
 
+.self-qiche:before { content: "\e62d"; }
+
 .self-delivery:before { content: "\e67f"; }
 
 .self-code:before { content: "\e629"; }
@@ -92,8 +94,6 @@
 
 .self-heart:before { content: "\e822"; }
 
-.self-qiche:before { content: "\e62b"; }
-
 .self-lock:before { content: "\e60f"; }
 
 .self-yinlianzhifu1:before { content: "\e679"; }
@@ -116,6 +116,8 @@
 
 .self-seller:before { content: "\e60a"; }
 
+.self-dui:before { content: "\e61d"; }
+
 .self-weibo:before { content: "\e635"; }
 
 .self-dingdanguanli:before { content: "\e612"; }
@@ -123,6 +125,8 @@
 .self-shenfenzheng:before { content: "\e6fb"; }
 
 .self-shoukuan:before { content: "\e7bc"; }
+
+.self-guanbi:before { content: "\e653"; }
 
 .self-group:before { content: "\e66e"; }
 

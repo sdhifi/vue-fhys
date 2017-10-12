@@ -12,6 +12,9 @@ import {
   RECORD_MEMBER_INFO,
   RECORD_ADDRESS_List,
   RECORD_DEFAULT_ADDRESS,
+  RECORD_CART_LIST,
+  UPDATE_CART_NUM,
+  DELETE_CART_ITEM,
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -56,5 +59,18 @@ export default {
   },
   [RECORD_ADDRESS_List](state, list) {
     state.addressList = list;
+  },
+  [RECORD_CART_LIST](state,list){
+    state.cartList=list;
+  },
+  [UPDATE_CART_NUM](state,payload){
+    let _list = state.cartList;
+    _list.splice(payload.index,1,payload.item);
+    state.cartList=_list;
+  },
+  [DELETE_CART_ITEM](state,index){
+    let _list = state.cartList;
+    _list.splice(index,1);
+    state.cartList=_list;
   },
 }

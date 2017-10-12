@@ -134,7 +134,7 @@ export default {
           {
             name: '购物车',
             icon: 'self-shopcart c1',
-            link: '/me/shopcart',
+            link: '/online/shoppingcart',
             type: 'label'
           },
           {

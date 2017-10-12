@@ -49,6 +49,10 @@ export default new Router({
     path: '/online/settle',
     name: 'SettleBalance',
     component: require('../pages/online/settle')
+  },{
+    path: '/online/shoppingcart',
+    name: 'ShoppingCart',
+    component: require('../pages/online/cart')
   }, {
     path: '/address/city',
     name: 'City',
