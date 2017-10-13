@@ -137,9 +137,12 @@ export default {
     this.jdinfo = {};
     this.pdtype = this.$route.query.pdtype;
     this.pdnum = 1;
-
+    //京东商品
     if (this.pdtype == 2) {
 
+    }
+    if(this.account){
+      this.$store.dispatch('getCartList');
     }
     this.getInfo();
   },
@@ -148,7 +151,7 @@ export default {
     next();
   },
   mounted() {
-    let attrList = document.querySelectorAll('attr-list');
+    
   },
   methods: {
     getInfo() {

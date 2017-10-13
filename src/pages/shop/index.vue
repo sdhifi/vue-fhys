@@ -18,11 +18,11 @@
         <h2 class="fs-16">商家信息</h2>
         <div class="flex align-center">
           <div class="seller-info">
-            <div class="seller-name fs-14">
+            <div class="seller-name fs-16">
               <span class="iconfont self-seller danger-color"></span>
               {{pdDetail.storeName}}
             </div>
-            <div class="seller-address">
+            <div class="seller-address fs-13">
               <span class="iconfont self-location danger-color"></span>
               {{pdDetail.storeAddress}}
               <p class="fs-12">距离我最近{{formatDis(pdDetail.distance)}}</p>
@@ -34,14 +34,14 @@
         </div>
       </section>
       <section class="tip-container">
-        <h3 class="fs-14 danger-color">购买须知</h3>
+        <h3 class="fs-16 danger-color">购买须知</h3>
         <ul>
-          <li class="tip-item">有效期：
+          <li class="tip-item fs-14">有效期：
             <div>{{pdDetail.indate||'暂无'}}</div>
           </li>
-          <li class="tip-item">
+          <li class="tip-item fs-14">
             备注：
-            <div>{{pdDetail.notice||'暂无'}}</div>
+            <div class="fs-13">{{pdDetail.notice||'暂无'}}</div>
           </li>
         </ul>
       </section>
