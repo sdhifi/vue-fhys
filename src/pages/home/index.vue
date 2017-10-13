@@ -9,11 +9,11 @@
                 </router-link>
                 <router-link to="/home/search" class="search-box">
                     <span class="iconfont-large self-search"></span>
-                    <span>搜索商家或商品</span>
+                    <span style="vertical-align:-2px;">搜索商家或商品</span>
                 </router-link>
             </section>
             <section class="type-list">
-                <!-- <yd-slider>
+                <yd-slider>
                     <yd-slider-item v-for="(item,index) in slideTypes" :key="index">
                         <ul class="flex">
                             <li v-for="e in item" :key="e.id" class="type-item text-center">
@@ -24,8 +24,8 @@
                             </li>
                         </ul>
                     </yd-slider-item>
-                </yd-slider> -->
-                <swiper dots-position="center">
+                </yd-slider>
+                <!-- <swiper dots-position="center">
                    <swiper-item v-for="(item,index) in slideTypes" :key="index">
                        <ul class="flex">
                             <li v-for="e in item" :key="e.id" class="type-item text-center">
@@ -36,7 +36,7 @@
                             </li>
                         </ul>
                     </swiper-item> 
-                </swiper>
+                </swiper> -->
             </section>
             <section class="banner-list">
                 <yd-slider>

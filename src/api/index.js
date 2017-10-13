@@ -48,6 +48,7 @@ let newsAddressInIos = `${address}/newsAddressInIos` //新增收货地址
 let register = baseUrl + `/app/${VERSION}/register` //注册
 let login = baseUrl + `/app/${VERSION}/login` //登录
 let forgetPassWord = baseUrl + `/app/${VERSION}/forgetPassWord` //忘记密码
+let updataLoginPassword = baseUrl + `/app/${VERSION}/updataLoginPassword` //忘记密码
 
 let service = `${rule}/service` //服务协议
 let aboutGjf = `${rule}/aboutGjf` //关于凤凰云商O2O
@@ -130,6 +131,7 @@ export {
   register,
   login,
   forgetPassWord,
+  updataLoginPassword,
   
   service,
   aboutGjf,

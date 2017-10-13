@@ -73,6 +73,8 @@ export default {
 
   },
   activated() {
+    this.isCheckAll=false;
+    this.checkList=[];
     this.$store.dispatch('getCartList')
   },
   mounted() {
@@ -179,7 +181,8 @@ export default {
           token: md5(`actCart`)
         },
         success(res) {
-          vm.$router.push({ name: 'SettleBalance',params:{settleList} })
+          vm.$store.commit('RECORD_SETTLE_LIST',settleList)
+          vm.$router.push({ name: 'SettleBalance' })
         }
       })
     }

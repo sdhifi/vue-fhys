@@ -109,9 +109,9 @@ export default new Router({
     name: 'Forgetpwd',
     component: require('../pages/me/forgetpwd')
   }, {
-    path: '/me/paypwd',
-    name: 'PayPwd',
-    component: require('../pages/me/paypwd')
+    path: '/me/pwdmanage',
+    name: 'PwdManage',
+    component: require('../pages/me/pwdmanage')
   }, {
     path: '/me/update',
     name: 'Update',

@@ -16,12 +16,19 @@
         </div>
       </section>
       <section class="order-container">
-        <div class="order-item flex align-center vux-1px-b">
-          <div class="order-left">我的订单</div>
-          <router-link :to="{path:'/order/index',query:{id:7}}" class="order-right order-arrow">
-            <span>查看所有订单</span>
-          </router-link>
-        </div>
+        <!-- <div class="order-item flex align-center vux-1px-b">
+            <div class="order-left">我的订单</div>
+            <router-link :to="{path:'/order/index',query:{id:7}}" class="order-right order-arrow">
+              <span>查看所有订单</span>
+            </router-link>
+          </div> -->
+        <yd-cell-group>
+          <yd-cell-item arrow type="link" href="/order/index?id=7">
+          <span class="iconfont self-dingdanguanli" slot="icon" style="font-size:20px;"></span>
+            <span slot="left">我的订单</span>
+            <span slot="right">查看所有订单</span>
+          </yd-cell-item>
+        </yd-cell-group>
         <ul class="flex just-around align-center">
           <router-link :to="{path:item.link,query:{id:item.id}}" v-for="(item,index) in order" tag="li" :key="index">
             <span class="iconfont-large" :class="item.icon"></span>
@@ -138,9 +145,9 @@ export default {
             type: 'label'
           },
           {
-            name: '设置支付密码',
+            name: '设置密码',
             icon: 'self-setting c1',
-            link: '/me/paypwd',
+            link: '/me/pwdmanage',
             type: 'label'
           }
         ], [
@@ -374,7 +381,9 @@ section {
   color: @lightgray;
   .text-center;
   ul {
-    .pd-v;
+    margin-top: -@pd;
+    padding-bottom: @pd;
+    ;
   }
   p {
     font-size: 12px;

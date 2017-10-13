@@ -13,5 +13,6 @@ export default {
   member: null, //用户信息
   addressList: [], // 地址列表
   defaultAddress: null, //默认地址
-  cartList:[]
+  cartList:[],//购物车列表
+  settleList:[],//结算列表
 }

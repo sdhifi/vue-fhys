@@ -14,7 +14,7 @@
           <span class="danger-color">(提取福利扣10%手续费)</span>
         </p>
         <div class="bank-card flex align-center" v-if="defaultBankCard" @click="showBankList">
-          <div class="icon" :style="{'background-image':formatBg(defaultBankCard.bankName+'.png')}"></div>
+          <div class="icon" :style="{'background-image':formatBg(defaultBankCard.bankPic)}"></div>
           <div class="bank-name flex-1">
             <p>{{defaultBankCard.bankName}}</p>
             <p>卡号：{{defaultBankCard.bankCard}}</p>
@@ -45,7 +45,7 @@
     <x-dialog v-model="showDialog" :hide-on-blur="true">
       <ul class="bank-list">
         <li class="bank-card flex align-center" v-for="item in bankList" :key="item.id" @click="changeDefault(item)">
-          <div class="icon" :style="{'background-image':formatBg(item.bankName+'.png')}"></div>
+          <div class="icon" :style="{'background-image':formatBg(item.bankPic)}"></div>
           <div class="bank-name flex-1">
             <p :class="[defaultBankCard.id==item.id?'selected':'']">{{item.bankName}}</p>
             <p>卡号：{{item.bankCard}}</p>
@@ -118,6 +118,7 @@ export default {
     },
     changeDefault(bank) {
       this.$store.commit('RECORD_BANK_CARD', bank)
+      this.showDialog=false;
     }
   }
 }
@@ -154,5 +155,10 @@ export default {
       }
     }
   }
+}
+.bank-list {
+    max-height: 8rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 </style>

@@ -81,7 +81,7 @@ import { product, hotProduct } from '../../api/index'
 import { mixin } from 'components/common/mixin'
 
 export default {
-  name: 'Product',
+  name: 'ShopIndex',
   data() {
     return {
       id: '',
@@ -118,6 +118,7 @@ export default {
       this.getDetail();
       this.noData = false;
       this.pageNo=1;
+      this.$refs.pdlist.$emit('ydui.infinitescroll.reInit');
       this.productList=[];
       // this.getHotProduct();
     },
@@ -183,12 +184,15 @@ export default {
   },
   watch: {
     '$route'(to, from) {
-      if(!/\shop\/index/.test(from.path)){
-        return;
-      }
+      // if(!/\shop\/index/.test(from.path)){
+      //   return;
+      // }
       if(/\/shop\/index/.test(to.path)){
         this.init();
-        document.querySelector('.scroll-content-2').scrollTop=0;
+        this.$nextTick(()=>{
+          document.querySelector('.scroll-content-2').scrollTop=0;
+
+        })
       }
     }
   }
