@@ -18,7 +18,8 @@
         <yd-cell-item>
           <span slot="left">开户人&emsp;：</span>
           <!-- <input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称" style="text-align:right;"> -->
-          <yd-input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称"></yd-input>
+          <yd-input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称" v-if="!certificateStatus"></yd-input>
+          <yd-input slot="right" v-model="member.name" readonly v-else></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">卡&emsp;&emsp;号：</span>
@@ -28,7 +29,7 @@
       </yd-cell-group>
       <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="addBankCard">同意协议并绑定</yd-button>
       <yd-cityselect v-model="show1" :done="result1" :items="district"></yd-cityselect>
-
+      <router-link to="/me/regpro" class="tips">《凤凰云商O2O服务协议》</router-link>
     </main>
   </div>
 </template>
@@ -78,7 +79,7 @@ export default {
   },
   components: { HeaderTop, Group, Selector },
   computed: {
-    ...mapState(['account']),
+    ...mapState(['account', 'certificateStatus', 'member']),
     validBankCard() {
       return /^\d{15,19}$/.test(this.bankCard)
     },
@@ -107,7 +108,7 @@ export default {
           bankId: this.bankId,
           bankSub: this.bankSub,
           bankCard: this.bankCard,
-          holder: this.holder,
+          holder: this.certificateStatus ? this.member.name : this.holder,
           cityValue: this.cityValue,
           account: getStore('account'),
           token: md5(`bindBank${getStore('account')}`)
@@ -127,3 +128,10 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.tips{
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+}
+</style>

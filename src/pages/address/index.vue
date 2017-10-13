@@ -98,9 +98,16 @@ export default {
         success(res) {
           if (res.code == 200) {
             vm.$store.commit('RECORD_DEFAULT_ADDRESS', address)
-            vm.$dialog.toast({
-              mes: '设置默认地址成功'
-            })
+            if (vm.$route.query.type == 'choose') {
+              // 选择地址，选择之后回退页面
+              vm.$router.go(-1)
+            }
+            else {
+              vm.$dialog.toast({
+                mes: '设置默认地址成功'
+              })
+            }
+
           }
           else {
             vm.$dialog.toast({

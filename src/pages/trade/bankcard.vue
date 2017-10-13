@@ -16,7 +16,7 @@
                 <div class="bank-info flex-1" :style="{'background-color':item.bankColor}">
                   <div class="bank-label flex align-center">
                     <!-- <img :src="'http://jfh.jfeimao.com/gjfeng-web-client/common/image/bank/'+item.bankPic" alt="" class="icon"> -->
-                    <div class="icon" :style="{'background-image':formatBg(item.bankName+'.png')}"></div>
+                    <div class="icon" :style="{'background-image':formatBg(item.bankPic)}"></div>
                     <div class="bank-name flex-1">
                       <p>{{item.bankName}}</p>
                       <p>{{item.bankSub}}</p>
