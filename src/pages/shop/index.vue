@@ -218,7 +218,7 @@ section {
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, .3), rgba(0, 0, 0, .8));
+      background: linear-gradient(to bottom, rgba(0, 0, 0, .3), rgba(0, 0, 0, .8));
       color: @white;
       font-size: 14px;
       padding: .1rem;

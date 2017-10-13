@@ -23,23 +23,23 @@
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
         <yd-cell-group>
-          <yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+item[0].split(/[;|~]/)[2]+'&pdtype='+index">
-            <span slot="icon" class="iconfont self-libao" style="color:#f98e25;"></span>
-            <span slot="left">{{item[0].split(/[;|~]/)[0]}}</span>
+          <yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+item.id+'&pdtype='+index">
+            <span slot="icon" class="iconfont self-libao" style="color:#f98e25;font-size:20px;"></span>
+            <span slot="left">{{item.label}}</span>
             <span slot="right">更多</span>
           </yd-cell-item>
         </yd-cell-group>
         <ul class="flex just-between">
-          <router-link :to="{path:'/online/product',query:{id:pd.id,pdtype:index}}" v-for="pd in item[1]" :key="pd.id" tag="li" class="pd-item">
+          <router-link :to="{path:'/online/product',query:{id:pd.id,pdtype:index}}" v-for="pd in item.list" :key="pd.id" tag="li" class="pd-item">
             <div class="img-cover">
               <img :src="pd.imgUrl" :alt="pd.name">
             </div>
             <h3 class="title">{{pd.name}}</h3>
-            <div class="price" v-if="item[0].split(/[;|~]/)[0]=='积分换购'">
+            <div class="price" v-if="item.label=='积分换购'">
               <span>￥{{formatPrice(pd.price)}}</span>+
               <span>{{formatPrice(pd.isCanUserCou)}}积分</span>
             </div>
-            <div class="price" v-else-if="item[0].split(/[;|~]/)[0]=='责任消费'">
+            <div class="price" v-else-if="item.label=='责任消费'">
               <span>￥{{formatPrice(pd.price)}}</span>+
               <span>{{formatPrice(pd.isCanUserCou)}}责任金额</span>
             </div>
@@ -100,8 +100,19 @@ export default {
           token: md5(`onlineInH5`)
         },
         success(res) {
+          let _pds = [];
+          Object.entries(res.result.indexProducts).forEach((value, index) => {
+            var item = {};
+            var desc = value[0].split(/[;|~]/);
+            item.label = desc[0];
+            item.icon = desc[1];
+            item.id = desc[2];
+            item.list = value[1];
+            _pds.push(item);
+            // console.log(value[0].split(/[;|~]/))
+          })
           vm.info = res.result;
-          vm.pds = Object.entries(vm.info.indexProducts)
+          vm.pds = _pds;
         }
       })
     }
@@ -155,8 +166,8 @@ section {
 
     .title {
       .multi-ellipsis(2);
-      font-size: 12px;
-      height: 32px;
+      font-size: .3rem;
+      height: .8rem;
       font-weight: normal;
       word-wrap: break-word;
       word-break: break-all;

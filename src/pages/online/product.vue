@@ -267,7 +267,7 @@ footer {
   }
   button {
     line-height: 1rem;
-    font-size: 14px;
+    font-size: .35rem;
     color: @white;
     &.btn-1 {
       background-color: #ffb03f;
@@ -370,7 +370,7 @@ actionsheet-mask-leave-active {
     }
   }
   .bottom {
-    .pd-h;
+    padding: 0 @pd @pd * 2;
   }
 }
 

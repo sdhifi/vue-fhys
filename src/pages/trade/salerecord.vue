@@ -21,6 +21,10 @@
           <span slot="left">应付金额</span>
           <input slot="right" type="text" readonly style="text-align:right;color:#ff5350;" v-model="payMoney">
         </yd-cell-item>
+        <yd-cell-item v-show="payType=='4'">
+          <span slot="left">当前授信额度值</span>
+          <input slot="right" type="text" readonly style="text-align:right;color:#04be02;" v-model="member.lineOfCrade">
+        </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group title="支付方式">
         <yd-cell-item type="radio">
@@ -67,7 +71,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(['account']),
+    ...mapState(['account', 'member']),
     valid() {
       return /^(([1-9]\d*)|([0-9]+\.[0-9]{1,2}))$/.test(this.money) && /0?(13|14|15|18)[0-9]{9}/.test(this.mobile)
         && !!this.payType
@@ -101,10 +105,16 @@ export default {
         this.payMoney = this.money
       }
       else {
-        this.payMoney = +this.money * 0.12;
+        this.payMoney = (+this.money * 0.12).toFixed(2);
       }
     },
     save() {
+      if (this.member.lineOfCrade < +this.money) {
+        this.$dialog.toast({
+          mes: '授信金额不足请选择其他支付方式或充值授信金额'
+        })
+        return;
+      }
       let vm = this;
       mui.ajax({
         url: addBenefit,
@@ -118,7 +128,20 @@ export default {
           token: md5(`addBenefit${this.account}${this.mobile}`)
         },
         success(res) {
+          //授信额度直接录入
+          if (vm.payType == '4') {
+            vm.$dialog.toast({
+              mes: res.msg
+            })
+          }
+          //银联支付
+          else if (vm.payType == '0') {
 
+          }
+          //微信支付
+          else {
+
+          }
         }
       })
     }

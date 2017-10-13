@@ -7,7 +7,7 @@
           <yd-flexbox style="align-items:flex-start;">
             <img :src="item.goodsId.imgUrl" alt="">
             <yd-flexbox-item style="margin-left:5px;">
-              <h3>{{item.goodsId.name}}</h3>
+              <h3 class="fs-14">{{item.goodsId.name}}</h3>
               <p class="attrs">{{item.goodsAttr}}</p>
               <div class="flex just-between">
                 <span class="fs-14 danger-color ">￥{{item.goodsId.price}}</span>
@@ -207,7 +207,7 @@ export default {
     width: .5rem;
   }
   .cart-operate {
-    margin-top: 5px;
+    padding-top: 5px;
     border-top: 1px solid #dfdfdf;
     p {
       &:first-of-type {

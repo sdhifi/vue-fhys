@@ -46,10 +46,11 @@
     </main>
     <yd-popup v-model="showPopup" position="center" width="90%">
       <div class="edit-container">
+        <div class="blue-header"></div>
         <yd-cell-group title="编辑店铺信息">
           <yd-cell-item>
             <span slot="left">联系电话：</span>
-            <input type="tel" slot="right" placeholder="请输入手机号码" style="text-align:right;" v-model="newMobile">
+            <input type="tel" slot="right" placeholder="请输入手机号码" style="text-align:right;padding-right:5px;" v-model="newMobile">
           </yd-cell-item>
           <yd-cell-item arrow>
             <span slot="left">省份城市：</span>
@@ -267,6 +268,13 @@ export default {
   }
   >div {
     margin: .1rem 0;
+  }
+}
+.edit-container{
+  border-radius: 5px;
+  .blue-header{
+    background-color: @blue;
+    height: @pd;
   }
 }
 

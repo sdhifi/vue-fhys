@@ -19,6 +19,7 @@
             <p>{{defaultBankCard.bankName}}</p>
             <p>卡号：{{defaultBankCard.bankCard}}</p>
           </div>
+          <span class="iconfont self-right"></span>
         </div>
         <yd-cell-group v-else>
           <yd-cell-item arrow href="/trade/newbank" type="link">
