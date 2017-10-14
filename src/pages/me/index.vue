@@ -6,7 +6,8 @@
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
           <router-link :to="{name:'Update',params:{member}}">
             <!-- <img :src="member.imgHeadUrl" :alt="member.name"> -->
-            <div class="head-img" :style="{'background-image':'url('+getImgPath(member.imgHeadUrl)+')'}"></div>
+            <!-- <div class="head-img" :style="{'background-image':'url('+getImgPath(member.imgHeadUrl)+')'}"></div> -->
+            <div class="head-img" v-lazy:background-image="getImgPath(member.imgHeadUrl)"></div>
           </router-link>
           <span class="sex-tag" :style="{'background-color':member.sex=='0'?'#4cd864':(member.sex=='1'?'#57A9FF':'#f860ef')}">{{member.sex=='0'?'无':(member.sex=='1'?'男':'女')}}</span>
         </div>

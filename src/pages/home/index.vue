@@ -152,7 +152,7 @@ export default {
                 let vm = this;
                 let longitude = this.longitude;
                 let latitude = this.latitude;
-                this.$dialog.loading.open()
+                // this.$dialog.loading.open()
                 mui.ajax({
                     url: like,
                     type: 'post',
@@ -165,7 +165,7 @@ export default {
                     },
                     headers: { "app-version": "v1.0" },
                     success(res) {
-                        vm.$dialog.loading.close();
+                        // vm.$dialog.loading.close();
                         let _list = res.result;
                         vm.productList = [...vm.productList, ..._list];
                         if (_list.length < 10) {

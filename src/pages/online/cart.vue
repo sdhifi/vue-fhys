@@ -4,13 +4,13 @@
     <main class='scroll-content-3'>
       <yd-checklist v-model="checkList" :label="false" ref="checklistDemo" :callback="change" v-show="cartList.length">
         <yd-checklist-item :val="item.id" v-for="(item,index) in cartList" :key="index" class="cart-item">
-          <yd-flexbox style="align-items:flex-start;">
+          <yd-flexbox style="align-items:flex-start;margin-bottom:5px;">
             <img :src="item.goodsId.imgUrl" alt="">
             <yd-flexbox-item style="margin-left:5px;">
               <h3 class="fs-14">{{item.goodsId.name}}</h3>
               <p class="attrs">{{item.goodsAttr}}</p>
               <div class="flex just-between">
-                <span class="fs-14 danger-color ">￥{{item.goodsId.price}}</span>
+                <span class="fs-16 danger-color ">￥{{item.goodsId.price}}</span>
                 <yd-spinner v-model="item.goodsNum" :min="1" :max="item.goodsAttrStockId.repertory" v-show="!item.close"></yd-spinner>
                 <div v-show="item.close">
                   数量：
@@ -41,7 +41,7 @@
         <yd-checkbox v-model="isCheckAll" shape="circle" @click.native="checkAll">全选</yd-checkbox>
       </div>
       <div class="flex-1 total-price">
-        <p class="danger-color">合计：￥
+        <p class="danger-color fs-16">合计：￥
           <span>{{totalPrice}}</span>
         </p>
         <p>不含运费</p>
@@ -194,7 +194,7 @@ export default {
 .cart-item {
   padding: @pd *2 0;
   img {
-    .wh(1rem, 1rem);
+    .wh(1.2rem, 1.2rem);
     border: 1px solid #dfdfdf;
   }
   .attrs {

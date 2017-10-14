@@ -64,6 +64,9 @@ export const mixin = {
     getImgPath(path) {
       return path ? path : (process.env.NODE_ENV == 'development' ? "/static/img/default.png" : "./static/img/default.png")
     },
+    errorImg(){
+      return process.env.NODE_ENV == 'development' ? "/static/img/default.png" : "./static/img/default.png";
+    },
     /**
      * 格式化背景图片,例如abc.png
      * @param {*图片名称} url

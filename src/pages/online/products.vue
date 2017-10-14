@@ -12,7 +12,7 @@
       <yd-infinitescroll :callback="getProduct" ref="pdlist">
         <div slot="list" class="pd-list">
           <div class="pd-item flex align-center" v-for="(pd,index) in productList" :key='index' @click="navigate($event,pd)">
-            <img :src="pd.imgUrl" :alt="pd.name" class="pd-cover">
+            <img v-lazy="pd.imgUrl" :alt="pd.name" class="pd-cover">
             <div class="pd-info flex-1">
               <h3>{{pd.name}}</h3>
               <div class="flex just-between align-center">

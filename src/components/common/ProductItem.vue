@@ -2,7 +2,7 @@
   <div class="like-item">
     <router-link :to="{path:'/shop/index/' + id}" class="like-link">
       <div class="product-cover">
-        <img :src="imgUrl" :alt="title" />
+        <img v-lazy="imgUrl" :alt="title"/>
       </div>
       <div class="product-info flex align-center">
         <div class="product-head">
