@@ -13,15 +13,19 @@
           <span v-if="pdtype==0">{{info.productAttrStock.price}}
             <span class="fs-12" style="margin-left:.1rem;">积分</span>
           </span>
-          <span v-else-if="pdtype==2">￥{{jdinfo.proPrice}}</span>
+          <span v-else-if="pdtype==2">￥{{info.productAttrStock.price}}</span>
           <span v-else-if="pdtype==3"></span>
           <span v-else>￥{{info.productAttrStock.price}}</span>
         </p>
       </section>
       <section class="info-2">
         <yd-cell-group>
-          <yd-cell-item>
+          <yd-cell-item v-if="pdtype!=2">
             <span slot="left">剩余：{{info.productAttrStock.repertory}}</span>
+          </yd-cell-item>
+          <yd-cell-item v-else>
+            <span slot="left">商品来源：京东</span>
+            <span slot="right">库存：{{info.purchasNum}}</span>
           </yd-cell-item>
           <yd-cell-item v-if="pdtype==0">
             <span slot="left">积分使用说明:{{info.productAttrStock.price}}积分 +
@@ -107,7 +111,6 @@ export default {
   data() {
     return {
       info: {},
-      jdinfo: {},
       imgList: [],
       pdtype: -1,//产品类型，积分换购：0，品牌商城：1，京东：2，责任消费：3
       show: false,
@@ -121,8 +124,8 @@ export default {
     ...mapState(['account', 'cartList']),
     totalNum() {
       let _num = 0;
-      this.cartList.forEach((item,index)=>{
-        _num +=item.goodsNum;
+      this.cartList.forEach((item, index) => {
+        _num += item.goodsNum;
       });
       return _num;
     }
@@ -134,14 +137,10 @@ export default {
   activated() {
     this.imgList = [];
     this.info = {};
-    this.jdinfo = {};
     this.pdtype = this.$route.query.pdtype;
     this.pdnum = 1;
-    //京东商品
-    if (this.pdtype == 2) {
 
-    }
-    if(this.account){
+    if (this.account) {
       this.$store.dispatch('getCartList');
     }
     this.getInfo();
@@ -151,7 +150,7 @@ export default {
     next();
   },
   mounted() {
-    
+
   },
   methods: {
     getInfo() {
@@ -169,7 +168,11 @@ export default {
           _result.content = _result.content.replace(/\/userfiles/g, 'http://jfh.jfeimao.com/userfiles')
 
           vm.info = _result;
-          vm.attrId = vm.info.attrs[0].attrValues[0].id;
+          //非京东商品有属性
+          if (vm.pdtype != 2) {
+            vm.attrId = vm.info.attrs[0].attrValues[0].id;
+          }
+          
           for (let i = 1; i <= 5; i++) {
             if (vm.info[`para${i}`]) {
               vm.imgList.push(vm.info[`para${i}`]);
@@ -231,7 +234,7 @@ export default {
         this.$router.push({ path: '/online/settle' })
       }
     },
-    goShoppingCart(){
+    goShoppingCart() {
       this.$router.push({ path: '/online/shoppingcart' })
     }
   }

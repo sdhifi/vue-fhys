@@ -1,55 +1,58 @@
 <template>
   <div>
     <header-top title="地址管理"></header-top>
-    <main class='scroll-content-3'>
-      <section class="address-list">
-        <ul v-show="addressList.length">
-          <li class="address-item" v-for="item in addressList" :key="item.id">
-            <div class="address-info flex align-center px-1">
-              <label :for="item.id" class="address-label flex-1">
-                <span class="address-name">{{item.consigneeName}}</span>
-                <span>{{item.mobile}}</span>
-                <div>{{item.proviceId.province}}{{item.cityId.city}}{{item.areaId.area}}{{item.addressDetail}}</div>
-              </label>
-              <div class="address-pick">
-                <input type="radio" name="address" :id="item.id" :value="item.id" v-model="defaultId" @change="setDefault(item)">
-                <span class="check-icon">
-                  <i></i>
-                </span>
+    <main class='scroll-content-3' style="background-color:#fff;">
+      <section class="address-list" v-show="addressList.length">
+        <group-title>左滑地址更多操作</group-title>
+        <swipeout>
+          <swipeout-item transition-mode="follow" v-for="(item,index) in addressList" :key="item.id">
+            <div slot="right-menu">
+              <div class="operate-icon flex just-center align-center">
+                <span class="iconfont-large self-bianji" @click="editAddress(item)"></span>
+                <span class="iconfont-large self-delete danger-color" @click="deleteAddress(item)"></span>
               </div>
             </div>
-            <div class="address-operate">
-              <span class="iconfont self-bianji" @click="editAddress(item)"></span>
-              <span class="iconfont self-delete danger-color" @click="deleteAddress(item)"></span>
-            </div>
-          </li>
-        </ul>
-        <div class="hv-cen text-center" v-show="!addressList.length">
-          <span class="iconfont self-noorder" style="font-size:40px;"></span>
-          <p>没有地址，赶紧去添加</p>
-        </div>
+            <ul slot="content" style="padding:10px;">
+              <li class="address-item" @click="setDefault(item)" :class="{'active':item.isDefault == '1'}">
+                <div v-if="item.isDefault=='1'" class="default-tag">
+                  <span class="iconfont self-dui"></span>
+                  <span>默认地址</span>
+                </div>
+                <div class="address-info">
+                  <span class="address-name">{{item.consigneeName}}</span>
+                  <span>{{item.mobile}}</span>
+                </div>
+                <div class="address-detail">{{item.proviceId.province}} {{item.cityId.city}} {{item.areaId.area}} {{item.addressDetail}}</div>
+              </li>
+            </ul>
+          </swipeout-item>
+        </swipeout>
       </section>
+      <div class="hv-cen text-center" v-show="!addressList.length">
+        <span class="iconfont self-noorder" style="font-size:40px;"></span>
+        <p>没有地址，赶紧去添加</p>
+      </div>
     </main>
     <footer class="fix-footer flex align-center">
       <button class="delete-btn btn-large" @click="newAddress">
         <span class="iconfont self-add"></span>添加新地址</button>
     </footer>
-
   </div>
 </template>
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
+import { GroupTitle, Swipeout, SwipeoutItem } from 'vux'
 import { getMyAddress, defaultAddress, delAdress } from '../../api/index'
 import { getStore } from 'components/common/mixin'
 export default {
   name: 'AddressManage',
   data() {
     return {
-      defaultId: ''
+
     }
   },
-  components: { HeaderTop },
+  components: { HeaderTop, GroupTitle, Swipeout, SwipeoutItem },
   computed: {
     ...mapState(['account', 'addressList'])
   },
@@ -57,65 +60,69 @@ export default {
 
   },
   activated() {
-    this.getAddressList();
+    this.$store.dispatch('getAddressList');
   },
   methods: {
-    getAddressList() {
-      let vm = this;
-
-      mui.ajax({
-        url: getMyAddress,
-        type: 'post',
-        headers: {
-          'app-version': 'v1.0'
-        },
-        data: {
-          account: this.account,
-          token: md5('getMyAddress')
-        },
-        success(res) {
-          let _result = res.result;
-          _result.forEach((item, index) => {
-            if (item.isDefault == '1') {
-              vm.defaultId = item.id
-            }
-          })
-          vm.$store.commit('RECORD_ADDRESS_List', _result)
-        }
-      })
-    },
     setDefault(address) {
       let vm = this;
-      mui.ajax({
-        url: defaultAddress,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
-        data: {
-          id: address.id,
-          account: this.account,
-          token: md5(`default${address.id}${this.account}`)
-        },
-        success(res) {
-          if (res.code == 200) {
-            vm.$store.commit('RECORD_DEFAULT_ADDRESS', address)
-            if (vm.$route.query.type == 'choose') {
-              // 选择地址，选择之后回退页面
-              vm.$router.go(-1)
+      if (this.$route.query.type == 'choose') {
+        mui.ajax({
+          url: defaultAddress,
+          type: 'post',
+          headers: { 'app-version': 'v1.0' },
+          data: {
+            id: address.id,
+            account: this.account,
+            token: md5(`default${address.id}${this.account}`)
+          },
+          success(res) {
+            if (res.code == 200) {
+              vm.$store.commit('RECORD_DEFAULT_ADDRESS', address)
+              if (vm.$route.query.type == 'choose') {
+                // 选择地址，选择之后回退页面
+                vm.$router.go(-1)
+              }
             }
             else {
+              
               vm.$dialog.toast({
-                mes: '设置默认地址成功'
+                mes: res.msg
               })
             }
-
           }
-          else {
-            vm.$dialog.toast({
-              mes: res.msg
+        })
+      }
+      else {
+        this.$dialog.confirm({
+          mes: '设置为默认地址？',
+          opts: () => {
+            mui.ajax({
+              url: defaultAddress,
+              type: 'post',
+              headers: { 'app-version': 'v1.0' },
+              data: {
+                id: address.id,
+                account: this.account,
+                token: md5(`default${address.id}${this.account}`)
+              },
+              success(res) {
+                if (res.code == 200) {
+                  vm.$store.commit('RECORD_DEFAULT_ADDRESS', address)
+                  vm.$store.dispatch('getAddressList')
+                  vm.$dialog.toast({
+                    mes: '设置默认地址成功'
+                  })
+                }
+                else {
+                  vm.$dialog.toast({
+                    mes: res.msg
+                  })
+                }
+              }
             })
           }
-        }
-      })
+        })
+      }
     },
     editAddress(item) {
       this.$router.push({ name: 'AddressEdit', params: { address: item } })
@@ -141,7 +148,7 @@ export default {
                 })
                 return;
               }
-              vm.getAddressList();
+              vm.$store.dispatch('getAddressList');
             }
           })
         }
@@ -156,24 +163,41 @@ export default {
 <style lang='less' scoped>
 @import '../../style/mixin.less';
 .address-item {
-  margin-bottom: @pd;
-  .pd;
+  position: relative;
+  padding: .3rem @pd ;
   background-color: @white;
-  .address-info {
-    padding: 0 0 .1rem;
-    .address-label {
-      padding-right: @pd /2;
-      .address-name {
-        font-weight: 700;
-        font-size: 14px;
-        margin-right: @pd;
-      }
-    }
+  border: 1px solid #dfdfdf;
+  font-size: .3rem;
+  &.active {
+    border-color: @red;
+    box-shadow:0 0 5px @red;
   }
-  .address-operate {
-    display: flex;
-    justify-content: space-between;
-    padding: .1rem;
+  .address-name {
+    font-weight: 700;
+    font-size: .32rem;
+    margin-right: @pd;
   }
+  .address-detail{
+     margin-top: @pd;
+  }
+}
+
+.operate-icon {
+  height: 1.2rem;
+  position: absolute;
+  right: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  span:first-of-type{
+    margin-right: @pd;
+  }
+}
+
+.default-tag{
+  position: absolute;
+  font-size: 12px;
+  right: 0;
+  top: 0;
+  color:@green;
 }
 </style>

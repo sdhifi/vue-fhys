@@ -46,7 +46,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['showCertificate'])
+    ...mapState(['account','showCertificate','member'])
   },
   created() {
   },
@@ -56,7 +56,6 @@ export default {
     },
     saveCert() {
       let vm = this;
-      let account = localStorage.getItem('account');
       if (!this.realName || !this.certNum) {
         this.$dialog.toast({
           mes: '请完善信息',
@@ -80,8 +79,8 @@ export default {
         data: {
           idCardNo: this.certNum.replace(/x/gi, 'X'),
           idCardName: this.realName,
-          account,
-          token: md5(`realNameByAly${account}`)
+          account:this.account,
+          token: md5(`realNameByAly${this.account}`)
         },
         success(res) {
           if (res.code == 200) {
@@ -92,6 +91,8 @@ export default {
               callback: () => {
                 vm.$store.commit('SHOW_CERTIFICATE', false);
                 vm.$store.commit('SET_CERTIFICATE', true);
+                let newMember =Object.assign({},vm.member,{idCard:vm.certNum.replace(/x/gi, 'X')})
+                vm.$store.commit('RECORD_MEMBER_INFO',newMember)
               }
             })
           }

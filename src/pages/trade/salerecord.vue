@@ -26,7 +26,7 @@
           <input slot="right" type="text" readonly style="text-align:right;color:#04be02;" v-model="member.lineOfCrade">
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group title="支付方式">
+      <yd-cell-group title="支付方式" v-show="money>0">
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont self-edu" style="color:#f9a340;"></span>
           <span slot="left">授信额度</span>
@@ -109,7 +109,7 @@ export default {
       }
     },
     save() {
-      if (this.member.lineOfCrade < +this.money) {
+      if (this.payType=='4'&&this.member.lineOfCrade < +this.money) {
         this.$dialog.toast({
           mes: '授信金额不足请选择其他支付方式或充值授信金额'
         })
@@ -135,7 +135,7 @@ export default {
             })
           }
           //银联支付
-          else if (vm.payType == '0') {
+          else if (vm.payType == '2') {
 
           }
           //微信支付

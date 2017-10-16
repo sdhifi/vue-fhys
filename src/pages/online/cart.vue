@@ -4,7 +4,7 @@
     <main class='scroll-content-3'>
       <yd-checklist v-model="checkList" :label="false" ref="checklistDemo" :callback="change" v-show="cartList.length">
         <yd-checklist-item :val="item.id" v-for="(item,index) in cartList" :key="index" class="cart-item">
-          <yd-flexbox style="align-items:flex-start;margin-bottom:5px;">
+          <yd-flexbox style="margin-bottom:5px;">
             <img :src="item.goodsId.imgUrl" alt="">
             <yd-flexbox-item style="margin-left:5px;">
               <h3 class="fs-14">{{item.goodsId.name}}</h3>
@@ -194,7 +194,7 @@ export default {
 .cart-item {
   padding: @pd *2 0;
   img {
-    .wh(1.2rem, 1.2rem);
+    .wh(1.5rem, 1.5rem);
     border: 1px solid #dfdfdf;
   }
   .attrs {
@@ -205,6 +205,9 @@ export default {
     text-align: right;
     font-size: 14px;
     width: .5rem;
+  }
+  h3{
+    .multi-ellipsis(2);
   }
   .cart-operate {
     padding-top: 5px;

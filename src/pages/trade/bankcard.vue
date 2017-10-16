@@ -45,7 +45,7 @@
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import CertModal from 'components/common/CertModal'
-import { GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton } from 'vux'
+import { GroupTitle, Swipeout, SwipeoutItem } from 'vux'
 import { getStore, mixin } from 'components/common/mixin'
 import { deleteMemBank } from '../../api/index'
 export default {
@@ -55,7 +55,7 @@ export default {
 
     }
   },
-  components: { HeaderTop, CertModal, GroupTitle, Swipeout, SwipeoutItem, SwipeoutButton },
+  components: { HeaderTop, CertModal, GroupTitle, Swipeout, SwipeoutItem },
   computed: {
     ...mapState(['bankList', 'showCertificate', 'certificateStatus'])
   },

@@ -54,7 +54,11 @@ export default {
       },
       success(res) {
         let _result = res.result;
-        if (_result.length) {
+        if (!_result.length) {
+           commit('RECORD_DEFAULT_ADDRESS', null)
+          commit('RECORD_ADDRESS_List', [])
+        }
+        else{
           _result.forEach((item, index) => {
             if (item.isDefault == '1') {
               commit('RECORD_DEFAULT_ADDRESS', item)

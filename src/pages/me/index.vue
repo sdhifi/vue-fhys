@@ -187,6 +187,12 @@ export default {
             icon: 'self-about c2',
             link: '/me/about',
             type: 'label'
+          },
+          {
+            name: 'APP更新',
+            icon: 'self-gengxin c1',
+            link: '/me/updateApp',
+            type: 'label'
           }
         ]
       ],
@@ -240,10 +246,13 @@ export default {
     },
     navigate(item) {
       if (/store/.test(item.link)) {
+        //身份认证
         if (!this.certificateStatus) {
           this.$store.commit('SHOW_CERTIFICATE', true);
           return;
         }
+
+        //入驻弹窗
         if (this.member.type == '0') {
           this.showPopup = true;
           return;
