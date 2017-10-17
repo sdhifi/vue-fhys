@@ -43,8 +43,14 @@
           </li>
         </ul>
       </section>
-      <yd-grids-group :rows="3">
-        <yd-grids-item v-for="(item,index) in menu" :key="index" :link="item.link">
+       <yd-grids-group :rows="3" v-if="member.type=='0'">
+        <yd-grids-item v-for="(item,index) in menu0" :key="index" :link="item.link">
+          <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
+          <span slot="text">{{item.text}}</span>
+        </yd-grids-item>
+      </yd-grids-group>
+      <yd-grids-group :rows="3" v-if="member.type=='1'">
+        <yd-grids-item v-for="(item,index) in menu1" :key="index" :link="item.link">
           <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
           <span slot="text">{{item.text}}</span>
         </yd-grids-item>
@@ -70,12 +76,13 @@
           </div>
         </div>
         <yd-button type="danger" size="large" @click.native="settle">确认</yd-button>
-        <span class="close" @click="showPopup=false;"></span>
+        <span class="close iconfont-large self-guanbi" @click="showPopup=false;"></span>
       </div>
     </yd-popup>
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
 import { countMemberInfo } from '../../api/index'
 import { mixin, getStore } from 'components/common/mixin'
@@ -148,7 +155,51 @@ export default {
           link: 'javascript:',
         }
       ],
-      menu: [
+      menu0: [
+        {
+          icon: 'self-tiqufuli',
+          text: '提取福利',
+          link: '/trade/withdrawals',
+          color: '#e7d489'
+        },
+        {
+          icon: 'self-tiqulishi',
+          text: '提取历史',
+          link: '/trade/cashhistory',
+          color: '#663355'
+        },
+        {
+          icon: 'self-yinhangka',
+          text: '银行卡',
+          link: '/trade/bankcard',
+          color: '#e7d489'
+        },
+        {
+          icon: 'self-fulijilu',
+          text: '福利记录',
+          link: '/trade/welfrecord',
+          color: '#ee3355'
+        },
+        {
+          icon: 'self-xiaofeijilu',
+          text: '消费记录',
+          link: '/trade/interest?type=0',
+          color: '#663355'
+        },
+        {
+          icon: 'self-xiaofeiguize',
+          text: '消费规则',
+          link: '/trade/consumerule',
+          color: '#663355'
+        },
+        {
+          icon: 'self-download',
+          text: '协议下载',
+          link: '/trade/download',
+          color: '#663355'
+        }
+      ],
+      menu1: [
         {
           icon: 'self-tiqufuli',
           text: '提取福利',
@@ -208,7 +259,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-
+    ...mapState(['member'])
   },
   mixins: [mixin],
   created() {
@@ -220,6 +271,10 @@ export default {
   },
   methods: {
     changeTab() {
+      if (this.member.type == '0') {
+        this.showPopup = true;
+        return;
+      }
       this.type = this.type == 0 ? 1 : 0;
       if (this.firstTag) {
         return;
@@ -240,11 +295,7 @@ export default {
         },
         success(res) {
           vm.$dialog.loading.close();
-          if (/不/.test(res.msg)) {
-            vm.type = 0;
-            vm.showPopup = true;
-            return;
-          }
+
           vm[`info${vm.type}`] = res.result
           if (vm.type == 0) {
             vm.$store.commit('RECORD_BALANCE_MONEY', res.result.balanceMoney)

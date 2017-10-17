@@ -32,7 +32,7 @@
       </yd-checklist>
     </main>
     <footer class="fix-footer">
-      <div style="padding-left:10px;">
+      <div style="padding-left:12px;">
         <yd-checkbox v-model="isCheckAll" shape="circle"  @click.native="checkAll">{{isCheckAll?'取消全选':'全选'}}</yd-checkbox>
       </div>
       <button class=" flex-1 delete-btn" @click="delpd" v-show="checkList.length">下架选中商品</button>
@@ -92,12 +92,6 @@ export default {
             return;
           }
           let _list = res.result;
-          _list.forEach((pd, index) => {
-            let dateStart = pd.indate.split('至')[0];
-            let dateEnd = pd.indate.split('至')[1];
-            pd.dateStart = dateStart;
-            pd.dateEnd = dateEnd;
-          })
           vm.pdlist = _list
         }
       })
@@ -140,7 +134,6 @@ export default {
 
     },
     editpd(pd) {
-
       this.$router.push({ name: 'UpdateProduct', params: { pd } })
     }
   }
@@ -162,8 +155,9 @@ export default {
     }
     .pd-status {
       position: absolute;
-      left: 0;
-      top: .21rem;
+      left: -.3rem;
+      top: .15rem;
+      width: 1.2rem;
       padding: 1px 2px 0;
       color: #fff;
       font-size: 10px;

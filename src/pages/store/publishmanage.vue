@@ -1,5 +1,5 @@
 <template>
-  <div v-if="/publishmanage/.test($route.path)">
+  <div v-if="tag">
     <header-top title="发布管理"></header-top>
     <main class='scroll-content-2'>
       <section class="cover">
@@ -16,8 +16,7 @@
         <group>
           <x-input title="商品价格：" placeholder="输入售卖的商品价格" v-model="pdPrice"></x-input>
           <x-input title="门市价格：" placeholder="输入商品在店的价格" v-model="mtPrice"></x-input>
-          <datetime title="开始日期：" v-model="date1" placeholder="选择日期"></datetime>
-          <datetime title="结束日期：" v-model="date2" placeholder="选择日期"></datetime>
+          <x-textarea title="有效期：" placeholder="例:2016.7.18至2017.1.17(周末、法定节假日通用)" v-model="date1"></x-textarea>
           <selector title="商品分类：" placeholder=" 请选择" v-model="column1" :options="columnMenu1" @on-change="changeSubColumn"></selector>
           <selector title="分类下级：" placeholder="请选择" v-model="column2" :options="columnMenu2"></selector>
         </group>
@@ -41,8 +40,7 @@
         <group>
           <x-input title="商品价格：" placeholder="输入售卖的商品价格" v-model="pd.price"></x-input>
           <x-input title="门市价格：" placeholder="输入商品在店的价格" v-model="pd.marketPrice"></x-input>
-          <datetime title="开始日期：" v-model="date3" placeholder="选择日期"></datetime>
-          <datetime title="结束日期：" v-model="date4" placeholder="选择日期"></datetime>
+          <x-textarea title="有效期：" placeholder="例:2016.7.18至2017.1.17(周末、法定节假日通用)" v-model="pd.indate"></x-textarea>
           <selector title="商品分类：" placeholder=" 请选择" v-model="column1" :options="columnMenu1" @on-change="changeSubColumn"></selector>
           <selector title="分类下级：" placeholder="请选择" v-model="column2" :options="columnMenu2"></selector>
         </group>
@@ -65,13 +63,12 @@ export default {
   name: 'PublishOrUpdate',
   data() {
     return {
+      tag: true,//true发布商品，false编辑商品
       pdName: '',
       pdPrice: '',
       mtPrice: '',
-      date1: '',//发布商品开始日期
-      date2: '',//发布商品结束日期
-      date3: '',//编辑商品开始日期
-      date4: '',//编辑商品结束日期
+      date1: '',//发布商品有效期
+     
       notice: '',
       columnMenu1: [],
       columnMenu2: [],
@@ -84,10 +81,10 @@ export default {
   components: { HeaderTop, Group, Datetime, XTextarea, XInput, Selector },
   computed: {
     valid() {
-      return this.base64Url && this.pdName && this.pdPrice && this.mtPrice && this.column1 && this.column2 && this.date1 && this.date2 && !!this.notice
+      return this.base64Url && this.pdName && this.pdPrice && this.mtPrice && this.column1 && this.column2 && !!this.date1  && !!this.notice
     },
     valid2() {
-      return this.pd.name && this.pd.price && this.pd.marketPrice && this.column1 && this.column2 && this.pd.dateStart && this.pd.dateEnd && !!this.pd.notice
+      return this.pd.name && this.pd.price && this.pd.marketPrice && this.column1 && this.column2 && !!this.pd.indate && !!this.pd.notice
     },
   },
 
@@ -95,19 +92,28 @@ export default {
     this.getColumn()
   },
   activated() {
-    this.pd = {};
-    this.date3 = '';
-    this.date4 = '';
-    this.column1 = '';
-    this.column2 = '';
-    if (/updateproduct/.test(this.$route.path)) {
+    this.tag = /publishmanage/.test(this.$route.path) ? true : false;
+    this.reset();
+    if (!this.tag) {
       this.pd = this.$route.params.pd;
       this.date3 = this.pd.dateStart;
       this.date4 = this.pd.dateEnd;
-
     }
   },
   methods: {
+    reset() {
+      this.pd = {};
+      this.pdName='';
+      this.base64Url = '';
+      this.date1 = '';
+      this.column1 = '';
+      this.column2 = '';
+      this.pdPrice='';
+      this.mtPrice='';
+      this.notice='';
+      let headImg = document.querySelector('.cover');
+      headImg.style.backgroundImage='';
+    },
     previewImg(event) {
       let headImg = document.querySelector('.cover'),
         file = event.target.files[0];
@@ -175,7 +181,7 @@ export default {
           name: this.pdName,
           price: this.pdPrice,
           marketPrice: this.mtPrice,
-          indate: `${this.date1}至${this.date2}`,
+          indate: this.date1,
           notice: this.notice,
           columnId: this.column2,
           account: getStore('account'),
@@ -199,13 +205,12 @@ export default {
     },
     save() {
       let vm = this;
-
       let params = {
         id: this.pd.id,
         name: this.pd.name,
         price: this.pd.price,
         marketPrice: this.pd.marketPrice,
-        indate: `${this.date3}至${this.date4}`,
+        indate: this.pd.indate,
         notice: this.pd.notice,
         account: getStore('account'),
         columnId: this.column2,
@@ -222,7 +227,10 @@ export default {
         success(res) {
           if (res.code == 200) {
             vm.$dialog.toast({
-              mes: res.msg || '修改成功，待审核'
+              mes: res.msg || '修改成功，待审核',
+             callback: () => {
+              vm.$router.go(-1);
+            }
             })
           }
           else {

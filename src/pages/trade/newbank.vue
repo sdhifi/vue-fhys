@@ -84,7 +84,7 @@ export default {
       return /^\d{15,19}$/.test(this.bankCard)
     },
     valid() {
-      return !!this.bankId && !!this.bankSub && !!this.cityValue && !!this.validBankCard && !!this.holder;
+      return !!this.bankId && !!this.bankSub && !!this.cityValue && !!this.validBankCard;
     }
   },
   created() {
@@ -100,6 +100,12 @@ export default {
     },
     addBankCard() {
       let vm = this;
+      if(!this.certificateStatus&&!this.holder){
+        this.$dialog.toast({
+          mes:'请填写开户人',
+        });
+        return;
+      }
       mui.ajax({
         url: bindBank,
         type: 'post',

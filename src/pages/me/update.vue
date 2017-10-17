@@ -42,7 +42,6 @@
           <yd-textarea slot="right" placeholder="请输入简介" maxlength="30" v-model="info.remark" class="hight-input"></yd-textarea>
         </yd-cell-item>
       </yd-cell-group>
-      
       <yd-button size="large" type="primary" @click.native="saveInfo">保存</yd-button>
     </main>
     <cert-modal></cert-modal>
@@ -108,18 +107,17 @@ export default {
         this.info.remark = '';
       }
       let vm = this;
-      let rm = Math.random().toString().substring(2);
       mui.ajax({
         url: update,
         type: 'post',
         headers: { 'app-version': 'v1.0' },
         data: {
           id: this.info.id,
-          fileName: `${rm}.png`,
+          fileName: `123.png`,
           nickName: this.info.nickName,
           remark: this.info.remark,
           sex: this.info.sex,
-          account: localStorage.getItem('account'),
+          account: this.account,
           token: md5(`update${this.info.id}`),
           fileContent: this.base64Url
         },

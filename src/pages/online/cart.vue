@@ -7,12 +7,12 @@
           <yd-flexbox style="margin-bottom:5px;">
             <img :src="item.goodsId.imgUrl" alt="">
             <yd-flexbox-item style="margin-left:5px;">
-              <h3 class="fs-14">{{item.goodsId.name}}</h3>
+              <h3>{{item.goodsId.name}}</h3>
               <p class="attrs">{{item.goodsAttr}}</p>
               <div class="flex just-between">
-                <span class="fs-16 danger-color ">￥{{item.goodsId.price}}</span>
+                <span class="fs-16 danger-color">￥{{item.goodsId.price}}</span>
                 <yd-spinner v-model="item.goodsNum" :min="1" :max="item.goodsAttrStockId.repertory" v-show="!item.close"></yd-spinner>
-                <div v-show="item.close">
+                <div v-show="item.close" class="fs-14">
                   数量：
                   <input type="number" readonly v-model="item.goodsNum">
                 </div>
@@ -208,10 +208,13 @@ export default {
   }
   h3{
     .multi-ellipsis(2);
+    font-size: .32rem;
+    font-weight:normal;
   }
   .cart-operate {
     padding-top: 5px;
     border-top: 1px solid #dfdfdf;
+    font-size:.3rem;
     p {
       &:first-of-type {
         color: @blue;

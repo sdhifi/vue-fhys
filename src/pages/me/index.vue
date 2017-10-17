@@ -72,7 +72,7 @@
           </div>
         </div>
         <yd-button type="danger" size="large" @click.native="settle">确认</yd-button>
-        <span class="close" @click="showPopup=false;"></span>
+        <span class="close iconfont-large self-guanbi" @click="showPopup=false;"></span>
       </div>
     </yd-popup>
     <x-dialog :hide-on-blur="true" v-model="showDialog">
@@ -190,7 +190,7 @@ export default {
           },
           {
             name: 'APP更新',
-            icon: 'self-gengxin c1',
+            icon: 'self-gengxin c2',
             link: '/me/updateApp',
             type: 'label'
           }

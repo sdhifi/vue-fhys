@@ -46,7 +46,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['account','showCertificate','member'])
+    ...mapState(['account','showCertificate','idCard'])
   },
   created() {
   },
@@ -91,8 +91,7 @@ export default {
               callback: () => {
                 vm.$store.commit('SHOW_CERTIFICATE', false);
                 vm.$store.commit('SET_CERTIFICATE', true);
-                let newMember =Object.assign({},vm.member,{idCard:vm.certNum.replace(/x/gi, 'X')})
-                vm.$store.commit('RECORD_MEMBER_INFO',newMember)
+                vm.$store.commit('RECORD_ID_CARD',vm.certNum.replace(/x/gi, 'X'))
               }
             })
           }

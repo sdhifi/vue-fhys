@@ -6,6 +6,7 @@ export default {
   searchValue: '', //搜索值
   showCertificate: false, //身份认证模态框
   certificateStatus: false, //身份认证状态
+  idCard:'',
   storeInfo:null, //店铺信息
   balanceMoney: 0, //账户余额
   bankList: [], //银行卡列表

@@ -12,24 +12,24 @@
       <section class="store-info">
         <h2 class="store-title px-1">{{info.storeName}}</h2>
         <div class="flex align-center">
-          <div class="flex-1">
+          <div class="flex-1 fs-14">
             <span class="iconfont-large self-location danger-color"></span>
             <span>{{info.provinceId.province}}{{info.cityId.city}}{{info.areaId.area}}{{info.addressDetail}}</span>
           </div>
           <span class="iconfont self-bianji danger-color" @click="showEdit"></span>
         </div>
-        <div>
+        <div class="flex align-center">
           <span class="iconfont-large self-tel"></span>
-          <span>{{info.sellerMobile}}</span>
+          <span class="fs-14">{{info.sellerMobile}}</span>
         </div>
-        <div>
+        <div class="flex align-center">
           <span class="iconfont-large self-renzheng" style="color:#4cd864;"></span>
           <span>店铺审核状态：审核通过</span>
         </div>
       </section>
       <yd-cell-group title="店铺简介">
         <yd-cell-item>
-          <yd-textarea slot="right" maxlength="200" placeholder="请输入店铺简介" v-model="info.storeDescription"></yd-textarea>
+          <yd-textarea slot="right" maxlength="200" placeholder="请输入店铺简介" v-model="info.storeDescription" @focus.native="focusIntro"></yd-textarea>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="right" @click="saveIntro">保存</span>
@@ -81,7 +81,8 @@ export default {
     return {
       info: {},
       showPopup: false,
-      intro: '',
+      intro: '',//简介
+      tag:false,//简介是否可编辑
       district: District, //省市县数据
       show1: false,//所在地标志
       newMobile: '',
@@ -209,6 +210,9 @@ export default {
         }
       })
     },
+    focusIntro(){
+      console.log(11)
+    },
     saveIntro() {
       let vm = this;
       mui.ajax({
@@ -262,7 +266,6 @@ export default {
   font-size: 14px;
   .store-title {
     font-size: .35rem;
-    font-weight: normal;
     .pd-v;
     margin-bottom: .1rem;
   }

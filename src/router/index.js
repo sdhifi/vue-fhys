@@ -97,6 +97,10 @@ export default new Router({
     name: 'About',
     component: require('../pages/me/about')
   }, {
+    path: '/me/updateApp',
+    name: 'UpdateApp',
+    component: require('../pages/me/updateApp')
+  },  {
     path: '/me/login',
     name: 'Login',
     component: require('../pages/me/login')
