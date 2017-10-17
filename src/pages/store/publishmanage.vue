@@ -16,7 +16,13 @@
         <group>
           <x-input title="商品价格：" placeholder="输入售卖的商品价格" v-model="pdPrice"></x-input>
           <x-input title="门市价格：" placeholder="输入商品在店的价格" v-model="mtPrice"></x-input>
-          <x-textarea title="有效期：" placeholder="例:2016.7.18至2017.1.17(周末、法定节假日通用)" v-model="date1"></x-textarea>
+          <!-- <x-textarea title="有效日期：" placeholder="例:2016.7.18至2017.1.17(周末、法定节假日通用)" v-model="date1"></x-textarea> -->
+          <cell title="开始日期：" is-link>
+            <yd-datetime v-model="date1" type="date" placeholder="选择商品起始日期" slot="child" class="time-picker"></yd-datetime>
+          </cell>
+          <cell title="结束日期：" is-link>
+            <yd-datetime v-model="date2" type="date" placeholder="选择商品结束日期" slot="child" class="time-picker"></yd-datetime>
+          </cell>
           <selector title="商品分类：" placeholder=" 请选择" v-model="column1" :options="columnMenu1" @on-change="changeSubColumn"></selector>
           <selector title="分类下级：" placeholder="请选择" v-model="column2" :options="columnMenu2"></selector>
         </group>
@@ -40,7 +46,13 @@
         <group>
           <x-input title="商品价格：" placeholder="输入售卖的商品价格" v-model="pd.price"></x-input>
           <x-input title="门市价格：" placeholder="输入商品在店的价格" v-model="pd.marketPrice"></x-input>
-          <x-textarea title="有效期：" placeholder="例:2016.7.18至2017.1.17(周末、法定节假日通用)" v-model="pd.indate"></x-textarea>
+          <!-- <x-textarea title="有效日期：" placeholder="例:2016.7.18至2017.1.17(周末、法定节假日通用)" v-model="pd.indate"></x-textarea> -->
+          <cell title="开始日期：" is-link>
+            <yd-datetime v-model="pd.dateStart" type="date" placeholder="选择商品起始日期" slot="child" class="time-picker"></yd-datetime>
+          </cell>
+          <cell title="结束日期：" is-link>
+            <yd-datetime v-model="pd.dateEnd" type="date" placeholder="选择商品结束日期" slot="child" class="time-picker"></yd-datetime>
+          </cell>
           <selector title="商品分类：" placeholder=" 请选择" v-model="column1" :options="columnMenu1" @on-change="changeSubColumn"></selector>
           <selector title="分类下级：" placeholder="请选择" v-model="column2" :options="columnMenu2"></selector>
         </group>
@@ -54,7 +66,7 @@
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import { Group, Datetime, XTextarea, XInput, Selector } from 'vux'
+import { Group, Cell, Datetime, XTextarea, XInput, Selector } from 'vux'
 import { o2o, subColumn, addProduct, updatePro } from '../../api/index'
 import { getStore } from 'components/common/mixin'
 import 'lrz/dist/lrz.bundle.js'
@@ -68,7 +80,9 @@ export default {
       pdPrice: '',
       mtPrice: '',
       date1: '',//发布商品有效期
-     
+      date2: '',
+      date3: '',//编辑商品有效期
+      date4: '',
       notice: '',
       columnMenu1: [],
       columnMenu2: [],
@@ -78,13 +92,13 @@ export default {
       pd: {},
     }
   },
-  components: { HeaderTop, Group, Datetime, XTextarea, XInput, Selector },
+  components: { HeaderTop, Group, Cell, Datetime, XTextarea, XInput, Selector },
   computed: {
     valid() {
-      return this.base64Url && this.pdName && this.pdPrice && this.mtPrice && this.column1 && this.column2 && !!this.date1  && !!this.notice
+      return this.base64Url && this.pdName && this.pdPrice && this.mtPrice && this.column1 && this.column2 && !!this.date1 && !!this.date2 && !!this.notice
     },
     valid2() {
-      return this.pd.name && this.pd.price && this.pd.marketPrice && this.column1 && this.column2 && !!this.pd.indate && !!this.pd.notice
+      return this.pd.name && this.pd.price && this.pd.marketPrice && this.column1 && this.column2 && !!this.pd.dateStart && !!this.pd.dateEnd && !!this.pd.notice
     },
   },
 
@@ -96,23 +110,22 @@ export default {
     this.reset();
     if (!this.tag) {
       this.pd = this.$route.params.pd;
-      this.date3 = this.pd.dateStart;
-      this.date4 = this.pd.dateEnd;
     }
   },
   methods: {
     reset() {
       this.pd = {};
-      this.pdName='';
+      this.pdName = '';
       this.base64Url = '';
       this.date1 = '';
+      this.date2 = '';
       this.column1 = '';
       this.column2 = '';
-      this.pdPrice='';
-      this.mtPrice='';
-      this.notice='';
+      this.pdPrice = '';
+      this.mtPrice = '';
+      this.notice = '';
       let headImg = document.querySelector('.cover');
-      headImg.style.backgroundImage='';
+      headImg.style.backgroundImage = '';
     },
     previewImg(event) {
       let headImg = document.querySelector('.cover'),
@@ -181,7 +194,8 @@ export default {
           name: this.pdName,
           price: this.pdPrice,
           marketPrice: this.mtPrice,
-          indate: this.date1,
+          // indate: this.date1,
+          indate: `${this.date1}至${this.date2}`,
           notice: this.notice,
           columnId: this.column2,
           account: getStore('account'),
@@ -210,7 +224,8 @@ export default {
         name: this.pd.name,
         price: this.pd.price,
         marketPrice: this.pd.marketPrice,
-        indate: this.pd.indate,
+        // indate: this.pd.indate,
+        indate: `${this.pd.dateStart}至${this.pd.dateEnd}`,
         notice: this.pd.notice,
         account: getStore('account'),
         columnId: this.column2,
@@ -228,9 +243,9 @@ export default {
           if (res.code == 200) {
             vm.$dialog.toast({
               mes: res.msg || '修改成功，待审核',
-             callback: () => {
-              vm.$router.go(-1);
-            }
+              callback: () => {
+                vm.$router.go(-1);
+              }
             })
           }
           else {
@@ -270,8 +285,10 @@ export default {
   }
 }
 
-.yd-cell-right .yd-datetime-input {
-  justify-content: flex-end;
+.time-picker {
+  position: absolute;
+  left: 7em;
+  top: 10px;
 }
 
 .yd-cell-right select {

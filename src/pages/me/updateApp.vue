@@ -4,8 +4,13 @@
     <main class='scroll-content-2'>
       <group>
           <datetime title="开始日期：" v-model="date1" placeholder="选择日期"></datetime>
-          <datetime title="结束日期：" v-model="date2" placeholder="选择日期"></datetime>          
         </group>
+        <yd-cell-group>
+          <yd-cell-item>
+            <span slot="left">time:</span>
+          <yd-datetime slot="right" v-model="date2" placeholder="choose" type="date"></yd-datetime>
+          </yd-cell-item>
+        </yd-cell-group>
     </main>
   </div>
 </template>
