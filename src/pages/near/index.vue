@@ -18,8 +18,9 @@
                 </div>
               </yd-tab-panel>
             </yd-tab> -->
-        <div class="sub-list">
-          <div class="sub-item" v-for="(sub,i) in column" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" @click="changeSubColumn(sub)">{{sub.names}}</div>
+        <div class="sub-list" ref="swipeList">
+          <div class="sub-item" v-for="(sub,i) in column" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" 
+          @click="changeSubColumn(sub)">{{sub.names}}</div>
         </div>
       <section class="pd-list">
         <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
@@ -157,8 +158,8 @@ export default {
 <style lang='less' scoped>
 @import '../../style/mixin.less';
   .sub-list {
-    width: 100%;
-    overflow-x: auto;
+    padding:0 2%;
+    overflow: auto;
     -webkit-overflow-scrolling: touch;
     white-space: nowrap;
     .sub-item {
@@ -166,11 +167,12 @@ export default {
       width: 20%;
       height: 30px;
       line-height: 30px;
+      margin: 2%;
       border-radius: 3px;
       border: 1px solid #ddd;
       text-align: center;
       transition: all .2s;
-      margin: 2.5%;
+      font-size: .28rem;
       &.sub-active {
         color: @red;
         border-color: currentColor;

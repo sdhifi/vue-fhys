@@ -198,7 +198,7 @@ export default {
     .pd-h;
     .current-city {
         width: 2rem;
-        font-size: 14px;
+        font-size: .3rem;
     }
     .search-box {
         flex: 1;

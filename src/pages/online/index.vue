@@ -49,7 +49,6 @@
           </router-link>
         </ul>
       </section>
-      <yd-backtop></yd-backtop>
     </main>
     <footer-bar></footer-bar>
   </div>
