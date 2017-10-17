@@ -29,10 +29,11 @@
       </section>
       <yd-cell-group title="店铺简介">
         <yd-cell-item>
-          <yd-textarea slot="right" maxlength="200" placeholder="请输入店铺简介" v-model="info.storeDescription" @focus.native="focusIntro"></yd-textarea>
+          <yd-textarea slot="right" maxlength="200" placeholder="请输入店铺简介" v-model="info.storeDescription" :readonly="editTag"></yd-textarea>
         </yd-cell-item>
         <yd-cell-item>
-          <span slot="right" @click="saveIntro">保存</span>
+          <span slot="right" @click="saveIntro" v-if="!editTag"><span class="iconfont self-dui"></span>保存</span>
+          <span slot="right" @click="editTag=false" v-else><span class="iconfont self-bianji"></span>编辑</span>
         </yd-cell-item>
       </yd-cell-group>
       <section class="store-menu">
@@ -79,6 +80,7 @@ export default {
   name: 'MyStore',
   data() {
     return {
+      editTag:true,
       info: {},
       showPopup: false,
       intro: '',//简介
@@ -202,16 +204,12 @@ export default {
           vm.$dialog.toast({
             mes: res.msg,
             callback: () => {
-
               vm.getMyStore();
               vm.showPopup = false;
             }
           })
         }
       })
-    },
-    focusIntro(){
-      console.log(11)
     },
     saveIntro() {
       let vm = this;
@@ -228,6 +226,7 @@ export default {
           vm.$dialog.toast({
             mes: res.msg
           })
+          vm.editTag=true;
         }
       })
     }
