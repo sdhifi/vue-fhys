@@ -2,10 +2,8 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import FastClick from 'fastclick'
-
 import VueRouter from 'vue-router'
 import App from './App'
-
 import router from './router'
 import store from './store/index';
 import axios from 'axios';
@@ -20,7 +18,6 @@ Vue.use(VueLazyload,{
   loading: process.env.NODE_ENV == 'development' ? "/static/img/loading.svg" : "./static/img/loading.svg" 
 })
 FastClick.attach(document.body)
-
 Vue.prototype.axios = axios;
 window.axios = axios;
 Vue.config.productionTip = false

@@ -9,20 +9,18 @@
         </router-link>
       </section>
       <!-- <yd-tab ref="tab" :callback="changeStatus">
-            <yd-tab-panel :label="item.names" v-for="(item,index) in column" :key="index" :tabkey="item.id">
-              <div class="swiper-container">
-                <div class="swiper-wrapper sub-list">
-                  <div class="swiper-slide sub-item" v-for="(sub,i) in subColumn" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}"
-                   @click="changeSubColumn(sub)">{{sub.names}}</div>
+              <yd-tab-panel :label="item.names" v-for="(item,index) in column" :key="index" :tabkey="item.id">
+                <div class="swiper-container">
+                  <div class="swiper-wrapper sub-list">
+                    <div class="swiper-slide sub-item" v-for="(sub,i) in subColumn" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}"
+                     @click="changeSubColumn(sub)">{{sub.names}}</div>
+                  </div>
                 </div>
-              </div>
-            </yd-tab-panel>
-          </yd-tab> -->
-      <div class="swiper-container">
-        <div class="swiper-wrapper sub-list">
-          <div class="swiper-slide sub-item" v-for="(sub,i) in column" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" @click="changeSubColumn(sub)">{{sub.names}}</div>
+              </yd-tab-panel>
+            </yd-tab> -->
+        <div class="sub-list">
+          <div class="sub-item" v-for="(sub,i) in column" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" @click="changeSubColumn(sub)">{{sub.names}}</div>
         </div>
-      </div>
       <section class="pd-list">
         <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
           <div slot="list">
@@ -43,8 +41,7 @@ import FooterBar from 'components/footer/index'
 import ProductItem from 'components/common/ProductItem'
 import { findNearColum, findNearSubColum, products } from '../../api/index'
 import { mixin } from 'components/common/mixin'
-import '../../plugin/swiper.min.js'
-import '../../plugin/swiper.min.css'
+
 export default {
   name: 'Near',
   data() {
@@ -92,14 +89,6 @@ export default {
           vm.column = res.result;
           vm.columnId = vm.column[0].id
           vm.getProduct();
-          setTimeout(() => {
-            //vm.$refs.tab.init(false);
-            new Swiper('.swiper-container', {
-              slideToClickedSlide: true,
-              slidesPerView: 4,
-              spaceBetween: 10,
-            })
-          }, 0)
         }
       })
     },
@@ -167,21 +156,21 @@ export default {
 </script>
 <style lang='less' scoped>
 @import '../../style/mixin.less';
-.swiper-container {
   .sub-list {
-    /*width: 100%;
-    white-space: nowrap;
+    width: 100%;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;*/
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
     .sub-item {
-      padding: .15rem 0;
+      display: inline-block;
+      width: 20%;
+      height: 30px;
+      line-height: 30px;
       border-radius: 3px;
       border: 1px solid #ddd;
       text-align: center;
-      /*transition: all .4s;*/
-      display: inline-block;
-      margin: .2rem 0;
-      /*width: 20%;*/
+      transition: all .2s;
+      margin: 2.5%;
       &.sub-active {
         color: @red;
         border-color: currentColor;
@@ -189,7 +178,6 @@ export default {
       }
     }
   }
-}
 
 .pd-list {
   background-color: @white;
