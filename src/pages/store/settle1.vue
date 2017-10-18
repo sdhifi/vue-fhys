@@ -205,6 +205,13 @@ export default {
       this.settlementBankAddressName = '';
     }
   },
+   mounted(){
+     [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
+      item.addEventListener('focus', function() {
+        item.scrollIntoView();
+      })
+    })
+  },
   methods: {
     result1(res) {
       this.storeCityName = `${res.itemName1},${res.itemName2},${res.itemName3}`;

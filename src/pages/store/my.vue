@@ -29,11 +29,13 @@
       </section>
       <yd-cell-group title="店铺简介">
         <yd-cell-item>
-          <yd-textarea slot="right" maxlength="200" placeholder="请输入店铺简介" v-model="info.storeDescription" :readonly="editTag"></yd-textarea>
+          <yd-textarea slot="right" maxlength="200" placeholder="请输入店铺简介" v-model="info.storeDescription" :readonly="editTag" ref="storeIntro"></yd-textarea>
         </yd-cell-item>
         <yd-cell-item>
-          <span slot="right" @click="saveIntro" v-if="!editTag"><span class="iconfont self-dui"></span>保存</span>
-          <span slot="right" @click="editTag=false" v-else><span class="iconfont self-bianji"></span>编辑</span>
+          <span slot="right" @click="saveIntro" v-if="!editTag">
+            <span class="iconfont self-dui"></span>保存</span>
+          <span slot="right" @click="editTag=false" v-else>
+            <span class="iconfont self-bianji"></span>编辑</span>
         </yd-cell-item>
       </yd-cell-group>
       <section class="store-menu">
@@ -71,7 +73,7 @@
 <script>
 
 import HeaderTop from 'components/header/index'
-import { getStore ,setStore} from 'components/common/mixin'
+import { getStore, setStore } from 'components/common/mixin'
 import { myStore, updateBanner, updateIntro, updateAddressInfo } from '../../api/index'
 import District from 'ydui-district/dist/gov_province_city_area_id'
 import 'lrz/dist/lrz.bundle.js'
@@ -80,11 +82,11 @@ export default {
   name: 'MyStore',
   data() {
     return {
-      editTag:true,
+      editTag: true,
       info: {},
       showPopup: false,
       intro: '',//简介
-      tag:false,//简介是否可编辑
+      tag: false,//简介是否可编辑
       district: District, //省市县数据
       show1: false,//所在地标志
       newMobile: '',
@@ -126,7 +128,16 @@ export default {
   activated() {
     this.getMyStore();
   },
-
+  mounted() {
+    [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
+       item.addEventListener('click', function() {
+        item.scrollIntoView();
+      })
+      item.addEventListener('focus', function() {
+        item.scrollIntoView();
+      })
+    })
+  },
   methods: {
     getMyStore() {
       let vm = this;
@@ -140,8 +151,8 @@ export default {
         },
         success(res) {
           vm.info = res.result;
-          vm.$store.commit('RECORD_STORE_INFO',vm.info);
-          setStore('storeId',vm.info.id);
+          vm.$store.commit('RECORD_STORE_INFO', vm.info);
+          setStore('storeId', vm.info.id);
         }
       })
     },
@@ -226,7 +237,7 @@ export default {
           vm.$dialog.toast({
             mes: res.msg
           })
-          vm.editTag=true;
+          vm.editTag = true;
         }
       })
     }
@@ -272,12 +283,12 @@ export default {
     margin: .1rem 0;
   }
 }
-.edit-container{
+
+.edit-container {
   border-radius: 5px;
-  .blue-header{
+  .blue-header {
     background-color: @blue;
     height: @pd;
   }
 }
-
 </style>

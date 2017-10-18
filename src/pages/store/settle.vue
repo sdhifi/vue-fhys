@@ -121,15 +121,19 @@ export default {
   computed: {
     ...mapState(['account', 'certificateStatus']),
     valid() {
-      return this.validStoreName&&this.validSellerName&&this.validSellerMobile&&this.validEmail&&this.validStoreCitys
-      &&this.validAddressDetail&&this.validLicenseNumber&&this.validLicenseAddress&&this.validFileContent&&this.validBankAccount
+      return this.validStoreName && this.validSellerName && this.validSellerMobile && this.validEmail && this.validStoreCitys
+        && this.validAddressDetail && this.validLicenseNumber && this.validLicenseAddress && this.validFileContent && this.validBankAccount
     }
-  },
-  created() {
-
   },
   activated() {
 
+  },
+  mounted() {
+    [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
+      item.addEventListener('focus', function() {
+        item.scrollIntoView();
+      })
+    })
   },
   methods: {
     result1(res) {

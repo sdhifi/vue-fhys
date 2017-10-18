@@ -72,8 +72,9 @@ export default {
   },
   mounted(){
      [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
-      item.addEventListener('click', function() {
+      item.addEventListener('focus', function() {
         item.scrollIntoView();
+
         console.log('scrolling')
       })
     })

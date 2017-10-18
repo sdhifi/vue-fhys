@@ -98,6 +98,13 @@ export default {
     this.oldPwd = '';
     this.newPwd = '';
   },
+   mounted(){
+     [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
+      item.addEventListener('focus', function() {
+        item.scrollIntoView();
+      })
+    })
+  },
   methods: {
     sendCode() {
       let vm = this;
