@@ -19,7 +19,7 @@
         <yd-cell-group>
           <yd-cell-item>
             <span class="iconfont self-mobile" slot="icon"></span>
-            <yd-input v-model="account" placeholder="请输入手机号码" readonly slot="right"></yd-input>
+            <yd-input v-model="account" placeholder="请输入手机号码" readonly :showClearIcon ="false" slot="right"></yd-input>
           </yd-cell-item>
           <yd-cell-item>
             <span class="iconfont self-code" slot="icon"></span>

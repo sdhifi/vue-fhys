@@ -167,7 +167,6 @@ section {
     .title {
       .multi-ellipsis(2);
       font-size: .3rem;
-      height: .8rem;
       font-weight: normal;
       word-wrap: break-word;
       word-break: break-all;

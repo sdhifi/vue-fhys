@@ -18,9 +18,6 @@
               </div>
             </li>
           </ul>
-          <p slot="doneTip">
-            <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦
-          </p>
         </yd-infinitescroll>
       </section>
 
