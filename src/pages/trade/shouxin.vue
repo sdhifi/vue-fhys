@@ -38,7 +38,7 @@ export default {
         {
           icon: 'self-xiaofeijilu',
           text: '查询授信记录',
-          link: '/trade/searchshouxin',
+          link: '/trade/shouxinlist',
           color: '#0f8ee9'
         },
       ]

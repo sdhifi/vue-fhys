@@ -22,6 +22,8 @@ export default {
   created() {
     this.redirect();
   },
+  mouned() {
+  },
   methods: {
     redirect() {
       this.$router.beforeEach((to, from, next) => {
@@ -46,5 +48,4 @@ export default {
 
 <style lang="less">
 @import 'style/common.less';
-
 </style>

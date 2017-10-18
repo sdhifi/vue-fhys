@@ -212,6 +212,14 @@ export default new Router({
     path: '/trade/shouxin',
     name: 'Shouxin',
     component: require('../pages/trade/shouxin')
+  }, {
+    path: '/trade/buyshouxin',
+    name: 'BuyShouxin',
+    component: require('../pages/trade/buyshouxin')
+  }, {
+    path: '/trade/shouxinlist',
+    name: 'ShouxinList',
+    component: require('../pages/trade/shouxinlist')
   },  {
     path: '*',
     redirect: '/home/index'

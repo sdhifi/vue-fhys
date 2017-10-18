@@ -95,8 +95,8 @@ export default {
           _list.forEach((pd, index) => {
             let dateStart = pd.indate.split('至')[0];
             let dateEnd = pd.indate.split('至')[1];
-            pd.dateStart = dateStart;
-            pd.dateEnd = dateEnd;
+            pd.dateStart = dateStart ? dateStart : '';
+            pd.dateEnd = dateEnd ? dateEnd : '';
           })
           vm.pdlist = _list;
         }

@@ -5,10 +5,10 @@
       <section class="address-list" v-show="addressList.length">
         <group-title>左滑地址更多操作</group-title>
         <swipeout>
-          <swipeout-item transition-mode="follow" v-for="(item,index) in addressList" :key="item.id">
+          <swipeout-item transition-mode="reveal" v-for="(item,index) in addressList" :key="item.id" ref="aaa">
             <div slot="right-menu">
               <div class="operate-icon flex just-center align-center">
-                <span class="iconfont-large self-bianji" @click="editAddress(item)"></span>
+                <span class="iconfont-large self-bianji" @click="editAddress(item,index)"></span>
                 <span class="iconfont-large self-delete danger-color" @click="deleteAddress(item)"></span>
               </div>
             </div>
@@ -84,7 +84,7 @@ export default {
               }
             }
             else {
-              
+
               vm.$dialog.toast({
                 mes: res.msg
               })
@@ -124,7 +124,10 @@ export default {
         })
       }
     },
-    editAddress(item) {
+    editAddress(item,index) {
+      this.$nextTick(() => {
+        this.$refs.aaa[index].close()
+      });
       this.$router.push({ name: 'AddressEdit', params: { address: item } })
     },
     deleteAddress(item) {
@@ -170,15 +173,15 @@ export default {
   font-size: .3rem;
   &.active {
     border-color: @red;
-    box-shadow:0 0 5px @red;
+    box-shadow: 0 0 5px @red;
   }
   .address-name {
     font-weight: 700;
     font-size: .32rem;
     margin-right: @pd;
   }
-  .address-detail{
-     margin-top: @pd;
+  .address-detail {
+    margin-top: @pd;
   }
 }
 
@@ -188,16 +191,16 @@ export default {
   right: 2%;
   top: 50%;
   transform: translateY(-50%);
-  span:first-of-type{
+  span:first-of-type {
     margin-right: @pd;
   }
 }
 
-.default-tag{
+.default-tag {
   position: absolute;
   font-size: 12px;
   right: 0;
   top: 0;
-  color:@green;
+  color: @green;
 }
 </style>

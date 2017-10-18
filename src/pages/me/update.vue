@@ -68,7 +68,15 @@ export default {
   },
   mixins:[mixin],
   created() {
-    //this.info = this.$route.params.member;
+      
+  },
+  mounted(){
+     [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
+      item.addEventListener('click', function() {
+        item.scrollIntoView();
+        console.log('scrolling')
+      })
+    })
   },
   activated() {
     this.info = this.$route.params.member;

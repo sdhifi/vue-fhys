@@ -3,17 +3,17 @@
     <header-top title="提现"></header-top>
     <main class='scroll-content-2'>
       <!-- <section v-if="!balanceMoney" class="hv-cen text-center">
-                    <span class="iconfont self-nodata" style="font-size:40px;"></span>
-                    <p class="text-center">可提取福利
-                      <span class="danger-color">0</span> 元</p>
-                  </section>
-                  <section v-else> -->
+                      <span class="iconfont self-nodata" style="font-size:40px;"></span>
+                      <p class="text-center">可提取福利
+                        <span class="danger-color">0</span> 元</p>
+                    </section>
+                    <section v-else> -->
       <section>
         <p class="tips">可提取福利
           <span class="danger-color">{{balanceMoney}}</span> 元
           <span class="danger-color">(提取福利扣10%手续费)</span>
         </p>
-        <div class="bank-card flex align-center" v-if="defaultBankCard" @click="showBankList">
+        <div class="bank-card flex align-center" v-if="defaultBankCard" @click="showDialog=true">
           <div class="icon" :style="{'background-image':formatBg(defaultBankCard.bankPic)}"></div>
           <div class="bank-name flex-1">
             <p>{{defaultBankCard.bankName}}</p>
@@ -44,6 +44,7 @@
       </section>
     </main>
     <x-dialog v-model="showDialog" :hide-on-blur="true">
+      <h3 class="fs-17">切换银行卡</h3>
       <ul class="bank-list">
         <li class="bank-card flex align-center" v-for="item in bankList" :key="item.id" @click="changeDefault(item)">
           <div class="icon" :style="{'background-image':formatBg(item.bankPic)}"></div>
@@ -52,6 +53,13 @@
             <p>卡号：{{item.bankCard}}</p>
           </div>
         </li>
+        <yd-cell-group>
+          <yd-cell-item arrow href="/trade/newbank" type="link">
+            <span slot="icon" class="iconfont self-yinhangka"></span>
+            <span slot="left">银行卡</span>
+            <span slot="right">新增</span>
+          </yd-cell-item>
+        </yd-cell-group>
       </ul>
     </x-dialog>
   </div>
@@ -109,17 +117,9 @@ export default {
         }
       })
     },
-    showBankList() {
-      if (this.bankList.length < 2) {
-        return;
-      }
-      else {
-        this.showDialog = true;
-      }
-    },
     changeDefault(bank) {
       this.$store.commit('RECORD_BANK_CARD', bank)
-      this.showDialog=false;
+      this.showDialog = false;
     }
   }
 }
@@ -157,9 +157,10 @@ export default {
     }
   }
 }
+
 .bank-list {
-    max-height: 8rem;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  max-height: 8rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 </style>

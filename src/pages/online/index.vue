@@ -34,7 +34,9 @@
             <div class="img-cover">
               <img :src="pd.imgUrl" :alt="pd.name">
             </div>
-            <h3 class="title">{{pd.name}}</h3>
+            <div class="title flex align-center">
+              <h3>{{pd.name}}</h3>
+            </div>
             <div class="price" v-if="item.label=='积分换购'">
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+
               <span>{{formatPrice(pd.price)}}积分</span>
@@ -163,13 +165,16 @@ section {
         .hv-cen;
       }
     }
-
     .title {
-      .multi-ellipsis(2);
-      font-size: .3rem;
-      font-weight: normal;
-      word-wrap: break-word;
-      word-break: break-all;
+      height: 40px;
+      line-height: 20px;
+      h3 {
+        .multi-ellipsis(2);
+        font-size: .3rem;
+        font-weight: normal;
+        word-wrap: break-word;
+        word-break: break-all;
+      }
     }
     .price {
       margin-top: .1rem;

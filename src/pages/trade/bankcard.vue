@@ -5,7 +5,7 @@
       <section class="bank-list" v-show="bankList.length">
         <group-title>左滑银行卡可以删除</group-title>
         <swipeout>
-          <swipeout-item transition-mode="follow" v-for="item in bankList" :key="item.id">
+          <swipeout-item transition-mode="reveal" v-for="item in bankList" :key="item.id">
             <div slot="right-menu">
               <div class="delete-icon flex just-center align-center" @click="deleteBank(item)">
                 <span class="iconfont-large self-delete danger-color"></span>

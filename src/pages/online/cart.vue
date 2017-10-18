@@ -77,6 +77,19 @@ export default {
     this.checkList=[];
     this.$store.dispatch('getCartList')
   },
+  beforeRouteEnter(to,from,next){
+    next(vm=>{
+      vm.isCheckAll=false;
+      console.log('before route enter:isCheckAll----',vm.isCheckAll)
+      vm.checkList=[];
+    })
+  },
+  beforeRouteLeave(to,from,next){
+    this.isCheckAll = false;
+    console.log('before route leave:isCheckAll----',this.isCheckAll)
+    this.checkList=[];
+    next();
+  },
   mounted() {
 
   },
