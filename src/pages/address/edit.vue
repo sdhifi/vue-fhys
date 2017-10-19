@@ -33,50 +33,53 @@
           <yd-textarea slot="right" placeholder="街道、楼牌号码等" v-model="addressDetail"></yd-textarea>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cityselect v-model="show1" :done="result1" :items="district"></yd-cityselect>
+      <yd-cityselect v-model="show1" :done="result1" :items="district" ref="cityselectDemo"></yd-cityselect>
       <yd-button :type="valid?'primary':'disabled'" @click.native="addAddress" size="large" v-if="/new/.test($route.path)">保存</yd-button>
       <yd-button :type="valid?'warning':'disabled'" @click.native="editAddress" size="large" v-else>保存</yd-button>
     </main>
   </div>
 </template>
 <script>
-import HeaderTop from 'components/header/index'
-import { updateAddressInIos, newsAddressInIos } from '../../api/index'
-import { getStore } from 'components/common/mixin'
-import District from 'ydui-district/dist/gov_province_city_area_id'
+import HeaderTop from "components/header/index";
+import { updateAddressInIos, newsAddressInIos } from "../../api/index";
+import { getStore } from "components/common/mixin";
+import District from "ydui-district/dist/gov_province_city_area_id";
 export default {
-  name: 'EditOrNew',
+  name: "EditOrNew",
   data() {
     return {
       district: District,
       show1: false,
-      addressTitle: '',
-      addressId: '',
-      consigneeName: '',
-      consigneeSex: '',
-      mobile: '',
-      proviceId: '',
-      proviceName: '',
-      cityId: '',
-      cityName: '',
-      areaId: '',
-      areaName: '',
-      adddressName: '',
-      addressDetail: '',
-    }
+      addressTitle: "",
+      addressId: "",
+      consigneeName: "",
+      consigneeSex: "",
+      mobile: "",
+      proviceId: "",
+      proviceName: "",
+      cityId: "",
+      cityName: "",
+      areaId: "",
+      areaName: "",
+      adddressName: "",
+      addressDetail: ""
+    };
   },
   components: { HeaderTop },
   computed: {
     valid() {
-      return !!this.consigneeName && /^[1][3578][0-9]{9}$/.test(this.mobile) && !!this.adddressName && !!this.addressDetail
+      return (
+        !!this.consigneeName &&
+        /^[1][3578][0-9]{9}$/.test(this.mobile) &&
+        !!this.adddressName &&
+        !!this.addressDetail
+      );
     }
   },
-  created() {
-
-  },
+  created() {},
   activated() {
     if (/edit/.test(this.$route.path)) {
-      this.addressTitle = '地址修改';
+      this.addressTitle = "地址修改";
       let address = this.$route.params.address;
       this.addressId = address.id;
       this.consigneeName = address.consigneeName;
@@ -84,42 +87,53 @@ export default {
       this.mobile = address.mobile;
       this.proviceId = address.proviceId.provinceId;
       this.cityId = address.cityId.cityId;
-      this.areaId = address.areaId.areaId;
-      this.adddressName = `${address.proviceId.province},${address.cityId.city},${address.areaId.area}`;
       this.addressDetail = address.addressDetail;
+      if (address.areaId) {
+        this.areaId = address.areaId.areaId;
+        this.adddressName = `${address.proviceId.province},${address.cityId
+          .city},${address.areaId.area}`;
+      } else {
+        this.areaId = "";
+        this.adddressName = `${address.proviceId.province},${address.cityId
+          .city},`;
+      }
+    } else {
+      this.addressTitle = "地址添加";
+      this.addressId = "";
+      this.consigneeName = "";
+      this.consigneeSex = "";
+      this.mobile = "";
+      this.proviceId = "";
+      this.proviceName = "";
+      this.cityId = "";
+      this.cityName = "";
+      this.areaId = "";
+      this.areaName = "";
+      this.addressDetail = "";
+      this.adddressName = "";
+      this.$refs.cityselectDemo.$emit("ydui.cityselect.reset");
     }
-    else {
-      this.addressTitle = '地址添加';
-      this.addressId = '';
-      this.consigneeName = '';
-      this.consigneeSex = '';
-      this.mobile = '';
-      this.proviceId = '';
-      this.proviceName = '';
-      this.cityId = '';
-      this.cityName = '';
-      this.areaId = '';
-      this.areaName = '';
-      this.addressDetail = '';
-      this.adddressName = '';
-    }
-
   },
   methods: {
     result1(res) {
       this.proviceId = res.itemValue1;
       this.cityId = res.itemValue2;
-      this.areaId = res.itemValue3;
-      this.adddressName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
+      if (res.itemValue3) {
+        this.areaId = res.itemValue3;
+        this.adddressName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
+      } else {
+        this.areaId='';
+        this.adddressName = `${res.itemName1},${res.itemName2},`;
+      }
     },
     addAddress() {
       let vm = this;
       mui.ajax({
         url: newsAddressInIos,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          account: getStore('account'),
+          account: getStore("account"),
           consigneeName: this.consigneeName,
           consigneeSex: this.consigneeSex,
           mobile: this.mobile,
@@ -127,34 +141,33 @@ export default {
           cityId: this.cityId,
           areaId: this.areaId,
           addressDetail: this.addressDetail,
-          token: md5(`newsAddress${getStore('account')}`)
+          token: md5(`newsAddress${getStore("account")}`)
         },
         success(res) {
           if (res.code == 200) {
             vm.$dialog.toast({
-              mes: '添加成功',
+              mes: "添加成功",
               callback: () => {
                 vm.$router.go(-1);
               }
-            })
-          }
-          else {
+            });
+          } else {
             vm.$dialog.toast({
               mes: res.msg
-            })
+            });
           }
         }
-      })
+      });
     },
     editAddress() {
       let vm = this;
       mui.ajax({
         url: updateAddressInIos,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           id: this.addressId,
-          account: getStore('account'),
+          account: getStore("account"),
           consigneeName: this.consigneeName,
           consigneeSex: this.consigneeSex,
           mobile: this.mobile,
@@ -162,27 +175,28 @@ export default {
           cityId: this.cityId,
           areaId: this.areaId,
           addressDetail: this.addressDetail,
-          token: md5(`updateAddressInIos${this.addressId}${getStore('account')}`)
+          token: md5(
+            `updateAddressInIos${this.addressId}${getStore("account")}`
+          )
         },
         success(res) {
           if (res.code == 200) {
             vm.$dialog.toast({
-              mes: '修改成功',
+              mes: "修改成功",
               callback: () => {
                 vm.$router.go(-1);
               }
-            })
-          }
-          else {
+            });
+          } else {
             vm.$dialog.toast({
               mes: res.msg
-            })
+            });
           }
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
 .self-radio {
@@ -191,7 +205,7 @@ export default {
   padding-right: 10px;
   padding-left: 25px;
   font-size: 14px;
-  >input[type=radio] {
+  > input[type="radio"] {
     position: absolute;
     left: 0;
     top: 0;
@@ -199,14 +213,14 @@ export default {
     height: 100%;
     opacity: 0;
     z-index: 15;
-    &:checked+span::before{
+    &:checked + span::before {
       border-color: rgb(76, 216, 100);
     }
-    &:checked+span::after {
+    &:checked + span::after {
       color: rgb(76, 216, 100);
       opacity: 1;
       transform: scale(1);
-      transition: all .2s ease-in-out;
+      transition: all 0.2s ease-in-out;
     }
   }
   span {
