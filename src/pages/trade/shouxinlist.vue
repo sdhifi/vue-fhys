@@ -8,7 +8,7 @@
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import { } from '../../api/index'
+import {goAllShouXin } from '../../api/index'
 export default {
   name: 'ShouxinList',
   data() {

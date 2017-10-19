@@ -95,10 +95,13 @@ export default {
   components: { HeaderTop, Group, Cell, Datetime, XTextarea, XInput, Selector },
   computed: {
     valid() {
-      return this.base64Url && this.pdName && this.pdPrice && this.mtPrice && this.column1 && this.column2 && !!this.date1 && !!this.date2 && !!this.notice
+      return this.base64Url && this.pdName && /^(([1-9]\d*)(\.\d{1,2})?)$|(0\.0?([1-9]\d?))$/.test(this.pdPrice) &&
+        /^(([1-9]\d*)(\.\d{1,2})?)$|(0\.0?([1-9]\d?))$/.test(this.mtPrice) && this.column1 && this.column2 && !!this.date1 && !!this.date2 && !!this.notice
     },
     valid2() {
-      return this.pd.name && this.pd.price && this.pd.marketPrice && this.column1 && this.column2 && !!this.pd.dateStart && !!this.pd.dateEnd && !!this.pd.notice
+      return this.pd.name && /^(([1-9]\d*)(\.\d{1,2})?)$|(0\.0?([1-9]\d?))$/.test(this.pd.price) &&
+        /^(([1-9]\d*)(\.\d{1,2})?)$|(0\.0?([1-9]\d?))$/.test(this.pd.marketPrice) &&
+        this.column1 && this.column2 && !!this.pd.dateStart && !!this.pd.dateEnd && !!this.pd.notice
     },
   },
 
@@ -112,8 +115,8 @@ export default {
       this.pd = this.$route.params.pd;
     }
   },
-   mounted(){
-     [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
+  mounted() {
+    [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
       item.addEventListener('focus', function() {
         item.scrollIntoView();
       })
