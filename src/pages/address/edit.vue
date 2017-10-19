@@ -90,12 +90,10 @@ export default {
       this.addressDetail = address.addressDetail;
       if (address.areaId) {
         this.areaId = address.areaId.areaId;
-        this.adddressName = `${address.proviceId.province},${address.cityId
-          .city},${address.areaId.area}`;
+        this.adddressName = `${address.proviceId.province},${address.cityId.city},${address.areaId.area}`;
       } else {
         this.areaId = "";
-        this.adddressName = `${address.proviceId.province},${address.cityId
-          .city},`;
+        this.adddressName = `${address.proviceId.province},${address.cityId.city},`;
       }
     } else {
       this.addressTitle = "地址添加";

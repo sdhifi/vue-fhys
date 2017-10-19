@@ -66,6 +66,7 @@ let addMyCollect = `${member}/addMyCollect` //添加收藏
 let delectMyCollect = `${member}/delectMyCollect` //取消收藏
 let getMemberLowerLevel = `${member}/getMemberLowerLevel` //获取用户下级
 let findMemberByMoblie = `${member}/findMemberByMoblie` //根据手机号获取用户信息
+let goAllShouXin = `${member}/goAllShouXin` //授信记录
 
 let getOrder = `${order}/getOrder` //我的订单
 let updateOrderStatus = `${order}/updateOrderStatus` //确认收货
@@ -92,7 +93,6 @@ let diviHis = `${trade}/diviHis` //福利记录
 let addDrawCash = `${trade}/addDrawCash` //添加提现
 let addBenefit = `${trade}/addBenefit` //销售录入
 let addShouXin = `${trade}/addShouXin` //购买授信额度
-let goAllShouXin = `${trade}/goAllShouXin` //授信记录
 let benefits = `${trade}/benefits` //让利记录
 
 export {
@@ -150,6 +150,7 @@ export {
   delectMyCollect,
   getMemberLowerLevel,
   findMemberByMoblie,
+  goAllShouXin,
 
   getOrder,
   updateOrderStatus,
@@ -176,6 +177,5 @@ export {
   addDrawCash,
   addBenefit,
   addShouXin,
-  goAllShouXin,
   benefits,
 }

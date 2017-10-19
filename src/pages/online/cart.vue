@@ -174,20 +174,16 @@ export default {
     },
     settleCart() {
       let vm = this;
-      let settleList = [];
-      for (let i = 0; i < this.checkList.length; i++) {
-        for (let j = 0; j < this.cartList.length; j++) {
-          if (this.checkList[i] == this.cartList[j].id) {
-            settleList.push(this.cartList[j]);
-          }
-        }
-      }
+      let settleList=[];
+      this.checkList.forEach(item=>{
+          settleList.push(item.id)
+      })
       mui.ajax({
         url: actCart,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          cartIds: this.checkList.join(","),
+          cartIds: settleList.join(","),
           account: this.account,
           token: md5(`actCart`)
         },
