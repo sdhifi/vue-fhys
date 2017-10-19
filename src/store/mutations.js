@@ -14,7 +14,7 @@ import {
   RECORD_ADDRESS_List,
   RECORD_DEFAULT_ADDRESS,
   RECORD_CART_LIST,
-  UPDATE_CART_NUM,
+  UPDATE_CART_ITEM,
   DELETE_CART_ITEM,
   RECORD_SETTLE_LIST,
 } from './mutation-types'
@@ -68,7 +68,7 @@ export default {
   [RECORD_CART_LIST](state,list){
     state.cartList=list;
   },
-  [UPDATE_CART_NUM](state,payload){
+  [UPDATE_CART_ITEM](state,payload){
     let _list = state.cartList;
     _list.splice(payload.index,1,payload.item);
     state.cartList=_list;

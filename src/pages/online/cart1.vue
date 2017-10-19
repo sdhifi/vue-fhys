@@ -2,12 +2,8 @@
   <div>
     <header-top title="购物车"></header-top>
     <main class='scroll-content-3'>
-      <ul class="cart-list" v-show="cartList.length">
-        <li v-for="(item,index) in cartList" :key="index" class="cart-item flex align-center">
-          <label :for="'cart-item'+index" class="cart-check flex align-center just-center">
-            <input type="checkbox" :checked="item.checked" name="cart-item" :id="'cart-item'+index"  @change="countChange($event,item,index)">
-          </label>
-          <div class="flex-1">
+      <yd-checklist v-model="checkList" :label="false" ref="checklistDemo" :callback="change" v-show="cartList.length">
+        <yd-checklist-item :val="item.id" v-for="(item,index) in cartList" :key="index" class="cart-item">
           <yd-flexbox style="margin-bottom:5px;">
             <img :src="item.goodsId.imgUrl" alt="">
             <yd-flexbox-item style="margin-left:5px;">
@@ -21,6 +17,7 @@
                   <input type="number" readonly v-model="item.goodsNum">
                 </div>
               </div>
+
             </yd-flexbox-item>
           </yd-flexbox>
           <div class="cart-operate flex just-between">
@@ -31,9 +28,8 @@
             <p @click="updateCart(item,index)" v-show="!item.close">
               <span class="iconfont self-dui"></span>完成</p>
           </div>
-          </div>
-        </li>
-      </ul>
+        </yd-checklist-item>
+      </yd-checklist>
       <section class="hv-cen text-center" v-show="!cartList.length">
         <span class="iconfont self-shopcart" style="font-size:40px;"></span>
         <p>购物车空空如也</p>
@@ -41,10 +37,9 @@
       </section>
     </main>
     <footer class="fix-footer flex align-center" style="border-top: 1px solid #dfdfdf;" v-show="cartList.length">
-      <label for="check-all" class="cart-check flex align-center just-center fs-15">
-            <input type="checkbox" :checked="isCheckAll" id="check-all" @change="checkAll">
-            全选
-          </label>
+      <div style="padding-left:12px;">
+        <yd-checkbox v-model="isCheckAll" shape="circle" @click.native="checkAll">全选</yd-checkbox>
+      </div>
       <div class="flex-1 total-price">
         <p class="danger-color fs-16">合计：￥
           <span>{{totalPrice}}</span>
@@ -52,67 +47,57 @@
         <p>不含运费</p>
       </div>
       <button class="submit-btn" @click="settleCart" :disabled="!checkList.length">结算
-        <span class="fs-12">({{amount}}件)</span>
+        <span>({{checkList.length}})</span>
       </button>
     </footer>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-import HeaderTop from "components/header/index";
-import { updateCartNum, delCart, actCart } from "../../api/index";
+import { mapState } from 'vuex'
+import HeaderTop from 'components/header/index'
+import { updateCartNum, delCart, actCart } from '../../api/index'
 export default {
-  name: "ShoppingCart",
+  name: 'ShoppingCart',
   data() {
     return {
-      isCheckAll: true,
+      checkList: [],
+      isCheckAll: false,
       totalPrice: 0
-    };
+    }
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account", "cartList"]),
-    checkList() {
-      return this.cartList.filter((item, index) => {
-        return item.checked;
-      });
-    },
-    amount() {
-      let num = 0;
-      this.checkList.forEach(item => {
-        num += item.goodsNum;
-      });
-      return num;
-    }
+    ...mapState(['account', 'cartList'])
   },
-  created() {},
+  created() {
+
+  },
   activated() {
-    this.$store.dispatch("getCartList");
-    this.isCheckAll = false;
-    this.totalPrice=0;
+    this.checkList=[];
+    // this.$nextTick(() => {
+        this.isCheckAll = false;
+    // });
+    this.$store.dispatch('getCartList')
   },
-  mounted() {},
+  mounted() {
+
+  },
   methods: {
-    countChange(e, item, index) {
-      item.checked = !item.checked;
-      this.$store.commit("UPDATE_CART_ITEM", { item, index });
-      this.isCheckAll = this.checkList.length == this.cartList.length;
+    change(value, isCheckAll) {
+      this.isCheckAll = isCheckAll;
       this.calcTotal();
     },
     checkAll() {
       this.isCheckAll = !this.isCheckAll;
-      this.cartList.forEach((item, index) => {
-        item.checked = this.isCheckAll;
-        this.$store.commit("UPDATE_CART_ITEM", { item, index });
-      });
+      this.$refs.checklistDemo.$emit('ydui.checklist.checkall', this.isCheckAll);
       this.calcTotal();
     },
     updateCart(item, index) {
       let vm = this;
       mui.ajax({
         url: updateCartNum,
-        type: "post",
-        headers: { "app-version": "v1.0" },
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
         data: {
           id: item.id,
           goodsNum: item.goodsNum,
@@ -120,13 +105,13 @@ export default {
           token: md5(`updateCartNum`)
         },
         success(res) {
-          vm.$store.commit("UPDATE_CART_ITEM", { item, index });
+          vm.$store.commit('UPDATE_CART_NUM', { item, index });
           vm.$dialog.toast({
             mes: res.msg
           });
           vm.calcTotal();
         }
-      });
+      })
       item.close = true;
     },
     editCart(item, index) {
@@ -134,49 +119,55 @@ export default {
     },
     deleteCart(item, index) {
       this.$dialog.confirm({
-        mes: "确定删除该商品？",
+        mes: '确定删除该商品？',
         opts: () => {
           let vm = this;
           mui.ajax({
             url: delCart + `/${item.id}`,
-            type: "post",
-            headers: { "app-version": "v1.0" },
+            type: 'post',
+            headers: { 'app-version': 'v1.0' },
             data: {
               id: item.id,
               account: this.account,
               token: md5(`delCart`)
             },
             success(res) {
-              vm.$store.commit("DELETE_CART_ITEM", index);
+              vm.$store.commit('DELETE_CART_ITEM', index);
               vm.$dialog.toast({
                 mes: res.msg
-              });
+              })
               vm.calcTotal();
               vm.checkList.splice(vm.checkList.indexOf(item.id), 1);
               if (!vm.checkList.length) {
-                vm.isCheckAll = false;
+                vm.checkAll = false;
               }
             }
-          });
+          })
         }
-      });
+      })
     },
     calcTotal() {
       if (!this.checkList.length) {
         this.totalPrice = 0;
-      } else {
+      }
+      else {
         let a = 0;
         for (let i = 0; i < this.checkList.length; i++) {
-          a += this.checkList[i].goodsId.price * this.checkList[i].goodsNum;
+          for (let j = 0; j < this.cartList.length; j++) {
+            if (this.checkList[i] == this.cartList[j].id) {
+              a += this.cartList[j].goodsId.price * this.cartList[j].goodsNum;
+            }
+          }
         }
         this.totalPrice = a;
       }
+
     },
     settleCart() {
       let vm = this;
       let settleList = [];
-      for (let i = 0; i < this.checkList.length; i++) {
-        for (let j = 0; j < this.cartList.length; j++) {
+      for(let i=0;i<this.checkList.length;i++){
+        for(let j = 0;j<this.cartList.length;j++){
           if (this.checkList[i] == this.cartList[j].id) {
             settleList.push(this.cartList[j]);
           }
@@ -184,28 +175,26 @@ export default {
       }
       mui.ajax({
         url: actCart,
-        type: "post",
-        headers: { "app-version": "v1.0" },
+        type: 'post',
+        headers: { 'app-version': 'v1.0' },
         data: {
-          cartIds: this.checkList.join(","),
+          cartIds: this.checkList.join(','),
           account: this.account,
           token: md5(`actCart`)
         },
         success(res) {
-          vm.$store.commit("RECORD_SETTLE_LIST", settleList);
-          vm.$router.push({ name: "SettleBalance" });
+          vm.$store.commit('RECORD_SETTLE_LIST',settleList)
+          vm.$router.push({ name: 'SettleBalance' })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 <style lang='less' scoped>
-@import "../../style/mixin.less";
+@import '../../style/mixin.less';
 .cart-item {
-  padding: @pd @pd @pd 0;
-  margin-bottom: @pd / 2;
-  background-color: @white;
+  padding: @pd *2 0;
   img {
     .wh(1.5rem, 1.5rem);
     border: 1px solid #dfdfdf;
@@ -213,21 +202,21 @@ export default {
   .attrs {
     color: @lightgray;
   }
-  input[type="number"] {
+  input[type=number] {
     border: none;
     text-align: right;
     font-size: 14px;
-    width: 0.5rem;
+    width: .5rem;
   }
-  h3 {
+  h3{
     .multi-ellipsis(2);
-    font-size: 0.32rem;
-    font-weight: normal;
+    font-size: .32rem;
+    font-weight:normal;
   }
   .cart-operate {
     padding-top: 5px;
     border-top: 1px solid #dfdfdf;
-    font-size: 0.3rem;
+    font-size:.3rem;
     p {
       &:first-of-type {
         color: @blue;
@@ -255,29 +244,11 @@ export default {
   height: 1rem;
   line-height: 1rem;
   padding: 0 10px;
-  font-size: 0.32rem;
+  font-size: 14px;
   margin-left: @pd;
   &[disabled] {
     background-color: #ccc;
     color: #f0f0f0;
-  }
-}
-.cart-check {
-  padding: 1rem @pd;
-  position: relative;
-  z-index: 5;
-  input[type="checkbox"] {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-image: url(../../assets/1.png);
-    background-size: contain;
-    border: none;
-    outline: none;
-    appearance: none;
-    &:checked {
-      background-image: url(../../assets/2.png);
-    }
   }
 }
 </style>

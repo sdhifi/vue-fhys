@@ -87,6 +87,7 @@ export default {
         let _result = res.result;
         _result.forEach((item,index)=>{
           item.close= true;
+          item.checked = false;
         })
         commit(RECORD_CART_LIST, _result);
       }
