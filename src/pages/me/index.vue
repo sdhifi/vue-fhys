@@ -342,7 +342,7 @@ section {
   }
   .head-info {
     min-height: 1.6rem;
-    padding-top: @pd;
+    padding: @pd @pd/2 0;
     .flex;
     .just-cont(center);
     .align-items(center);
