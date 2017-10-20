@@ -76,8 +76,7 @@
             <div class="flex align-center" v-for="(item,index) in info.attrs" :key="index" style="margin-bottom:5px;">
               <span class="attr-name">{{item.attrName}}</span>
               <ul class="attr-list">
-                <li class="attr-item" :class="{'active':attr.selected}" v-for="(attr,attrIndex) in item.attrValues" 
-                :key="attr.id" :data-id="attr.id" @click="chooseAttr(item,attr,attrIndex)">{{attr.attrValueId.attrValue}}</li>
+                <li class="attr-item" :class="{'active':attr.selected}" v-for="(attr,attrIndex) in item.attrValues" :key="attr.id" :data-id="attr.id" @click="chooseAttr(item,attr,attrIndex)">{{attr.attrValueId.attrValue}}</li>
               </ul>
             </div>
           </div>
@@ -105,11 +104,7 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { LoadMore } from "vux";
-import {
-  onlineProductsDetailInfoInH5,
-  stockAndPrice,
-  addCart
-} from "../../api/index";
+import {onlineProductsDetailInfoInH5,stockAndPrice,addCart} from "../../api/index";
 import { mixin } from "components/common/mixin";
 export default {
   name: "Product",
@@ -166,10 +161,7 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          _result.content = _result.content.replace(
-            /\/userfiles/g,
-            "http://jfh.jfeimao.com/userfiles"
-          );
+          _result.content = _result.content.replace(/\/userfiles/g,"http://jfh.jfeimao.com/userfiles");
           _result.attrs.forEach((item, index) => {
             item.attrValues.forEach((i, j) => {
               if (j == 0) {
@@ -191,9 +183,7 @@ export default {
             }
           }
           vm.$nextTick(function() {
-            Array.from(
-              document.querySelector(".pd-content").querySelectorAll("img")
-            ).forEach(function(e) {
+            Array.from(document.querySelector(".pd-content").querySelectorAll("img")).forEach(function(e) {
               e.style.width = "100%";
             });
           });
@@ -228,14 +218,7 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          vm.info.productAttrStock = Object.assign({},vm.info.productAttrStock,
-            {
-              id: _result.id,
-              price: _result.price,
-              productAttrIds: _result.productAttrIds,
-              repertory: _result.repertory
-            }
-          );
+          vm.info.productAttrStock = Object.assign({},vm.info.productAttrStock,{id: _result.id,price: _result.price,productAttrIds: _result.productAttrIds,repertory: _result.repertory});
         }
       });
     },
@@ -257,14 +240,15 @@ export default {
     },
     cartOrBuy() {
       //加入购物车
-      let attrValueStr = [];
+      // 商品属性拼接：报错暂不使用，使用ids
+      /*let attrValueStr = [];
       this.info.attrs.forEach(m => {
         m.attrValues.forEach(n => {
           if (n.selected) {
             attrValueStr.push(`${m.attrName}:${n.attrValueId.attrValue}`);
           }
         });
-      });
+      });*/
       if (this.buyType == 0) {
         let vm = this;
         mui.ajax({
@@ -275,7 +259,7 @@ export default {
             goodsId: this.info.proId,
             goodsAttrStockId: this.info.productAttrStock.id,
             goodsAttrIds: this.info.productAttrStock.productAttrIds,
-            goodsAttr: attrValueStr.join(' '),
+            goodsAttr: this.info.productAttrStock.productAttrIds,
             goodsNum: this.pdnum,
             account: this.account,
             token: md5(`addCart${this.account}`)
@@ -345,7 +329,7 @@ footer {
 }
 
 .actionsheet-mask-enter,
-actionsheet-mask-leave-active {
+.actionsheet-mask-leave-active {
   opacity: 0;
 }
 

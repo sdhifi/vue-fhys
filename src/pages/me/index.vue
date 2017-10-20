@@ -11,9 +11,9 @@
         <div class="head-info">
           <div class="name">
             <span>{{member.name||member.nickName||member.mobile}}</span>
-             <span class="iconfont self-sex" :style="{'color':'#4cd864'}" v-if="member.sex=='3'"></span>
-          <span class="iconfont self-male" :style="{'color':'#57A9FF'}" v-if="member.sex=='1'"></span>
-          <span class="iconfont self-female" :style="{'color':'#f860ef'}" v-if="member.sex=='2'"></span>
+            <span class="iconfont self-sex" :style="{'color':'#4cd864'}" v-if="member.sex=='3'"></span>
+            <span class="iconfont self-male" :style="{'color':'#57A9FF'}" v-if="member.sex=='1'"></span>
+            <span class="iconfont self-female" :style="{'color':'#f860ef'}" v-if="member.sex=='2'"></span>
           </div>
           <p class="desc">{{member.remark||'备注信息'}}</p>
         </div>
@@ -78,7 +78,7 @@
           <span class="tel-num">拨打:020-29030366</span>
         </a>
         <p>
-          <span>工作日9:00-18:00 ，节假日不上班</span><br>不便之处，尽请谅解</p>
+          <span>工作日9:00-12:00  13:30-18:00 </span><br>节假日不上班，不便之处，尽请谅解</p>
         <yd-button type="danger" @click.native="showDialog=false">我知道了</yd-button>
       </div>
     </yd-popup>
@@ -241,10 +241,7 @@ export default {
         },
         success(res) {
           vm.member = res.result;
-          vm.$store.commit(
-            "SET_CERTIFICATE",
-            res.result.isReadName == "1" ? true : false
-          );
+          vm.$store.commit("SET_CERTIFICATE",res.result.isReadName == "1" ? true : false);
           vm.$store.commit("RECORD_MEMBER_INFO", res.result);
         }
       });
@@ -264,10 +261,7 @@ export default {
         }
       }
       if (/recommend/.test(item.link)) {
-        this.$router.push({
-          name: "Recommend",
-          params: { id: this.member.id }
-        });
+        this.$router.push({name: "Recommend",params: { id: this.member.id }});
       }
       if (item.right) {
         this.showDialog = true;

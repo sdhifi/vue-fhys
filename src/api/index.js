@@ -95,6 +95,7 @@ let addBenefit = `${trade}/addBenefit` //销售录入
 let addShouXin = `${trade}/addShouXin` //购买授信额度
 let benefits = `${trade}/benefits` //让利记录
 
+let findAppUpgredeByType = baseUrl + `/app/upgrade/${VERSION}/findAppUpgredeByType` //APP版本信息
 export {
   o2o,
   like,
@@ -178,4 +179,6 @@ export {
   addBenefit,
   addShouXin,
   benefits,
+
+  findAppUpgredeByType,
 }
