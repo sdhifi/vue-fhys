@@ -71,7 +71,7 @@
           </div>
         </div>
         <div class="middle">
-          <div class="middle-1">
+          <div class="middle-1" v-show="pdtype!=2">
             <h3>请选择属性：</h3>
             <div class="flex align-center" v-for="(item,index) in info.attrs" :key="index" style="margin-bottom:5px;">
               <span class="attr-name">{{item.attrName}}</span>
@@ -84,7 +84,8 @@
             <h3>请选择数量：</h3>
             <div class="flex align-center">
               <!-- <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="pdtype==0" readonly></yd-spinner> -->
-              <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock.repertory"></yd-spinner>
+              <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock.repertory" v-if="info.productAttrStock.repertory"></yd-spinner>
+              <yd-spinner :min="0" :max="0" readonly  v-else></yd-spinner>
               <p style="margin-left:.2rem;">库存
                 <span class="danger-color">{{info.productAttrStock.repertory}}</span>件(商品限购
                 <!-- <span v-if="pdtype==0">1</span> -->
@@ -104,7 +105,11 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { LoadMore } from "vux";
-import {onlineProductsDetailInfoInH5,stockAndPrice,addCart} from "../../api/index";
+import {
+  onlineProductsDetailInfoInH5,
+  stockAndPrice,
+  addCart
+} from "../../api/index";
 import { mixin } from "components/common/mixin";
 export default {
   name: "Product",
@@ -161,16 +166,22 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          _result.content = _result.content.replace(/\/userfiles/g,"http://jfh.jfeimao.com/userfiles");
-          _result.attrs.forEach((item, index) => {
-            item.attrValues.forEach((i, j) => {
-              if (j == 0) {
-                item.attrValues[j].selected = true;
-              } else {
-                item.attrValues[j].selected = false;
-              }
+          _result.content = _result.content.replace(
+            /\/userfiles/g,
+            "http://jfh.jfeimao.com/userfiles"
+          );
+          if (vm.pdtype != 2) {
+            _result.attrs.forEach((item, index) => {
+              item.attrValues.forEach((i, j) => {
+                if (j == 0) {
+                  item.attrValues[j].selected = true;
+                } else {
+                  item.attrValues[j].selected = false;
+                }
+              });
             });
-          });
+          }
+
           vm.info = _result;
           //非京东商品有属性
           if (vm.pdtype != 2) {
@@ -183,7 +194,9 @@ export default {
             }
           }
           vm.$nextTick(function() {
-            Array.from(document.querySelector(".pd-content").querySelectorAll("img")).forEach(function(e) {
+            Array.from(
+              document.querySelector(".pd-content").querySelectorAll("img")
+            ).forEach(function(e) {
               e.style.width = "100%";
             });
           });
@@ -198,11 +211,11 @@ export default {
           i.selected = false;
         }
       });
-      let attrIdStr='';
+      let attrIdStr = "";
       this.info.attrs.forEach(m => {
         m.attrValues.forEach(n => {
           if (n.selected) {
-            attrIdStr+=n.id+',';
+            attrIdStr += n.id + ",";
           }
         });
       });
@@ -218,7 +231,16 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          vm.info.productAttrStock = Object.assign({},vm.info.productAttrStock,{id: _result.id,price: _result.price,productAttrIds: _result.productAttrIds,repertory: _result.repertory});
+          vm.info.productAttrStock = Object.assign(
+            {},
+            vm.info.productAttrStock,
+            {
+              id: _result.id,
+              price: _result.price,
+              productAttrIds: _result.productAttrIds,
+              repertory: _result.repertory
+            }
+          );
         }
       });
     },
@@ -249,6 +271,12 @@ export default {
           }
         });
       });*/
+      if(!this.info.productAttrStock.repertory){
+        this.$dialog.toast({
+          mes:'库存不足，请查看其他商品',
+        })
+        return;
+      }
       if (this.buyType == 0) {
         let vm = this;
         mui.ajax({
