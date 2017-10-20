@@ -152,7 +152,6 @@ export default {
                 mes: res.msg
               });
               vm.calcTotal();
-              vm.checkList.splice(vm.checkList.indexOf(item.id), 1);
               if (!vm.checkList.length) {
                 vm.isCheckAll = false;
               }
