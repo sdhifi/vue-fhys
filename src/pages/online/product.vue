@@ -76,7 +76,8 @@
             <div class="flex align-center" v-for="(item,index) in info.attrs" :key="index" style="margin-bottom:5px;">
               <span class="attr-name">{{item.attrName}}</span>
               <ul class="attr-list">
-                <li class="attr-item" :class="{'active':attrIndex==0}" v-for="(attr,attrIndex) in item.attrValues" :key="attr.id" :data-id="attr.id">{{attr.attrValueId.attrValue}}</li>
+                <li class="attr-item" :class="{'active':attr.selected}" v-for="(attr,attrIndex) in item.attrValues" 
+                :key="attr.id" :data-id="attr.id" @click="chooseAttr(item,attr,attrIndex)">{{attr.attrValueId.attrValue}}</li>
               </ul>
             </div>
           </div>
@@ -101,27 +102,31 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import { LoadMore } from 'vux'
-import { onlineProductsDetailInfoInH5, addCart } from '../../api/index'
-import { mixin } from 'components/common/mixin'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import { LoadMore } from "vux";
+import {
+  onlineProductsDetailInfoInH5,
+  stockAndPrice,
+  addCart
+} from "../../api/index";
+import { mixin } from "components/common/mixin";
 export default {
-  name: 'Product',
+  name: "Product",
   data() {
     return {
       info: {},
       imgList: [],
-      pdtype: -1,//产品类型，积分换购：0，品牌商城：1，京东：2，责任消费：3
+      pdtype: -1, //产品类型，积分换购：0，品牌商城：1，京东：2，责任消费：3
       show: false,
-      buyType: 0,//购买方式|加入购物车：0，立即购买：1
+      buyType: 0, //购买方式|加入购物车：0，立即购买：1
       pdnum: 1,
-      attrId: ''
-    }
+      attrId: ""
+    };
   },
   components: { HeaderTop, LoadMore },
   computed: {
-    ...mapState(['account', 'cartList']),
+    ...mapState(["account", "cartList"]),
     totalNum() {
       let _num = 0;
       this.cartList.forEach((item, index) => {
@@ -131,9 +136,7 @@ export default {
     }
   },
   mixins: [mixin],
-  created() {
-
-  },
+  created() {},
   activated() {
     this.imgList = [];
     this.info = {};
@@ -141,7 +144,7 @@ export default {
     this.pdnum = 1;
 
     if (this.account) {
-      this.$store.dispatch('getCartList');
+      this.$store.dispatch("getCartList");
     }
     this.getInfo();
   },
@@ -149,42 +152,92 @@ export default {
     this.imgList = [];
     next();
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     getInfo() {
       let vm = this;
       mui.ajax({
         url: onlineProductsDetailInfoInH5,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           id: this.$route.query.id,
           token: md5(`onlineProductsDetailInfoInH5${this.$route.query.id}`)
         },
         success(res) {
           let _result = res.result;
-          _result.content = _result.content.replace(/\/userfiles/g, 'http://jfh.jfeimao.com/userfiles')
-
+          _result.content = _result.content.replace(
+            /\/userfiles/g,
+            "http://jfh.jfeimao.com/userfiles"
+          );
+          _result.attrs.forEach((item, index) => {
+            item.attrValues.forEach((i, j) => {
+              if (j == 0) {
+                item.attrValues[j].selected = true;
+              } else {
+                item.attrValues[j].selected = false;
+              }
+            });
+          });
           vm.info = _result;
           //非京东商品有属性
           if (vm.pdtype != 2) {
-            vm.attrId = vm.info.attrs[0].attrValues[0].id;
+            // vm.attrId = vm.info.attrs[0].attrValues[0].id;
           }
-          
+
           for (let i = 1; i <= 5; i++) {
             if (vm.info[`para${i}`]) {
               vm.imgList.push(vm.info[`para${i}`]);
             }
           }
           vm.$nextTick(function() {
-            Array.from(document.querySelector('.pd-content').querySelectorAll("img")).forEach(function(e) {
-              e.style.width = '100%';
-            })
-          })
+            Array.from(
+              document.querySelector(".pd-content").querySelectorAll("img")
+            ).forEach(function(e) {
+              e.style.width = "100%";
+            });
+          });
         }
-      })
+      });
+    },
+    chooseAttr(item, attr, attrIndex) {
+      item.attrValues.forEach((i, j) => {
+        if (attrIndex == j) {
+          attr.selected = true;
+        } else {
+          i.selected = false;
+        }
+      });
+      let attrIdStr='';
+      this.info.attrs.forEach(m => {
+        m.attrValues.forEach(n => {
+          if (n.selected) {
+            attrIdStr+=n.id+',';
+          }
+        });
+      });
+      let vm = this;
+      mui.ajax({
+        url: stockAndPrice,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: {
+          proId: this.$route.query.id,
+          attrIds: attrIdStr,
+          token: md5(`stockAndPrice${this.$route.query.id}${attrIdStr}`)
+        },
+        success(res) {
+          let _result = res.result;
+          vm.info.productAttrStock = Object.assign({},vm.info.productAttrStock,
+            {
+              id: _result.id,
+              price: _result.price,
+              productAttrIds: _result.productAttrIds,
+              repertory: _result.repertory
+            }
+          );
+        }
+      });
     },
     add2cart() {
       this.redirectlogin();
@@ -198,23 +251,31 @@ export default {
     },
     redirectlogin() {
       if (!this.account) {
-        this.$router.push('/me/login')
+        this.$router.push("/me/login");
         return;
       }
     },
     cartOrBuy() {
       //加入购物车
+      let attrValueStr = [];
+      this.info.attrs.forEach(m => {
+        m.attrValues.forEach(n => {
+          if (n.selected) {
+            attrValueStr.push(`${m.attrName}:${n.attrValueId.attrValue}`);
+          }
+        });
+      });
       if (this.buyType == 0) {
         let vm = this;
         mui.ajax({
           url: addCart,
-          type: 'post',
-          headers: { 'app-version': 'v1.0' },
+          type: "post",
+          headers: { "app-version": "v1.0" },
           data: {
             goodsId: this.info.proId,
             goodsAttrStockId: this.info.productAttrStock.id,
             goodsAttrIds: this.info.productAttrStock.productAttrIds,
-            goodsAttr: this.info.productAttrStock.productAttrIds,
+            goodsAttr: attrValueStr.join(' '),
             goodsNum: this.pdnum,
             account: this.account,
             token: md5(`addCart${this.account}`)
@@ -223,25 +284,24 @@ export default {
             vm.show = false;
             vm.$dialog.toast({
               mes: res.msg
-            })
-            vm.$store.dispatch('getCartList');
+            });
+            vm.$store.dispatch("getCartList");
           }
-        })
-      }
-      //立即购买
-      else {
+        });
+      } else {
+        //立即购买
         this.show = false;
-        this.$router.push({ path: '/online/settle' })
+        this.$router.push({ path: "/online/settle" });
       }
     },
     goShoppingCart() {
-      this.$router.push({ path: '/online/shoppingcart' })
+      this.$router.push({ path: "/online/shoppingcart" });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 section {
   background-color: @white;
   margin-bottom: @pd;
@@ -250,7 +310,7 @@ section {
 .info-1 {
   p {
     .pd;
-    font-size: .3rem;
+    font-size: 0.3rem;
   }
 }
 
@@ -261,8 +321,8 @@ footer {
     .shopping-num {
       position: absolute;
       font-size: 10px;
-      left: .7rem;
-      top: .4rem;
+      left: 0.7rem;
+      top: 0.4rem;
       transform: translate(-50%, -50%);
       color: @white;
       background-color: @red;
@@ -273,7 +333,7 @@ footer {
   }
   button {
     line-height: 1rem;
-    font-size: .35rem;
+    font-size: 0.35rem;
     color: @white;
     &.btn-1 {
       background-color: #ffb03f;
@@ -291,7 +351,7 @@ actionsheet-mask-leave-active {
 
 .actionsheet-mask-leave-active,
 .actionsheet-mask-enter-active {
-  transition: opacity 300ms!important;
+  transition: opacity 300ms !important;
 }
 
 .mask {
@@ -301,25 +361,25 @@ actionsheet-mask-leave-active {
   right: 0;
   left: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, .6);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .actionsheet-content {
   position: fixed;
   left: 0;
   bottom: 0;
-  transform: translate(0, 120%);
+  transform: translate3d(0, 120%, 0);
   backface-visibility: hidden;
   z-index: 5000;
   width: 100%;
-  transition: transform .3s;
+  transition: transform 0.3s;
   background-color: @white;
   .top {
     position: relative;
     .img-cover {
       position: absolute;
       left: 8px;
-      top: -.4rem;
+      top: -0.4rem;
       border: 1px solid #dfdfdf;
       background-color: @white;
       .wh(2rem, 2rem);
@@ -332,7 +392,7 @@ actionsheet-mask-leave-active {
     }
     .info {
       padding-left: 2.3rem;
-      margin-bottom: .6rem;
+      margin-bottom: 0.6rem;
       flex-direction: column;
       justify-content: space-between;
       p {
@@ -340,6 +400,7 @@ actionsheet-mask-leave-active {
         padding-top: @pd;
         &:first-of-type {
           .multi-ellipsis(2);
+          font-size: 0.28rem;
         }
       }
     }
@@ -381,6 +442,6 @@ actionsheet-mask-leave-active {
 }
 
 .actionsheet-toggle {
-  transform: translate(0, 0);
+  transform: translate3d(0, 0, 0);
 }
 </style>

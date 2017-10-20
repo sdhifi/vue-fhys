@@ -48,78 +48,89 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import CertModal from 'components/common/CertModal'
-import { update } from '../../api/index'
-import {mixin} from 'components/common/mixin'
-import 'lrz/dist/lrz.bundle.js'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import CertModal from "components/common/CertModal";
+import { update } from "../../api/index";
+import { mixin } from "components/common/mixin";
+import "lrz/dist/lrz.bundle.js";
 export default {
-  name: 'Update',
+  name: "Update",
   data() {
     return {
       info: {},
-      base64Url: ''
-    }
+      base64Url: ""
+    };
   },
   components: { HeaderTop, CertModal },
   computed: {
-    ...mapState(['account','certificateStatus'])
+    ...mapState(["account", "certificateStatus"])
   },
-  mixins:[mixin],
-  created() {
-      
-  },
-  mounted(){
-     [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
-      item.addEventListener('focus', function() {
+  mixins: [mixin],
+  created() {},
+  mounted() {
+    [
+      ...document.querySelectorAll(
+        "input[type='text'],input[type='tel'],input[type='number'],textarea"
+      )
+    ].forEach((item, index) => {
+      item.addEventListener("focus", function() {
         item.scrollIntoView();
-
-        console.log('scrolling')
-      })
-    })
+      });
+    });
   },
   activated() {
     this.info = this.$route.params.member;
   },
   methods: {
     previewImg(event) {
-      let headImg = document.getElementById('head-img'),
+      let headImg = document.getElementById("head-img"),
         file = event.target.files[0];
-       let vm = this;
+      let vm = this;
       if (!/image\/\w+/.test(file.type)) {
         this.$dialog.toast({
-          mes: '请上传图片',
+          mes: "请上传图片",
           timeout: 1000,
-          icon: 'error'
-        })
+          icon: "error"
+        });
         return;
       }
-      lrz(file,{width:800}).then(rst=>{
+      lrz(file, { width: 800 }).then(rst => {
         headImg.style.backgroundImage = `url(${rst.base64})`;
         vm.base64Url = rst.base64;
-      })
+      });
     },
-    showModal(){
-      this.$store.commit('SHOW_CERTIFICATE',true);
+    showModal() {
+      this.$store.commit("SHOW_CERTIFICATE", true);
     },
     saveInfo() {
       if (!this.info.nickName) {
         this.$dialog.toast({
-          mes: '昵称不能为空',
+          mes: "昵称不能为空",
           timeout: 1500,
-          icon: 'error'
-        })
+          icon: "error"
+        });
         return;
       }
-      if (this.info.remark == 'null') {
-        this.info.remark = '';
+      if (!this.info.remark || this.info.remark == "null") {
+        this.info.remark = "";
       }
+      let vm = this;
+      if (!this.base64Url) {
+        lrz(this.info.imgHeadUrl).then(rst => {
+          vm.base64Url = rst.base64;
+          vm.submitInfo();
+        });
+        return;
+      }
+      this.submitInfo();
+    },
+    submitInfo() {
       let vm = this;
       mui.ajax({
         url: update,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           id: this.info.id,
           fileName: `123.png`,
@@ -132,29 +143,29 @@ export default {
         },
         success(res) {
           vm.$dialog.toast({
-            mes: '修改成功',
+            mes: "修改成功",
             timeout: 1000,
-            icon: 'success',
+            icon: "success",
             callback: () => {
               vm.$router.go(-1);
             }
-          })
+          });
         },
-        error(res){
+        error(res) {
           vm.$dialog.toast({
-              mes:'修改失败',
-              timeout: 1500,
-              icon: 'error'
-            })
-            return;
+            mes: "修改失败",
+            timeout: 1500,
+            icon: "error"
+          });
+          return;
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .member-container {
   margin-top: @pd;
   img {
@@ -171,8 +182,8 @@ export default {
     position: absolute;
     flex: 1;
     height: 1.2rem;
-    right: .44rem;
-    top: .24rem;
+    right: 0.44rem;
+    top: 0.24rem;
     opacity: 0;
   }
   .hight-input {
@@ -189,7 +200,7 @@ export default {
   padding-right: 10px;
   padding-left: 25px;
   font-size: 14px;
-  >input[type=radio] {
+  > input[type="radio"] {
     position: absolute;
     left: 0;
     top: 0;
@@ -197,14 +208,14 @@ export default {
     height: 100%;
     opacity: 0;
     z-index: 15;
-    &:checked+span::before{
+    &:checked + span::before {
       border-color: rgb(76, 216, 100);
     }
-    &:checked+span::after {
+    &:checked + span::after {
       color: rgb(76, 216, 100);
       opacity: 1;
       transform: scale(1);
-      transition: all .2s ease-in-out;
+      transition: all 0.2s ease-in-out;
     }
   }
   span {

@@ -5,24 +5,20 @@
       <section class="head-container">
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
           <router-link :to="{name:'Update',params:{member}}">
-            <!-- <img :src="member.imgHeadUrl" :alt="member.name"> -->
-            <!-- <div class="head-img" :style="{'background-image':'url('+getImgPath(member.imgHeadUrl)+')'}"></div> -->
             <div class="head-img" v-lazy:background-image="getImgPath(member.imgHeadUrl)"></div>
           </router-link>
-          <span class="sex-tag" :style="{'background-color':member.sex=='0'?'#4cd864':(member.sex=='1'?'#57A9FF':'#f860ef')}">{{member.sex=='0'?'无':(member.sex=='1'?'男':'女')}}</span>
         </div>
         <div class="head-info">
-          <div class="name">{{member.name||member.nickName||member.mobile}}</div>
+          <div class="name">
+            <span>{{member.name||member.nickName||member.mobile}}</span>
+             <span class="iconfont self-sex" :style="{'color':'#4cd864'}" v-if="member.sex=='3'"></span>
+          <span class="iconfont self-male" :style="{'color':'#57A9FF'}" v-if="member.sex=='1'"></span>
+          <span class="iconfont self-female" :style="{'color':'#f860ef'}" v-if="member.sex=='2'"></span>
+          </div>
           <p class="desc">{{member.remark||'备注信息'}}</p>
         </div>
       </section>
       <section class="order-container">
-        <!-- <div class="order-item flex align-center vux-1px-b">
-            <div class="order-left">我的订单</div>
-            <router-link :to="{path:'/order/index',query:{id:7}}" class="order-right order-arrow">
-              <span>查看所有订单</span>
-            </router-link>
-          </div> -->
         <yd-cell-group>
           <yd-cell-item arrow type="link" href="/order/index?id=7">
           <span class="iconfont self-dingdanguanli" slot="icon" style="font-size:20px;"></span>
@@ -75,8 +71,8 @@
         <span class="close iconfont-large self-guanbi" @click="showPopup=false;"></span>
       </div>
     </yd-popup>
-    <x-dialog :hide-on-blur="true" v-model="showDialog">
-      <div class="tel-container">
+    <yd-popup v-model="showDialog" position="center" width="80%">
+      <div class="tel-container text-center">
         <a href="tel:020-29030366" class="tel-box">
           <span class="iconfont-large self-dianhua danger-color"></span>
           <span class="tel-num">拨打:020-29030366</span>
@@ -85,181 +81,193 @@
           <span>工作日9:00-18:00 ，节假日不上班</span><br>不便之处，尽请谅解</p>
         <yd-button type="danger" @click.native="showDialog=false">我知道了</yd-button>
       </div>
-    </x-dialog>
+    </yd-popup>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import FooterBar from 'components/footer/index'
-import CertModal from 'components/common/CertModal'
-import { XDialog } from 'vux'
-import { my } from '../../api/index'
-import { mixin, getStore, removeStore } from 'components/common/mixin'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import FooterBar from "components/footer/index";
+import CertModal from "components/common/CertModal";
+import { XDialog } from "vux";
+import { my } from "../../api/index";
+import { mixin, getStore, removeStore } from "components/common/mixin";
 export default {
-  name: 'Me',
+  name: "Me",
   data() {
     return {
       oldBack: mui.back,
       member: {},
       showPopup: false,
-      settleWay: '',
-      order: [{
-        id: 0,
-        name: '待付款',
-        icon: 'self-pay',
-        link: '/order/index'
-      }, {
-        id: 1,
-        name: '待发货',
-        icon: 'self-delivery',
-        link: '/order/index'
-      }, {
-        id: 2,
-        name: '待收货',
-        icon: 'self-recept',
-        link: '/order/index'
-      }, {
-        id: 3,
-        name: '交易完成',
-        icon: 'self-success',
-        link: '/order/index'
-      }],
+      settleWay: "",
+      order: [
+        {
+          id: 0,
+          name: "待付款",
+          icon: "self-pay",
+          link: "/order/index"
+        },
+        {
+          id: 1,
+          name: "待发货",
+          icon: "self-delivery",
+          link: "/order/index"
+        },
+        {
+          id: 2,
+          name: "待收货",
+          icon: "self-recept",
+          link: "/order/index"
+        },
+        {
+          id: 3,
+          name: "交易完成",
+          icon: "self-success",
+          link: "/order/index"
+        }
+      ],
       menu: [
         [
           {
-            name: '我的二维码',
-            icon: 'self-qrcode c1',
-            link: '/me/qrcode',
-            type: 'label'
+            name: "我的二维码",
+            icon: "self-qrcode c1",
+            link: "/me/qrcode",
+            type: "label"
           },
           {
-            name: '我的钱包',
-            icon: 'self-wallet c2',
-            link: '/me/mywallet',
-            type: 'label'
+            name: "我的钱包",
+            icon: "self-wallet c2",
+            link: "/me/mywallet",
+            type: "label"
           },
           {
-            name: '购物车',
-            icon: 'self-shopcart c1',
-            link: '/online/shoppingcart',
-            type: 'label'
+            name: "购物车",
+            icon: "self-shopcart c1",
+            link: "/online/shoppingcart",
+            type: "label"
           },
           {
-            name: '设置密码',
-            icon: 'self-setting c1',
-            link: '/me/pwdmanage',
-            type: 'label'
+            name: "设置密码",
+            icon: "self-setting c1",
+            link: "/me/pwdmanage",
+            type: "label"
           }
-        ], [
+        ],
+        [
           {
-            name: '我是商家',
-            icon: 'self-seller c1',
-            link: '/store/my',
-            type: 'label'
+            name: "我是商家",
+            icon: "self-seller c1",
+            link: "/store/my",
+            type: "label"
           },
           {
-            name: '我推荐的人',
-            icon: 'self-group c1',
-            link: '/me/recommend',
-            type: 'label'
+            name: "我推荐的人",
+            icon: "self-group c1",
+            link: "/me/recommend",
+            type: "label"
           },
           {
-            name: '地址管理',
-            icon: 'self-address c2',
-            link: '/address/index',
-            type: 'label'
+            name: "地址管理",
+            icon: "self-address c2",
+            link: "/address/index",
+            type: "label"
           },
           {
-            name: '我的收藏',
-            icon: 'self-heart c1',
-            link: '/me/collect',
-            type: 'label'
+            name: "我的收藏",
+            icon: "self-heart c1",
+            link: "/me/collect",
+            type: "label"
           }
-        ], [
+        ],
+        [
           {
-            name: '联系客服',
-            icon: 'self-service c1',
-            right: '020-29030366'
+            name: "联系客服",
+            icon: "self-service c1",
+            right: "020-29030366"
           },
           {
-            name: '关于凤凰云商O2O',
-            icon: 'self-about c2',
-            link: '/me/about',
-            type: 'label'
+            name: "关于凤凰云商O2O",
+            icon: "self-about c2",
+            link: "/me/about",
+            type: "label"
           },
           {
-            name: 'APP更新',
-            icon: 'self-gengxin c2',
-            link: '/me/updateApp',
-            type: 'label'
+            name: "APP更新",
+            icon: "self-gengxin c2",
+            link: "/me/updateApp",
+            type: "label"
           }
         ]
       ],
-      showDialog: false,
-    }
+      showDialog: false
+    };
   },
   components: { HeaderTop, FooterBar, CertModal, XDialog },
   created() {
     //this.getInfo();
   },
   computed: {
-    ...mapState(['certificateStatus', 'showCertificate'])
+    ...mapState(["certificateStatus", "showCertificate"])
   },
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.plusReady();
-    })
+    });
   },
   beforeRouteLeave(to, from, next) {
     mui.back = this.oldBack;
     next();
   },
   activated() {
-    if ((getStore("account") && getStore("account").length > 0)) {
-      this.$store.commit('SET_ACCOUNT', getStore("account"));
+    if (getStore("account") && getStore("account").length > 0) {
+      this.$store.commit("SET_ACCOUNT", getStore("account"));
       this.getInfo();
-    }
-    else {
-      this.$router.push('/me/login')
+    } else {
+      this.$router.push("/me/login");
     }
   },
   methods: {
     getInfo() {
       let vm = this;
-      let account = getStore('account');
+      let account = getStore("account");
       mui.ajax({
         url: my,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           account,
           token: md5(`my${account}`)
         },
         success(res) {
           vm.member = res.result;
-          vm.$store.commit('SET_CERTIFICATE', res.result.isReadName == '1' ? true : false);
-          vm.$store.commit('RECORD_MEMBER_INFO', res.result);
+          vm.$store.commit(
+            "SET_CERTIFICATE",
+            res.result.isReadName == "1" ? true : false
+          );
+          vm.$store.commit("RECORD_MEMBER_INFO", res.result);
         }
-      })
+      });
     },
     navigate(item) {
       if (/store/.test(item.link)) {
         //身份认证
         if (!this.certificateStatus) {
-          this.$store.commit('SHOW_CERTIFICATE', true);
+          this.$store.commit("SHOW_CERTIFICATE", true);
           return;
         }
 
         //入驻弹窗
-        if (this.member.type == '0') {
+        if (this.member.type == "0") {
           this.showPopup = true;
           return;
         }
       }
       if (/recommend/.test(item.link)) {
-        this.$router.push({ name: 'Recommend', params: { id: this.member.id } })
+        this.$router.push({
+          name: "Recommend",
+          params: { id: this.member.id }
+        });
       }
       if (item.right) {
         this.showDialog = true;
@@ -267,37 +275,36 @@ export default {
       item.link && this.$router.push(item.link);
     },
     settle() {
-      if (this.settleWay == '') {
+      if (this.settleWay == "") {
         this.$dialog.toast({
-          mes: '请选择一种入驻方式后再确认',
+          mes: "请选择一种入驻方式后再确认",
           timeout: 1500
-        })
+        });
         return;
       }
       this.showPopup = false;
-      if (this.settleWay == '0') {
-        this.$router.push({ path: '/store/settle' })
-      }
-      else {
-        this.$router.push({ path: '/store/settle-1' })
+      if (this.settleWay == "0") {
+        this.$router.push({ path: "/store/settle" });
+      } else {
+        this.$router.push({ path: "/store/settle-1" });
       }
     },
     signOut() {
-      removeStore('account');
-      this.$store.commit('SET_ACCOUNT', '');
+      removeStore("account");
+      this.$store.commit("SET_ACCOUNT", "");
       this.$dialog.toast({
-        mes: '退出成功',
+        mes: "退出成功",
         timeout: 1000,
         callback: () => {
-          this.$router.push('/me/login');
+          this.$router.push("/me/login");
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 section {
   background-color: #fff;
   margin-bottom: @pd;
@@ -314,17 +321,16 @@ section {
 .head-container {
   .text-center;
   .head-cover {
-    height: 1.4rem;
+    position: relative;
+    height: 1.6rem;
     background-size: cover;
+    padding:@pd 0;
     a {
-      .h-cen;
-      top: .4rem;
+      display: block;
+      .wh(1.7rem,1.7rem);
+      margin: 0 auto;
       z-index: 10;
-      border: 3px solid rgba(228, 187, 145, .6);
-      border-radius: 50%;
-    }
-    img {
-      .wh(1.6rem, 1.6rem);
+      border: 3px solid rgba(228, 187, 145, 0.6);
       border-radius: 50%;
     }
     .head-img {
@@ -332,33 +338,26 @@ section {
       border-radius: 50%;
       background-size: cover;
       background-repeat: no-repeat;
-      background-color: #fff;
+      z-index: 5;
     }
     .sex-tag {
       position: absolute;
-      left: 2.3rem;
-      top: .8rem;
-      padding: @pd / 2 @pd;
-      border-radius: 15px 0 0 0;
-      width: .9rem;
-      color: @white;
-      background-color: @green;
-      z-index: 5;
-      text-align: left;
+      left: 2.5rem;
+      bottom: 0;
     }
   }
   .head-info {
-    height: 1.6rem;
-    padding-top: .4rem;
+    min-height: 1.6rem;
+    padding-top: @pd;
     .flex;
     .just-cont(center);
     .align-items(center);
     flex-direction: column;
     .name {
-      font-size: 16px;
+      width: 100%;
+      font-size: 0.32rem;
     }
     .desc {
-      .ellipsis;
       color: @lightgray;
     }
   }
@@ -369,18 +368,18 @@ section {
     .pd-v;
     font-size: 14px;
     .order-left {
-      padding-left: .2rem;
+      padding-left: 0.2rem;
       color: #333;
     }
     .order-right {
       flex: 1;
-      padding-right: .24rem;
+      padding-right: 0.24rem;
       text-align: right;
     }
     .order-arrow {
       &::after {
-        margin-left: .05rem;
-        margin-right: -.08rem;
+        margin-left: 0.05rem;
+        margin-right: -0.08rem;
         font-family: YDUI-INLAY;
         font-size: 12px;
         color: #c9c9c9;
@@ -393,7 +392,6 @@ section {
   ul {
     margin-top: -@pd;
     padding-bottom: @pd;
-    ;
   }
   p {
     font-size: 12px;
@@ -409,9 +407,9 @@ section {
     margin: 0 auto;
     color: @white;
     background-color: @red;
-    font-size: .34rem;
+    font-size: 0.34rem;
     text-align: center;
-    padding: .2rem 0;
+    padding: 0.2rem 0;
     border-radius: 5px;
   }
 }
@@ -430,7 +428,7 @@ section {
     color: transparent;
     -webkit-background-clip: text;*/
     .tel-num {
-      margin-left: .1rem;
+      margin-left: 0.1rem;
       font-size: 16px;
       vertical-align: -5px;
     }
