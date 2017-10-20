@@ -221,7 +221,7 @@ section {
       background: linear-gradient(to bottom, rgba(0, 0, 0, .3), rgba(0, 0, 0, .8));
       color: @white;
       font-size: 14px;
-      padding: .1rem;
+      padding: @pd;
       box-shadow: 0 -5px 5px rgba(255, 255, 255, .3) inset;
     }
   }

@@ -320,7 +320,7 @@ section {
       .h-cen;
       top: .4rem;
       z-index: 10;
-      border: 3px solid rgba(255, 255, 255, 0.5);
+      border: 3px solid rgba(228, 187, 145, .6);
       border-radius: 50%;
     }
     img {

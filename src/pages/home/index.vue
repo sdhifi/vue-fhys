@@ -125,7 +125,7 @@ export default {
                         latitude = data.point.y;
                     this.$store.commit('RECORD_ADDRESS', { latitude, longitude })
                     this.$store.commit('RECORD_CITY', city)
-                    this.getYourlike();
+                    //this.getYourlike();
                 })
             }
             else

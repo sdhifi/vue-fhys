@@ -259,13 +259,12 @@ export default {
   }
 }
 .cart-check {
-  padding: 1rem @pd;
+  padding: @pd;
   position: relative;
   z-index: 5;
   input[type="checkbox"] {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    .wh(25px,25px);
     background-image: url(../../assets/1.png);
     background-size: contain;
     border: none;
