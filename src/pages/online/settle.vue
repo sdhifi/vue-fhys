@@ -47,11 +47,12 @@
       <yd-cell-group>
         <yd-cell-item>
           <span slot="left">配送方式：</span>
-          <span slot="right">快递：￥{{formatPrice(0)}}</span>
+          <span slot="right" class="fs-14">快递：￥{{formatPrice(0)}}</span>
         </yd-cell-item>
          <yd-cell-item>
           <span slot="left">支付明细：</span>
-          <span slot="right">{{total.price}}+￥{{formatPrice(total.pointPrice)}}</span>
+          <span slot="right" class="fs-14" v-if="orderType==1">{{total.price}}积分+￥{{formatPrice(total.pointPrice)}}</span>
+          <span slot="right" class="fs-14" v-else>￥{{total.price}}</span>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">买家留言：</span>
@@ -63,24 +64,31 @@
           </p>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group title="选择支付方式">
+      <yd-cell-group v-if="orderType=='1'">
+         <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
+          <span slot="left">积分支付</span>
+          <input slot="right" type="radio" value="0" v-model="payType" />
+        </yd-cell-item>
+      </yd-cell-group>
+      <yd-cell-group title="选择支付方式" v-else>
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont self-wallet danger-color"></span>
+          <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">会员余额</span>
           <input slot="right" type="radio" value="0" v-model="payType" />
         </yd-cell-item>
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont self-weixinzhifu" style="color:#25d025;"></span>
+          <span slot="icon" class="iconfont-large self-weixinzhifu" style="color:#25d025;"></span>
           <span slot="left">微信支付</span>
           <input slot="right" type="radio" value="1" v-model="payType" />
         </yd-cell-item>
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont self-yinlianzhifu1" style="color:#077d8d;"></span>
+          <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
           <span slot="left">银联在线支付</span>
           <input slot="right" type="radio" value="3" v-model="payType" />
         </yd-cell-item>
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont self-zhifubao" style="color:#00a0ea"></span>
+          <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea"></span>
           <span slot="left">支付宝支付</span>
           <input slot="right" type="radio" value="2" v-model="payType" />
         </yd-cell-item>
@@ -100,6 +108,7 @@ export default {
   name: "Settle",
   data() {
     return {
+      orderType:0,//0:普通商品 1：积分兑换 2责任消费
       remark: "", //备注
       payType: 0 //支付方式
     };
@@ -113,8 +122,9 @@ export default {
         pointPrice = 0;
       this.settleList.forEach(item => {
         price += item.goodsAttrStockId.price * item.goodsNum;
-        if (item.goodsId.isCanUserCou == "1")
+        if (item.goodsId.isCanUserCou == "1" || item.goodsId.isCanUserCou == "2") {
           pointPrice += item.goodsId.pointNicePrice * item.goodsNum;
+        }
       });
       sum = price + pointPrice;
       return { sum, price, pointPrice };
@@ -122,6 +132,7 @@ export default {
   },
   created() {},
   activated() {
+    this.orderType=this.$route.query.orderType;
     this.$store.dispatch("getAddressList");
   },
   mixins: [mixin],

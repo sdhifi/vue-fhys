@@ -89,7 +89,7 @@ export default {
   activated() {
     this.$store.dispatch("getCartList");
     this.isCheckAll = false;
-    this.totalPrice=0;
+    this.totalPrice = 0;
   },
   mounted() {},
   methods: {
@@ -130,6 +130,12 @@ export default {
       item.close = true;
     },
     editCart(item, index) {
+      if (item.goodsId.isCanUserCou == "1") {
+        this.$dialog.toast({
+          mes: "积分换购商品限购一件"
+        });
+        return;
+      }
       item.close = false;
     },
     deleteCart(item, index) {
@@ -173,10 +179,32 @@ export default {
     },
     settleCart() {
       let vm = this;
-      let settleList=[];
-      this.checkList.forEach(item=>{
-          settleList.push(item.id)
-      })
+      let settleList = [],
+        orderType = 0; //0普通商品 1积分换购 2责任消费
+      var length = this.checkList.length,
+        count0 = 0,
+        count1 = 0,
+        count2 = 0;
+      this.checkList.forEach(item => {
+        settleList.push(item.id);
+        if (item.goodsId.isCanUserCou == "0") {
+          count0++;
+        } else if (item.goodsId.isCanUserCou == "1") {
+          count1++;
+        } else if (item.goodsId.isCanUserCou == "2") {
+          count2++;
+        }
+      });
+     
+      if ((count0 &&count0 !== length) || (count1 &&count1 !== length) || (count2 &&count2 !== length)) {
+        this.$dialog.alert({
+          mes: "不同类型商品不能同时结算"
+        });
+        return;
+      }
+      if(count0) orderType=0
+      else if(count1) orderType=1
+      else if(count2) orderType=2
       mui.ajax({
         url: actCart,
         type: "post",
@@ -188,7 +216,7 @@ export default {
         },
         success(res) {
           vm.$store.commit("RECORD_SETTLE_LIST", vm.checkList);
-          vm.$router.push({ name: "SettleBalance" });
+          vm.$router.push({ name: "SettleBalance", query: { orderType } });
         }
       });
     }

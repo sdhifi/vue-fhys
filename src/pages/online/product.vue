@@ -83,13 +83,15 @@
           <div class="middle-2">
             <h3>请选择数量：</h3>
             <div class="flex align-center">
-              <!-- <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="pdtype==0" readonly></yd-spinner> -->
+              <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="pdtype==0" readonly></yd-spinner>
+              <div v-else>
               <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock.repertory" v-if="info.productAttrStock.repertory"></yd-spinner>
               <yd-spinner :min="0" :max="0" readonly  v-else></yd-spinner>
+              </div>
               <p style="margin-left:.2rem;">库存
                 <span class="danger-color">{{info.productAttrStock.repertory}}</span>件(商品限购
-                <!-- <span v-if="pdtype==0">1</span> -->
-                <span>{{info.purchasNum}}</span>件)
+                <span v-if="pdtype==0">1</span>
+                <span v-else>{{info.purchasNum}}</span>件)
               </p>
             </div>
           </div>
