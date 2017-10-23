@@ -187,7 +187,7 @@ export default {
           token: md5(`actCart`)
         },
         success(res) {
-          vm.$store.commit("RECORD_SETTLE_LIST", settleList);
+          vm.$store.commit("RECORD_SETTLE_LIST", vm.checkList);
           vm.$router.push({ name: "SettleBalance" });
         }
       });
