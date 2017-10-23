@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top title="下单"></header-top>
+    <header-top title="确认订单"></header-top>
     <main class='scroll-content-2'>
       <section class="address-container">
         <yd-cell-group v-if="!addressList.length">

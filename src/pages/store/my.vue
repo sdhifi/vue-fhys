@@ -14,7 +14,7 @@
         <div class="flex align-center">
           <div class="flex-1 fs-14">
             <span class="iconfont-large self-location danger-color"></span>
-            <span>{{info.provinceId.province}}{{info.cityId.city}}{{info.areaId.area}}{{info.addressDetail}}</span>
+            <span>{{info.provinceId.province}}{{info.cityId.city}}<span v-if="info.areaId">{{info.areaId.area}}</span>{{info.addressDetail}}</span>
           </div>
           <span class="iconfont self-bianji danger-color" @click="showEdit"></span>
         </div>
@@ -67,143 +67,164 @@
         <button class="save-btn" @click="saveInfo" :disabled="!valid">保存</button>
       </div>
     </yd-popup>
-    <yd-cityselect v-model="show1" :done="result1" :items="district" :provance="info.provinceId.province" :city="info.cityId.city" :area="info.areaId.area"></yd-cityselect>
+    <yd-cityselect v-model="show1" :done="result1" :items="district" ref="cityselectDemo"></yd-cityselect>
+    <!-- <yd-cityselect v-model="show1" :done="result1" :items="district" :provance="info.provinceId.province" :city="info.cityId.city" :area="info.areaId.area" ref="cityselectDemo"></yd-cityselect> -->
   </div>
 </template>
 <script>
-
-import HeaderTop from 'components/header/index'
-import { getStore, setStore } from 'components/common/mixin'
-import { myStore, updateBanner, updateIntro, updateAddressInfo } from '../../api/index'
-import District from 'ydui-district/dist/gov_province_city_area_id'
-import 'lrz/dist/lrz.bundle.js'
+import HeaderTop from "components/header/index";
+import { getStore, setStore } from "components/common/mixin";
+import {
+  myStore,
+  updateBanner,
+  updateIntro,
+  updateAddressInfo
+} from "../../api/index";
+import District from "ydui-district/dist/gov_province_city_area_id";
+import "lrz/dist/lrz.bundle.js";
 
 export default {
-  name: 'MyStore',
+  name: "MyStore",
   data() {
     return {
       editTag: true,
       info: {},
       showPopup: false,
-      intro: '',//简介
-      tag: false,//简介是否可编辑
+      intro: "", //简介
+      tag: false, //简介是否可编辑
       district: District, //省市县数据
-      show1: false,//所在地标志
-      newMobile: '',
-      newStoreCity: '', //所在地id
-      newStoreCityName: '',//所在地名称
-      newAddressDetail: '',
-      menu: [{
-        icon: 'self-shangpinguanli',
-        text: '商品管理',
-        link: '/store/productmanage',
-        color: '#fc9557'
-      }, {
-        icon: 'self-dingdanguanli',
-        text: '订单管理',
-        link: '/store/ordermanage',
-        color: '#fab652'
-      }, {
-        icon: 'self-fabu',
-        text: '发布管理',
-        link: '/store/publishmanage',
-        color: '#fab652'
-      }, {
-        icon: 'self-shoukuan',
-        text: '收款',
-        link: '/store/receipt',
-        color: '#fc9557'
-      }]
-    }
+      show1: false, //所在地标志
+      newMobile: "",
+      newStoreCity: "", //所在地id
+      newStoreCityName: "", //所在地名称
+      newAddressDetail: "",
+      menu: [
+        {
+          icon: "self-shangpinguanli",
+          text: "商品管理",
+          link: "/store/productmanage",
+          color: "#fc9557"
+        },
+        {
+          icon: "self-dingdanguanli",
+          text: "订单管理",
+          link: "/store/ordermanage",
+          color: "#fab652"
+        },
+        {
+          icon: "self-fabu",
+          text: "发布管理",
+          link: "/store/publishmanage",
+          color: "#fab652"
+        },
+        {
+          icon: "self-shoukuan",
+          text: "收款",
+          link: "/store/receipt",
+          color: "#fc9557"
+        }
+      ]
+    };
   },
   components: { HeaderTop },
   computed: {
     valid() {
-      return /^1[3|4|5|7|8][0-9]{9}$/.test(this.newMobile) && this.newAddressDetail
+      return (
+        /^1[3|4|5|7|8][0-9]{9}$/.test(this.newMobile) && this.newAddressDetail
+      );
     }
   },
-  created() {
-
-  },
+  created() {},
   activated() {
     this.getMyStore();
   },
   mounted() {
-    [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
-       item.addEventListener('click', function() {
+    [
+      ...document.querySelectorAll(
+        "input[type='text'],input[type='tel'],input[type='number'],textarea"
+      )
+    ].forEach((item, index) => {
+      item.addEventListener("click", function() {
         item.scrollIntoView();
-      })
-      item.addEventListener('focus', function() {
+      });
+      item.addEventListener("focus", function() {
         item.scrollIntoView();
-      })
-    })
+      });
+    });
   },
   methods: {
     getMyStore() {
       let vm = this;
       mui.ajax({
         url: myStore,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          account: getStore('account'),
-          token: md5(`myStore${getStore('account')}`)
+          account: getStore("account"),
+          token: md5(`myStore${getStore("account")}`)
         },
         success(res) {
           vm.info = res.result;
-          vm.$store.commit('RECORD_STORE_INFO', vm.info);
-          setStore('storeId', vm.info.id);
+          vm.$store.commit("RECORD_STORE_INFO", vm.info);
+          setStore("storeId", vm.info.id);
         }
-      })
+      });
     },
     previewImg(event) {
-      let headImg = document.querySelector('.store-banner'),
+      let headImg = document.querySelector(".store-banner"),
         file = event.target.files[0];
       let vm = this;
       if (!/image\/\w+/.test(file.type)) {
         this.$dialog.toast({
-          mes: '请上传图片',
+          mes: "请上传图片",
           timeout: 1000,
-          icon: 'error'
-        })
+          icon: "error"
+        });
         return;
       }
       lrz(file, { width: 800 }).then(rst => {
         headImg.style.backgroundImage = `url(${rst.base64})`;
         mui.ajax({
           url: updateBanner,
-          type: 'post',
-          headers: { 'app-version': 'v1.0' },
+          type: "post",
+          headers: { "app-version": "v1.0" },
           data: {
-            fileName: '123.png',
+            fileName: "123.png",
             storeId: vm.info.id,
-            token: md5('updateBanner'),
+            token: md5("updateBanner"),
             fileContent: rst.base64
           },
           success(res) {
             vm.$dialog.toast({
               mes: res.msg
-            })
+            });
           }
-        })
-      })
+        });
+      });
     },
     showEdit() {
       this.newMobile = this.info.sellerMobile;
-      this.newStoreCityName = `${this.info.provinceId.province},${this.info.cityId.city},${this.info.areaId.area}`
-      this.newAddressDetail = this.info.addressDetail
+      this.newStoreCityName = this.info.areaId?`${this.info.provinceId.province},${this.info.cityId.city},${this.info.areaId.area}`:`${this.info.provinceId.province},${this.info.cityId.city}`;
+      this.newAddressDetail = this.info.addressDetail;
       this.showPopup = true;
     },
     result1(res) {
-      this.newStoreCityName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
-      this.newStoreCity = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
+      if (res.itemValue3) {
+        // this.areaId = res.itemValue3;
+        this.newStoreCityName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
+        this.newStoreCity = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
+      } else {
+        // this.areaId='';
+        this.newStoreCityName = `${res.itemName1},${res.itemName2}`;
+        this.newStoreCity = `${res.itemValue1},${res.itemValue2},0`;
+      }
     },
     saveInfo() {
       let vm = this;
       mui.ajax({
         url: updateAddressInfo,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           storeId: this.info.id,
           sellerMobile: this.newMobile,
@@ -218,16 +239,16 @@ export default {
               vm.getMyStore();
               vm.showPopup = false;
             }
-          })
+          });
         }
-      })
+      });
     },
     saveIntro() {
       let vm = this;
       mui.ajax({
         url: updateIntro,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           description: this.info.storeDescription,
           storeId: this.info.id,
@@ -236,16 +257,16 @@ export default {
         success(res) {
           vm.$dialog.toast({
             mes: res.msg
-          })
+          });
           vm.editTag = true;
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .store-banner {
   background-color: @white;
   background-size: contain;
@@ -259,10 +280,10 @@ export default {
     .wh(2rem, 40px);
     line-height: 40px;
     font-size: 14px;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.3);
     border: 2px solid @white;
   }
-  input[type=file] {
+  input[type="file"] {
     .hv-cen;
     .wh(100%, 100%);
     opacity: 0;
@@ -275,12 +296,12 @@ export default {
   .mg-v;
   font-size: 14px;
   .store-title {
-    font-size: .35rem;
+    font-size: 0.35rem;
     .pd-v;
-    margin-bottom: .1rem;
+    margin-bottom: 0.1rem;
   }
-  >div {
-    margin: .1rem 0;
+  > div {
+    margin: 0.1rem 0;
   }
 }
 
