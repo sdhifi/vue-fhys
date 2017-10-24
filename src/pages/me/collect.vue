@@ -1,45 +1,52 @@
 <template>
   <div>
     <header-top title="我的收藏"></header-top>
-    <yd-tab :callback="changeTab" style="position:fixed;left:0;right:0;z-index:1000;background-color:#fff;">
-      <yd-tab-panel label="关注的店铺" tabkey='1'>
-        <yd-infinitescroll :callback="getCollect" ref="ctlist1">
-          <ul slot="list">
-            <li v-for="item in info1" :key="item.colId" class="collect-item flex align-center px-1">
-              <img :src="getImgPath(item.img)" alt="">
-              <div class="collect-info flex-1">
-                <h3>{{item.storeName}}</h3>
-                <p>收藏时间：{{formatTime(item.addTime)}}</p>
-              </div>
-              <span class="iconfont self-delete danger-color" @click="deleteCollect(item.colId,index)"></span>
-            </li>
-          </ul>
-        </yd-infinitescroll>
-      </yd-tab-panel>
-      <yd-tab-panel label="关注的商品" tabkey='2'>
-        <yd-infinitescroll :callback="getCollect" ref="ctlist2">
-          <ul slot="list">
-            <li v-for="(item,index) in info2" :key="item.colId" class="collect-item flex align-center px-1">
-              <img :src="getImgPath(item.img)" alt="">
-              <div class="collect-info flex-1">
-                <h3>{{item.goodName}}</h3>
-                <p>收藏时间：{{formatTime(item.addTime)}}</p>
-              </div>
-              <span class="iconfont self-delete danger-color" @click="deleteCollect(item.colId,index)"></span>
-            </li>
-          </ul>
-        </yd-infinitescroll>
-      </yd-tab-panel>
-    </yd-tab>
-
+    <tab :line-width="2" active-color='#ff5350' v-model="index" custom-bar-width="70px">
+      <tab-item  v-for="(item, index) in list" :key="index" @on-item-click="toggleItem(index)">{{item}}</tab-item>
+    </tab>
+     <swiper v-model="index" :show-dots="false">
+        <swiper-item>
+          <div class="tab-swiper vux-center">
+            <yd-infinitescroll :callback="getCollect" ref="ctlist1">
+              <ul slot="list">
+                <li v-for="(m,n) in info1" :key="m.colId" class="collect-item flex align-center px-1">
+                  <img :src="getImgPath(m.img)" alt="">
+                  <div class="collect-info flex-1">
+                    <h3>{{m.storeName}}</h3>
+                    <p>收藏时间：{{formatTime(m.addTime)}}</p>
+                  </div>
+                  <span class="iconfont self-delete danger-color" @click="deleteCollect(m.colId,n)"></span>
+                </li>
+              </ul>
+            </yd-infinitescroll>
+          </div>
+        </swiper-item>
+        <swiper-item>
+          <div class="tab-swiper">
+            <yd-infinitescroll :callback="getCollect" ref="ctlist2">
+              <ul slot="list">
+                <li v-for="(p,q) in info2" :key="p.colId" class="collect-item flex align-center px-1">
+                  <img :src="getImgPath(p.img)" alt="">
+                  <div class="collect-info flex-1">
+                    <h3>{{p.goodName}}</h3>
+                    <p>收藏时间：{{formatTime(p.addTime)}}</p>
+                  </div>
+                  <span class="iconfont self-delete danger-color" @click="deleteCollect(p.colId,q)"></span>
+                </li>
+              </ul>
+            </yd-infinitescroll>
+          </div>
+        </swiper-item>
+      </swiper>
   </div>
 </template>
 <script>
-import HeaderTop from 'components/header/index'
-import { myCollect, delectMyCollect } from '../../api/index'
-import { getStore, mixin } from 'components/common/mixin'
+import HeaderTop from "components/header/index";
+import { Tab, TabItem, Swiper, SwiperItem } from "vux";
+import { myCollect, delectMyCollect } from "../../api/index";
+import { getStore, mixin } from "components/common/mixin";
 export default {
-  name: 'MyCollect',
+  name: "MyCollect",
   data() {
     return {
       noData2: false,
@@ -48,17 +55,15 @@ export default {
       info1: [],
       pageNo2: 1,
       pageNo1: 1,
-      collectType: '1',
-    }
+      collectType: 1,
+      index: 0,
+      list: ["关注的店铺", "关注的商品"]
+    };
   },
-  components: { HeaderTop },
-  computed: {
-
-  },
+  components: { HeaderTop, Tab, TabItem, Swiper, SwiperItem },
+  computed: {},
   mixins: [mixin],
-  created() {
-
-  },
+  created() {},
   activated() {
     this.noData2 = false;
     this.noData1 = false;
@@ -66,79 +71,74 @@ export default {
     this.info1 = [];
     this.pageNo2 = 1;
     this.pageNo1 = 1;
-    this.collectType = '1';
-    if (!this.info1.length) {
-      this.changeTab('关注的店铺', '1')
-    }
+    this.index = 0;
+    this.toggleItem(this.index);
   },
   methods: {
-    changeTab(label, tabkey) {
-      this.collectType = tabkey;
-      if (this[`noData${this.collectType}`])
-        return;
+    toggleItem(index) {
+      this.collectType = index + 1;
       this.getCollect();
     },
     getCollect() {
       let vm = this;
       mui.ajax({
         url: myCollect,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           pageNo: this[`pageNo${this.collectType}`],
           pageSize: 10,
           collectType: this.collectType,
-          account: getStore('account'),
+          account: getStore("account"),
           token: md5(`myCollect`)
         },
         success(res) {
           if (res.code == 200) {
             let _list = res.result;
-            vm[`info${vm.collectType}`] = [...vm[`info${vm.collectType}`], ..._list];
+            vm[`info${vm.collectType}`] = [...vm[`info${vm.collectType}`],..._list];
             if (_list.length < 10) {
               vm[`noData${vm.collectType}`] = true;
-              vm.$refs[`ctlist${vm.collectType}`].$emit('ydui.infinitescroll.loadedDone');
+              vm.$refs[`ctlist${vm.collectType}`].$emit("ydui.infinitescroll.loadedDone");
               return;
             }
-            vm.$refs[`ctlist${vm.collectType}`].$emit('ydui.infinitescroll.finishLoad');
+            vm.$refs[`ctlist${vm.collectType}`].$emit("ydui.infinitescroll.finishLoad");
             vm[`pageNo${vm.collectType}`]++;
-          }
-        else{
-          vm.$dialog.toast({
-              mes: res.msg || '网络异常,请重试'
-            })
+          } else {
+            vm.$dialog.toast({
+              mes: res.msg || "网络异常,请重试"
+            });
             return;
+          }
         }
-        }
-      })
+      });
     },
     deleteCollect(id, index) {
       let vm = this;
       mui.ajax({
         url: delectMyCollect,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           colId: id,
-          token: md5('delectMyCollect')
+          token: md5("delectMyCollect")
         },
         success(res) {
           if (res.code == 200) {
             vm.$dialog.toast({
-              mes: res.msg || '已取消收藏',
+              mes: res.msg || "已取消收藏",
               callback: () => {
                 vm[`info${vm.collectType}`].splice(index, 1);
               }
-            })
+            });
           }
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .collect-item {
   .pd-h;
   .mg-v;
