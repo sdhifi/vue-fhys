@@ -57,7 +57,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(['account', 'member']),
+    ...mapState(['account']),
     valid(){
        return /^(([1-9]\d*)|([0-9]+\.[0-9]{1,2}))$/.test(this.payMoney) && /0?(13|14|15|18)[0-9]{9}/.test(this.mobile)
         && !!this.payType

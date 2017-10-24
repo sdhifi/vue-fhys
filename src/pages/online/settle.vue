@@ -74,7 +74,10 @@
       <yd-cell-group title="选择支付方式" v-else>
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
-          <span slot="left">会员余额</span>
+          <div slot="left">
+            <p>会员余额 <span class="danger-color fs-12" style="margin-left:.2rem;" @click="test" v-if="!paypwd">设置支付密码</span></p>
+            <span  class="danger-color fs-12">(余额支付需要额外支付10%税费)</span>
+            </div>
           <input slot="right" type="radio" value="0" v-model="payType" />
         </yd-cell-item>
         <yd-cell-item type="radio">
@@ -115,7 +118,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account", "defaultAddress", "addressList", "settleList"]),
+    ...mapState(["account", "defaultAddress", "addressList", "settleList","paypwd"]),
     total() {
       let sum = 0,
         price = 0,
@@ -137,6 +140,9 @@ export default {
   },
   mixins: [mixin],
   methods: {
+    test(){
+     this.$router.push({name:'PwdManage'})
+    },
     pay() {}
   }
 };

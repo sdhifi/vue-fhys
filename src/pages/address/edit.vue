@@ -93,7 +93,7 @@ export default {
         this.adddressName = `${address.proviceId.province},${address.cityId.city},${address.areaId.area}`;
       } else {
         this.areaId = "";
-        this.adddressName = `${address.proviceId.province},${address.cityId.city},`;
+        this.adddressName = `${address.proviceId.province},${address.cityId.city}`;
       }
     } else {
       this.addressTitle = "地址添加";
@@ -121,7 +121,7 @@ export default {
         this.adddressName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
       } else {
         this.areaId='';
-        this.adddressName = `${res.itemName1},${res.itemName2},`;
+        this.adddressName = `${res.itemName1},${res.itemName2}`;
       }
     },
     addAddress() {

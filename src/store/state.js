@@ -15,5 +15,6 @@ export default {
   addressList: [], // 地址列表
   defaultAddress: null, //默认地址
   cartList:[],//购物车列表
-  settleList:[],//结算列表
+  settleList:[],//结算列表,
+  paypwd:false,//支付密码状态
 }

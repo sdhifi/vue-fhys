@@ -25,10 +25,15 @@
           </yd-cell-item>
           <yd-cell-item v-else>
             <span slot="left">商品来源：京东</span>
-            <span slot="right">库存：{{info.purchasNum}}</span>
+            <span slot="right">库存：{{info.productAttrStock.repertory}}</span>
           </yd-cell-item>
           <yd-cell-item v-if="pdtype==0">
             <span slot="left">积分使用说明:{{info.productAttrStock.price}}积分 +
+              <span class="danger-color">￥{{info.pointNeedMoney}}</span>
+            </span>
+          </yd-cell-item>
+          <yd-cell-item v-else-if="pdtype==3">
+            <span slot="left">责任金额使用说明:{{info.productAttrStock.price}}责任金额 +
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
             </span>
           </yd-cell-item>
@@ -196,11 +201,10 @@ export default {
             }
           }
           vm.$nextTick(function() {
-            Array.from(
-              document.querySelector(".pd-content").querySelectorAll("img")
-            ).forEach(function(e) {
+            Array.from(document.querySelector(".pd-content").querySelectorAll("img,table")).forEach(function(e) {
               e.style.width = "100%";
             });
+
           });
         }
       });
@@ -273,10 +277,10 @@ export default {
           }
         });
       });*/
-      if(!this.info.productAttrStock.repertory){
+      if (!this.info.productAttrStock.repertory) {
         this.$dialog.toast({
-          mes:'库存不足，请查看其他商品',
-        })
+          mes: "库存不足，请查看其他商品"
+        });
         return;
       }
       if (this.buyType == 0) {

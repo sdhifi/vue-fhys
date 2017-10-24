@@ -16,10 +16,13 @@
             <div class="pd-info flex-1">
               <h3>{{pd.name}}</h3>
               <div class="flex just-between align-center">
-                <span class="fs-14 price1">￥{{pd.price}}
-                  <span class="price2" v-if="pd.pointNicePrice">+{{pd.pointNicePrice}}积分</span>
+                <span class="fs-14 price1" v-if="pdtype=='0'">￥{{pd.pointNicePrice}}
+                  <span class="price2">+{{pd.price}}积分</span>
                 </span>
-                <yd-button type="danger">立即购买</yd-button>
+                <span  class="fs-14 price1" v-else>
+                  ￥{{pd.price}}
+                </span>
+                <yd-button type="danger">加入购物车</yd-button>
               </div>
             </div>
           </div>
@@ -110,7 +113,7 @@ export default {
     navigate(event, pd) {
       //pdtype产品类型||积分换购：0，品牌商城：1，京东：2，责任消费：3
       if (event.target.tagName == 'BUTTON') {
-        this.$router.push({ path: '/online/settle', query: { pd, pdtype: this.$route.query.pdtype } })
+        // this.$router.push({ path: '/online/settle', query: { pdtype: this.$route.query.pdtype } })
       }
       else {
         this.$router.push({ path: '/online/product', query: { id: pd.id, pdtype: this.$route.query.pdtype } })

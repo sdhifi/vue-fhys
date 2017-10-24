@@ -19,7 +19,8 @@
         <yd-cell-group>
           <yd-cell-item>
             <span class="iconfont self-mobile" slot="icon"></span>
-            <yd-input v-model="account" placeholder="请输入手机号码" readonly :showClearIcon ="false" slot="right"></yd-input>
+            <!-- <yd-input v-model="account" placeholder="请输入手机号码" readonly slot="right"></yd-input> -->
+            <input type="text" :value="account" readonly slot="right">
           </yd-cell-item>
           <yd-cell-item>
             <span class="iconfont self-code" slot="icon"></span>
@@ -147,6 +148,7 @@ export default {
         },
         success(res) {
           if (res.code == '200') {
+            vm.$store.commit('SET_PAY_PASSWORD',true);
             vm.$dialog.toast({
               mes: res.msg || '设置成功',
               timeout: 1500,
@@ -157,8 +159,9 @@ export default {
             })
           }
           else {
+            vm.$store.commit('SET_PAY_PASSWORD',false);
             vm.$dialog.toast({
-              mes: res.msg || '修改失败',
+              mes: res.msg || '设置失败',
               timeout: 1500,
               icon: 'error'
             })
@@ -197,6 +200,3 @@ export default {
   }
 }
 </script>
-<style lang='less' scoped>
-
-</style>

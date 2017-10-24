@@ -110,7 +110,6 @@ export default {
             item.id = desc[2];
             item.list = value[1];
             _pds.push(item);
-            // console.log(value[0].split(/[;|~]/))
           })
           vm.info = res.result;
           vm.pds = _pds;

@@ -17,6 +17,7 @@ import {
   UPDATE_CART_ITEM,
   DELETE_CART_ITEM,
   RECORD_SETTLE_LIST,
+  SET_PAY_PASSWORD,
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -80,5 +81,8 @@ export default {
   },
   [RECORD_SETTLE_LIST](state,list){
     state.settleList=list;
+  },
+  [SET_PAY_PASSWORD](state,sta){
+    state.paypwd=sta;
   },
 }
