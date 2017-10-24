@@ -1,8 +1,8 @@
 <template>
   <div class="score-box">
     <a v-for="i in max" class="rater-box" :class="{'is-active':currentValue>i+1}" :style="{color:colors&&colors[i-1]?colors[i-1]:'#ccc'}" :key="i">
-      <span class="iconfont self-star rater-inner">
-        <span v-if="cutPercent >0 && cutIndex == i-1" class="iconfont self-star rater-outer" :style="{color:activeColor,width:cutPercent+'%'}"></span>
+      <span class="iconfont self-score rater-inner">
+        <span v-if="cutPercent >0 && cutIndex == i-1" class="iconfont self-score rater-outer" :style="{color:activeColor,width:cutPercent+'%'}"></span>
       </span>
     </a>
     <span class="score-num">{{currentValue}}分</span>

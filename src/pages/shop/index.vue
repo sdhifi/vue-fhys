@@ -1,7 +1,6 @@
 <template>
   <div>
     <header-top title="商品详情"></header-top>
-    <!-- <main class="scroll-content-2" :key-id="newRender"> -->
     <main class="scroll-content-2">
       <section class="pd-container">
         <div class="pd-cover">
@@ -9,9 +8,9 @@
           <div class="pd-desc">{{pdDetail.name}}</div>
         </div>
         <div class="pd-price fs-12">
-          <span class="pd-rmb danger-color">￥</span>
-          <span class="pd-price1 danger-color fs-20">{{formatPrice(pdDetail.price)}}</span>
-          <span class="pd-price2">门市价:￥{{formatPrice(pdDetail.marketPrice)}}</span>
+            <span class="pd-rmb danger-color">￥</span>
+            <span class="pd-price1 danger-color fs-20">{{formatPrice(pdDetail.price)}}</span>
+            <span class="pd-price2">门市价:￥{{formatPrice(pdDetail.marketPrice)}}</span>
         </div>
       </section>
       <section class="seller-container">
@@ -32,6 +31,10 @@
             <span class="iconfont self-tel danger-color" style="font-size:.8rem;"></span>
           </a>
         </div>
+        <div class="collect flex align-center just-between">
+          <span class="iconfont self-heart" @click="collect(pdDetail.id,2)">收藏商品</span>
+          <span class="iconfont self-star" @click="collect(pdDetail.storeId,1)">关注店铺</span>
+        </div>
       </section>
       <section class="tip-container">
         <h3 class="fs-16 danger-color">购买须知</h3>
@@ -45,7 +48,7 @@
           </li>
         </ul>
       </section>
-      <yd-cell-group>
+      <yd-cell-group v-if="false">
         <yd-cell-item :arrow="comment.count>0">
           <span slot="left">
             <span>用户评价({{pdDetail.score||0}}分)</span>
@@ -66,45 +69,35 @@
             <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.name" :score="item.score" :price1="item.price" :price2="item.marketPrice" :sale-num="item.salesNum"></product-item>
           </div>
           <p slot="doneTip">
-            <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
+            <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>本店暂时没有更多商品</p>
         </yd-infinitescroll>
       </section>
     </main>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import Crown from 'components/common/Crown'
-import ProductItem from 'components/common/ProductItem'
-import { product, hotProduct } from '../../api/index'
-import { mixin } from 'components/common/mixin'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import Crown from "components/common/Crown";
+import ProductItem from "components/common/ProductItem";
+import { product, hotProduct, addMyCollect} from "../../api/index";
+import { mixin } from "components/common/mixin";
 
 export default {
-  name: 'ShopIndex',
+  name: "ShopIndex",
   data() {
     return {
-      id: '',
+      id: "",
       noData: false,
       pageNo: 1,
       comment: {},
       pdDetail: {},
       productList: []
-    }
+    };
   },
   components: { HeaderTop, Crown, ProductItem },
   computed: {
-    ...mapState(['longitude', 'latitude']),
-    // newRender() {
-    //   this.id = this.$route.params.id;
-    //   if (/shop\/index/.test(this.$route.path)) {
-    //     this.getDetail();
-    //     // this.noData=false;
-    //     // this.pageNo=1;
-    //     // this.productList=[];
-    //     this.getHotProduct();
-    //   }
-    // }
+    ...mapState(["longitude", "latitude","account"])
   },
   mixins: [mixin],
   created() {
@@ -117,16 +110,16 @@ export default {
     init() {
       this.getDetail();
       this.noData = false;
-      this.pageNo=1;
-      this.$refs.pdlist.$emit('ydui.infinitescroll.reInit');
-      this.productList=[];
+      this.pageNo = 1;
+      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
+      this.productList = [];
       // this.getHotProduct();
     },
     getDetail() {
       let vm = this;
       mui.ajax({
         url: product + this.$route.params.id,
-        type: 'post',
+        type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           longitude: this.longitude,
@@ -135,32 +128,31 @@ export default {
           token: md5(`productDetail${this.longitude}${this.latitude}`)
         },
         success(res) {
-          let result = res.result
+          let result = res.result;
           if (result.product) {
             vm.pdDetail = result.product;
-            vm.comment = Object.assign({}, { count: result.comCount, cmt: result.comment })
+            vm.comment = Object.assign({},{ count: result.comCount, cmt: result.comment });
             vm.getHotProduct();
-          }
-          else {
+          } else {
             vm.$dialog.toast({
-              mes: '暂无商品详情',
+              mes: "暂无商品详情",
               timeout: 1500,
               callback: () => {
                 vm.$router.go(-1);
               }
-            })
+            });
             return;
           }
         }
-      })
+      });
     },
     getHotProduct() {
       let vm = this;
       if (!this.noData) {
         mui.ajax({
           url: hotProduct,
-          type: 'post',
-          headers: { 'app-version': 'v1.0' },
+          type: "post",
+          headers: { "app-version": "v1.0" },
           data: {
             pageNo: this.pageNo,
             pageSize: 10,
@@ -172,34 +164,55 @@ export default {
             vm.productList = [...vm.productList, ..._list];
             if (_list.length < 10) {
               vm.noData = true;
-              vm.$refs.pdlist.$emit('ydui.infinitescroll.loadedDone');
+              vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
               return;
             }
-            vm.$refs.pdlist.$emit('ydui.infinitescroll.finishLoad');
+            vm.$refs.pdlist.$emit("ydui.infinitescroll.finishLoad");
             vm.pageNo++;
           }
-        })
+        });
       }
+    },
+    collect(id,type){
+      let vm = this;
+      mui.ajax({
+        url: addMyCollect,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {
+          account:this.account,
+          collectType:type,
+          id:id,
+          token:md5(`addMyCollect${this.account}${type}`)
+        },
+        success(res){
+          if(res.code==200){
+             vm.$dialog.toast({
+              mes:type==2?res.msg:"关注成功"
+            })
+          }
+         
+        }
+      })
     }
   },
   watch: {
-    '$route'(to, from) {
+    $route(to, from) {
       // if(!/\shop\/index/.test(from.path)){
       //   return;
       // }
-      if(/\/shop\/index/.test(to.path)){
+      if (/\/shop\/index/.test(to.path)) {
         this.init();
-        this.$nextTick(()=>{
-          document.querySelector('.scroll-content-2').scrollTop=0;
-
-        })
+        this.$nextTick(() => {
+          document.querySelector(".scroll-content-2").scrollTop = 0;
+        });
       }
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 section {
   padding: @pd;
   background-color: @white;
@@ -218,11 +231,15 @@ section {
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, .3), rgba(0, 0, 0, .8));
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.8)
+      );
       color: @white;
       font-size: 14px;
       padding: @pd;
-      box-shadow: 0 -5px 5px rgba(255, 255, 255, .3) inset;
+      box-shadow: 0 -5px 5px rgba(255, 255, 255, 0.3) inset;
     }
   }
   .pd-price {
@@ -238,26 +255,31 @@ section {
   h2 {
     font-weight: normal;
     .text-center;
-    padding: .1rem;
+    padding: 0.1rem;
     border-bottom: 1px solid #dfdfdf;
   }
   .seller-info {
     flex: 1;
-    >div {
+    > div {
       margin: @pd;
     }
     .iconfont {
-      margin-right: .1rem;
+      margin-right: 0.1rem;
     }
     .seller-address {
       p {
         color: @lightgray;
-        margin-left: .4rem;
+        margin-left: 0.4rem;
       }
     }
   }
   .seller-tel {
     .wh(40px, 40px);
+  }
+  .collect{
+    .pd;
+    border-top: 1px solid #dfdfdf;
+    color:#888;
   }
 }
 

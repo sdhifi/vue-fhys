@@ -16,11 +16,14 @@
   -webkit-font-smoothing: antialiased;
   vertical-align: middle;
 }
+
 .self-shopcart:before { content: "\e601"; }
 
 .self-qq:before { content: "\e616"; }
 
 .self-mobile:before { content: "\e621"; }
+
+.self-star:before { content: "\e77e"; }
 
 .self-bianji:before { content: "\e83f"; }
 
@@ -38,7 +41,7 @@
 
 .self-dianhua:before { content: "\e671"; }
 
-.self-star:before { content: "\e75c"; }
+.self-score:before { content: "\e75c"; }
 
 .self-shop:before { content: "\e60c"; }
 
@@ -117,8 +120,6 @@
 .self-nodata:before { content: "\e637"; }
 
 .self-geti:before { content: "\e62c"; }
-
-.self-fenghuang:before { content: "\e604"; }
 
 .self-seller:before { content: "\e60a"; }
 

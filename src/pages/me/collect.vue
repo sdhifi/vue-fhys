@@ -9,7 +9,7 @@
           <div class="tab-swiper vux-center">
             <yd-infinitescroll :callback="getCollect" ref="ctlist1">
               <ul slot="list">
-                <li v-for="(m,n) in info1" :key="m.colId" class="collect-item flex align-center px-1">
+                <li v-for="(m,n) in info1" :key="m.colId" class="collect-item item-1 flex align-center px-1">
                   <img :src="getImgPath(m.img)" alt="">
                   <div class="collect-info flex-1">
                     <h3>{{m.storeName}}</h3>
@@ -57,7 +57,7 @@ export default {
       pageNo1: 1,
       collectType: 1,
       index: 0,
-      list: ["关注的店铺", "关注的商品"]
+      list: ["收藏的店铺", "收藏的商品"]
     };
   },
   components: { HeaderTop, Tab, TabItem, Swiper, SwiperItem },
@@ -128,7 +128,7 @@ export default {
           if (res.code == 200) {
             vm[`info${vm.collectType}`].splice(index, 1);
             vm.$dialog.toast({
-              mes: res.msg || "已取消收藏"
+              mes: res.msg
             });
           }
         }
@@ -152,6 +152,11 @@ export default {
     p:first-of-type {
       color: @lightgray;
       font-size: 12px;
+    }
+  }
+  &.item-1{
+    h3{
+      margin-bottom: @pd;
     }
   }
 }
