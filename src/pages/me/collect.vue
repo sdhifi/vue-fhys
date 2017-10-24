@@ -4,8 +4,8 @@
     <tab :line-width="2" active-color='#ff5350' v-model="index" custom-bar-width="70px">
       <tab-item  v-for="(item, index) in list" :key="index" @on-item-click="toggleItem(index)">{{item}}</tab-item>
     </tab>
-     <swiper v-model="index" :show-dots="false">
-        <swiper-item>
+     <section>
+        <div v-show="index==0">
           <div class="tab-swiper vux-center">
             <yd-infinitescroll :callback="getCollect" ref="ctlist1">
               <ul slot="list">
@@ -20,8 +20,8 @@
               </ul>
             </yd-infinitescroll>
           </div>
-        </swiper-item>
-        <swiper-item>
+        </div>
+        <div v-show="index==1">
           <div class="tab-swiper">
             <yd-infinitescroll :callback="getCollect" ref="ctlist2">
               <ul slot="list">
@@ -36,8 +36,8 @@
               </ul>
             </yd-infinitescroll>
           </div>
-        </swiper-item>
-      </swiper>
+        </div>
+      </section>
   </div>
 </template>
 <script>
@@ -77,7 +77,9 @@ export default {
   methods: {
     toggleItem(index) {
       this.collectType = index + 1;
-      this.getCollect();
+      if(!this[`noData${this.collectType}`]){
+        this.getCollect();
+      }
     },
     getCollect() {
       let vm = this;
@@ -124,11 +126,9 @@ export default {
         },
         success(res) {
           if (res.code == 200) {
+            vm[`info${vm.collectType}`].splice(index, 1);
             vm.$dialog.toast({
-              mes: res.msg || "已取消收藏",
-              callback: () => {
-                vm[`info${vm.collectType}`].splice(index, 1);
-              }
+              mes: res.msg || "已取消收藏"
             });
           }
         }
@@ -140,11 +140,10 @@ export default {
 <style lang='less' scoped>
 @import "../../style/mixin.less";
 .collect-item {
-  .pd-h;
-  .mg-v;
+  .pd;
+  background-color: @white;
   img {
-    width: 1.5rem;
-    height: 1.5rem;
+   .wh(1.2rem,1.2rem);
     border-radius: 50%;
   }
   .collect-info {

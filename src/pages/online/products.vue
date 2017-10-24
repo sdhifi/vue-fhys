@@ -22,7 +22,7 @@
                 <span  class="fs-14 price1" v-else>
                   ￥{{pd.price}}
                 </span>
-                <yd-button type="danger">加入购物车</yd-button>
+                <yd-button type="danger" v-if="pdtype!='2'">加入购物车</yd-button>
               </div>
             </div>
           </div>

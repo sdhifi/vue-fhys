@@ -173,6 +173,7 @@ section {
         font-weight: normal;
         word-wrap: break-word;
         word-break: break-all;
+        color: #333;
       }
     }
     .price {
