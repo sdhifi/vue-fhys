@@ -144,6 +144,7 @@ export default {
         pointPrice = 0;
         if(this.$route.query.buynow){
           price = this.settleList.productAttrStock.price;
+          if(this.$route.query.orderType!=0)
           pointPrice=this.settleList.pointNeedMoney;
         }
         else{
