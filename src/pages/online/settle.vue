@@ -30,7 +30,26 @@
       </section>
       <section class="order-list">
         <h2>订单信息</h2>
-        <ul>
+        <ul v-if="$route.query.buynow">
+          <li class="order-item flex">
+            <img :src="settleList.proImg" :alt="settleList.proName" class="pd-img">
+            <div class="order-info flex-1">
+              <h3 class="pd-name">{{settleList.proName}}</h3>
+              <p>
+                <span v-for="(item,index) in settleList.attrs" :key="index">
+                  <span v-for="(el,elIndex) in item.attrValues" :key="elIndex">
+                    {{item.attrName}}: <span v-if="el.selected">{{el.attrValueId.attrValue}}</span>
+                  </span>
+                </span>
+              </p>
+              <div class="flex just-between">
+                <span class="danger-color fs-16">￥{{settleList.productAttrStock.price}}</span>
+                <span class="fs-14">x1</span>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <ul v-else>
           <li v-for="(item,index) in settleList" :key="index" class="order-item flex">
             <img :src="item.goodsId.imgUrl" :alt="item.goodsId.name" class="pd-img">
             <div class="order-info flex-1">
@@ -96,7 +115,7 @@
           <input slot="right" type="radio" value="2" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
-      <div style="padding:.2rem;">
+      <div style="padding:0 .2rem .2rem;">
         <yd-button size="large" type="danger" @click.native="pay">确认支付</yd-button>
         </div> 
     </main>
@@ -123,12 +142,18 @@ export default {
       let sum = 0,
         price = 0,
         pointPrice = 0;
-      this.settleList.forEach(item => {
-        price += item.goodsAttrStockId.price * item.goodsNum;
-        if (item.goodsId.isCanUserCou == "1" || item.goodsId.isCanUserCou == "2") {
-          pointPrice += item.goodsId.pointNicePrice * item.goodsNum;
+        if(this.$route.query.buynow){
+          price = this.settleList.productAttrStock.price;
+          pointPrice=this.settleList.pointNeedMoney;
         }
-      });
+        else{
+          this.settleList.forEach(item => {
+            price += item.goodsAttrStockId.price * item.goodsNum;
+            if (item.goodsId.isCanUserCou == "1" || item.goodsId.isCanUserCou == "2") {
+              pointPrice += item.goodsId.pointNicePrice * item.goodsNum;
+            }
+          });
+        }     
       sum = price + pointPrice;
       return { sum, price, pointPrice };
     }

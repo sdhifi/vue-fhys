@@ -4,7 +4,8 @@
     <main class="scroll-content-2">
       <section class="pd-container">
         <div class="pd-cover">
-          <img :src="pdDetail.imgUrl1" alt="">
+          <!-- <img :src="pdDetail.imgUrl1" alt=""> -->
+          <img v-lazy="pdDetail.imgUrl1" alt="">
           <div class="pd-desc">{{pdDetail.name}}</div>
         </div>
         <div class="pd-price fs-12">
@@ -32,8 +33,8 @@
           </a>
         </div>
         <div class="collect flex align-center just-between">
-          <span class="iconfont self-heart" @click="collect(pdDetail.id,2)">收藏商品</span>
-          <span class="iconfont self-star" @click="collect(pdDetail.storeId,1)">关注店铺</span>
+          <span class="iconfont self-heart" @click="collect(pdDetail.id,2)">收藏商品</span> 
+          <span class="iconfont self-star" @click="collect(pdDetail.storeId,1)">关注店铺</span> 
         </div>
       </section>
       <section class="tip-container">
@@ -80,7 +81,7 @@ import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import Crown from "components/common/Crown";
 import ProductItem from "components/common/ProductItem";
-import { product, hotProduct, addMyCollect} from "../../api/index";
+import { product, hotProduct, addMyCollect } from "../../api/index";
 import { mixin } from "components/common/mixin";
 
 export default {
@@ -97,18 +98,16 @@ export default {
   },
   components: { HeaderTop, Crown, ProductItem },
   computed: {
-    ...mapState(["longitude", "latitude","account"])
+    ...mapState(["longitude", "latitude", "account"])
   },
   mixins: [mixin],
   created() {
-    //this.init();
+    this.getDetail();
   },
-  activated() {
-    this.init();
-  },
+  activated() {},
+  mounted() {},
   methods: {
     init() {
-      this.getDetail();
       this.noData = false;
       this.pageNo = 1;
       this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
@@ -117,6 +116,7 @@ export default {
     },
     getDetail() {
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: product + this.$route.params.id,
         type: "post",
@@ -132,6 +132,7 @@ export default {
           if (result.product) {
             vm.pdDetail = result.product;
             vm.comment = Object.assign({},{ count: result.comCount, cmt: result.comment });
+            vm.$dialog.loading.close();
             vm.getHotProduct();
           } else {
             vm.$dialog.toast({
@@ -173,27 +174,26 @@ export default {
         });
       }
     },
-    collect(id,type){
+    collect(id, type) {
       let vm = this;
       mui.ajax({
         url: addMyCollect,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          account:this.account,
-          collectType:type,
-          id:id,
-          token:md5(`addMyCollect${this.account}${type}`)
+          account: this.account,
+          collectType: type,
+          id: id,
+          token: md5(`addMyCollect${this.account}${type}`)
         },
-        success(res){
-          if(res.code==200){
-             vm.$dialog.toast({
-              mes:type==2?res.msg:"关注成功"
-            })
+        success(res) {
+          if (res.code == 200) {
+            vm.$dialog.toast({
+              mes: type == 2 ? res.msg : "关注成功"
+            });
           }
-         
         }
-      })
+      });
     }
   },
   watch: {
@@ -203,6 +203,7 @@ export default {
       // }
       if (/\/shop\/index/.test(to.path)) {
         this.init();
+        this.getDetail();
         this.$nextTick(() => {
           document.querySelector(".scroll-content-2").scrollTop = 0;
         });
@@ -276,10 +277,10 @@ section {
   .seller-tel {
     .wh(40px, 40px);
   }
-  .collect{
+  .collect {
     .pd;
     border-top: 1px solid #dfdfdf;
-    color:#888;
+    color: #888;
   }
 }
 

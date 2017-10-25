@@ -9,13 +9,14 @@
           </yd-slider-item>
         </yd-slider>
         <p>{{info.proName}}</p>
-        <p class="danger-color fs-16">
+        <p class="danger-color fs-16 flex just-between align-center">
           <span v-if="pdtype==0">{{info.productAttrStock.price}}
             <span class="fs-12" style="margin-left:.1rem;">积分</span>
           </span>
           <span v-else-if="pdtype==2">￥{{info.productAttrStock.price}}</span>
           <span v-else-if="pdtype==3"></span>
           <span v-else>￥{{info.productAttrStock.price}}</span>
+          <span class="iconfont self-star" @click="collect">收藏</span>
         </p>
       </section>
       <section class="info-2">
@@ -114,6 +115,7 @@ import HeaderTop from "components/header/index";
 import { LoadMore } from "vux";
 import {
   onlineProductsDetailInfoInH5,
+  addMyCollect,
   stockAndPrice,
   addCart
 } from "../../api/index";
@@ -124,11 +126,12 @@ export default {
     return {
       info: {},
       imgList: [],
-      pdtype: -1, //产品类型，积分换购：0，品牌商城：1，京东：2，责任消费：3
+      pdtype: -1, //产品类型--积分换购：0，品牌商城：1，京东：2，责任消费：3
       show: false,
-      buyType: 0, //购买方式|加入购物车：0，立即购买：1
+      buyType: 0, //购买方式--加入购物车：0，立即购买：1
       pdnum: 1,
-      attrId: ""
+      attrId: "",
+
     };
   },
   components: { HeaderTop, LoadMore },
@@ -140,6 +143,9 @@ export default {
         _num += item.goodsNum;
       });
       return _num;
+    },
+    orderType(){
+      return this.pdtype==0?1:(this.pdtype==3?2:0);
     }
   },
   mixins: [mixin],
@@ -173,10 +179,7 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          _result.content = _result.content.replace(
-            /\/userfiles/g,
-            "http://jfh.jfeimao.com/userfiles"
-          );
+          _result.content = _result.content.replace(/\/userfiles/g,"http://jfh.jfeimao.com/userfiles");
           if (vm.pdtype != 2) {
             _result.attrs.forEach((item, index) => {
               item.attrValues.forEach((i, j) => {
@@ -204,10 +207,28 @@ export default {
             Array.from(document.querySelector(".pd-content").querySelectorAll("img,table")).forEach(function(e) {
               e.style.width = "100%";
             });
-
           });
         }
       });
+    },
+    collect(){
+      let vm = this;
+      mui.ajax({
+        url: addMyCollect,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {
+          account:this.account,
+          collectType:2,
+          id:this.info.proId,
+          token:md5(`addMyCollect${this.account}2`)
+        },
+        success(res){
+          vm.$dialog.toast({
+              mes:res.msg
+            });
+        }
+      })
     },
     chooseAttr(item, attr, attrIndex) {
       item.attrValues.forEach((i, j) => {
@@ -237,9 +258,7 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          vm.info.productAttrStock = Object.assign(
-            {},
-            vm.info.productAttrStock,
+          vm.info.productAttrStock = Object.assign({},vm.info.productAttrStock,
             {
               id: _result.id,
               price: _result.price,
@@ -309,7 +328,8 @@ export default {
       } else {
         //立即购买
         this.show = false;
-        this.$router.push({ path: "/online/settle" });
+        this.$store.commit("RECORD_SETTLE_LIST", this.info);
+        this.$router.push({ path: "/online/settle" ,query:{orderType:this.orderType,buynow:true }});
       }
     },
     goShoppingCart() {

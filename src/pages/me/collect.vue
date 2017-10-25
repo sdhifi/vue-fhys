@@ -4,7 +4,8 @@
     <tab :line-width="2" active-color='#ff5350' v-model="index" custom-bar-width="70px">
       <tab-item  v-for="(item, index) in list" :key="index" @on-item-click="toggleItem(index)">{{item}}</tab-item>
     </tab>
-     <section>
+     <main class="scroll-content-1">
+       <section>
         <div v-show="index==0">
           <div class="tab-swiper vux-center">
             <yd-infinitescroll :callback="getCollect" ref="ctlist1">
@@ -38,6 +39,7 @@
           </div>
         </div>
       </section>
+     </main>
   </div>
 </template>
 <script>
