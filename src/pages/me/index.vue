@@ -20,14 +20,14 @@
       </section>
       <section class="order-container">
         <yd-cell-group>
-          <yd-cell-item arrow type="link" href="/order/index?id=7">
+          <yd-cell-item arrow type="link" href="/order/index?id=0">
           <span class="iconfont self-dingdanguanli" slot="icon" style="font-size:20px;"></span>
             <span slot="left">我的订单</span>
             <span slot="right">查看所有订单</span>
           </yd-cell-item>
         </yd-cell-group>
         <ul class="flex just-around align-center">
-          <router-link :to="{path:item.link,query:{id:item.id}}" v-for="(item,index) in order" tag="li" :key="index">
+          <router-link :to="{path:item.link,query:{id:index+1}}" v-for="(item,index) in order" tag="li" :key="index">
             <span class="iconfont-large" :class="item.icon"></span>
             <p>{{item.name}}</p>
           </router-link>
@@ -38,7 +38,8 @@
           <yd-cell-item v-for="(cell,i) in item" :key="i" arrow :type="cell.type" @click.native="navigate(cell)">
             <span class="iconfont-large" :class="cell.icon" slot="icon"></span>
             <span slot="left">{{cell.name}}</span>
-            <a slot="right" v-if="cell.right" style="color:gold;">{{cell.right}}</a>
+            <a slot="right" v-if="cell.tel" style="color:gold;">{{cell.tel}}</a>
+            <yd-badge slot="right" v-if="cell.badge&&cartNum>0" type="danger">{{cartNum}}</yd-badge>
           </yd-cell-item>
         </yd-cell-group>
       </section>
@@ -85,11 +86,10 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState,mapGetters } from "vuex";
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
 import CertModal from "components/common/CertModal";
-import { XDialog } from "vux";
 import { my } from "../../api/index";
 import { mixin, getStore, removeStore } from "components/common/mixin";
 export default {
@@ -144,7 +144,8 @@ export default {
             name: "购物车",
             icon: "self-shopcart c1",
             link: "/online/shoppingcart",
-            type: "label"
+            type: "label",
+            badge:true
           },
           {
             name: "设置密码",
@@ -183,11 +184,11 @@ export default {
           {
             name: "联系客服",
             icon: "self-service c1",
-            right: "020-29030366"
+            tel: "020-29030366"
           },
           {
             name: "关于凤凰云商O2O",
-            icon: "self-about c2",
+            icon: "self-fenghuang c2",
             link: "/me/about",
             type: "label"
           },
@@ -202,12 +203,13 @@ export default {
       showDialog: false
     };
   },
-  components: { HeaderTop, FooterBar, CertModal, XDialog },
+  components: { HeaderTop, FooterBar, CertModal},
   created() {
     //this.getInfo();
   },
   computed: {
-    ...mapState(["certificateStatus", "showCertificate"])
+    ...mapState(["certificateStatus", "showCertificate","account"]),
+    ...mapGetters(['cartNum'])
   },
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
@@ -223,6 +225,7 @@ export default {
     if (getStore("account") && getStore("account").length > 0) {
       this.$store.commit("SET_ACCOUNT", getStore("account"));
       this.getInfo();
+      this.$store.dispatch('getCartList');
     } else {
       this.$router.push("/me/login");
     }
@@ -263,7 +266,7 @@ export default {
       if (/recommend/.test(item.link)) {
         this.$router.push({name: "Recommend",params: { id: this.member.id }});
       }
-      if (item.right) {
+      if (item.tel) {
         this.showDialog = true;
       }
       item.link && this.$router.push(item.link);

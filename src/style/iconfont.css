@@ -14,16 +14,12 @@
   font-size: 24px;
   font-style:normal;
   -webkit-font-smoothing: antialiased;
-  vertical-align: middle;
 }
-
 .self-shopcart:before { content: "\e601"; }
 
 .self-qq:before { content: "\e616"; }
 
 .self-mobile:before { content: "\e621"; }
-
-.self-star:before { content: "\e77e"; }
 
 .self-bianji:before { content: "\e83f"; }
 
@@ -37,6 +33,8 @@
 
 .self-right:before { content: "\e687"; }
 
+.self-fenghuang:before { content: "\e604"; }
+
 .self-about:before { content: "\e605"; }
 
 .self-dianhua:before { content: "\e671"; }
@@ -48,6 +46,8 @@
 .self-qiche:before { content: "\e62d"; }
 
 .self-delivery:before { content: "\e67f"; }
+
+.self-star:before { content: "\e77e"; }
 
 .self-code:before { content: "\e629"; }
 
@@ -70,8 +70,6 @@
 .self-shenghuofuwu:before { content: "\e61f"; }
 
 .self-fabu:before { content: "\e68c"; }
-
-.self-gengxin:before { content: "\e62b"; }
 
 .self-near:before { content: "\e603"; }
 
@@ -166,5 +164,7 @@
 .self-ruanjian:before { content: "\e663"; }
 
 .self-success:before { content: "\e60e"; }
+
+.self-gengxin:before { content: "\e62b"; }
 
 .self-huazhuangpin:before { content: "\e622"; }

@@ -1,108 +1,232 @@
 <template>
   <div>
     <header-top title="订单管理"></header-top>
-    <yd-tab :change="changeStatus" style="position:fixed;left:0;right:0;z-index:1000;background-color:#fff;">
-      <yd-tab-panel label="全部订单" tabkey="7">
-      </yd-tab-panel>
-      <yd-tab-panel label="待支付" tabkey="0">
-      </yd-tab-panel>
-      <yd-tab-panel label="交易成功" tabkey="3">
-      </yd-tab-panel>
-    </yd-tab>
+     <tab :line-width="2" active-color='#ff5350' v-model="index" custom-bar-width="60px">
+      <tab-item  v-for="(item, index) in menu" :key="index" @on-item-click="toggleItem(index)">{{item.value}}</tab-item>
+    </tab>
     <main class='scroll-content-1'>
-      <yd-infinitescroll :callback="getMyOrder" ref="orderlist">
-        <ul slot="list">
-          <li class="order-item px-1" v-for="item in orderList" :key="item.orderSn">
-            <h2 class="px-1">{{item.storeName}}</h2>
-            <div class="good-list">
-              <p class="order-id">订单编号：{{item.orderSn}}</p>
-              <div class="good-item flex px-1" v-for="good in item.goods" :key="good.goodsId">
-                <img :src="good.goodsImg" :alt="good.goodsName">
-                <div class="good-info">
-                  <h3 class="good-title">{{good.goodsName}}</h3>
-                  <div class="good-price">
-                    <span>数量：{{good.goodNum}}</span>
-                    <span>￥{{good.goodsAmount}}</span>
+      <!-- <section> -->
+        <div v-show="index==0">
+          <yd-infinitescroll :callback="getMyOrder" ref="orderlist7">
+            <ul slot="list">
+              <li class="order-item px-1" v-for="item in list7" :key="item.orderSn">
+                <h2 class="px-1">{{item.storeName}}</h2>
+                <div class="good-list">
+                  <p class="order-id">订单编号：{{item.orderSn}}</p>
+                  <div class="good-item flex px-1" v-for="good in item.goods" :key="good.goodsId">
+                    <img :src="good.goodsImg" :alt="good.goodsName">
+                    <div class="good-info">
+                      <h3 class="good-title">{{good.goodsName}}</h3>
+                      <div class="good-price">
+                        <span>数量：{{good.goodNum}}</span>
+                        <span>￥{{good.goodsAmount}}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="order-operate flex just-between align-center">
-              <p>应付金额：
-                <span class="danger-color">￥{{item.goodsTotalAmount}}</span>
-              </p>
-              <yd-button type="danger" v-if="item.orderStatus=='0'">付&emsp;款</yd-button>
-              <yd-button type="disabled" disabled v-if="item.orderStatus=='3'">已收货</yd-button>
-              <yd-button type="disabled" disabled v-if="item.orderStatus=='6'">已退款</yd-button>
-            </div>
-          </li>
-        </ul>
-        <p slot="doneTip">
-          <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦
-        </p>
-      </yd-infinitescroll>
+                <div class="order-operate flex just-between align-center">
+                  <p>应付金额：
+                    <span class="danger-color">￥{{item.goodsTotalAmount}}</span>
+                  </p>
+                  <yd-button type="danger" v-if="item.orderStatus=='0'">付&emsp;款</yd-button>
+                  <yd-button type="disabled" disabled v-if="item.orderStatus=='3'">已收货</yd-button>
+                  <yd-button type="disabled" disabled v-if="item.orderStatus=='6'">已退款</yd-button>
+                </div>
+              </li>
+            </ul>
+          </yd-infinitescroll>
+        </div>
+         <div v-show="index==1">
+          <yd-infinitescroll :callback="getMyOrder" ref="orderlist0">
+            <ul slot="list">
+              <li class="order-item px-1" v-for="item in list0" :key="item.orderSn">
+                <h2 class="px-1">{{item.storeName}}</h2>
+                <div class="good-list">
+                  <p class="order-id">订单编号：{{item.orderSn}}</p>
+                  <div class="good-item flex px-1" v-for="good in item.goods" :key="good.goodsId">
+                    <img :src="good.goodsImg" :alt="good.goodsName">
+                    <div class="good-info">
+                      <h3 class="good-title">{{good.goodsName}}</h3>
+                      <div class="good-price">
+                        <span>数量：{{good.goodNum}}</span>
+                        <span>￥{{good.goodsAmount}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="order-operate flex just-between align-center">
+                  <p>应付金额：
+                    <span class="danger-color">￥{{item.goodsTotalAmount}}</span>
+                  </p>
+                  <yd-button type="danger" v-if="item.orderStatus=='0'">付&emsp;款</yd-button>
+                  <yd-button type="disabled" disabled v-if="item.orderStatus=='6'">已退款</yd-button>
+                </div>
+              </li>
+            </ul>
+          </yd-infinitescroll>
+        </div>
+         <div v-show="index==2">
+          <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
+            <ul slot="list">
+              <li class="order-item px-1" v-for="item in list3" :key="item.orderSn">
+                <h2 class="px-1">{{item.storeName}}</h2>
+                <div class="good-list">
+                  <p class="order-id">订单编号：{{item.orderSn}}</p>
+                  <div class="good-item flex px-1" v-for="good in item.goods" :key="good.goodsId">
+                    <img :src="good.goodsImg" :alt="good.goodsName">
+                    <div class="good-info">
+                      <h3 class="good-title">{{good.goodsName}}</h3>
+                      <div class="good-price">
+                        <span>数量：{{good.goodNum}}</span>
+                        <span>￥{{good.goodsAmount}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="order-operate flex just-between align-center">
+                  <p>应付金额：
+                    <span class="danger-color">￥{{item.goodsTotalAmount}}</span>
+                  </p>
+                  <yd-button v-if="item.orderStatus=='3'">已收货</yd-button>
+                </div>
+              </li>
+            </ul>
+          </yd-infinitescroll>
+        </div>
+      <!-- </section> -->
     </main>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import { findO2oOrderByPage } from '../../api/index'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import { Tab, TabItem } from "vux";
+import { findO2oOrderByPage } from "../../api/index";
 export default {
-  name: 'OrderManage',
+  name: "OrderManage",
   data() {
     return {
-      pageNo: 1,
-      status: '',
-      orderList: []
-    }
+      menu: [
+        { key: "7", value: "全部订单" },
+        { key: "0", value: "待支付" },
+        { key: "3", value: "交易成功" }
+      ],
+      index: 0, //控制tab
+      orderType: '7', //控制订单类型
+      noData0: false,
+      noData3: false,
+      noData7: false,
+      list0: [],
+      list3: [],
+      list7: [],
+      pageNo0: 1,
+      pageNo3: 1,
+      pageNo7: 1
+    };
   },
-  components: { HeaderTop },
+  components: { HeaderTop, Tab, TabItem },
   computed: {
-    ...mapState(['storeInfo'])
+    ...mapState(["storeInfo"])
   },
-  created() {
-
-  },
+  created() {},
   activated() {
-
+    this.reset();
+    this.toggleItem(this.index);
   },
   methods: {
-    changeStatus(label, tabkey) {
-      this.status = tabkey;
-      this.pageNo = 1;
-      this.orderList = [];
-      this.getMyOrder();
+    reset(){
+      this.orderType= '7';
+      this.noData0= false;
+      this.noData3= false;
+      this.noData7= false;
+      this.list0= [];
+      this.list3= [];
+      this.list7= [];
+      this.pageNo0= 1;
+      this.pageNo3= 1;
+      this.pageNo7= 1;
+      this.index= 0; 
+    },
+    toggleItem(index) {
+      this.orderType = this.menu[index].key;
+      if (!this[`noData${this.orderType}`]) {
+        this.getMyOrder();
+      }
     },
     getMyOrder() {
       let vm = this;
       mui.ajax({
         url: findO2oOrderByPage,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          status: this.status,
+          status: this.orderType,
           storeId: this.storeInfo.id,
-          pageNo: this.pageNo,
+          pageNo: this[`pageNo${this.orderType}`],
           pageSize: 10,
-          beginTime: '',
-          endTime: '',
+          beginTime: "",
+          endTime: "",
           token: md5(`findO2oOrderByPage${this.storeInfo.id}`)
         },
         success(res) {
-          let _list = res.result.resultVo;
-          vm.orderList = [...vm.orderList, ..._list];
-          if (_list.length < 10) {
-            vm.$refs.orderlist.$emit('ydui.infinitescroll.loadedDone');
+           if (res.code == 200) {
+            let _list = res.result.resultVo;
+            vm[`list${vm.orderType}`] = [...vm[`list${vm.orderType}`],..._list];
+            if (_list.length < 10) {
+              vm[`noData${vm.orderType}`] = true;
+              vm.$refs[`orderlist${vm.orderType}`].$emit("ydui.infinitescroll.loadedDone");
+              return;
+            }
+            vm.$refs[`orderlist${vm.orderType}`].$emit("ydui.infinitescroll.finishLoad");
+            vm[`pageNo${vm.orderType}`]++;
+          } else {
+            vm.$dialog.toast({
+              mes: res.msg || "网络异常,请重试"
+            });
             return;
           }
-          vm.$refs.orderlist.$emit('ydui.infinitescroll.finishLoad');
-          vm.pageNo++;
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
+@import "../../style/mixin.less";
+.order-item{
+  margin-top: @pd;
+  .pd;
+  background-color: @white;
+  h2,.order-id{
+    .pd-v;
+  }
+  .good-list{
+   .good-item{
+     padding-bottom: .1rem;
+     margin-bottom: .1rem;
+     img{
+       .wh(1.5rem,1.5rem);
+     }
+     .good-info{
+       flex: 1;
+       display: flex;
+       flex-direction: column;
+       justify-content: space-between;
+       margin-left: @pd * 2;
+       .good-title{
+         .ellipsis-2;
+         font-weight: normal;
+       }
+       .good-price{
+         display: flex;
+         justify-content: space-between;
+         span:last-child{
+           color: @red;
+           font-size: 14px;
+         }
+       }
+     }
+   } 
+  }
+}
 </style>

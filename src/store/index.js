@@ -8,6 +8,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
 	state,
+	getters:{
+		cartNum:(state)=>{
+			let count = 0;
+			state.cartList.forEach(item=>{
+				count += item.goodsNum;
+			})
+			return count;
+		}
+	},
 	mutations,
 	actions
 })

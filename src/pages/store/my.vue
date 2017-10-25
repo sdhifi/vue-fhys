@@ -12,7 +12,7 @@
       <section class="store-info">
         <h2 class="store-title px-1">{{info.storeName}}</h2>
         <div class="flex align-center">
-          <div class="flex-1 fs-14">
+          <div class="flex-1 fs-15">
             <span class="iconfont-large self-location danger-color"></span>
             <span>{{info.provinceId.province}}{{info.cityId.city}}<span v-if="info.areaId">{{info.areaId.area}}</span>{{info.addressDetail}}</span>
           </div>
@@ -20,7 +20,7 @@
         </div>
         <div class="flex align-center">
           <span class="iconfont-large self-tel"></span>
-          <span class="fs-14">{{info.sellerMobile}}</span>
+          <span class="fs-16">{{info.sellerMobile}}</span>
         </div>
         <div class="flex align-center">
           <span class="iconfont-large self-renzheng" style="color:#4cd864;"></span>
@@ -35,7 +35,8 @@
           <span slot="right" @click="saveIntro" v-if="!editTag">
             <span class="iconfont self-dui"></span>保存</span>
           <span slot="right" @click="editTag=false" v-else>
-            <span class="iconfont self-bianji"></span>编辑</span>
+            <span class="iconfont self-bianji">编辑</span>
+            </span>
         </yd-cell-item>
       </yd-cell-group>
       <section class="store-menu">

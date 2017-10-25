@@ -92,7 +92,7 @@ export default {
         this.areaId = address.areaId.areaId;
         this.adddressName = `${address.proviceId.province},${address.cityId.city},${address.areaId.area}`;
       } else {
-        this.areaId = "";
+        this.areaId = "0";
         this.adddressName = `${address.proviceId.province},${address.cityId.city}`;
       }
     } else {
@@ -109,7 +109,7 @@ export default {
       this.areaName = "";
       this.addressDetail = "";
       this.adddressName = "";
-      this.$refs.cityselectDemo.$emit("ydui.cityselect.reset");
+      // this.$refs.cityselectDemo.$emit("ydui.cityselect.reset");
     }
   },
   methods: {
@@ -120,7 +120,7 @@ export default {
         this.areaId = res.itemValue3;
         this.adddressName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
       } else {
-        this.areaId='';
+        this.areaId='0';
         this.adddressName = `${res.itemName1},${res.itemName2}`;
       }
     },

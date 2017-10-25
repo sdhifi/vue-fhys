@@ -7,7 +7,6 @@
      <main class="scroll-content-1">
        <section>
         <div v-show="index==0">
-          <div class="tab-swiper vux-center">
             <yd-infinitescroll :callback="getCollect" ref="ctlist1">
               <ul slot="list">
                 <li v-for="(m,n) in info1" :key="m.colId" class="collect-item item-1 flex align-center px-1">
@@ -20,10 +19,8 @@
                 </li>
               </ul>
             </yd-infinitescroll>
-          </div>
         </div>
         <div v-show="index==1">
-          <div class="tab-swiper">
             <yd-infinitescroll :callback="getCollect" ref="ctlist2">
               <ul slot="list">
                 <li v-for="(p,q) in info2" :key="p.colId" class="collect-item flex align-center px-1">
@@ -36,7 +33,6 @@
                 </li>
               </ul>
             </yd-infinitescroll>
-          </div>
         </div>
       </section>
      </main>
@@ -44,7 +40,7 @@
 </template>
 <script>
 import HeaderTop from "components/header/index";
-import { Tab, TabItem, Swiper, SwiperItem } from "vux";
+import { Tab, TabItem } from "vux";
 import { myCollect, delectMyCollect } from "../../api/index";
 import { getStore, mixin } from "components/common/mixin";
 export default {
@@ -62,7 +58,7 @@ export default {
       list: ["收藏的店铺", "收藏的商品"]
     };
   },
-  components: { HeaderTop, Tab, TabItem, Swiper, SwiperItem },
+  components: { HeaderTop, Tab, TabItem },
   computed: {},
   mixins: [mixin],
   created() {},

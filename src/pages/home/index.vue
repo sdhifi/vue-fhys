@@ -9,7 +9,7 @@
                 </router-link>
                 <router-link to="/home/search" class="search-box">
                     <span class="iconfont-large self-search"></span>
-                    <span style="vertical-align:-2px;">搜索商家或商品</span>
+                    <span style="vertical-align:5px;">搜索商家或商品</span>
                 </router-link>
             </section>
             <section class="type-list">
@@ -202,7 +202,6 @@ export default {
     }
     .search-box {
         flex: 1;
-        padding: .1rem;
         color: @lightgray;
         background-color: rgba(255, 255, 255, 1);
         border-radius: 5px;

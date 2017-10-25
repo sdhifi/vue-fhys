@@ -54,7 +54,7 @@
         <!-- <span class="iconfont self-shopcart"></span> -->
         <!-- <p class="fs-10">购物车</p> -->
         <span class="iconfont-large self-shopcart"></span>
-        <span class="shopping-num" type="danger" v-show="totalNum>0">{{totalNum}}</span>
+        <span class="shopping-num" type="danger" v-show="cartNum>0">{{cartNum}}</span>
       </div>
       <button @click="buynow" class="flex-1 btn-2">立即购买</button>
       <button @click="add2cart" class="flex-1 btn-1">加入购物车</button>
@@ -110,7 +110,7 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState,mapGetters } from "vuex";
 import HeaderTop from "components/header/index";
 import { LoadMore } from "vux";
 import {
@@ -137,13 +137,7 @@ export default {
   components: { HeaderTop, LoadMore },
   computed: {
     ...mapState(["account", "cartList"]),
-    totalNum() {
-      let _num = 0;
-      this.cartList.forEach((item, index) => {
-        _num += item.goodsNum;
-      });
-      return _num;
-    },
+    ...mapGetters(['cartNum']),
     orderType(){
       return this.pdtype==0?1:(this.pdtype==3?2:0);
     }
@@ -179,9 +173,15 @@ export default {
         },
         success(res) {
           let _result = res.result;
+          //图片路径处理
           _result.content = _result.content.replace(/\/userfiles/g,"http://jfh.jfeimao.com/userfiles");
           if (vm.pdtype != 2) {
             _result.attrs.forEach((item, index) => {
+              //排序：防止数据错乱 
+              item.attrValues.sort(function(a,b){
+                return a.id-b.id
+              });
+              //属性选中：默认第一个
               item.attrValues.forEach((i, j) => {
                 if (j == 0) {
                   item.attrValues[j].selected = true;
@@ -193,16 +193,13 @@ export default {
           }
 
           vm.info = _result;
-          //非京东商品有属性
-          if (vm.pdtype != 2) {
-            // vm.attrId = vm.info.attrs[0].attrValues[0].id;
-          }
-
+        // 轮播图单独处理
           for (let i = 1; i <= 5; i++) {
             if (vm.info[`para${i}`]) {
               vm.imgList.push(vm.info[`para${i}`]);
             }
           }
+          // 商品详情图片和表格填充布局
           vm.$nextTick(function() {
             Array.from(document.querySelector(".pd-content").querySelectorAll("img,table")).forEach(function(e) {
               e.style.width = "100%";
