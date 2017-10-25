@@ -54,7 +54,7 @@
         <!-- <span class="iconfont self-shopcart"></span> -->
         <!-- <p class="fs-10">购物车</p> -->
         <span class="iconfont-large self-shopcart"></span>
-        <span class="shopping-num" type="danger" v-show="cartNum>0">{{cartNum}}</span>
+        <span class="shopping-num" type="danger" v-show="account&&cartNum>0">{{cartNum}}</span>
       </div>
       <button @click="buynow" class="flex-1 btn-2">立即购买</button>
       <button @click="add2cart" class="flex-1 btn-1">加入购物车</button>
@@ -267,20 +267,20 @@ export default {
       });
     },
     add2cart() {
-      this.redirectlogin();
-      this.buyType = 0;
-      this.show = true;
-    },
-    buynow() {
-      this.redirectlogin();
-      this.buyType = 1;
-      this.show = true;
-    },
-    redirectlogin() {
       if (!this.account) {
         this.$router.push("/me/login");
         return;
       }
+      this.buyType = 0;
+      this.show = true;
+    },
+    buynow() {
+      if (!this.account) {
+        this.$router.push("/me/login");
+        return;
+      }
+      this.buyType = 1;
+      this.show = true;
     },
     cartOrBuy() {
       //加入购物车

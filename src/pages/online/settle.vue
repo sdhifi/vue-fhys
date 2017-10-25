@@ -35,7 +35,7 @@
             <img :src="settleList.proImg" :alt="settleList.proName" class="pd-img">
             <div class="order-info flex-1">
               <h3 class="pd-name">{{settleList.proName}}</h3>
-              <p>
+              <p v-show="settleList.attrs">
                 <span v-for="(item,index) in settleList.attrs" :key="index">
                   <span v-for="(el,elIndex) in item.attrValues" :key="elIndex">
                     {{item.attrName}}: <span v-if="el.selected">{{el.attrValueId.attrValue}}</span>

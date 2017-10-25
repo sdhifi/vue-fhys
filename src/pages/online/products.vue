@@ -29,11 +29,18 @@
         </div>
       </yd-infinitescroll>
     </main>
+    <footer class="shopping-container" v-show="account&&pdtype!='2'">
+      <div class="shopping-cart">
+        <span class="iconfont-large self-shopcart"></span>
+      </div>
+        <yd-badge type="danger" class="shopping-num">{{cartNum}}</yd-badge>
+    </footer>
   </div>
 </template>
 <script>
+import {mapState,mapGetters} from 'vuex'
 import HeaderTop from 'components/header/index'
-import { onlineProductsByAllColumn } from '../../api/index'
+import { onlineProductsByAllColumn, addCart} from '../../api/index'
 export default {
   name: 'Products',
   data() {
@@ -41,7 +48,7 @@ export default {
       pdtype: '',
       searchValue: '',
       columnId: '',
-      type: '',
+      type: '',//栏目级别
       pageNo: 1,
       noData: false,
       productList: []
@@ -49,7 +56,8 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-
+    ...mapState(['account']),
+    ...mapGetters(['cartNum'])
   },
   created() {
 
@@ -149,5 +157,23 @@ export default {
       color: @lightgray;
     }
   }
+}
+.shopping-container{
+  position: fixed;
+  left:@pd;
+  bottom: @pd * 2;
+  .wh(1rem,1rem);
+  border-radius: 50%;
+  z-index: 1000;
+  background-color: rgba(0,0,0,.5);
+  .shopping-cart{
+   .hv-cen;
+   color: @white; 
+  }
+  .shopping-num{
+      position: absolute;
+      left:.5rem;
+      top:.1rem;
+    }
 }
 </style>
