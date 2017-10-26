@@ -53,14 +53,14 @@
             <p>卡号：{{item.bankCard}}</p>
           </div>
         </li>
-        <yd-cell-group>
-          <yd-cell-item arrow href="/trade/newbank" type="link">
-            <span slot="icon" class="iconfont self-yinhangka"></span>
-            <span slot="left">银行卡</span>
-            <span slot="right">新增</span>
-          </yd-cell-item>
-        </yd-cell-group>
       </ul>
+      <yd-cell-group style="margin-bottom:0;">
+        <yd-cell-item arrow href="/trade/newbank" type="link">
+          <span slot="icon" class="iconfont self-yinhangka"></span>
+          <span slot="left">银行卡</span>
+          <span slot="right">新增</span>
+        </yd-cell-item>
+      </yd-cell-group>
     </x-dialog>
   </div>
 </template>
@@ -160,6 +160,7 @@ export default {
 
 .bank-list {
   max-height: 8rem;
+  padding-left: @pd;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

@@ -330,6 +330,10 @@ export default {
       }
     },
     goShoppingCart() {
+      if(!this.account){
+        this.$router.push("/me/login");
+        return;
+      }
       this.$router.push({ path: "/online/shoppingcart" });
     }
   }

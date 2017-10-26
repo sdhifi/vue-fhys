@@ -22,25 +22,25 @@
                 <span  class="fs-14 price1" v-else>
                   ￥{{pd.price}}
                 </span>
-                <yd-button type="danger" v-if="pdtype!='2'">加入购物车</yd-button>
+                <yd-button type="danger" v-if="account&&pdtype!='2'" @click.native="add2cart(pd.id)">加入购物车</yd-button>
               </div>
             </div>
           </div>
         </div>
       </yd-infinitescroll>
     </main>
-    <footer class="shopping-container" v-show="account&&pdtype!='2'">
+    <router-link :to="{path:'/online/shoppingcart'}" class="shopping-container" v-show="account&&pdtype!='2'">
       <div class="shopping-cart">
         <span class="iconfont-large self-shopcart"></span>
       </div>
-        <yd-badge type="danger" class="shopping-num">{{cartNum}}</yd-badge>
-    </footer>
+      <yd-badge type="danger" class="shopping-num" v-show="cartNum>0">{{cartNum}}</yd-badge>
+    </router-link>
   </div>
 </template>
 <script>
 import {mapState,mapGetters} from 'vuex'
 import HeaderTop from 'components/header/index'
-import { onlineProductsByAllColumn, addCart} from '../../api/index'
+import { onlineProductsByAllColumn, onlineProductsDetailInfoInH5,addCart} from '../../api/index'
 export default {
   name: 'Products',
   data() {
@@ -127,7 +127,47 @@ export default {
         this.$router.push({ path: '/online/product', query: { id: pd.id, pdtype: this.$route.query.pdtype } })
       }
     },
-
+    add2cart(id){
+      let vm = this;
+      mui.ajax({
+        url: onlineProductsDetailInfoInH5,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {
+          id,
+          token:md5(`onlineProductsDetailInfoInH5${id}`)
+        },
+        success(res){
+          let _result=res.result;
+          if(!_result.productAttrStock.repertory){
+            vm.$dialog.toast({
+              mes: "库存不足，请查看其他商品"
+            });
+            return;
+          }
+          mui.ajax({
+            url: addCart,
+            type: "post",
+            headers: { "app-version": "v1.0" },
+            data: {
+              goodsId: id,
+              goodsAttrStockId:_result.productAttrStock.id,
+              goodsAttrIds:_result.productAttrStock.productAttrIds,
+              goodsAttr:_result.productAttrStock.productAttrIds,
+              goodsNum: 1,
+              account: vm.account,
+              token: md5(`addCart${vm.account}`)
+            },
+            success(res) {
+              vm.$dialog.toast({
+                mes: res.msg
+              });
+              vm.$store.dispatch("getCartList");
+            }
+          });
+        }
+      })
+    }
   }
 }
 </script>
