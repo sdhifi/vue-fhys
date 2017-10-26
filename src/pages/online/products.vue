@@ -22,7 +22,7 @@
                 <span  class="fs-14 price1" v-else>
                   ￥{{pd.price}}
                 </span>
-                <yd-button type="danger" v-if="account&&pdtype!='2'" @click.native="add2cart(pd.id)">加入购物车</yd-button>
+                <yd-button type="danger" v-if="account&&pdtype!='2'" @click.native="add2cart(pd.id,$event)">加入购物车</yd-button>
               </div>
             </div>
           </div>
@@ -127,8 +127,13 @@ export default {
         this.$router.push({ path: '/online/product', query: { id: pd.id, pdtype: this.$route.query.pdtype } })
       }
     },
-    add2cart(id){
+    add2cart(id,event){
       let vm = this;
+      var ct = event.currentTarget;
+      var img = ct.parentElement.parentElement.parentElement.querySelector('img');
+      var width = img.clientWidth;
+      var height = img.clientHeight;
+      var bottom = window.innerHeight - img.getBoundingClientRect().bottom;
       mui.ajax({
         url: onlineProductsDetailInfoInH5,
         type: 'post',
@@ -145,26 +150,39 @@ export default {
             });
             return;
           }
-          mui.ajax({
-            url: addCart,
-            type: "post",
-            headers: { "app-version": "v1.0" },
-            data: {
-              goodsId: id,
-              goodsAttrStockId:_result.productAttrStock.id,
-              goodsAttrIds:_result.productAttrStock.productAttrIds,
-              goodsAttr:_result.productAttrStock.productAttrIds,
-              goodsNum: 1,
-              account: vm.account,
-              token: md5(`addCart${vm.account}`)
-            },
-            success(res) {
-              vm.$dialog.toast({
-                mes: res.msg
-              });
-              vm.$store.dispatch("getCartList");
-            }
-          });
+          //商品加入购物车动画
+            
+            var src = img.src;
+            var m = document.createElement('img');
+            m.id = 'imgMoive';
+            var tt = `width:${width}px;height:${height}px;bottom:${bottom}px;left:.2rem;`;
+            m.style = `position:fixed;z-index:1000;${tt}-webkit-animation:end 1s cubic-bezier(0.99, -0.51, 0.56, 0.55);animation:end 1s cubic-bezier(0.99, -0.51, 0.56, 0.55)`;
+            m.src = src;
+            document.body.appendChild(m);
+
+            setTimeout(() => {
+                m.remove();
+            }, 1000);
+            mui.ajax({
+              url: addCart,
+              type: "post",
+              headers: { "app-version": "v1.0" },
+              data: {
+                goodsId: id,
+                goodsAttrStockId:_result.productAttrStock.id,
+                goodsAttrIds:_result.productAttrStock.productAttrIds,
+                goodsAttr:_result.productAttrStock.productAttrIds,
+                goodsNum: 1,
+                account: vm.account,
+                token: md5(`addCart${vm.account}`)
+              },
+              success(res) {
+                vm.$dialog.toast({
+                  mes: res.msg
+                });
+                vm.$store.dispatch("getCartList");
+              }
+            });
         }
       })
     }
@@ -214,6 +232,22 @@ export default {
       position: absolute;
       left:.5rem;
       top:.1rem;
+    }
+}
+@keyframes end {
+    0% {
+        border-radius: 50%;
+    }
+    50% {
+      left:2rem;
+      border-radius: 50%;
+    }
+    100% {
+        position: fixed;
+        left:.4rem;
+        bottom:.5rem;
+       .wh(.4rem,.4rem);
+        border-radius: 50%;
     }
 }
 </style>

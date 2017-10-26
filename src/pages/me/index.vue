@@ -74,12 +74,15 @@
     </yd-popup>
     <yd-popup v-model="showDialog" position="center" width="80%">
       <div class="tel-container text-center">
-        <a href="tel:020-29030366" class="tel-box">
+        <a href="tel:020-29030366" class="tel-box flex align-center">
           <span class="iconfont-large self-dianhua danger-color"></span>
           <span class="tel-num">拨打:020-29030366</span>
         </a>
         <p>
           <span>工作日9:00-12:00  13:30-18:00 </span><br>节假日不上班，不便之处，尽请谅解</p>
+        <p class="fs-14">
+          (客服微信：gjfeng-kf01 、 gjfeng-kf02)
+          </p>
         <yd-button type="danger" @click.native="showDialog=false">我知道了</yd-button>
       </div>
     </yd-popup>
@@ -421,13 +424,10 @@ section {
     box-shadow: 0 0 10px 5px @red inset;
     .pd;
     .mg-v;
-    /*background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgb(255, 0, 0)), color-stop(0.15, rgb(255, 125, 0)), color-stop(0.3, rgb(255, 255, 0)), color-stop(0.45, rgb(0, 255, 0)), color-stop(0.6, rgb(0, 0, 255)), color-stop(0.75, rgb(0, 255, 255)), color-stop(0.9, rgb(255, 0, 255)), to(rgb(0, 0, 0)));
-    color: transparent;
-    -webkit-background-clip: text;*/
     .tel-num {
       margin-left: 0.1rem;
       font-size: 16px;
-      vertical-align: -5px;
+      vertical-align: 2px;
     }
   }
   button {

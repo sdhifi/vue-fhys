@@ -155,7 +155,8 @@ export default {
             success(res) {
               vm.$store.commit("DELETE_CART_ITEM", index);
               vm.$dialog.toast({
-                mes: res.msg
+                mes: res.msg,
+                timeout:1000
               });
               vm.calcTotal();
               if (!vm.checkList.length) {

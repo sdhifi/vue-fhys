@@ -71,6 +71,7 @@
          <yd-cell-item>
           <span slot="left">支付明细：</span>
           <span slot="right" class="fs-14" v-if="orderType==1">{{total.price}}积分+￥{{formatPrice(total.pointPrice)}}</span>
+          <span slot="right" class="fs-14" v-else-if="orderType==2">{{total.price}}责任金额+￥{{formatPrice(total.pointPrice)}}</span>
           <span slot="right" class="fs-14" v-else>￥{{total.price}}</span>
         </yd-cell-item>
         <yd-cell-item>
@@ -88,6 +89,13 @@
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">积分支付</span>
           <input slot="right" type="radio" value="0" v-model="payType" />
+        </yd-cell-item>
+      </yd-cell-group>
+       <yd-cell-group v-else-if="orderType=='2'">
+         <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
+          <span slot="left">责任消费余额</span>
+          <input slot="right" type="radio" value="6" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group title="选择支付方式" v-else>

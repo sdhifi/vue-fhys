@@ -41,7 +41,7 @@
         </yd-cell-group>
       </section>
       <section>
-        <load-more tip="商品详细信息" :show-loading="false" background-color="rgb(236, 227, 124)" style="margin-bottom:0;"></load-more>
+        <load-more tip="商品图文详情" :show-loading="false" background-color="rgb(236, 227, 124)" style="margin-bottom:0;"></load-more>
         <div v-html="info.content" class="pd-content"></div>
       </section>
       <yd-backtop></yd-backtop>
@@ -51,8 +51,6 @@
     </footer>
     <footer class="fix-footer flex align-center" v-show="pdtype!=2" style="border-top:1px solid #dfdfdf;">
       <div class="shopping-cart flex just-center align-center" @click="goShoppingCart">
-        <!-- <span class="iconfont self-shopcart"></span> -->
-        <!-- <p class="fs-10">购物车</p> -->
         <span class="iconfont-large self-shopcart"></span>
         <span class="shopping-num" type="danger" v-show="account&&cartNum>0">{{cartNum}}</span>
       </div>
