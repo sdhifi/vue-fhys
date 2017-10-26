@@ -207,6 +207,7 @@ export default {
         border-radius: 5px;
         &:last-child {
             font-size: 14px;
+            height: 36px;
         }
     }
 }

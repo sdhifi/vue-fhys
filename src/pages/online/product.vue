@@ -16,7 +16,7 @@
           <span v-else-if="pdtype==2">￥{{info.productAttrStock.price}}</span>
           <span v-else-if="pdtype==3"></span>
           <span v-else>￥{{info.productAttrStock.price}}</span>
-          <span class="iconfont self-star" @click="collect">收藏</span>
+          <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
       </section>
       <section class="info-2">
@@ -291,14 +291,17 @@ export default {
           }
         });
       });*/
+      let vm = this;
       if (!this.info.productAttrStock.repertory) {
         this.$dialog.toast({
-          mes: "库存不足，请查看其他商品"
+          mes: "库存不足，请查看其他商品",
+          callback:()=>{
+            this.show=false;
+          }
         });
         return;
       }
       if (this.buyType == 0) {
-        let vm = this;
         mui.ajax({
           url: addCart,
           type: "post",

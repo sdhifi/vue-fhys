@@ -128,11 +128,11 @@ export default {
           token: md5(`productDetail${this.longitude}${this.latitude}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           let result = res.result;
           if (result.product) {
             vm.pdDetail = result.product;
             vm.comment = Object.assign({},{ count: result.comCount, cmt: result.comment });
-            vm.$dialog.loading.close();
             vm.getHotProduct();
           } else {
             vm.$dialog.toast({

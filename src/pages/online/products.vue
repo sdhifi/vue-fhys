@@ -234,6 +234,22 @@ export default {
       top:.1rem;
     }
 }
+@-webkit-keyframes end {
+    0% {
+        border-radius: 50%;
+    }
+    50% {
+      left:2rem;
+      border-radius: 50%;
+    }
+    100% {
+        position: fixed;
+        left:.4rem;
+        bottom:.5rem;
+       .wh(.4rem,.4rem);
+        border-radius: 50%;
+    }
+}
 @keyframes end {
     0% {
         border-radius: 50%;
