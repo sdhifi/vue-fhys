@@ -14,7 +14,7 @@
               <h3>{{item.goodsId.name}}</h3>
               <p class="attrs">{{item.goodsAttr}}</p>
               <div class="flex just-between">
-                <span class="fs-16 danger-color">￥{{item.goodsId.price}}</span>
+                <span class="fs-16 danger-color">￥{{item.goodsAttrStockId.price}}</span>
                 <yd-spinner v-model="item.goodsNum" :min="1" :max="item.goodsAttrStockId.repertory" v-show="!item.close"></yd-spinner>
                 <div v-show="item.close" class="fs-14">
                   数量：
@@ -172,7 +172,7 @@ export default {
       } else {
         let a = 0;
         for (let i = 0; i < this.checkList.length; i++) {
-          a += this.checkList[i].goodsId.price * this.checkList[i].goodsNum;
+          a += this.checkList[i].goodsAttrStockId.price * this.checkList[i].goodsNum;
         }
         this.totalPrice = a;
       }

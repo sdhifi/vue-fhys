@@ -33,18 +33,18 @@
           </a>
         </div>
         <div class="collect flex align-center just-between">
-          <span class="iconfont self-heart" @click="collect(pdDetail.id,2)">收藏商品</span> 
-          <span class="iconfont self-star" @click="collect(pdDetail.storeId,1)">关注店铺</span> 
+          <span class="iconfont self-heart danger-color" @click="collect(pdDetail.id,2)">收藏商品</span> 
+          <span class="iconfont self-star" style="color:#f90;" @click="collect(pdDetail.storeId,1)">关注店铺</span> 
         </div>
       </section>
       <section class="tip-container">
         <h3 class="fs-16 danger-color">购买须知</h3>
         <ul>
-          <li class="tip-item fs-14">有效期：
+          <li class="tip-item fs-15">有效期
             <div>{{pdDetail.indate||'暂无'}}</div>
           </li>
-          <li class="tip-item fs-14">
-            备注：
+          <li class="tip-item fs-15">
+            备注
             <div class="fs-13">{{pdDetail.notice||'暂无'}}</div>
           </li>
         </ul>
@@ -232,13 +232,9 @@ section {
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.3),
-        rgba(0, 0, 0, 0.8)
-      );
+      background: linear-gradient(to bottom,rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.8));
       color: @white;
-      font-size: 14px;
+      font-size: .3rem;
       padding: @pd;
       box-shadow: 0 -5px 5px rgba(255, 255, 255, 0.3) inset;
     }
@@ -279,8 +275,6 @@ section {
   }
   .collect {
     .pd;
-    border-top: 1px solid #dfdfdf;
-    color: #888;
   }
 }
 

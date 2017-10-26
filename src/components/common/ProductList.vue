@@ -32,7 +32,7 @@ export default {
         { type: "1", name: "距离近" },
         { type: "2", name: "人气高" },
         { type: "3", name: "价格低" },
-        { type: "4", name: "最新" },
+        { type: "4", name: "最  新" },
       ],
       orderType2: [
         { type: "1", name: "距离最近" },

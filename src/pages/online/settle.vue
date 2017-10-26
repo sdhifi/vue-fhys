@@ -56,7 +56,7 @@
               <h3 class="pd-name">{{item.goodsId.name}}</h3>
               <p>{{item.goodsAttr}}</p>
               <div class="flex just-between">
-                <span class="danger-color fs-16">￥{{item.goodsId.price}}</span>
+                <span class="danger-color fs-16">￥{{item.goodsAttrStockId.price}}</span>
                 <span class="fs-14">x{{item.goodsNum}}</span>
               </div>
             </div>

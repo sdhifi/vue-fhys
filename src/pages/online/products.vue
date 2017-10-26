@@ -67,7 +67,7 @@ export default {
     this.type = this.$route.query.type;
     this.columnId = this.$route.query.id;
     this.pdtype = this.$route.query.pdtype;
-    this.searchValue = '';
+    // this.searchValue = '';
     this.$refs.pdlist.$emit('ydui.infinitescroll.reInit');
     // setTimeout(()=>{
     this.getProduct();

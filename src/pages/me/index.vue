@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top :back="false"></header-top>
+    <header-top :back="false" title="个人中心"></header-top>
     <main class="scroll-content">
       <section class="head-container">
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">

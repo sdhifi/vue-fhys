@@ -19,9 +19,10 @@ export default {
   name: 'FooterBar',
 }
 </script>
-<style lang='' scoped>
+<style lang='css' scoped>
 .yd-tabbar{
   position: fixed!important;
   bottom: 0;
+  height: 1rem;
 }
 </style>

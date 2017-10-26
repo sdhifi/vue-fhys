@@ -11,7 +11,7 @@
           </yd-slider-item>
         </yd-slider>
       </section>
-      <section class="column-list flex text-center align-center">
+      <section class="column-list flex text-center align-center" v-show="info.indexColumns">
         <router-link :to="{path:'/online/products',query:{type:0,id:item.id}}" class="column-item" v-for="item in info.indexColumns" :key="item.id">
           <img :src="getImgPath(item.pic2)" alt="" class="column-img">
           <p>{{item.names}}</p>
@@ -93,6 +93,7 @@ export default {
   methods: {
     getInfo() {
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: onlineInH5,
         type: 'post',
@@ -101,6 +102,7 @@ export default {
           token: md5(`onlineInH5`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           let _pds = [];
           Object.entries(res.result.indexProducts).forEach((value, index) => {
             var item = {};
