@@ -7,9 +7,9 @@
                     <span>{{city}}</span>
                     <span class="iconfont self-down"></span>
                 </router-link>
-                <router-link to="/home/search" class="search-box">
+                <router-link to="/home/search" class="search-box flex align-center just-center">
                     <span class="iconfont-large self-search"></span>
-                    <span style="vertical-align:5px;">搜索商家或商品</span>
+                    <span>搜索商家或商品</span>
                 </router-link>
             </section>
             <section class="type-list">

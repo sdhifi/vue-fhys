@@ -5,7 +5,6 @@
       <tab-item  v-for="(item, index) in list" :key="index" @on-item-click="toggleItem(index)">{{item}}</tab-item>
     </tab>
      <main class="scroll-content-1">
-       <section>
         <div v-show="index==0">
             <yd-infinitescroll :callback="getCollect" ref="ctlist1">
               <ul slot="list">
@@ -34,7 +33,6 @@
               </ul>
             </yd-infinitescroll>
         </div>
-      </section>
      </main>
   </div>
 </template>
