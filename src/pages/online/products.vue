@@ -129,11 +129,12 @@ export default {
     },
     add2cart(id,event){
       let vm = this;
-      var ct = event.currentTarget;
-      var img = ct.parentElement.parentElement.parentElement.querySelector('img');
-      var width = img.clientWidth;
-      var height = img.clientHeight;
-      var bottom = window.innerHeight - img.getBoundingClientRect().bottom;
+      // var ct = event.currentTarget;
+      // var img = ct.parentElement.parentElement.parentElement.querySelector('img');
+      // var src = img.src;      
+      // var width = img.clientWidth;
+      // var height = img.clientHeight;
+      // var bottom = window.innerHeight - img.getBoundingClientRect().bottom;
       mui.ajax({
         url: onlineProductsDetailInfoInH5,
         type: 'post',
@@ -150,19 +151,7 @@ export default {
             });
             return;
           }
-          // bug:商品加入购物车动画
-            
-          //   var src = img.src;
-          //   var m = document.createElement('img');
-          //   m.id = 'imgMoive';
-          //   var tt = `width:${width}px;height:${height}px;bottom:${bottom}px;left:.2rem;`;
-          //   m.style = `position:fixed;z-index:1000;${tt}-webkit-animation:end 1s cubic-bezier(0.99, -0.51, 0.56, 0.55);animation:end 1s cubic-bezier(0.99, -0.51, 0.56, 0.55)`;
-          //   m.src = src;
-          //   document.body.appendChild(m);
-
-          //   setTimeout(() => {
-          //       m.remove();
-          //   }, 1000);
+          
           mui.ajax({
             url: addCart,
             type: "post",
@@ -176,10 +165,22 @@ export default {
               account: vm.account,
               token: md5(`addCart${vm.account}`)
             },
-            success(res) {
+            success(response) {
               vm.$dialog.toast({
-                mes: res.msg
+                mes: response.msg
               });
+              // bug:商品加入购物车动画
+            
+            // var m = document.createElement('img');
+            // var tt = `width:${width}px;height:${height}px;bottom:${bottom}px;left:.2rem;`;
+            // m.style = `position:fixed;z-index:1000;${tt}-webkit-animation:end 1s linear;animation:end 1s linear;`;
+            // m.src = src;
+            // document.body.appendChild(m);
+
+            // setTimeout(() => {
+            //     m.remove();
+            // }, 1000);
+
               vm.$store.dispatch("getCartList");
             }
           });
@@ -243,10 +244,9 @@ export default {
       border-radius: 50%;
     }
     100% {
-        position: fixed;
         left:.4rem;
         bottom:.5rem;
-       .wh(.4rem,.4rem);
+       .wh(20px,20px);
         border-radius: 50%;
     }
 }
@@ -259,10 +259,9 @@ export default {
       border-radius: 50%;
     }
     100% {
-        position: fixed;
         left:.4rem;
         bottom:.5rem;
-       .wh(.4rem,.4rem);
+       .wh(20px,20px);
         border-radius: 50%;
     }
 }

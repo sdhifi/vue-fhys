@@ -1,0 +1,40 @@
+{
+  "code": 200,
+  "msg": "查询成功",
+  "result": [{
+    "id": 302,
+    "storeName": "深圳市龙华新区夏小猫电子商行",
+    "img": "http://jfh.jfeimao.com/gjfeng-web-client/upload/product/2017032115477521_1.JPG",
+    "colId": 57,
+    "goodName": "￼ 汽车摆件车饰车载车内饰品摆件太阳能摇头可爱卡通娃娃车上装",
+    "addTime": 1508837168000
+  }, {
+    "id": 120,
+    "storeName": "安全贸易",
+    "img": "http://jfh.jfeimao.com/gjfeng-web-client/upload/product/2017030501313238.jpg",
+    "colId": 56,
+    "goodName": "我们一直吃国外的保健品！这下好了老外却吃我们中国自己的159",
+    "addTime": 1508833487000
+  }, {
+    "id": 117091,
+    "storeName": "平台自营店",
+    "img": "http://jfh.jfeimao.com/upload/enterprice/201791510269330.jpg",
+    "colId": 54,
+    "goodName": "御茗堂 御品至尊铁观音 浓香型 250g 12盒/箱",
+    "addTime": 1508831131000
+  }, {
+    "id": 117083,
+    "storeName": "平台自营店",
+    "img": "http://jfh.jfeimao.com/upload/enterprice/201791417477781.jpg",
+    "colId": 53,
+    "goodName": "侯伯颂 澳洲干红葡萄酒 750ml 13.5%vol 6瓶/箱",
+    "addTime": 1508831121000
+  }, {
+    "id": 112640,
+    "storeName": "平台自营店",
+    "img": "http://jfh.jfeimao.com/upload/enterprice/20179517324162.jpg",
+    "colId": 48,
+    "goodName": "德国欧诺华空气净化器 家用除甲醛雾霾pm2.5 卧室除二手烟过滤网",
+    "addTime": 1508830858000
+  }]
+}
