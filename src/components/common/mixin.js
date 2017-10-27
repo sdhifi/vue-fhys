@@ -40,8 +40,8 @@ export const mixin = {
        * @return {String}      格式化日期时间
        */
       var complete = function (time) {
-          // return time.toString().replace(/^(\d)$/, "0$1");
-          return time.toString().padStart(2,'0');
+          return time.toString().replace(/^(\d)$/, "0$1");
+          // return time.toString().padStart(2,'0');
       };
       year = date.getFullYear();
       month = complete(date.getMonth() + 1);
