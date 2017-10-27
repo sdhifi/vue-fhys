@@ -132,8 +132,6 @@ export default {
       var ct = event.currentTarget;
       var img = ct.parentElement.parentElement.parentElement.querySelector('img');
       var src = img.src;      
-      var width = img.clientWidth;
-      var height = img.clientHeight;
       var bottom = window.innerHeight - img.getBoundingClientRect().bottom;
       mui.ajax({
         url: onlineProductsDetailInfoInH5,
@@ -169,17 +167,19 @@ export default {
               vm.$dialog.toast({
                 mes: response.msg
               });
-              // bug:商品加入购物车动画
+              // 商品加入购物车动画
             
             var m = document.createElement('img');
-            var tt = `width:${width}px;height:${height}px;bottom:${bottom}px;left:.2rem;`;
-            m.style = `position:fixed;z-index:1000;${tt}-webkit-animation:end 1s linear;animation:end 1s linear;`;
+            m.className="img-animate";
+            var tt = `bottom:${bottom}px;`;
+            // m.style = `${tt}`;
+            m.setAttribute('style',tt);
             m.src = src;
             document.body.appendChild(m);
 
             setTimeout(() => {
-                m.remove();
-            }, 1000);
+              //  m.remove();
+            }, 2000);
 
               vm.$store.dispatch("getCartList");
             }
@@ -235,34 +235,5 @@ export default {
       top:.1rem;
     }
 }
-@-webkit-keyframes end {
-    0% {
-        border-radius: 50%;
-    }
-    50% {
-      left:2rem;
-      border-radius: 50%;
-    }
-    100% {
-        left:.4rem;
-        bottom:.5rem;
-       .wh(20px,20px);
-        border-radius: 50%;
-    }
-}
-@keyframes end {
-    0% {
-        border-radius: 50%;
-    }
-    50% {
-      left:2rem;
-      border-radius: 50%;
-    }
-    100% {
-        left:.4rem;
-        bottom:.5rem;
-       .wh(20px,20px);
-        border-radius: 50%;
-    }
-}
+
 </style>
