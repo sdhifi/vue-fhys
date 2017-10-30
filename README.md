@@ -26,10 +26,9 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ### 注意事项
 
-- 由于打包配置问题， 字体图标库和背景图片路径会出现错误。手动修改app.css如下：
+- 由于打包配置问题， 字体图标库和背景图片路径会出现错误。~~搜索mine_background，把/static修改为..[已经使用第三条解决]~~ ,手动修改app.css如下：
 ```
 搜索iconfont，把static修改为..
-搜索mine_background，把/static修改为..[已经使用第三条解决]
 ```
 - 路由传name形式，才能使用params
 ```html
@@ -40,16 +39,16 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 - 解决背景图片打包错误的问题
 
 ```html
-<section  :style="{'background-image':formatBg('bg.png')}"></section>
+<section :style="{'background-image':formatBg('bg.png')}"></section>
 ```
 
 ```javascript
 /**
  * 格式化背景图片,具体返回值根据项目路径调整
- * @param {*图片名称} url例如abc.png
+ * @param {*图片名称} filename 例如 abc.png
  */
-formatBg(url){
-      return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(./static/img/${url})`
+formatBg(filename){
+      return process.env.NODE_ENV == 'development' ? `url(/static/img/${filename})` : `url(./static/img/${filename})`
     }
 ```
 - 解决模拟数据加载路径错误问题
@@ -63,3 +62,35 @@ formatBg(url){
  - "plugins":["transform-runtime"],
  + "plugins":[],
 ```
+
+- 简单保存滚动条位置，不适合存在分页的列表
+
+```javascript
+// router.js
+import store from '../store/index';
+router.afterEach( (to,from) => {
+  store.commit('SAVE_POSITION', {
+    name:from.path,
+    position:document.querySelector("main").scrollTop
+  })
+})
+
+// state.js
+	state:{
+      positions: {},
+    },
+    mutations:{
+       ['SAVE_POSITION'](state,payload){
+     	  state.positions[payload.name] = payload.position
+  		}
+    }
+
+// 需要保存滚动条位置的页面
+  activated() {
+     if(this.$store.state.positions[this.$route.path]){
+        document.querySelector('main').scrollTop=this.$store.state.positions[this.$route.path]
+        }
+   },
+
+```
+
