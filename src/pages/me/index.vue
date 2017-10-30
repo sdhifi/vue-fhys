@@ -330,7 +330,6 @@ section {
       .wh(1.7rem,1.7rem);
       margin: 0 auto;
       z-index: 10;
-      border: 3px solid rgba(228, 187, 145, 0.6);
       border-radius: 50%;
     }
     .head-img {
@@ -339,6 +338,7 @@ section {
       background-size: cover;
       background-repeat: no-repeat;
       z-index: 5;
+      border: 3px solid rgba(228, 187, 145, 0.6);
     }
     .sex-tag {
       position: absolute;
