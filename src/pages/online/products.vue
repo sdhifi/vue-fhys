@@ -178,7 +178,7 @@ export default {
             document.body.appendChild(m);
 
             setTimeout(() => {
-              //  m.remove();
+               m.remove();
             }, 2000);
 
               vm.$store.dispatch("getCartList");
