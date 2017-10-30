@@ -88,7 +88,9 @@ export default {
     this.getInfo();
   },
   activated() {
-
+    if(this.$store.state.positions[this.$route.path]){
+            document.querySelector('main').scrollTop=this.$store.state.positions[this.$route.path]
+        }
   },
   methods: {
     getInfo() {

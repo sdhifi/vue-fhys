@@ -112,6 +112,9 @@ export default {
             this.loginAccount = true;
             this.$store.commit('SET_ACCOUNT', getStore('account'));
         }
+        if(this.$store.state.positions[this.$route.path]){
+            document.querySelector('main').scrollTop=this.$store.state.positions[this.$route.path]
+        }
     },
 
     methods: {

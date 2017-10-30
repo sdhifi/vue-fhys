@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store/index';
 Vue.use(Router)
 
-export default new Router({
+const router =  new Router({
   routes: [{
     path: '/home/index',
     name: 'Index',
@@ -223,3 +224,10 @@ export default new Router({
     redirect: '/home/index'
   }]
 })
+router.afterEach( (to,from) => {
+  store.commit('SAVE_POSITION', {
+    name:from.path,
+    position:document.querySelector("main").scrollTop
+  })
+})
+export default router;

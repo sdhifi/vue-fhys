@@ -138,6 +138,9 @@ export default {
   created() {},
   activated() {
     this.getMyStore();
+    if(this.$store.state.positions[this.$route.path]){
+            document.querySelector('main').scrollTop=this.$store.state.positions[this.$route.path]
+        }
   },
   mounted() {
     [

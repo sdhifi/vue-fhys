@@ -179,7 +179,7 @@ export default {
 
             setTimeout(() => {
                m.remove();
-            }, 2000);
+            }, 1500);
 
               vm.$store.dispatch("getCartList");
             }

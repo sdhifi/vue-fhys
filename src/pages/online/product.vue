@@ -199,7 +199,7 @@ export default {
           }
           // 商品详情图片和表格填充布局
           vm.$nextTick(function() {
-            Array.from(document.querySelector(".pd-content").querySelectorAll("img,table")).forEach(function(e) {
+            Array.from(document.querySelector(".pd-content").querySelectorAll("img,table,div")).forEach(function(e) {
               e.style.width = "100%";
             });
           });

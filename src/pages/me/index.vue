@@ -225,6 +225,9 @@ export default {
     next();
   },
   activated() {
+    if(this.$store.state.positions[this.$route.path]){
+            document.querySelector('main').scrollTop=this.$store.state.positions[this.$route.path]
+        }
     if (getStore("account") && getStore("account").length > 0) {
       this.$store.commit("SET_ACCOUNT", getStore("account"));
       this.getInfo();

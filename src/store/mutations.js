@@ -85,4 +85,7 @@ export default {
   [SET_PAY_PASSWORD](state,sta){
     state.paypwd=sta;
   },
+  ['SAVE_POSITION'](state,payload){
+    state.positions[payload.name] = payload.position
+  }
 }
