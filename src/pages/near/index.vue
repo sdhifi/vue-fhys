@@ -43,7 +43,8 @@ export default {
       subColumn: [],
       pageNo: 1,
       columnId: "",
-      productList: []
+      productList: [],
+      scrollLeft:0//记录tab滚动值
     };
   },
   components: { HeaderTop, FooterBar, ProductItem },
@@ -57,13 +58,18 @@ export default {
     });
   },
   beforeRouteLeave(to, from, next) {
+    this.scrollLeft = this.$refs.swipeList.scrollLeft;
     mui.back = this.oldBack;
     next();
   },
   created() {
     this.getNear();
   },
-  activated() {},
+  activated() {
+    this.$nextTick(()=>{
+      this.$refs.swipeList.scrollLeft=this.scrollLeft;
+    })
+  },
   methods: {
     getNear() {
       let vm = this;

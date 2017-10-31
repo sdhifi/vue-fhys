@@ -46,12 +46,12 @@
             全选
           </label>
       <div class="flex-1 total-price">
-        <p class="danger-color fs-16">合计：￥
-          <span>{{totalPrice}}</span>
+        <p class="fs-16">合计：
+          <span class="danger-color">￥{{totalPrice}}</span>
         </p>
         <p>不含运费</p>
       </div>
-      <button class="submit-btn" @click="settleCart" :disabled="!checkList.length">结算
+      <button class="submit-btn" @click="settleCart" :disabled="!checkList.length">去结算
         <span class="fs-12">({{amount}}件)</span>
       </button>
     </footer>
@@ -274,7 +274,7 @@ export default {
 }
 
 .submit-btn {
-  background: #4cd864;
+  background: #e4393c;
   color: @white;
   height: 1rem;
   line-height: 1rem;

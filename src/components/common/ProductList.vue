@@ -11,7 +11,7 @@
         <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice" :sale-num="item.saleNum"></product-item>
       </div>
       <p slot="doneTip">
-        <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
+        <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有更多数据</p>
     </yd-infinitescroll>
   </section>
 </template>
@@ -54,7 +54,7 @@ export default {
     },
     columnId: {
       type: String,
-      default: ''
+      default:''
     },
     columnType: {
       type: String,

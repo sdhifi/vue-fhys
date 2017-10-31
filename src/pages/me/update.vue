@@ -6,7 +6,6 @@
         <yd-cell-item arrow style="padding:.2rem 0 .2rem .24rem;">
           <span slot="left">头像</span>
           <div slot="right">
-            <!-- <img :src="info.imgHeadUrl" :alt="info.name||info.nickName" id="head-img"> -->
             <div id="head-img" :style="{'background-image':'url('+info.imgHeadUrl+')'}"></div>
             <input type="file" capture="camera" accept="image/*" class="head-img" name="head-img" @change="previewImg($event)">
           </div>
@@ -69,11 +68,7 @@ export default {
   mixins: [mixin],
   created() {},
   mounted() {
-    [
-      ...document.querySelectorAll(
-        "input[type='text'],input[type='tel'],input[type='number'],textarea"
-      )
-    ].forEach((item, index) => {
+    [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
       item.addEventListener("focus", function() {
         item.scrollIntoView();
       });
@@ -121,7 +116,7 @@ export default {
           vm.base64Url = rst.base64;
           vm.submitInfo();
         });
-        return;
+        //return;
       }
       this.submitInfo();
     },

@@ -4,7 +4,7 @@
       <div class="product-cover">
         <img v-lazy="imgUrl" :alt="title"/>
       </div>
-      <div class="product-info flex align-center">
+      <div class="product-info flex-1 flex align-center">
         <div class="product-head">
           <h3>{{title}}</h3>
         </div>
@@ -55,9 +55,8 @@ export default {
 .like-item {
   position: relative;
   border-bottom: 1px solid #f7f5f5;
-  /*兼容部分机型*/
-  .pd-v;
-  .mg-h;
+  /*兼容部分机型分辨率*/
+  .pd;
 }
 
 .like-link {
@@ -70,7 +69,6 @@ export default {
     }
   }
   .product-info {
-    flex: 1;
     width: 1%;
     margin-left: @pd;
     .product-head {
@@ -95,8 +93,9 @@ export default {
         padding: 2px 2px 2px 2px;
         border-radius: 0 5px 5px 0;
         font-size: 10px;
-        margin-left: -3px;
         vertical-align: 2px;
+        position: relative;
+        right: 3px;
       }
     }
     .product-content {
