@@ -249,9 +249,11 @@ export default {
           token: md5(`my${account}`)
         },
         success(res) {
-          vm.member = res.result;
-          vm.$store.commit("SET_CERTIFICATE",res.result.isReadName == "1" ? true : false);
-          vm.$store.commit("RECORD_MEMBER_INFO", res.result);
+          let _result = res.result
+          vm.member = _result;
+          vm.$store.commit("SET_CERTIFICATE",_result.isReadName == "1" ? true : false);
+          vm.$store.commit("RECORD_MEMBER_INFO", _result);
+          vm.$store.commit('RECORD_BALANCE_MONEY', _result.balanceMoney)
         }
       });
     },

@@ -55,6 +55,8 @@
 
 .self-add:before { content: "\e619"; }
 
+.self-rmb1:before { content: "\e73f"; }
+
 .self-pay:before { content: "\e606"; }
 
 .self-male:before { content: "\e623"; }

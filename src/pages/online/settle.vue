@@ -88,14 +88,14 @@
          <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">积分支付</span>
-          <input slot="right" type="radio" value="0" v-model="payType" />
+          <input slot="right" type="radio" value="7" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
        <yd-cell-group v-else-if="orderType=='2'">
          <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">责任消费余额</span>
-          <input slot="right" type="radio" value="6" v-model="payType" />
+          <input slot="right" type="radio" value="8" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group title="选择支付方式" v-else>
@@ -127,6 +127,18 @@
         <yd-button size="large" type="danger" @click.native="pay">确认支付</yd-button>
         </div> 
     </main>
+    <div v-show="showPassword" class="text-center pay-box">
+      <h3 class="fs-18 pay-title" style="background-color:#9ED97C">待支付金额</h3>
+      <p class="pay-price fs-14">
+        {{total.sum}}×(1+10%)=
+        <span class="fs-20 danger-color">￥{{formatPrice(total.sum * 1.1)}}</span>
+        </p>
+      <P class="balance-price">
+        <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
+        余额：<span>{{balanceMoney}}</span>元
+      </P>
+    </div>
+    <yd-keyboard v-model="showPassword" :callback="checkPayPwd" ref="keyboard" title="凤凰云商安全键盘" input-text="请输入会员卡支付密码"></yd-keyboard>
   </div>
 </template>
 <script>
@@ -140,12 +152,13 @@ export default {
     return {
       orderType:0,//0:普通商品 1：积分兑换 2责任消费
       remark: "", //备注
-      payType: 0 //支付方式
+      payType: 0, //支付方式
+      showPassword:false //安全键盘
     };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account", "defaultAddress", "addressList", "settleList","paypwd"]),
+    ...mapState(["account", "defaultAddress", "addressList", "settleList","paypwd","balanceMoney"]),
     total() {
       let sum = 0,
         price = 0,
@@ -174,8 +187,20 @@ export default {
   },
   mixins: [mixin],
   methods: {
-   
-    pay() {}
+    pay() {
+      if(this.payType=='0'){
+        this.showPassword = true;
+      }
+    },
+    checkPayPwd(val){
+      this.$dialog.loading.open('验证支付密码');
+
+      //调接口验证密码
+      setTimeout(() => {
+        this.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
+        this.$dialog.loading.close();
+      }, 2000);
+    }
   }
 };
 </script>
@@ -213,6 +238,30 @@ export default {
         color: @lightgray;
       }
     }
+  }
+}
+.pay-box{
+  position: absolute;
+  bottom: 9rem;
+  left: 0;
+  width: 6rem;
+  left: 50%;
+  margin-left:-3rem;
+  background-color: @white;
+  z-index: 1503;
+  border-radius: 5px;
+  .pay-title{
+    color: @white;
+    border-radius: 5px 5px 0 0;
+    .pd-v;
+  }
+  .pay-price{
+   .pd-v;
+   border-bottom: 1px solid #f7f7f5;
+  }
+  .balance-price{
+    text-align: left;
+    .pd;
   }
 }
 </style>
