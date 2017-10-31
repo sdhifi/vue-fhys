@@ -77,9 +77,9 @@
         <div class="middle">
           <div class="middle-1" v-show="pdtype!=2">
             <h3>请选择属性：</h3>
-            <div class="flex align-center" v-for="(item,index) in info.attrs" :key="index" style="margin-bottom:5px;">
-              <span class="attr-name">{{item.attrName}}</span>
-              <ul class="attr-list">
+            <div class="flex align-center" v-for="(item,index) in info.attrs" :key="index">
+              <span class="attr-name fs-14">{{item.attrName}}</span>
+              <ul class="attr-list flex-1">
                 <li class="attr-item" :class="{'active':attr.selected}" v-for="(attr,attrIndex) in item.attrValues" :key="attr.id" :data-id="attr.id" @click="chooseAttr(item,attr,attrIndex)">{{attr.attrValueId.attrValue}}</li>
               </ul>
             </div>
@@ -466,7 +466,7 @@ footer {
         border-radius: 4px;
         font-size: 13px;
         color: #232326;
-        margin-left: @pd;
+        margin: .1rem;
         padding: 3px @pd;
         .text-center;
         &.active {
