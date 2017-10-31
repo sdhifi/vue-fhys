@@ -188,18 +188,70 @@ export default {
   mixins: [mixin],
   methods: {
     pay() {
-      if(this.payType=='0'){
+      //普通商品，余额支付
+      if(this.orderType=='0' && this.payType=='0'){
         this.showPassword = true;
       }
+
     },
     checkPayPwd(val){
       this.$dialog.loading.open('验证支付密码');
-
-      //调接口验证密码
-      setTimeout(() => {
-        this.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
-        this.$dialog.loading.close();
-      }, 2000);
+      this.placeAnOrder(val);
+    },
+    placeAnOrder(pwd){
+      let vm = this;
+      let cmParams=null,params=null;
+      cmParams={
+          payType:this.payType,
+          remark:this.remark,
+          couponsId:'',
+          orderAddressId:this.defaultAddress.id,
+          payPassword:pwd,
+          account:this.account,
+          token:md5(`addOrder${this.payType}${this.account}`)
+      }
+      if(this.$route.query.buynow){
+        params={
+          goodsId:this.settleList.proId,
+          goodsAttrStockId:this.settleList.productAttrStock.id,
+          goodsAttrIds:this.settleList.productAttrStock.productAttrIds,
+          goodsAttr:this.settleList.productAttrStock.productAttrIds,
+          goodsNum:1
+        }
+      }
+      else{
+        let a=[],b=[],c=[],d=[],e=[];
+         this.settleList.forEach(item=>{
+           a.push(item.goodsId.id);
+           b.push(item.goodsAttrStockId.id);
+           c.push(item.goodsAttrStockId.productAttrIds);
+           d.push(item.goodsAttr);
+           e.push(item.goodsNum);
+         })
+         params={
+            goodsId:a.join(','),
+            goodsAttrStockId:b.join(','),
+            goodsAttrIds:c.join(''),
+            goodsAttr:d.join(','),
+            goodsNum:e.join(',')
+         }
+      }
+      mui.ajax({
+        url: addOrder,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {...params,...cmParams},
+        success(res){
+          vm.$dialog.loading.close();
+          if(res.code==200){}
+          else if(res.code==401){
+            vm.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
+          }
+          else{
+            vm.$refs.keyboard.$emit('ydui.keyboard.error', res.msg);            
+          }
+        }
+      })
     }
   }
 };
