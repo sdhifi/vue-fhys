@@ -185,11 +185,19 @@ export default {
   created() {},
   activated() {
     this.orderType=this.$route.query.orderType;
-    this.$store.dispatch("getAddressList");
+    if(!this.defaultAddress)
+      this.$store.dispatch("getAddressList");
   },
   mixins: [mixin],
   methods: {
     pay() {
+      if(!this.payType){
+        this.$dialog.toast({
+          mes:"请选择支付方式",
+          timeout:1000
+        })
+        return;
+      }
       //TODO:判断是否设置过支付密码，没有就跳转密码设置
 
       //普通商品，余额支付

@@ -14,8 +14,9 @@
             <span class="fs-12" style="margin-left:.1rem;">积分</span>
           </span>
           <span v-else-if="info.isCanUserCou=='0'">￥{{info.productAttrStock.price}}</span>
-          <span v-else></span>
-         
+          <span v-else>{{info.productAttrStock.price}}
+            <span class="fs-12" style="margin-left:.1rem;">责任金额</span>
+         </span>
           <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
       </section>
@@ -68,7 +69,9 @@
           </div>
           <div class="info flex flex-1">
             <p>{{info.proName}}</p>
-            <p class="danger-color fs-14">￥{{info.productAttrStock.price}}</p>
+            <p class="danger-color fs-14" v-if="info.isCanUserCou=='0'">￥{{info.productAttrStock.price}}</p>
+            <p class="danger-color fs-14" v-if="info.isCanUserCou=='1'">{{info.productAttrStock.price}}积分+￥{{info.pointNeedMoney}}</p>
+            <p class="danger-color fs-14" v-if="info.isCanUserCou=='2'">{{info.productAttrStock.price}}责任金额+￥{{info.pointNeedMoney}}</p>
           </div>
           <div class="close" @click="show=false">
             <span class="iconfont-large self-guanbi"></span>
@@ -261,6 +264,7 @@ export default {
               repertory: _result.repertory
             }
           );
+          vm.info.pointNeedMoney = _result.productId.pointNicePrice;
         }
       });
     },
