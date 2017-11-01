@@ -10,12 +10,12 @@
         </yd-slider>
         <p>{{info.proName}}</p>
         <p class="danger-color fs-16 flex just-between align-center">
-          <span v-if="pdtype==0">{{info.productAttrStock.price}}
+          <span v-if="info.isCanUserCou=='1'">{{info.productAttrStock.price}}
             <span class="fs-12" style="margin-left:.1rem;">积分</span>
           </span>
-          <span v-else-if="pdtype==2">￥{{info.productAttrStock.price}}</span>
-          <span v-else-if="pdtype==3"></span>
-          <span v-else>￥{{info.productAttrStock.price}}</span>
+          <span v-else-if="info.isCanUserCou=='0'">￥{{info.productAttrStock.price}}</span>
+          <span v-else></span>
+         
           <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
       </section>
@@ -28,12 +28,12 @@
             <span slot="left">商品来源：京东</span>
             <span slot="right">库存：{{info.productAttrStock.repertory}}</span>
           </yd-cell-item>
-          <yd-cell-item v-if="pdtype==0">
+          <yd-cell-item v-if="info.isCanUserCou=='1'">
             <span slot="left">积分使用说明:{{info.productAttrStock.price}}积分 +
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
             </span>
           </yd-cell-item>
-          <yd-cell-item v-else-if="pdtype==3">
+          <yd-cell-item v-else-if="info.isCanUserCou=='2'">
             <span slot="left">责任金额使用说明:{{info.productAttrStock.price}}责任金额 +
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
             </span>

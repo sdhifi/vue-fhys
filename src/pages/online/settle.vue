@@ -102,7 +102,9 @@
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <div slot="left">
-            <p>会员余额 <router-link :to="{name:'PwdManage'}" class="danger-color fs-12" style="margin-left:.2rem;" v-if="!paypwd">设置支付密码</router-link></p>
+            <p>会员余额 
+              <!-- <router-link :to="{name:'PwdManage'}" class="danger-color fs-12" style="margin-left:.2rem;" v-if="!paypwd">设置支付密码</router-link> -->
+              </p>
             <span  class="danger-color fs-12">(余额支付需要额外支付10%税费)</span>
             </div>
           <input slot="right" type="radio" value="0" v-model="payType" />
@@ -188,6 +190,8 @@ export default {
   mixins: [mixin],
   methods: {
     pay() {
+      //TODO:判断是否设置过支付密码，没有就跳转密码设置
+
       //普通商品，余额支付
       if(this.orderType=='0' && this.payType=='0'){
         this.showPassword = true;

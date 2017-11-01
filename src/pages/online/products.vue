@@ -132,7 +132,9 @@ export default {
       var ct = event.currentTarget;
       var img = ct.parentElement.parentElement.parentElement.querySelector('img');
       var src = img.src;      
-      var bottom = window.innerHeight - img.getBoundingClientRect().bottom;
+      var bottom = window.innerHeight - ct.getBoundingClientRect().bottom;
+      var left = ct.getBoundingClientRect().left;
+      // debugger
       mui.ajax({
         url: onlineProductsDetailInfoInH5,
         type: 'post',
@@ -171,7 +173,7 @@ export default {
             
             var m = document.createElement('img');
             m.className="img-animate";
-            var tt = `bottom:${bottom}px;`;
+            var tt = `bottom:${bottom}px;left:${left}px;`;
             // m.style = `${tt}`;
             m.setAttribute('style',tt);
             m.src = src;

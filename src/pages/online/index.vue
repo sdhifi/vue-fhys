@@ -39,11 +39,11 @@
             </div>
             <div class="price" v-if="item.label=='积分换购'">
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+
-              <span>{{formatPrice(pd.price)}}积分</span>
+              <span>{{pd.price}}积分</span>
             </div>
             <div class="price" v-else-if="item.label=='责任消费'">
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+
-              <span>{{formatPrice(pd.price)}}责任金额</span>
+              <span>{{pd.price}}责任金额</span>
             </div>
             <div class="price" v-else>
               <span>￥{{formatPrice(pd.price)}}</span>
