@@ -154,7 +154,7 @@ export default {
     return {
       orderType:0,//0:普通商品 1：积分兑换 2责任消费
       remark: "", //备注
-      payType: 0, //支付方式
+      payType: "", //支付方式
       showPassword:false //安全键盘
     };
   },
@@ -185,8 +185,9 @@ export default {
   created() {},
   activated() {
     this.orderType=this.$route.query.orderType;
-    if(!this.defaultAddress)
-      this.$store.dispatch("getAddressList");
+    if(!this.defaultAddress){
+        this.$store.dispatch("getAddressList");
+    }
   },
   mixins: [mixin],
   methods: {
@@ -217,7 +218,7 @@ export default {
           payType:this.payType,
           remark:this.remark,
           couponsId:'',
-          orderAddressId:this.defaultAddress.id,
+          orderAddressId:(this.defaultAddress&&this.defaultAddress.id) || this.addressList[0].id,
           payPassword:pwd,
           account:this.account,
           token:md5(`addOrder${this.payType}${this.account}`)
