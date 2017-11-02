@@ -5,7 +5,7 @@
       <yd-cell-group title="消费对象">
         <yd-cell-item>
           <span slot="left">消费金额：</span>
-          <yd-input slot="right" v-model="money" placeholder="输入金额（单位：元）" type="tel"></yd-input>
+          <yd-input slot="right" v-model="money" placeholder="输入金额（单位：元）" type="tel" @input.native="setPayMoney"></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">消费会员：</span>

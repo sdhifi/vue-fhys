@@ -44,7 +44,7 @@
               </p>
               <div class="flex just-between">
                 <span class="danger-color fs-16">￥{{settleList.productAttrStock.price}}</span>
-                <span class="fs-14">x1</span>
+                <span class="fs-14">x{{settleList.pdnum}}</span>
               </div>
             </div>
           </li>
@@ -146,7 +146,7 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { addOrder } from "../../api/index";
+import { addOrder, toAdd } from "../../api/index";
 import { mixin } from "components/common/mixin";
 export default {
   name: "Settle",
@@ -220,24 +220,29 @@ export default {
     },
     placeAnOrder(pwd){
       let vm = this;
-      let cmParams=null,params=null;
-      cmParams={
-          payType:this.payType,
-          remark:this.remark,
-          couponsId:'',
-          orderAddressId:(this.defaultAddress&&this.defaultAddress.id) || this.addressList[0].id,
-          payPassword:pwd,
-          account:this.account,
-          token:md5(`addOrder${this.payType}${this.account}`)
-      }
+      //购物车下单参数，立即购买参数
+      let cmParams=null,nowParams=null;
       if(this.$route.query.buynow){
-        params={
-          goodsId:this.settleList.proId,
-          goodsAttrStockId:this.settleList.productAttrStock.id,
-          goodsAttrIds:this.settleList.productAttrStock.productAttrIds,
-          goodsAttr:this.settleList.productAttrStock.productAttrIds,
-          goodsNum:1
+        nowParams={
+          "orderAddVos[0].goodsId":this.settleList.proId,
+          "orderAddVos[0].goodsAttrIds":this.settleList.productAttrStock.productAttrIds,
+          "orderAddVos[0].goodsNum":this.settleList.pdnum,
+          goodSource:0,
+          orderAddressId:(this.defaultAddress&&this.defaultAddress.id) || this.addressList[0].id,
+          account:this.account,
+          token:md5(`toAdd${this.account}`)
         }
+
+        let vm = this;
+        mui.ajax({
+          url: toAdd,
+          type: 'post',
+          headers: {'app-version': 'v1.0'},
+          data: nowParams,
+          success(res){
+            console.log(res.msg)
+          }
+        })
       }
       else{
         let a=[],b=[],c=[],d=[],e=[];
@@ -248,42 +253,50 @@ export default {
            d.push(item.goodsAttr);
            e.push(item.goodsNum);
          })
-         params={
+         cmParams={
             goodsId:a.join(','),
             goodsAttrStockId:b.join(','),
-            goodsAttrIds:c.join(','),
+            goodsAttrIds:c.join(';'),
             goodsAttr:d.join(','),
-            goodsNum:e.join(',')
+            goodsNum:e.join(','),
+
+            payType:this.payType,
+            remark:this.remark,
+            couponsId:'',
+            orderAddressId:(this.defaultAddress&&this.defaultAddress.id) || this.addressList[0].id,
+            payPassword:pwd,
+            account:this.account,
+            token:md5(`addOrder${this.payType}${this.account}`)
          }
-      }
-      mui.ajax({
-        url: addOrder,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
-        data: {...params,...cmParams},
-        success(res){
-          //品牌商城，余额支付
-          if(vm.orderType==0){
-            vm.$dialog.loading.close();
-            if(res.code==200){}
-            else if(res.code==401){
-              vm.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
+         mui.ajax({
+          url: addOrder,
+          type: 'post',
+          headers: {'app-version': 'v1.0'},
+          data: cmParams,
+          success(res){
+            //品牌商城，余额支付
+            if(vm.orderType==0){
+              vm.$dialog.loading.close();
+              if(res.code==200){}
+              else if(res.code==401){
+                vm.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
+              }
+              else{
+                vm.$refs.keyboard.$emit('ydui.keyboard.error', res.msg);            
+              }
             }
-            else{
-              vm.$refs.keyboard.$emit('ydui.keyboard.error', res.msg);            
+            //积分换购，积分支付
+            else if(vm.orderType==1){
+              if(res.code==200){}
+              else{
+                vm.$dialog.toast({
+                  mes:res.msg
+                })
+              }
             }
           }
-          //积分换购，积分支付
-          else if(vm.orderType==1){
-            if(res.code==200){}
-            else{
-              vm.$dialog.toast({
-                mes:res.msg
-              })
-            }
-          }
-        }
       })
+      }
     }
   }
 };

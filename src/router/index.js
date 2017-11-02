@@ -80,6 +80,10 @@ const router =  new Router({
     name: 'MyOrder',
     component: require('../pages/order/index')
   }, {
+    path: '/order/detail',
+    name: 'OrderDetail',
+    component: require('../pages/order/orderdetail')
+  },{
     path: '/me/mywallet',
     name: 'MyWallet',
     component: require('../pages/me/mywallet')

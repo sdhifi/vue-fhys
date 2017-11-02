@@ -69,9 +69,11 @@ let findMemberByMoblie = `${member}/findMemberByMoblie` //根据手机号获取�
 let goAllShouXin = `${member}/goAllShouXin` //授信记录
 
 let getOrder = `${order}/getOrder` //我的订单
+let orderDetail = `${order}/detail` //订单详情
 let updateOrderStatus = `${order}/updateOrderStatus` //确认收货
 let findO2oOrderByPage = `${order}/findO2oOrderByPage` //店铺订单
 let addOrder = `${order}/addOrder` //下单
+let toAdd = `${order}/toAdd` //立即购买下单
 let actCartInH5 = `${order}/actCartInH5` //结算购物车
 
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
@@ -154,9 +156,11 @@ export {
   goAllShouXin,
 
   getOrder,
+  orderDetail,
   updateOrderStatus,
   findO2oOrderByPage,
   addOrder,
+  toAdd,
   actCartInH5,
 
   newProCommet,

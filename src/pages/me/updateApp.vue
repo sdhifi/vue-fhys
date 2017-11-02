@@ -2,7 +2,10 @@
   <div>
     <header-top title="APP更新"></header-top>
     <main class='scroll-content-2'>
-      <yd-button size="large" @click.native="getInfo">更新</yd-button>
+      <section class="app-info text-center">
+        <div class="fs-15">当前版本：{{curVersion}}</div>
+        <button @click="getInfo" class="save-btn">检查更新</button>
+      </section>
     </main>
   </div>
 </template>
@@ -13,7 +16,8 @@ export default {
   name: "UpdateApp",
   data() {
     return {
-      type: ""
+      type: "",
+      curVersion:'' //app版本
     };
   },
   components: { HeaderTop },
@@ -28,6 +32,7 @@ export default {
       let isAndroid = u.indexOf("Android") > -1; //android终端
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
       this.type = isAndroid ? "0" : "1";
+      this.curVersion = plus.runtime.version;
     },
     getInfo() {
       let vm = this;
@@ -49,4 +54,11 @@ export default {
 </script>
 <style lang='less' scoped>
 @import "../../style/mixin.less";
+.app-info{
+ .hv-cen;
+  width:70%;
+  div{
+    margin-bottom: 10%;
+  }
+}
 </style>

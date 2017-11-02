@@ -330,7 +330,7 @@ export default {
       } else {
         //立即购买
         this.show = false;
-        this.$store.commit("RECORD_SETTLE_LIST", this.info);
+        this.$store.commit("RECORD_SETTLE_LIST", Object.assign({},this.info,{pdnum:this.pdnum}));
         this.$router.push({ path: "/online/settle" ,query:{orderType:this.orderType,buynow:true }});
       }
     },
