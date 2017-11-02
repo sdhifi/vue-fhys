@@ -15,9 +15,9 @@
             <div class="item-bottom flex just-between align-center">
               <span>
                 <span class="iconfont self-hongbao danger-color"></span>
-                <span class="money">{{item.benefitMoney}}</span>
+                <span class="money">{{item.benefitMoney}}元</span>
               </span>
-              <p>{{item.mobile}}</p>
+              <p class="fs-14">{{item.mobile}}</p>
             </div>
           </li>
         </ul>
@@ -92,6 +92,7 @@ export default {
     vertical-align: top;
   }
   .status {
+    font-size: .28rem;
     &.status-0 {
       color: @blue;
     }

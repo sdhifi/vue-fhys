@@ -93,14 +93,12 @@ import { mapState,mapGetters } from "vuex";
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
 import CertModal from "components/common/CertModal";
-import { my } from "../../api/index";
 import { mixin, getStore, removeStore } from "components/common/mixin";
 export default {
   name: "Me",
   data() {
     return {
       oldBack: mui.back,
-      member: {},
       showPopup: false,
       settleWay: "",
       order: [
@@ -208,10 +206,9 @@ export default {
   },
   components: { HeaderTop, FooterBar, CertModal},
   created() {
-    //this.getInfo();
   },
   computed: {
-    ...mapState(["certificateStatus", "showCertificate","account"]),
+    ...mapState(["certificateStatus", "showCertificate","account","member"]),
     ...mapGetters(['cartNum'])
   },
   mixins: [mixin],
@@ -230,33 +227,14 @@ export default {
         }
     if (getStore("account") && getStore("account").length > 0) {
       this.$store.commit("SET_ACCOUNT", getStore("account"));
-      this.getInfo();
+      this.$store.dispatch('getInfo');
       this.$store.dispatch('getCartList');
     } else {
       this.$router.push("/me/login");
     }
   },
   methods: {
-    getInfo() {
-      let vm = this;
-      let account = getStore("account");
-      mui.ajax({
-        url: my,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          account,
-          token: md5(`my${account}`)
-        },
-        success(res) {
-          let _result = res.result
-          vm.member = _result;
-          vm.$store.commit("SET_CERTIFICATE",_result.isReadName == "1" ? true : false);
-          vm.$store.commit("RECORD_MEMBER_INFO", _result);
-          vm.$store.commit('RECORD_BALANCE_MONEY', _result.balanceMoney)
-        }
-      });
-    },
+    
     navigate(item) {
       if (/store/.test(item.link)) {
         //身份认证

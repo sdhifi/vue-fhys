@@ -101,7 +101,7 @@ export default {
       })
     },
     setPayMoney() {
-      if (this.payType == '4') {
+      if (!this.apyType || this.payType == '4') {
         this.payMoney = this.money
       }
       else {
@@ -133,6 +133,7 @@ export default {
             vm.$dialog.toast({
               mes: res.msg
             })
+            vm.$store.dispatch('getInfo');
           }
           //银联支付
           else if (vm.payType == '2') {
