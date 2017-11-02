@@ -60,7 +60,7 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { updateCartNum, delCart, actCart } from "../../api/index";
+import { updateCartNum, delCart, actCartInH5 } from "../../api/index";
 export default {
   name: "ShoppingCart",
   data() {
@@ -207,17 +207,20 @@ export default {
       else if(count1) orderType=1
       else if(count2) orderType=2
       mui.ajax({
-        url: actCart,
+        url: actCartInH5,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           cartIds: settleList.join(","),
           account: this.account,
-          token: md5(`actCart`)
+          token: md5(`actCartInH5${settleList.join(",")}`)
         },
         success(res) {
+          let _result = res.result;
+          vm.$store.commit('SET_PAY_PASSWORD',_result.gjfMemberInfo.payPassword?true:false);
           vm.$store.commit("RECORD_SETTLE_LIST", vm.checkList);
-          vm.$router.push({ name: "SettleBalance", query: { orderType } });
+          // vm.$store.commit("RECORD_SETTLE_LIST", res.result);
+          vm.$router.push({ name: "SettleBalance", params:{order:_result}, query: { orderType }});
         }
       });
     }

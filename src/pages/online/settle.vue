@@ -103,7 +103,7 @@
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <div slot="left">
             <p>会员余额 
-              <!-- <router-link :to="{name:'PwdManage'}" class="danger-color fs-12" style="margin-left:.2rem;" v-if="!paypwd">设置支付密码</router-link> -->
+              <!-- <router-link :to="{name:'PwdManage'}" class="danger-color fs-12" style="padding:.2rem;" v-if="!paypwd">设置支付密码</router-link> -->
               </p>
             <span  class="danger-color fs-12">(余额支付需要额外支付10%税费)</span>
             </div>
@@ -177,6 +177,7 @@ export default {
               pointPrice += item.goodsId.pointNicePrice * item.goodsNum;
             }
           });
+          pointPrice+=this.$route.params.order.pos
         }     
       sum = price + pointPrice;
       return { sum, price, pointPrice };
@@ -200,12 +201,18 @@ export default {
         return;
       }
       //TODO:判断是否设置过支付密码，没有就跳转密码设置
-
+      if(this.payType=='0'&&!this.paypwd){
+        this.$router.push({name:"PwdManage"});
+        return;
+      }
       //普通商品，余额支付
-      if(this.orderType=='0' && this.payType=='0'){
+      if(this.orderType==0 && this.payType=='0'){
         this.showPassword = true;
       }
-
+      //积分换购
+      else if(this.orderType==1){
+        this.placeAnOrder('');
+      }
     },
     checkPayPwd(val){
       this.$dialog.loading.open('验证支付密码');
@@ -234,17 +241,17 @@ export default {
       }
       else{
         let a=[],b=[],c=[],d=[],e=[];
-         this.settleList.forEach(item=>{
-           a.push(item.goodsId.id);
-           b.push(item.goodsAttrStockId.id);
-           c.push(item.goodsAttrStockId.productAttrIds);
+         this.$route.params.order.orderAddVos.forEach(item=>{
+           a.push(item.goodsId);
+           b.push(item.goodsAttrStockId);
+           c.push(item.goodsAttrIds);
            d.push(item.goodsAttr);
            e.push(item.goodsNum);
          })
          params={
             goodsId:a.join(','),
             goodsAttrStockId:b.join(','),
-            goodsAttrIds:c.join(''),
+            goodsAttrIds:c.join(','),
             goodsAttr:d.join(','),
             goodsNum:e.join(',')
          }
@@ -255,13 +262,25 @@ export default {
         headers: {'app-version': 'v1.0'},
         data: {...params,...cmParams},
         success(res){
-          vm.$dialog.loading.close();
-          if(res.code==200){}
-          else if(res.code==401){
-            vm.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
+          //品牌商城，余额支付
+          if(vm.orderType==0){
+            vm.$dialog.loading.close();
+            if(res.code==200){}
+            else if(res.code==401){
+              vm.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
+            }
+            else{
+              vm.$refs.keyboard.$emit('ydui.keyboard.error', res.msg);            
+            }
           }
-          else{
-            vm.$refs.keyboard.$emit('ydui.keyboard.error', res.msg);            
+          //积分换购，积分支付
+          else if(vm.orderType==1){
+            if(res.code==200){}
+            else{
+              vm.$dialog.toast({
+                mes:res.msg
+              })
+            }
           }
         }
       })

@@ -72,7 +72,7 @@ let getOrder = `${order}/getOrder` //我的订单
 let updateOrderStatus = `${order}/updateOrderStatus` //确认收货
 let findO2oOrderByPage = `${order}/findO2oOrderByPage` //店铺订单
 let addOrder = `${order}/addOrder` //下单
-let actCart = `${order}/actCart` //结算购物车
+let actCartInH5 = `${order}/actCartInH5` //结算购物车
 
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
 
@@ -157,7 +157,7 @@ export {
   updateOrderStatus,
   findO2oOrderByPage,
   addOrder,
-  actCart,
+  actCartInH5,
 
   newProCommet,
 

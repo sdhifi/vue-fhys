@@ -10,7 +10,7 @@
           <ul slot="list">
             <li class="order-item px-1" v-for="item in list7" :key="item.orderSn">
               <h2 class="px-1">{{item.storeName}}</h2>
-              <div class="good-list">
+              <div class="good-list" >
                 <p class="order-id">订单编号：{{item.orderSn}}</p>
                 <div class="good-item flex px-1" v-for="good in item.goods" :key="good.goodsId">
                   <img :src="good.goodsImg" :alt="good.goodsName">

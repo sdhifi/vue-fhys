@@ -116,7 +116,7 @@ export default {
           vm.base64Url = rst.base64;
           vm.submitInfo();
         });
-        //return;
+          return;
       }
       this.submitInfo();
     },
