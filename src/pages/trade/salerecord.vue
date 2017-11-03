@@ -101,7 +101,7 @@ export default {
       })
     },
     setPayMoney() {
-      if (!this.apyType || this.payType == '4') {
+      if (!this.payType || this.payType == '4') {
         this.payMoney = this.money
       }
       else {
