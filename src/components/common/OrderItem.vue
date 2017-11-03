@@ -1,7 +1,7 @@
 <template>
 <li class="order-item px-1">
   <h2 class="px-1">{{name}}</h2>
-  <router-link class="good-list" :to="{name:'OrderDetail',query:{id:sn}}">
+  <router-link class="good-list" :to="{name:'OrderDetail',query:{sn:sn}}">
     <p class="order-id">订单编号：{{sn}}</p>
     <div class="good-item flex px-1" v-for="good in goods" :key="good.goodsId">
       <img :src="good.goodsImg" :alt="good.goodsName">
@@ -68,7 +68,6 @@ export default {
       flex-direction: column;
       margin-left: @pd * 2;
       .good-title {
-        .ellipsis-2;
         font-weight: normal;
       }
       .good-price {

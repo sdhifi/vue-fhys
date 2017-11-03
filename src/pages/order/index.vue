@@ -142,9 +142,9 @@ export default {
           }
         }
       })
-      axios.get('/static/json/order.json').then(res=>{
-        this.list7=res.data.result;
-      })
+      // axios.get('/static/json/order.json').then(res=>{
+      //   this.list7=res.data.result;
+      // })
     }
   }
 }

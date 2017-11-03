@@ -118,7 +118,8 @@ import {
   onlineProductsDetailInfoInH5,
   addMyCollect,
   stockAndPrice,
-  addCart
+  addCart,
+  toAdd
 } from "../../api/index";
 import { mixin } from "components/common/mixin";
 export default {
@@ -141,7 +142,11 @@ export default {
     ...mapGetters(['cartNum']),
     orderType(){
       return this.pdtype==0?1:(this.pdtype==3?2:0);
+    },
+    goodSource(){
+      return this.pdtype==2?2:0;
     }
+
   },
   mixins: [mixin],
   created() {},
@@ -286,15 +291,6 @@ export default {
     },
     cartOrBuy() {
       //加入购物车
-      // 商品属性拼接：报错暂不使用，使用ids
-      /*let attrValueStr = [];
-      this.info.attrs.forEach(m => {
-        m.attrValues.forEach(n => {
-          if (n.selected) {
-            attrValueStr.push(`${m.attrName}:${n.attrValueId.attrValue}`);
-          }
-        });
-      });*/
       let vm = this;
       if (!this.info.productAttrStock.repertory) {
         this.$dialog.toast({
@@ -329,9 +325,40 @@ export default {
         });
       } else {
         //立即购买
-        this.show = false;
-        this.$store.commit("RECORD_SETTLE_LIST", Object.assign({},this.info,{pdnum:this.pdnum}));
-        this.$router.push({ path: "/online/settle" ,query:{orderType:this.orderType,buynow:true }});
+        // 商品属性拼接：报错暂不使用，使用ids
+        let attrValueStr = [];
+        this.info.attrs.forEach(m => {
+          m.attrValues.forEach(n => {
+            if (n.selected) {
+              attrValueStr.push(`${m.attrName}:${n.attrValueId.attrValue}`);
+            }
+          });
+        });
+        let attrIds = this.info.productAttrStock.productAttrIds;
+        mui.ajax({
+          url: toAdd,
+          type: 'post',
+          headers: {'app-version': 'v1.0'},
+          data: {
+          "orderAddVos[0].goodsId":this.info.proId,
+          "orderAddVos[0].goodsAttrStockId":this.info.productAttrStock.id,
+          "orderAddVos[0].goodsAttrIds":attrIds.slice(0,attrIds.length-1),
+          "orderAddVos[0].goodsAttr":attrValueStr.join(' '),
+          "orderAddVos[0].goodsNum":this.pdnum,
+          goodSource:this.goodSource,
+          orderAddressId:'',
+          account:this.account,
+          token:md5(`toAdd${this.account}`)
+        },
+        success(res){
+          let _result =res.result;
+          vm.show = false;
+          vm.$store.commit("RECORD_SETTLE_LIST",_result);
+          vm.$store.commit('SET_PAY_PASSWORD',_result.gjfMemberInfo.payPassword?true:false);
+          // vm.$router.push({ path: "/online/settle" ,query:{orderType:vm.orderType,goodSource:vm.goodSource,buynow:true }});
+          vm.$router.push({ name: "SettleBalance", query: { orderType:vm.orderType,goodSource:_result.goodSource,buynow:true}});
+          }
+        })
       }
     },
     goShoppingCart() {

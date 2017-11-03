@@ -218,9 +218,9 @@ export default {
         success(res) {
           let _result = res.result;
           vm.$store.commit('SET_PAY_PASSWORD',_result.gjfMemberInfo.payPassword?true:false);
-          vm.$store.commit("RECORD_SETTLE_LIST", vm.checkList);
+          vm.$store.commit("RECORD_SETTLE_LIST", _result);
           // vm.$store.commit("RECORD_SETTLE_LIST", res.result);
-          vm.$router.push({ name: "SettleBalance", params:{order:_result}, query: { orderType }});
+          vm.$router.push({ name: "SettleBalance", query: { orderType }});
         }
       });
     }

@@ -30,33 +30,16 @@
       </section>
       <section class="order-list">
         <h2>订单信息</h2>
-        <ul v-if="$route.query.buynow">
-          <li class="order-item flex">
-            <img :src="settleList.proImg" :alt="settleList.proName" class="pd-img">
+        <ul>
+          <li v-for="(item,index) in settleList.goodsVos" :key="index" class="order-item flex">
+            <img :src="item.goodsImg" :alt="item.goodsName" class="pd-img">
             <div class="order-info flex-1">
-              <h3 class="pd-name">{{settleList.proName}}</h3>
-              <p v-show="settleList.attrs">
-                <span v-for="(item,index) in settleList.attrs" :key="index">
-                  <span v-for="(el,elIndex) in item.attrValues" :key="elIndex">
-                    {{item.attrName}}: <span v-if="el.selected">{{el.attrValueId.attrValue}}</span>
-                  </span>
-                </span>
-              </p>
-              <div class="flex just-between">
-                <span class="danger-color fs-16">￥{{settleList.productAttrStock.price}}</span>
-                <span class="fs-14">x{{settleList.pdnum}}</span>
-              </div>
-            </div>
-          </li>
-        </ul>
-        <ul v-else>
-          <li v-for="(item,index) in settleList" :key="index" class="order-item flex">
-            <img :src="item.goodsId.imgUrl" :alt="item.goodsId.name" class="pd-img">
-            <div class="order-info flex-1">
-              <h3 class="pd-name">{{item.goodsId.name}}</h3>
+              <h3 class="pd-name">{{item.goodsName}}</h3>
               <p>{{item.goodsAttr}}</p>
               <div class="flex just-between">
-                <span class="danger-color fs-16">￥{{item.goodsAttrStockId.price}}</span>
+                <span class="danger-color fs-16" v-if="settleList.isCanUseCou==1">{{item.goodsAmount}}积分</span>
+                <span class="danger-color fs-16" v-else-if="settleList.isCanUseCou==2">{{item.goodsAmount}}责任金额</span>
+                <span class="danger-color fs-16" v-else>￥{{item.goodsAmount}}</span>
                 <span class="fs-14">x{{item.goodsNum}}</span>
               </div>
             </div>
@@ -66,13 +49,13 @@
       <yd-cell-group>
         <yd-cell-item>
           <span slot="left">配送方式：</span>
-          <span slot="right" class="fs-14">快递：￥{{formatPrice(0)}}</span>
+          <span slot="right" class="fs-14">快递：￥{{formatPrice(settleList.pos)}}</span>
         </yd-cell-item>
          <yd-cell-item>
           <span slot="left">支付明细：</span>
-          <span slot="right" class="fs-14" v-if="orderType==1">{{total.price}}积分+￥{{formatPrice(total.pointPrice)}}</span>
-          <span slot="right" class="fs-14" v-else-if="orderType==2">{{total.price}}责任金额+￥{{formatPrice(total.pointPrice)}}</span>
-          <span slot="right" class="fs-14" v-else>￥{{total.price}}</span>
+          <span slot="right" class="fs-14" v-if="settleList.isCanUseCou==1">{{settleList.totalAmount}}积分+￥{{formatPrice(settleList.pointNiceAmount)}}</span>
+          <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==2">{{settleList.totalAmount}}责任金额+￥{{formatPrice(settleList.pointNiceAmount)}}</span>
+          <span slot="right" class="fs-14" v-else>￥{{settleList.totalAmount}}</span>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">买家留言：</span>
@@ -80,7 +63,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <p slot="right" class="fs-16">
-            总支付：<span  class="danger-color">￥{{formatPrice(total.sum)}}</span>
+            总支付：<span  class="danger-color">￥{{formatPrice(total)}}</span>
           </p>
         </yd-cell-item>
       </yd-cell-group>
@@ -162,25 +145,7 @@ export default {
   computed: {
     ...mapState(["account", "defaultAddress", "addressList", "settleList","paypwd","balanceMoney"]),
     total() {
-      let sum = 0,
-        price = 0,
-        pointPrice = 0;
-        if(this.$route.query.buynow){
-          price = this.settleList.productAttrStock.price;
-          if(this.$route.query.orderType!=0)
-          pointPrice=this.settleList.pointNeedMoney;
-        }
-        else{
-          this.settleList.forEach(item => {
-            price += item.goodsAttrStockId.price * item.goodsNum;
-            if (item.goodsId.isCanUserCou == "1" || item.goodsId.isCanUserCou == "2") {
-              pointPrice += item.goodsId.pointNicePrice * item.goodsNum;
-            }
-          });
-          pointPrice+=this.$route.params.order.pos
-        }     
-      sum = price + pointPrice;
-      return { sum, price, pointPrice };
+      return this.settleList.totalAmount+this.settleList.pointNiceAmount;
     }
   },
   created() {},
@@ -220,33 +185,10 @@ export default {
     },
     placeAnOrder(pwd){
       let vm = this;
-      //购物车下单参数，立即购买参数
-      let cmParams=null,nowParams=null;
-      if(this.$route.query.buynow){
-        nowParams={
-          "orderAddVos[0].goodsId":this.settleList.proId,
-          "orderAddVos[0].goodsAttrIds":this.settleList.productAttrStock.productAttrIds,
-          "orderAddVos[0].goodsNum":this.settleList.pdnum,
-          goodSource:0,
-          orderAddressId:(this.defaultAddress&&this.defaultAddress.id) || this.addressList[0].id,
-          account:this.account,
-          token:md5(`toAdd${this.account}`)
-        }
-
-        let vm = this;
-        mui.ajax({
-          url: toAdd,
-          type: 'post',
-          headers: {'app-version': 'v1.0'},
-          data: nowParams,
-          success(res){
-            console.log(res.msg)
-          }
-        })
-      }
-      else{
+      //购物车下单参数
+      let cmParams=null;
         let a=[],b=[],c=[],d=[],e=[];
-         this.$route.params.order.orderAddVos.forEach(item=>{
+         this.settleList.orderAddVos.forEach(item=>{
            a.push(item.goodsId);
            b.push(item.goodsAttrStockId);
            c.push(item.goodsAttrIds);
@@ -277,7 +219,9 @@ export default {
             //品牌商城，余额支付
             if(vm.orderType==0){
               vm.$dialog.loading.close();
-              if(res.code==200){}
+              if(res.code==200){
+                 vm.showPassword = false;
+              }
               else if(res.code==401){
                 vm.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
               }
@@ -296,7 +240,6 @@ export default {
             }
           }
       })
-      }
     }
   }
 };
@@ -330,6 +273,7 @@ export default {
         margin-bottom: 0.12rem;
         color: #333;
         font-size: 0.28rem;
+        word-break: break-all;
       }
       p {
         color: @lightgray;
