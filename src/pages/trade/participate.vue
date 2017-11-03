@@ -6,11 +6,11 @@
         <li v-for="(item,index) in info" :key="index" class="item">
           <div class="item-top flex just-between">
             <p>增加权益</p>
-            <p>{{item.diviMoney}}</p>
+            <p>{{item.diviNum}}</p>
           </div>
           <div class="item-bottom flex just-between">
             <p>{{formatTime(item.addTime)}}</p>
-            <p>满{{item.diviMoneyBla}}增加{{item.diviNum}}个</p>
+            <p>{{item.consumptionMoney<10000?"满500增加1个":"满1000增加1个"}}</p>
           </div>
         </li>
       </ul>

@@ -114,14 +114,25 @@
     </main>
     <div v-show="showPassword" class="text-center pay-box">
       <h3 class="fs-18 pay-title" style="background-color:#9ED97C">待支付金额</h3>
-      <p class="pay-price fs-14">
+      <div v-if="orderType=='0'">
+        <p class="pay-price fs-14">
         {{total}}×(1+10%)=
         <span class="fs-20 danger-color">￥{{formatPrice(total * 1.1)}}</span>
-        </p>
+      </p>
       <P class="balance-price">
         <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
-        余额：<span>{{balanceMoney}}</span>元
+        余额：<span>{{member.balanceMoney}}</span>元
       </P>
+      </div>
+      <div v-if="orderType=='2'">
+        <p class="pay-price fs-14">
+        <span class="fs-20 danger-color">￥{{formatPrice(total)}}</span>
+      </p>
+      <P class="balance-price">
+        <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
+        余额：<span>{{member.insuranceMoney}}</span>元
+      </P>
+      </div>
     </div>
     <yd-keyboard v-model="showPassword" :callback="checkPayPwd" ref="keyboard" title="凤凰云商安全键盘" input-text="请输入会员卡支付密码"></yd-keyboard>
   </div>
@@ -143,7 +154,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account", "defaultAddress", "addressList", "settleList","paypwd","balanceMoney"]),
+    ...mapState(["account", "defaultAddress", "addressList", "settleList","paypwd","member"]),
     total() {
       return this.settleList.totalAmount+this.settleList.pointNiceAmount;
     }
@@ -171,11 +182,14 @@ export default {
         return;
       }
       //普通商品，余额支付
-      if(this.orderType==0 && this.payType=='0'){
+      if((this.orderType==0 && this.payType=='0')||(this.orderType==2 && this.payType=='8')){
         this.showPassword = true;
       }
       //积分换购
       else if(this.orderType==1){
+        this.placeAnOrder('');
+      }
+      else {
         this.placeAnOrder('');
       }
     },
@@ -217,10 +231,13 @@ export default {
           data: cmParams,
           success(res){
             //品牌商城，余额支付
-            if(vm.orderType==0){
+            if(vm.orderType==0 ||vm.orderType==2){
               vm.$dialog.loading.close();
               if(res.code==200){
                  vm.showPassword = false;
+                 vm.$dialog.toast({
+                   mes:res.msg
+                 })
               }
               else if(res.code==401){
                 vm.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
