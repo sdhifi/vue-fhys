@@ -115,8 +115,8 @@
     <div v-show="showPassword" class="text-center pay-box">
       <h3 class="fs-18 pay-title" style="background-color:#9ED97C">待支付金额</h3>
       <p class="pay-price fs-14">
-        {{total.sum}}×(1+10%)=
-        <span class="fs-20 danger-color">￥{{formatPrice(total.sum * 1.1)}}</span>
+        {{total}}×(1+10%)=
+        <span class="fs-20 danger-color">￥{{formatPrice(total * 1.1)}}</span>
         </p>
       <P class="balance-price">
         <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
@@ -231,13 +231,23 @@ export default {
             }
             //积分换购，积分支付
             else if(vm.orderType==1){
-              if(res.code==200){}
+              if(res.code==200){
+                 vm.$dialog.toast({
+                  mes:res.msg
+                })
+              }
               else{
                 vm.$dialog.toast({
                   mes:res.msg
                 })
               }
             }
+          },
+          error(err){
+            vm.$dialog.loading.close();
+            vm.$dialog.toast({
+                mes:"超时，请稍后重试"
+            })
           }
       })
     }

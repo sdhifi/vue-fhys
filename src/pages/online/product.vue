@@ -143,10 +143,6 @@ export default {
     orderType(){
       return this.pdtype==0?1:(this.pdtype==3?2:0);
     },
-    goodSource(){
-      return this.pdtype==2?2:0;
-    }
-
   },
   mixins: [mixin],
   created() {},
@@ -341,9 +337,7 @@ export default {
           headers: {'app-version': 'v1.0'},
           data: {
           "orderAddVos[0].goodsId":this.info.proId,
-          "orderAddVos[0].goodsAttrStockId":this.info.productAttrStock.id,
-          "orderAddVos[0].goodsAttrIds":attrIds.slice(0,attrIds.length-1),
-          "orderAddVos[0].goodsAttr":attrValueStr.join(' '),
+          "orderAddVos[0].goodsAttrIds":attrIds,
           "orderAddVos[0].goodsNum":this.pdnum,
           goodSource:this.goodSource,
           orderAddressId:'',
@@ -352,11 +346,14 @@ export default {
         },
         success(res){
           let _result =res.result;
+          _result.orderAddVos[0].goodsAttr = attrValueStr.join(' ');
+          _result.orderAddVos[0].goodsAttrIds = attrIds.slice(0,attrIds.length-1);
+          _result.orderAddVos[0].goodsAttrStockId = vm.info.productAttrStock.id;
           vm.show = false;
           vm.$store.commit("RECORD_SETTLE_LIST",_result);
           vm.$store.commit('SET_PAY_PASSWORD',_result.gjfMemberInfo.payPassword?true:false);
           // vm.$router.push({ path: "/online/settle" ,query:{orderType:vm.orderType,goodSource:vm.goodSource,buynow:true }});
-          vm.$router.push({ name: "SettleBalance", query: { orderType:vm.orderType,goodSource:_result.goodSource,buynow:true}});
+          vm.$router.push({ name: "SettleBalance", query: { orderType:vm.orderType,buynow:true}});
           }
         })
       }

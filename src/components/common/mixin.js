@@ -30,9 +30,11 @@ export const mixin = {
     /**
      * 
      * @param {*时间戳} t 
+     * @param {*类型} type 
+     * 
      */
-    formatTime(t){
-      var date, year, month, day, hour, minute;
+    formatTime(t,type){
+      var date, year, month, day, hour, minute,second;
       date = new Date(t);
       /**
        * es7 填充空位
@@ -48,7 +50,8 @@ export const mixin = {
       day = complete(date.getDate());
       hour = complete(date.getHours());
       minute = complete(date.getMinutes());
-      return `${year}年${month}月${day}日 ${hour}:${minute}`;
+      second = complete(date.getSeconds());
+      return type?`${year}-${month}-${day} ${hour}:${minute}:${second}`:`${year}年${month}月${day}日 ${hour}:${minute}`;
     },
     /**
      * 格式化金额，返回两位小数

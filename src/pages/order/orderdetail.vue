@@ -7,6 +7,7 @@
   </div>
 </template>
 <script>
+import {mapState} from 'vuex'
 import HeaderTop from "components/header/index";
 import {orderDetail} from "../../api/index";
 
@@ -18,7 +19,9 @@ export default {
     };
   },
   components: { HeaderTop },
-  computed: {},
+  computed: {
+    ...mapState(['account'])
+  },
   created() {},
   activated() {
     this.getDetail(this.$route.query.sn);
@@ -35,7 +38,9 @@ export default {
           orderSn: this.$route.query.sn,
           token: md5(`detail${this.account}${this.$route.query.sn}`)
         },
-        success(res) {}
+        success(res) {
+          vm.info = res.result;
+        }
       });
     }
   }
