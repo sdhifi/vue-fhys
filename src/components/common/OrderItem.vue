@@ -57,6 +57,7 @@ export default {
   .pd-v;
   .order-id {
     margin-bottom: @pd;
+    color:@lightgray;
   }
   .good-item {
     padding-bottom: 0.1rem;

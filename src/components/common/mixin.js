@@ -35,9 +35,10 @@ export const mixin = {
      */
     formatTime(t,type){
       var date, year, month, day, hour, minute,second;
+      if(!t)
+      return '--'
       date = new Date(t);
       /**
-       * es7 填充空位
        * @param  {String} time 日期时间
        * @return {String}      格式化日期时间
        */
