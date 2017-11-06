@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-top title="购物车"></header-top>
-    <main class='scroll-content-3'>
+    <main class='scroll-content'>
       <ul class="cart-list" v-show="cartList.length">
         <li v-for="(item,index) in cartList" :key="index" class="cart-item flex align-center">
           <label :for="'cart-item'+index" class="cart-check flex align-center just-center">

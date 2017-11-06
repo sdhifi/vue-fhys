@@ -11,7 +11,7 @@
         <div class="sub-item" v-for="(sub,i) in column" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" 
           @click="changeSubColumn(sub)">{{sub.names}}</div>
       </div>
-    <main class='scroll-content-3' style="background-color:#fff;top:3rem;">
+    <main class='scroll-content-3' style="background-color:#fff;">
       <section class="pd-list">
         <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
           <div slot="list">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-top title="商品详情"></header-top>
-    <main class='scroll-content-3'>
+    <main class='scroll-content'>
       <section class="info-1">
         <yd-slider>
           <yd-slider-item v-for="(item,index) in imgList" :key="index">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-top title="银行卡"></header-top>
-    <main class='scroll-content-3' style="background-color:#fff;">
+    <main class='scroll-content' style="background-color:#fff;">
       <section class="bank-list" v-show="bankList.length">
         <group-title>左滑银行卡可以删除</group-title>
         <swipeout>

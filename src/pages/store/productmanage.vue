@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-top title="商品管理"></header-top>
-    <main class='scroll-content-3'>
+    <main class='scroll-content'>
       <yd-checklist v-model="checkList" ref="pdlist" :label="false" :callback="change">
         <yd-checklist-item :val="item.id" v-for="item in pdlist" :key="item.id">
           <div class="pd-item flex align-center">

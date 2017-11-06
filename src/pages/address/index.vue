@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-top title="地址管理"></header-top>
-    <main class='scroll-content-3' style="background-color:#fff;">
+    <main class='scroll-content' style="background-color:#fff;">
       <section class="address-list" v-show="addressList.length">
         <group-title>左滑地址更多操作</group-title>
         <swipeout>
