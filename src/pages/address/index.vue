@@ -65,7 +65,6 @@ export default {
   methods: {
     setDefault(address) {
       let vm = this;
-      if (this.$route.query.type == 'choose') {
         mui.ajax({
           url: defaultAddress,
           type: 'post',
@@ -82,47 +81,20 @@ export default {
                 // 选择地址，选择之后回退页面
                 vm.$router.go(-1)
               }
+              else{
+                vm.$store.dispatch('getAddressList');
+                vm.$dialog.toast({
+                  mes: '设置默认地址成功'
+                });
+              }
             }
             else {
-
               vm.$dialog.toast({
                 mes: res.msg
               })
             }
           }
         })
-      }
-      else {
-        this.$dialog.confirm({
-          mes: '设置为默认地址？',
-          opts: () => {
-            mui.ajax({
-              url: defaultAddress,
-              type: 'post',
-              headers: { 'app-version': 'v1.0' },
-              data: {
-                id: address.id,
-                account: this.account,
-                token: md5(`default${address.id}${this.account}`)
-              },
-              success(res) {
-                if (res.code == 200) {
-                  vm.$store.commit('RECORD_DEFAULT_ADDRESS', address)
-                  vm.$store.dispatch('getAddressList')
-                  vm.$dialog.toast({
-                    mes: '设置默认地址成功'
-                  })
-                }
-                else {
-                  vm.$dialog.toast({
-                    mes: res.msg
-                  })
-                }
-              }
-            })
-          }
-        })
-      }
     },
     editAddress(item,index) {
       this.$nextTick(() => {
