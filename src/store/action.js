@@ -15,18 +15,23 @@ import {
   myCart,
 } from '../api/index'
 export default {
-  getInfo({commit,state}) {
+  getInfo({
+    commit,
+    state
+  }) {
     mui.ajax({
       url: my,
       type: "post",
-      headers: { "app-version": "v1.0" },
+      headers: {
+        "app-version": "v1.0"
+      },
       data: {
         account: state.account,
         token: md5(`my${state.account}`)
       },
       success(res) {
         let _result = res.result
-        commit("SET_CERTIFICATE",_result.isReadName == "1" ? true : false);
+        commit("SET_CERTIFICATE", _result.isReadName == "1" ? true : false);
         commit("RECORD_MEMBER_INFO", _result);
         commit('RECORD_BALANCE_MONEY', _result.balanceMoney)
       }
@@ -76,10 +81,9 @@ export default {
       success(res) {
         let _result = res.result;
         if (!_result.length) {
-           commit('RECORD_DEFAULT_ADDRESS', null)
+          commit('RECORD_DEFAULT_ADDRESS', null)
           commit('RECORD_ADDRESS_List', [])
-        }
-        else{
+        } else {
           _result.forEach((item, index) => {
             if (item.isDefault == '1') {
               commit('RECORD_DEFAULT_ADDRESS', item)
@@ -106,8 +110,8 @@ export default {
       },
       success(res) {
         let _result = res.result;
-        _result.forEach((item,index)=>{
-          item.close= true;
+        _result.forEach((item, index) => {
+          item.close = true;
           item.checked = false;
         })
         commit(RECORD_CART_LIST, _result);

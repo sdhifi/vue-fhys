@@ -8,7 +8,6 @@
       <yd-cell-group>
         <yd-cell-item>
           <span slot="left">支行名称：</span>
-          <!-- <input slot="right" v-model="bankSub" type="text" placeholder="请输入支行名称" style="text-align:right;"> -->
           <yd-input slot="right" v-model="bankSub" type="text" placeholder="请输入支行名称"></yd-input>
         </yd-cell-item>
         <yd-cell-item arrow>
@@ -17,13 +16,11 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">开户人&emsp;：</span>
-          <!-- <input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称" style="text-align:right;"> -->
           <yd-input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称" v-if="!certificateStatus"></yd-input>
           <yd-input slot="right" v-model="member.name" readonly v-else></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">卡&emsp;&emsp;号：</span>
-          <!-- <input slot="right" v-model="bankCard" type="tel" placeholder="请输入卡号" style="text-align:right;"> -->
           <yd-input slot="right" v-model="bankCard" type="tel" placeholder="请输入卡号" regex="bankcard"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
@@ -116,8 +113,8 @@ export default {
           bankCard: this.bankCard,
           holder: this.certificateStatus ? this.member.name : this.holder,
           cityValue: this.cityValue,
-          account: getStore('account'),
-          token: md5(`bindBank${getStore('account')}`)
+          account: this.account,
+          token: md5(`bindBank${this.account}`)
         },
         success(res) {
           if (res.code == 200) {

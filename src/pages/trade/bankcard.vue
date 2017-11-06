@@ -12,10 +12,9 @@
               </div>
             </div>
             <div slot="content" style="padding:12px;">
-              <div class="bank-item flex align-center">
+              <div class="bank-item flex align-center" @click="setDefaultBank(item)">
                 <div class="bank-info flex-1" :style="{'background-color':item.bankColor}">
                   <div class="bank-label flex align-center">
-                    <!-- <img :src="'http://jfh.jfeimao.com/gjfeng-web-client/common/image/bank/'+item.bankPic" alt="" class="icon"> -->
                     <div class="icon" :style="{'background-image':formatBg(item.bankPic)}"></div>
                     <div class="bank-name flex-1">
                       <p>{{item.bankName}}</p>
@@ -106,6 +105,9 @@ export default {
       else {
         this.$router.push({ name: 'NewBank' })
       }
+    },
+    setDefaultBank(b){
+      this.$store.commit("RECORD_BANK_CARD",b);
     }
   }
 }

@@ -7,14 +7,14 @@
           <span class="danger-color">{{balanceMoney}}</span> 元
           <span class="danger-color">(提取福利扣10%手续费)</span>
         </p>
-        <div class="bank-card flex align-center" v-if="defaultBankCard" @click="showDialog=true">
+        <router-link :to="{path: '/trade/bankcard'}" class="bank-card flex align-center" v-if="defaultBankCard">
           <div class="icon" :style="{'background-image':formatBg(defaultBankCard.bankPic)}"></div>
           <div class="bank-name flex-1">
             <p>{{defaultBankCard.bankName}}</p>
             <p>卡号：{{defaultBankCard.bankCard}}</p>
           </div>
           <span class="iconfont self-right"></span>
-        </div>
+        </router-link>
         <yd-cell-group v-else>
           <yd-cell-item arrow href="/trade/newbank" type="link">
             <span slot="icon" class="iconfont self-yinhangka"></span>
@@ -37,25 +37,6 @@
         </div>
       </section>
     </main>
-    <x-dialog v-model="showDialog" :hide-on-blur="true">
-      <h3 class="fs-17">切换银行卡</h3>
-      <ul class="bank-list">
-        <li class="bank-card flex align-center" v-for="item in bankList" :key="item.id" @click="changeDefault(item)">
-          <div class="icon" :style="{'background-image':formatBg(item.bankPic)}"></div>
-          <div class="bank-name flex-1">
-            <p :class="[defaultBankCard.id==item.id?'selected':'']">{{item.bankName}}</p>
-            <p>卡号：{{item.bankCard}}</p>
-          </div>
-        </li>
-      </ul>
-      <yd-cell-group style="margin-bottom:0;">
-        <yd-cell-item arrow href="/trade/newbank" type="link">
-          <span slot="icon" class="iconfont self-yinhangka"></span>
-          <span slot="left">银行卡</span>
-          <span slot="right">新增</span>
-        </yd-cell-item>
-      </yd-cell-group>
-    </x-dialog>
   </div>
 </template>
 <script>
@@ -110,10 +91,6 @@ export default {
           })
         }
       })
-    },
-    changeDefault(bank) {
-      this.$store.commit('RECORD_BANK_CARD', bank)
-      this.showDialog = false;
     }
   }
 }

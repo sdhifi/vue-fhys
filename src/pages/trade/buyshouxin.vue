@@ -81,13 +81,12 @@ export default {
           token:md5(`addShouXin${this.account}`)
         },
         success(res){
-          console.log(res.result)
+          vm.$dailog.toast({
+            mes:res.msg
+          })
         }
       })
     }
   }
 }
 </script>
-<style lang='less' scoped>
-@import '../../style/mixin.less';
-</style>  
