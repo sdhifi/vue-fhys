@@ -107,7 +107,10 @@ export default {
       }
     },
     setDefaultBank(b){
-      this.$store.commit("RECORD_BANK_CARD",b);
+      if(this.$route.query.type=='choose'){
+        this.$store.commit("RECORD_BANK_CARD",b);
+        this.$router.go(-1);
+      }
     }
   }
 }

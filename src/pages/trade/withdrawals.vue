@@ -7,7 +7,7 @@
           <span class="danger-color">{{balanceMoney}}</span> 元
           <span class="danger-color">(提取福利扣10%手续费)</span>
         </p>
-        <router-link :to="{path: '/trade/bankcard'}" class="bank-card flex align-center" v-if="defaultBankCard">
+        <router-link :to="{path: '/trade/bankcard?type=choose'}" class="bank-card flex align-center" v-if="defaultBankCard">
           <div class="icon" :style="{'background-image':formatBg(defaultBankCard.bankPic)}"></div>
           <div class="bank-name flex-1">
             <p>{{defaultBankCard.bankName}}</p>
@@ -66,10 +66,9 @@ export default {
   },
   mixins: [mixin],
   created() {
-
+    this.$store.dispatch('getBankList');
   },
   activated() {
-    this.$store.dispatch('getBankList')
   },
   methods: {
     drawCash() {
