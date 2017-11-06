@@ -29,7 +29,7 @@ import HeaderTop from 'components/header/index'
 import { getDrawHistory } from '../../api/index'
 import { getStore, mixin } from 'components/common/mixin'
 export default {
-  name: '',
+  name: 'CashHistory',
   data() {
     return {
       noData: false,
