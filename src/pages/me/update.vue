@@ -41,7 +41,9 @@
           <yd-textarea slot="right" placeholder="请输入简介" maxlength="30" v-model="info.remark" class="hight-input"></yd-textarea>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-button size="large" type="primary" @click.native="saveInfo">保存</yd-button>
+      <div style="padding:0 .2rem;">
+        <yd-button size="large" type="primary" @click.native="saveInfo">保存</yd-button>
+      </div> 
     </main>
     <cert-modal></cert-modal>
   </div>

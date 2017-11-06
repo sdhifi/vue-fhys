@@ -9,87 +9,21 @@
         <div v-show="index==0">
           <yd-infinitescroll :callback="getMyOrder" ref="orderlist7">
             <ul slot="list">
-              <li class="order-item px-1" v-for="item in list7" :key="item.orderSn">
-                <h2 class="px-1">{{item.storeName}}</h2>
-                <div class="good-list">
-                  <p class="order-id">订单编号：{{item.orderSn}}</p>
-                  <div class="good-item flex px-1" v-for="good in item.goods" :key="good.goodsId">
-                    <img :src="good.goodsImg" :alt="good.goodsName">
-                    <div class="good-info">
-                      <h3 class="good-title">{{good.goodsName}}</h3>
-                      <div class="good-price">
-                        <span>数量：{{good.goodNum}}</span>
-                        <span>￥{{good.goodsAmount}}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="order-operate flex just-between align-center">
-                  <p>应付金额：
-                    <span class="danger-color">￥{{item.goodsTotalAmount}}</span>
-                  </p>
-                  <yd-button type="danger" v-if="item.orderStatus=='0'">付&emsp;款</yd-button>
-                  <yd-button type="disabled" disabled v-if="item.orderStatus=='3'">已收货</yd-button>
-                  <yd-button type="disabled" disabled v-if="item.orderStatus=='6'">已退款</yd-button>
-                </div>
-              </li>
+              <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus"></order-item>
             </ul>
           </yd-infinitescroll>
         </div>
          <div v-show="index==1">
           <yd-infinitescroll :callback="getMyOrder" ref="orderlist0">
             <ul slot="list">
-              <li class="order-item px-1" v-for="item in list0" :key="item.orderSn">
-                <h2 class="px-1">{{item.storeName}}</h2>
-                <div class="good-list">
-                  <p class="order-id">订单编号：{{item.orderSn}}</p>
-                  <div class="good-item flex px-1" v-for="good in item.goods" :key="good.goodsId">
-                    <img :src="good.goodsImg" :alt="good.goodsName">
-                    <div class="good-info">
-                      <h3 class="good-title">{{good.goodsName}}</h3>
-                      <div class="good-price">
-                        <span>数量：{{good.goodNum}}</span>
-                        <span>￥{{good.goodsAmount}}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="order-operate flex just-between align-center">
-                  <p>应付金额：
-                    <span class="danger-color">￥{{item.goodsTotalAmount}}</span>
-                  </p>
-                  <yd-button type="danger" v-if="item.orderStatus=='0'">付&emsp;款</yd-button>
-                  <yd-button type="disabled" disabled v-if="item.orderStatus=='6'">已退款</yd-button>
-                </div>
-              </li>
+              <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus"></order-item>
             </ul>
           </yd-infinitescroll>
         </div>
          <div v-show="index==2">
           <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
             <ul slot="list">
-              <li class="order-item px-1" v-for="item in list3" :key="item.orderSn">
-                <h2 class="px-1">{{item.storeName}}</h2>
-                <div class="good-list">
-                  <p class="order-id">订单编号：{{item.orderSn}}</p>
-                  <div class="good-item flex px-1" v-for="good in item.goods" :key="good.goodsId">
-                    <img :src="good.goodsImg" :alt="good.goodsName">
-                    <div class="good-info">
-                      <h3 class="good-title">{{good.goodsName}}</h3>
-                      <div class="good-price">
-                        <span>数量：{{good.goodNum}}</span>
-                        <span>￥{{good.goodsAmount}}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="order-operate flex just-between align-center">
-                  <p>应付金额：
-                    <span class="danger-color">￥{{item.goodsTotalAmount}}</span>
-                  </p>
-                  <yd-button v-if="item.orderStatus=='3'">已收货</yd-button>
-                </div>
-              </li>
+              <order-item v-for="item in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus"></order-item>
             </ul>
           </yd-infinitescroll>
         </div>
@@ -100,6 +34,7 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
+import OrderItem from 'components/common/OrderItem';
 import { Tab, TabItem } from "vux";
 import { findO2oOrderByPage } from "../../api/index";
 export default {
@@ -124,7 +59,7 @@ export default {
       pageNo7: 1
     };
   },
-  components: { HeaderTop, Tab, TabItem },
+  components: { HeaderTop, Tab, TabItem ,OrderItem},
   computed: {
     ...mapState(["storeInfo"])
   },

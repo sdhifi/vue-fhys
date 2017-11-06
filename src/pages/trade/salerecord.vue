@@ -43,7 +43,7 @@
           <input slot="right" type="radio" value="2" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
       </yd-cell-group>
-      <div class="btn-container">
+      <div class="btn-container" style="padding:0 .2rem;">
         <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="save">确认录入</yd-button>
       </div>
       <yd-cell-group style="margin-top:1.5rem;">

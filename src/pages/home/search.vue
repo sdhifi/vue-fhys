@@ -98,7 +98,7 @@ export default {
       padding: .04rem .3rem;
       margin: 0 1.5% @pd;
       color: @white;
-      border-radius: 10px;
+      border-radius: 10px 0;
       .ellipsis;
       font-size: .28rem;
     }

@@ -34,7 +34,7 @@
           <input slot="right" type="radio" value="0" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
-      <div class="btn-container">
+      <div class="btn-container" style="padding:0 .2rem;">
         <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="save">立即支付</yd-button>
       </div>
     </main>
@@ -86,6 +86,3 @@ export default {
   }
 };
 </script>
-<style lang='less' scoped>
-@import "../../style/mixin.less";
-</style>

@@ -2,12 +2,6 @@
   <div>
     <header-top title="提现"></header-top>
     <main class='scroll-content-2'>
-      <!-- <section v-if="!balanceMoney" class="hv-cen text-center">
-                      <span class="iconfont self-nodata" style="font-size:40px;"></span>
-                      <p class="text-center">可提取福利
-                        <span class="danger-color">0</span> 元</p>
-                    </section>
-                    <section v-else> -->
       <section>
         <p class="tips">可提取福利
           <span class="danger-color">{{balanceMoney}}</span> 元

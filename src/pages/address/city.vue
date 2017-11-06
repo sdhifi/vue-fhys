@@ -201,10 +201,11 @@ export default {
       width: 15%;
       &.active{
         transition: all .2s;
-        background-color: @purple;
+        background-color: red;
         color: @white;
         border: 1px solid currentColor;
         box-shadow: 0 0 15px @white inset;
+        font-size: .28rem;
       }
     }
   }
