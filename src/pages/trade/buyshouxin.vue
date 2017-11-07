@@ -35,58 +35,59 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import { addShouXin } from '../../api/index'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import { addShouXin } from "../../api/index";
 export default {
-  name: 'BuyShouxin',
+  name: "BuyShouxin",
   data() {
     return {
-      money: '',
-      payMoney: '',
-      payType: ''
-    }
+      money: "",
+      payMoney: "",
+      payType: ""
+    };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(['member','account']),
-    valid(){
-      return /^\+?[1-9][0-9]*$/.test(this.money) && !!this.payType
+    ...mapState(["member", "account"]),
+    valid() {
+      return /^\+?[1-9][0-9]*$/.test(this.money) && !!this.payType;
     }
   },
-  created() {
-
-  },
-  activated() {
-
-  },
+  created() {},
+  activated() {},
   methods: {
-    checkMoney(){
-      this.money = this.money.replace(/\D/g,'');
+    checkMoney() {
+      this.money = this.money.replace(/\D/g, "");
       this.setPayMoney();
     },
     setPayMoney() {
       this.payMoney = (+this.money * 0.12).toFixed(2);
     },
-    buy(){
+    buy() {
       let vm = this;
       mui.ajax({
         url: addShouXin,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          tradeMoney:this.money,
-          type:this.payType,
-          account:this.account,
-          token:md5(`addShouXin${this.account}`)
+          tradeMoney: this.money,
+          type: this.payType,
+          account: this.account,
+          token: md5(`addShouXin${this.account}`)
         },
-        success(res){
-          vm.$dailog.toast({
-            mes:res.msg
-          })
+        success(res) {
+          if (vm.payType == "2") {
+            vm.$store.commit("RECORD_PAY_INFO", res.result);
+            vm.$router.push({ name: "YinLian" });
+          } else {
+            vm.$dialog.toast({
+              mes: res.msg
+            });
+          }
         }
-      })
+      });
     }
   }
-}
+};
 </script>

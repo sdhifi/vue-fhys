@@ -274,7 +274,11 @@ export default {
     },
     signOut() {
       removeStore("account");
+      removeStore("storeId");
       this.$store.commit("SET_ACCOUNT", "");
+      this.$store.commit("RECORD_BANK_List",[]);
+      this.$store.commit("RECORD_BANK_CARD", null);
+
       this.$dialog.toast({
         mes: "退出成功",
         timeout: 1000,

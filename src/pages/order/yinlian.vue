@@ -32,7 +32,7 @@
           <yd-cell-item>
           <span slot="left">&emsp;电话号码：</span>
           <!-- <span slot="right" class="fs-14">{{payInfo.mobile}}</span> -->
-          <yd-input slot="right" v-model="account" type="tel"></yd-input>          
+          <yd-input slot="right" :value="account" type="tel" readonly></yd-input>          
         </yd-cell-item>
       </yd-cell-group>
       <div style="padding:0 .2rem;">
@@ -80,6 +80,7 @@ export default {
       this.$store.dispatch("getBankList");
     }
     this.toggleTag = false;
+    this.verifyCode='';
   },
   mixins: [mixin],
   methods: {
@@ -134,9 +135,11 @@ export default {
         success(res){
           if(res.code==200){
            vm.$dialog.toast({
-              mes: res.msg
+              mes: res.msg,
+              callback:()=>{
+                vm.$router.go(-1);
+              }
             });
-            vm.$router.go(-1);
           }
           else{
             vm.$dialog.toast({

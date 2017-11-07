@@ -181,7 +181,11 @@ export default {
     mui.back = this.oldBack;
     next();
   },
-  created() {},
+  created() {
+    if (!this.member) {
+      this.$store.dispatch("getInfo");
+    }
+  },
   activated() {
     this.orderType = this.$route.query.orderType;
     if (!this.defaultAddress) {
@@ -210,8 +214,7 @@ export default {
             this.$router.go(-1);
           }
         });
-      }
-      else{
+      } else {
         this.$router.go(-1);
       }
     },
@@ -228,7 +231,7 @@ export default {
         this.$router.push({ name: "PwdManage" });
         return;
       }
-      //普通商品，余额支付
+      //普通商品，余额支付 || 责任商品，责任金额
       if (
         (this.orderType == 0 && this.payType == "0") ||
         (this.orderType == 2 && this.payType == "8")
@@ -284,21 +287,28 @@ export default {
         headers: { "app-version": "v1.0" },
         data: cmParams,
         success(res) {
-          //品牌商城，余额支付
+          //品牌商城||责任消费
           if (vm.orderType == 0 || vm.orderType == 2) {
-            vm.$dialog.loading.close();
-            if (res.code == 200) {
-              vm.showPassword = false;
-              vm.$dialog.toast({
-                mes: res.msg
-              });
-            } else if (res.code == 401) {
-              vm.$refs.keyboard.$emit(
-                "ydui.keyboard.error",
-                "对不起，您的支付密码不正确，请重新输入。"
-              );
-            } else {
-              vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
+            // 余额支付||责任金额
+            if (vm.payType == "0" || vm.payType == "8") {
+              vm.$dialog.loading.close();
+              if (res.code == 200) {
+                vm.showPassword = false;
+                vm.$dialog.toast({
+                  mes: res.msg
+                });
+              } else if (res.code == 401) {
+                vm.$refs.keyboard.$emit(
+                  "ydui.keyboard.error",
+                  "对不起，您的支付密码不正确，请重新输入。"
+                );
+              } else {
+                vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
+              }
+            } else if (vm.payType == "3") {
+              //银联支付跳转
+              vm.$store.commit("RECORD_PAY_INFO", res.result);
+              vm.$router.push({ name: "YinLian" });
             }
           } else if (vm.orderType == 1) {
             //积分换购，积分支付
