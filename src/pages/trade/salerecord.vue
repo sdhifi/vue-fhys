@@ -137,7 +137,8 @@ export default {
           }
           //银联支付
           else if (vm.payType == '2') {
-
+            vm.$store.commit('RECORD_PAY_INFO',res.result);
+            vm.$router.push({name:"YinLian"})
           }
           //微信支付
           else {

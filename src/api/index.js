@@ -75,6 +75,8 @@ let findO2oOrderByPage = `${order}/findO2oOrderByPage` //店铺订单
 let addOrder = `${order}/addOrder` //下单
 let toAdd = `${order}/toAdd` //立即购买下单
 let actCartInH5 = `${order}/actCartInH5` //结算购物车
+let yinLPay = `${order}/yinLPay` //银联预下单
+let yinLPayCofirom = `${order}/yinLPayCofirom` //银联支付
 
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
 
@@ -131,17 +133,17 @@ export {
   defaultAddress,
   delAdress,
   newsAddressInIos,
-  
+
   register,
   login,
   forgetPassWord,
   updataLoginPassword,
-  
+
   service,
   aboutGjf,
-  
+
   sendcode,
-  
+
   my,
   realNameByAly,
   update,
@@ -162,6 +164,8 @@ export {
   addOrder,
   toAdd,
   actCartInH5,
+  yinLPay,
+  yinLPayCofirom,
 
   newProCommet,
 

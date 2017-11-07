@@ -18,6 +18,7 @@ import {
   DELETE_CART_ITEM,
   RECORD_SETTLE_LIST,
   SET_PAY_PASSWORD,
+  RECORD_PAY_INFO,
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -66,26 +67,29 @@ export default {
   [RECORD_ADDRESS_List](state, list) {
     state.addressList = list;
   },
-  [RECORD_CART_LIST](state,list){
-    state.cartList=list;
+  [RECORD_CART_LIST](state, list) {
+    state.cartList = list;
   },
-  [UPDATE_CART_ITEM](state,payload){
+  [UPDATE_CART_ITEM](state, payload) {
     let _list = state.cartList;
-    _list.splice(payload.index,1,payload.item);
-    state.cartList=_list;
+    _list.splice(payload.index, 1, payload.item);
+    state.cartList = _list;
   },
-  [DELETE_CART_ITEM](state,index){
+  [DELETE_CART_ITEM](state, index) {
     let _list = state.cartList;
-    _list.splice(index,1);
-    state.cartList=_list;
+    _list.splice(index, 1);
+    state.cartList = _list;
   },
-  [RECORD_SETTLE_LIST](state,list){
-    state.settleList=list;
+  [RECORD_SETTLE_LIST](state, list) {
+    state.settleList = list;
   },
-  [SET_PAY_PASSWORD](state,sta){
-    state.paypwd=sta;
+  [SET_PAY_PASSWORD](state, sta) {
+    state.paypwd = sta;
   },
-  ['SAVE_POSITION'](state,payload){
+  ['SAVE_POSITION'](state, payload) {
     state.positions[payload.name] = payload.position
+  },
+  [RECORD_PAY_INFO](state, payInfo) {
+    state.payInfo = payInfo;
   }
 }

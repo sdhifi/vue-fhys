@@ -32,7 +32,7 @@
           </yd-cell-item>
         </yd-cell-group>
         <div style="padding:0 .2rem;">
-          <p>*提现说明：申请提现后会有专门的人员后台进行审核，审核不通过将自动返还到提现账户，请耐心等待。</p>
+          <p class="danger-color">*提现说明：申请提现后会有专门的人员后台进行审核，审核不通过将自动返还到提现账户，请耐心等待。</p>
           <yd-button :type="valid?'warning':'disabled'" size="large" @click.native="drawCash">提现</yd-button>
         </div>
       </section>
@@ -42,7 +42,6 @@
 <script>
 import { mapState } from 'vuex'
 import HeaderTop from 'components/header/index'
-import { XDialog } from 'vux'
 import { addDrawCash } from '../../api/index'
 import { mixin, getStore } from 'components/common/mixin'
 export default {
@@ -54,9 +53,9 @@ export default {
       showDialog: false,
     }
   },
-  components: { HeaderTop, XDialog },
+  components: { HeaderTop},
   computed: {
-    ...mapState(['balanceMoney', 'account', 'defaultBankCard', 'bankList']),
+    ...mapState(['balanceMoney', 'account', 'defaultBankCard']),
     validMoney() {
       return !isNaN(this.money) && this.money >= 200 && this.money <= 50000
     },

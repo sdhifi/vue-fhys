@@ -1,6 +1,10 @@
 <template>
   <div>
-    <header-top title="确认订单"></header-top>
+    <yd-navbar title="确认订单" :fixed="true">
+      <section slot="left" @click="goBack">
+        <yd-navbar-back-icon>返回</yd-navbar-back-icon>
+      </section>
+    </yd-navbar>
     <main class='scroll-content-2'>
       <section class="address-container">
         <yd-cell-group v-if="!addressList.length">
@@ -67,14 +71,14 @@
           </p>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group v-if="orderType=='1'">
+      <yd-cell-group v-if="orderType==1">
          <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">积分支付</span>
           <input slot="right" type="radio" value="7" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
-       <yd-cell-group v-else-if="orderType=='2'">
+       <yd-cell-group v-else-if="orderType==2">
          <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">责任消费余额</span>
@@ -86,7 +90,6 @@
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <div slot="left">
             <p>会员余额 
-              <!-- <router-link :to="{name:'PwdManage'}" class="danger-color fs-12" style="padding:.2rem;" v-if="!paypwd">设置支付密码</router-link> -->
               </p>
             <span  class="danger-color fs-12">(余额支付需要额外支付10%税费)</span>
             </div>
@@ -139,134 +142,184 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import HeaderTop from "components/header/index";
 import { addOrder, toAdd } from "../../api/index";
 import { mixin } from "components/common/mixin";
 export default {
   name: "Settle",
   data() {
     return {
-      orderType:0,//0:普通商品 1：积分兑换 2责任消费
+      oldBack: mui.back,
+      orderType: 0, //0:普通商品 1：积分兑换 2责任消费
       remark: "", //备注
       payType: "", //支付方式
-      showPassword:false //安全键盘
+      showPassword: false //安全键盘
     };
   },
-  components: { HeaderTop },
   computed: {
-    ...mapState(["account", "defaultAddress", "addressList", "settleList","paypwd","member"]),
+    ...mapState([
+      "account",
+      "defaultAddress",
+      "addressList",
+      "settleList",
+      "paypwd",
+      "member"
+    ]),
     total() {
-      return this.settleList.totalAmount+this.settleList.pointNiceAmount;
+      return (
+        this.settleList.totalAmount +
+        this.settleList.pointNiceAmount +
+        this.settleList.pos
+      );
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      mui.back = vm.goBack;
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
   },
   created() {},
   activated() {
-    this.orderType=this.$route.query.orderType;
-    if(!this.defaultAddress){
-        this.$store.dispatch("getAddressList");
+    this.orderType = this.$route.query.orderType;
+    if (!this.defaultAddress) {
+      this.$store.dispatch("getAddressList");
+    }
+    switch (this.orderType) {
+      case 1:
+        this.payType = "7";
+        break;
+      case 2:
+        this.payType = "8";
+        break;
+      default:
+        this.payType = "0";
+        break;
     }
   },
   mixins: [mixin],
   methods: {
+    goBack() {
+      if (!this.$route.query.buynow) {
+        this.$dialog.confirm({
+          title: "确认离开吗？",
+          mes: "购物车相关商品会被删除哦",
+          opts: () => {
+            this.$router.go(-1);
+          }
+        });
+      }
+      else{
+        this.$router.go(-1);
+      }
+    },
     pay() {
-      if(!this.payType){
+      if (!this.payType) {
         this.$dialog.toast({
-          mes:"请选择支付方式",
-          timeout:1000
-        })
+          mes: "请选择支付方式",
+          timeout: 1000
+        });
         return;
       }
       //TODO:判断是否设置过支付密码，没有就跳转密码设置
-      if(this.payType=='0'&&!this.paypwd){
-        this.$router.push({name:"PwdManage"});
+      if (this.payType == "0" && !this.paypwd) {
+        this.$router.push({ name: "PwdManage" });
         return;
       }
       //普通商品，余额支付
-      if((this.orderType==0 && this.payType=='0')||(this.orderType==2 && this.payType=='8')){
+      if (
+        (this.orderType == 0 && this.payType == "0") ||
+        (this.orderType == 2 && this.payType == "8")
+      ) {
         this.showPassword = true;
-      }
-      //积分换购
-      else if(this.orderType==1){
-        this.placeAnOrder('');
-      }
-      else {
-        this.placeAnOrder('');
+      } else if (this.orderType == 1) {
+        //积分换购
+        this.placeAnOrder("");
+      } else {
+        this.placeAnOrder("");
       }
     },
-    checkPayPwd(val){
-      this.$dialog.loading.open('验证支付密码');
+    checkPayPwd(val) {
+      this.$dialog.loading.open("验证支付密码");
       this.placeAnOrder(val);
     },
-    placeAnOrder(pwd){
+    placeAnOrder(pwd) {
       let vm = this;
       //购物车下单参数
-      let cmParams=null;
-        let a=[],b=[],c=[],d=[],e=[];
-         this.settleList.orderAddVos.forEach(item=>{
-           a.push(item.goodsId);
-           b.push(item.goodsAttrStockId);
-           c.push(item.goodsAttrIds);
-           d.push(item.goodsAttr);
-           e.push(item.goodsNum);
-         })
-         cmParams={
-            goodsId:a.join(','),
-            goodsAttrStockId:b.join(','),
-            goodsAttrIds:c.join(';'),
-            goodsAttr:d.join(','),
-            goodsNum:e.join(','),
+      let cmParams = null;
+      let a = [],
+        b = [],
+        c = [],
+        d = [],
+        e = [];
+      this.settleList.orderAddVos.forEach(item => {
+        a.push(item.goodsId);
+        b.push(item.goodsAttrStockId);
+        c.push(item.goodsAttrIds);
+        d.push(item.goodsAttr);
+        e.push(item.goodsNum);
+      });
+      cmParams = {
+        goodsId: a.join(","),
+        goodsAttrStockId: b.join(","),
+        goodsAttrIds: c.join(";"),
+        goodsAttr: d.join(","),
+        goodsNum: e.join(","),
 
-            payType:this.payType,
-            remark:this.remark,
-            couponsId:'',
-            orderAddressId:(this.defaultAddress&&this.defaultAddress.id) || this.addressList[0].id,
-            payPassword:pwd,
-            account:this.account,
-            token:md5(`addOrder${this.payType}${this.account}`)
-         }
-         mui.ajax({
-          url: addOrder,
-          type: 'post',
-          headers: {'app-version': 'v1.0'},
-          data: cmParams,
-          success(res){
-            //品牌商城，余额支付
-            if(vm.orderType==0 ||vm.orderType==2){
-              vm.$dialog.loading.close();
-              if(res.code==200){
-                 vm.showPassword = false;
-                 vm.$dialog.toast({
-                   mes:res.msg
-                 })
-              }
-              else if(res.code==401){
-                vm.$refs.keyboard.$emit('ydui.keyboard.error', '对不起，您的支付密码不正确，请重新输入。');
-              }
-              else{
-                vm.$refs.keyboard.$emit('ydui.keyboard.error', res.msg);            
-              }
-            }
-            //积分换购，积分支付
-            else if(vm.orderType==1){
-              if(res.code==200){
-                 vm.$dialog.toast({
-                  mes:res.msg
-                })
-              }
-              else{
-                vm.$dialog.toast({
-                  mes:res.msg
-                })
-              }
-            }
-          },
-          error(err){
+        payType: this.payType,
+        remark: this.remark,
+        couponsId: "",
+        orderAddressId:
+          (this.defaultAddress && this.defaultAddress.id) ||
+          this.addressList[0].id,
+        payPassword: pwd,
+        account: this.account,
+        token: md5(`addOrder${this.payType}${this.account}`)
+      };
+      mui.ajax({
+        url: addOrder,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: cmParams,
+        success(res) {
+          //品牌商城，余额支付
+          if (vm.orderType == 0 || vm.orderType == 2) {
             vm.$dialog.loading.close();
-            vm.$dialog.toast({
-                mes:"超时，请稍后重试"
-            })
+            if (res.code == 200) {
+              vm.showPassword = false;
+              vm.$dialog.toast({
+                mes: res.msg
+              });
+            } else if (res.code == 401) {
+              vm.$refs.keyboard.$emit(
+                "ydui.keyboard.error",
+                "对不起，您的支付密码不正确，请重新输入。"
+              );
+            } else {
+              vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
+            }
+          } else if (vm.orderType == 1) {
+            //积分换购，积分支付
+            if (res.code == 200) {
+              vm.$dialog.toast({
+                mes: res.msg
+              });
+            } else {
+              vm.$dialog.toast({
+                mes: res.msg
+              });
+            }
           }
-      })
+        },
+        error(err) {
+          vm.$dialog.loading.close();
+          vm.$dialog.toast({
+            mes: "超时，请稍后重试"
+          });
+        }
+      });
     }
   }
 };
@@ -308,26 +361,26 @@ export default {
     }
   }
 }
-.pay-box{
+.pay-box {
   position: absolute;
   bottom: 9rem;
   left: 0;
   width: 6rem;
   left: 50%;
-  margin-left:-3rem;
+  margin-left: -3rem;
   background-color: @white;
   z-index: 1503;
   border-radius: 5px;
-  .pay-title{
+  .pay-title {
     color: @white;
     border-radius: 5px 5px 0 0;
     .pd-v;
   }
-  .pay-price{
-   .pd-v;
-   border-bottom: 1px solid #f7f7f5;
+  .pay-price {
+    .pd-v;
+    border-bottom: 1px solid #f7f7f5;
   }
-  .balance-price{
+  .balance-price {
     text-align: left;
     .pd;
   }

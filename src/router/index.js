@@ -223,6 +223,10 @@ const router =  new Router({
     path: '/trade/shouxinlist',
     name: 'ShouxinList',
     component: require('../pages/trade/shouxinlist')
+  }, {
+    path: '/order/yinlian',
+    name: 'YinLian',
+    component: require('../pages/order/yinlian')
   },  {
     path: '*',
     redirect: '/home/index'
