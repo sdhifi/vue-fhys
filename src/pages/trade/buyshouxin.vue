@@ -23,9 +23,14 @@
           <input slot="right" type="radio" value="1" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
         <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea;"></span>
+          <span slot="left">支付宝支付</span>
+          <input slot="right" type="radio" value="2" v-model="payType" @change="setPayMoney" />
+        </yd-cell-item>
+        <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
           <span slot="left">银联在线支付</span>
-          <input slot="right" type="radio" value="2" v-model="payType" @change="setPayMoney" />
+          <input slot="right" type="radio" value="3" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
       </yd-cell-group>
       <div style="padding:0 .4rem;">
@@ -77,7 +82,7 @@ export default {
           token: md5(`addShouXin${this.account}`)
         },
         success(res) {
-          if (vm.payType == "2") {
+          if (vm.payType == "3") {
             vm.$store.commit("RECORD_PAY_INFO", res.result);
             vm.$router.push({ name: "YinLian" });
           } else {

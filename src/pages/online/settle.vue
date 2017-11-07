@@ -205,7 +205,11 @@ export default {
   },
   mixins: [mixin],
   methods: {
-    goBack() {
+    goBack(b) {
+      if (b) {
+        this.$router.go(-1);
+        return;
+      }
       if (!this.$route.query.buynow) {
         this.$dialog.confirm({
           title: "确认离开吗？",
@@ -287,6 +291,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: cmParams,
         success(res) {
+          // vm.$router.go(-1);
           //品牌商城||责任消费
           if (vm.orderType == 0 || vm.orderType == 2) {
             // 余额支付||责任金额
@@ -295,7 +300,10 @@ export default {
               if (res.code == 200) {
                 vm.showPassword = false;
                 vm.$dialog.toast({
-                  mes: res.msg
+                  mes: res.msg,
+                  callback: () => {
+                    vm.goBack(true);
+                  }
                 });
               } else if (res.code == 401) {
                 vm.$refs.keyboard.$emit(
@@ -314,7 +322,10 @@ export default {
             //积分换购，积分支付
             if (res.code == 200) {
               vm.$dialog.toast({
-                mes: res.msg
+                mes: res.msg,
+                callback: () => {
+                  vm.goBack(true);
+                }
               });
             } else {
               vm.$dialog.toast({
@@ -326,7 +337,12 @@ export default {
         error(err) {
           vm.$dialog.loading.close();
           vm.$dialog.toast({
-            mes: "超时，请稍后重试"
+            mes: "超时，请稍后重试",
+            callback:()=>{
+              if(vm.payType=='0' || vm.payType=='8'){
+                vm.$refs.keyboard.$emit("ydui.keyboard.error", "超时，请稍后重试");
+              }
+            }
           });
         }
       });

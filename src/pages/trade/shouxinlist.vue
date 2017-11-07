@@ -7,7 +7,8 @@
             <li class="item" v-for="(item,index) in info" :key="index">
               <div class="flex align-center">
                 <span class="iconfont-large self-weixinzhifu" style="color:#25d025;" v-if="item.payType=='1'"></span>
-                <span class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;" v-if="item.payType=='2'"></span>
+                <span class="iconfont-large self-zhifubao" style="color:#00a0ea;" v-if="item.payType=='2'"></span>
+                <span class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;" v-if="item.payType=='3'"></span>
                 <span class="time">{{formatTime(item.addTime)}}</span>
               </div>
               <div class="flex just-between align-center">
