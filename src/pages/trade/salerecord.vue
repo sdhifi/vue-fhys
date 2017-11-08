@@ -32,108 +32,107 @@
       </yd-cell-group>
       <yd-cell-group title="支付方式" v-show="money>0">
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont self-edu" style="color:#f9a340;"></span>
+          <span slot="icon" class="iconfont-large self-edu" style="color:#f9a340;"></span>
           <span slot="left">授信额度</span>
           <input slot="right" type="radio" value="4" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont self-wallet danger-color"></span>
+          <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">会员余额 </span>
           <input slot="right" type="radio" value="5" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont self-weixinzhifu" style="color:#25d025;"></span>
+          <span slot="icon" class="iconfont-large self-weixinzhifu" style="color:#25d025;"></span>
           <span slot="left">微信支付</span>
           <input slot="right" type="radio" value="0" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont self-yinlianzhifu1" style="color:#077d8d;"></span>
+          <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
           <span slot="left">银联在线支付</span>
           <input slot="right" type="radio" value="2" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
       </yd-cell-group>
-      <div class="btn-container" style="padding:0 .2rem;">
-        <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="save">确认录入</yd-button>
+      <div class="btn-container flex just-around" style="padding:0 .2rem;">
+        <yd-button type="warning" @click.native="goSaleHistory" style="font-size:15px;"> 更 多 记 录
+          <span class="iconfont self-right"></span>
+        </yd-button>
+        <yd-button :type="valid?'primary':'disabled'" @click.native="save"  style="font-size:15px;"> 确 认 录 入 
+          <span class="iconfont self-dui"></span>
+        </yd-button>
       </div>
-      <yd-cell-group style="margin-top:1.5rem;">
-        <yd-cell-item arrow type="link" href="/trade/salehistory">
-          <span slot="left">查看更多录入记录</span>
-        </yd-cell-item>
-      </yd-cell-group>
     </main>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import { findMemberByMoblie, addBenefit } from '../../api/index'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import { findMemberByMoblie, addBenefit } from "../../api/index";
 export default {
-  name: 'SaleRecord',
+  name: "SaleRecord",
   data() {
     return {
-      money: '',
-      payMoney: '',
-      mobile: '',
-      mobileName: '',
-      payType: ''
-    }
+      money: "",
+      payMoney: "",
+      mobile: "",
+      mobileName: "",
+      payType: ""
+    };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(['account', 'member']),
+    ...mapState(["account", "member"]),
     valid() {
-      return /^(([1-9]\d*)|([0-9]+\.[0-9]{1,2}))$/.test(this.money) && /0?(13|14|15|18)[0-9]{9}/.test(this.mobile)
-        && !!this.payType
+      return (
+        /^(([1-9]\d*)|([0-9]+\.[0-9]{1,2}))$/.test(this.money) &&
+        /0?(13|14|15|18)[0-9]{9}/.test(this.mobile) &&
+        !!this.payType
+      );
     }
   },
-  created() {
-
-  },
-  activated() {
-  },
+  created() {},
+  activated() {},
   methods: {
     findMember() {
       let vm = this;
       mui.ajax({
         url: findMemberByMoblie,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           account: this.account,
           mobile: this.mobile,
           token: md5(`findMemberByMoblie${this.mobile}`)
         },
         success(res) {
-          vm.mobileName = res.result.name || res.result.nickName
+          vm.mobileName = res.result.name || res.result.nickName;
         }
-      })
+      });
     },
     setPayMoney() {
-      if (!this.payType || this.payType == '4') {
-        this.payMoney = this.money
-      }
-      else {
+      if (!this.payType || this.payType == "4") {
+        this.payMoney = this.money;
+      } else {
         this.payMoney = (+this.money * 0.12).toFixed(2);
       }
     },
     save() {
-      if (this.payType=='4'&&this.member.lineOfCrade < +this.money) {
+      if (this.payType == "4" && this.member.lineOfCrade < +this.money) {
         this.$dialog.toast({
-          mes: '授信金额不足请选择其他支付方式或充值授信金额'
-        })
+          mes: "授信金额不足请选择其他支付方式或充值授信金额"
+        });
         return;
       }
-      if (this.payType=='5'&&this.member.balanceMoney < +this.money) {
+      if (this.payType == "5" && this.member.balanceMoney < +this.money) {
         this.$dialog.toast({
-          mes: '账户金额不足请选择其他支付方式'
-        })
+          mes: "账户金额不足请选择其他支付方式"
+        });
         return;
       }
       let vm = this;
       mui.ajax({
         url: addBenefit,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           amount: this.money,
           mobile: this.mobile,
@@ -143,27 +142,27 @@ export default {
         },
         success(res) {
           //授信额度直接录入
-          if (vm.payType == '4' ||vm.payType == '5') {
+          if (vm.payType == "4" || vm.payType == "5") {
             vm.$dialog.toast({
               mes: res.msg
-            })
-            vm.$store.dispatch('getInfo');
-          }
-          //银联支付
-          else if (vm.payType == '2') {
-            vm.$store.commit('RECORD_PAY_INFO',res.result);
-            vm.$router.push({name:"YinLian"});
-          }
-          //微信支付
-          else {
-
+            });
+            vm.$store.dispatch("getInfo");
+          } else if (vm.payType == "2") {
+            //银联支付
+            vm.$store.commit("RECORD_PAY_INFO", res.result);
+            vm.$router.push({ name: "YinLian" });
+          } else {
+            //微信支付
           }
         }
-      })
+      });
+    },
+    goSaleHistory(){
+      this.$router.push({name:"SaleHistory"})
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 </style>

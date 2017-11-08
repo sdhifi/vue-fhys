@@ -152,7 +152,8 @@ export default {
       orderType: 0, //0:普通商品 1：积分兑换 2责任消费
       remark: "", //备注
       payType: "", //支付方式
-      showPassword: false //安全键盘
+      showPassword: false, //安全键盘
+      pays:{}
     };
   },
   computed: {

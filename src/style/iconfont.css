@@ -31,8 +31,6 @@
 
 .self-delete:before { content: "\e677"; }
 
-.self-right:before { content: "\e687"; }
-
 .self-fenghuang:before { content: "\e604"; }
 
 .self-about:before { content: "\e605"; }
@@ -58,6 +56,8 @@
 .self-rmb1:before { content: "\e73f"; }
 
 .self-pay:before { content: "\e606"; }
+
+.self-right:before { content: "\e701"; }
 
 .self-male:before { content: "\e623"; }
 

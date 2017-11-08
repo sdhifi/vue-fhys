@@ -6,18 +6,20 @@
         <ul>
           <li class="item" v-for="(item,index) in info" :key="index">
             <div class="item-top flex just-between align-center">
-              <p class="time">
+              <p>
                 <span class="iconfont-large self-weixinzhifu" style="color:#25d025;" v-if="item.payType=='0'"></span>
                 <span class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;" v-if="item.payType=='2'"></span>
                 <span class="iconfont-large self-edu" style="color:#f9a340;" v-if="item.payType=='4'"></span>
-                <span class="iconfont-large self-shoukuan danger-color" v-if="item.payType=='5'"></span>
-                {{formatTime(item.addTime)}}
+                <span class="iconfont-large self-wallet danger-color" v-if="item.payType=='5'"></span>
+                <span class="time">{{formatTime(item.addTime)}}</span>
                 </p>
               <span class="status status-0" v-if="item.tradeStatus==0">待支付</span>
               <span class="status status-1" v-if="item.tradeStatus==1">已支付</span>
             </div>
             <div class="item-bottom flex just-between align-center">
-              <span class="money">{{item.benefitMoney}}元</span>
+              <span class="money">{{item.benefitMoney}}
+                <span class="fs-14">元</span>
+              </span>
               <p class="fs-14">{{item.mobile}}</p>
             </div>
           </li>
@@ -36,7 +38,7 @@ import HeaderTop from "components/header/index";
 import { benefits } from "../../api/index";
 import { mixin } from "components/common/mixin";
 export default {
-  name: "",
+  name: "SaleHistory",
   data() {
     return {
       info: []
@@ -84,6 +86,8 @@ export default {
   .pd;
   .time {
     font-size: 15px;
+    margin-left: @pd;
+    vertical-align: 2px;
   }
   .money {
     color: @red;
