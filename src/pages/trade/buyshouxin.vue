@@ -18,6 +18,11 @@
           <input slot="right" v-model="payMoney" type="text" readonly style="text-align:right;color:#ff5350;">
         </yd-cell-item>
         <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
+          <span slot="left">会员余额 </span>
+          <input slot="right" type="radio" value="0" v-model="payType" />
+        </yd-cell-item>
+        <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-weixinzhifu" style="color:#25d025;"></span>
           <span slot="left">微信支付</span>
           <input slot="right" type="radio" value="1" v-model="payType" @change="setPayMoney" />
@@ -49,7 +54,8 @@ export default {
     return {
       money: "",
       payMoney: "",
-      payType: ""
+      payType: "",
+      pays: {}
     };
   },
   components: { HeaderTop },
@@ -59,7 +65,9 @@ export default {
       return /^\+?[1-9][0-9]*$/.test(this.money) && !!this.payType;
     }
   },
-  created() {},
+  created() {
+    this.getChannel();
+  },
   activated() {},
   methods: {
     checkMoney() {
@@ -82,16 +90,72 @@ export default {
           token: md5(`addShouXin${this.account}`)
         },
         success(res) {
+          //银联
           if (vm.payType == "3") {
             vm.$store.commit("RECORD_PAY_INFO", res.result);
             vm.$router.push({ name: "YinLian" });
+          } else if (vm.payType == "2") {
+            // 支付宝
+            vm.checkService(vm.pays["alipay"], function() {
+              plus.payment.request(
+                vm.pays["alipay"],
+                res.result.alyString,
+                function(result) {
+                  plus.nativeUI.alert("支付成功", function(){
+                    vm.$store.dispatch("getInfo");
+                    vm.$router.go(-1);
+                  }, "支付");
+                },
+                function(e) {
+                  plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                }
+              );
+            });
+          } else if (vm.payType == "1") {
+            // 微信
           } else {
+            // 余额
             vm.$dialog.toast({
               mes: res.msg
             });
+            vm.$store.dispatch("getInfo");
           }
         }
       });
+    },
+    getChannel() {
+      plus.payment.getChannels(channels => {
+        for (let i in channels) {
+          var channel = channels[i];
+          if (channel.id == "alipay" || channel.id == "wxpay") {
+            this.pays[channel.id] = channel;
+          }
+        }
+      });
+    },
+    checkService(pc, callback) {
+      if (!pc.serviceReady) {
+        var txt = null;
+        switch (pc.id) {
+          case "alipay":
+            txt = "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
+            break;
+          case "wxpay":
+            txt = "系统未安装微信，无法完成支付，是否立即安装？";
+            break;
+        }
+        plus.nativeUI.confirm(
+          txt,
+          function(e) {
+            if (e.index == 0) {
+              pc.installService();
+            }
+          },
+          pc.description
+        );
+      } else {
+        callback && callback();
+      }
     }
   }
 };

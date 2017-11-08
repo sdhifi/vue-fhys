@@ -167,8 +167,7 @@ export default {
     total() {
       return (
         this.settleList.totalAmount +
-        this.settleList.pointNiceAmount +
-        this.settleList.pos
+        this.settleList.pointNiceAmount
       );
     }
   },
@@ -320,14 +319,19 @@ export default {
             }
           } else if (vm.orderType == 1) {
             //积分换购，积分支付
-            if (res.code == 200) {
-              vm.$dialog.toast({
-                mes: res.msg,
-                callback: () => {
-                  vm.goBack(true);
-                }
-              });
-            } else {
+            if(vm.settleList.pointNiceAmount){
+              vm.$store.commit("RECORD_PAY_INFO", res.result);
+              vm.$router.push({ name: "YinLian" });
+            }
+            // if (res.code == 200) {
+            //   vm.$dialog.toast({
+            //     mes: res.msg,
+            //     callback: () => {
+            //       vm.goBack(true);
+            //     }
+            //   });
+            // }
+             else {
               vm.$dialog.toast({
                 mes: res.msg
               });
