@@ -8,7 +8,7 @@
       </section>
       <yd-cell-group>
         <yd-cell-item arrow type="link" :href="item.link" v-for="(item,index) in menu" :key="index">
-          <span slot="icon" :class="['iconfont',item.icon]" :style="{'color':item.color}"></span>
+          <span slot="icon" :class="['iconfont-large',item.icon]" :style="{'color':item.color}"></span>
           <span slot="left">{{item.text}}</span>
         </yd-cell-item>
       </yd-cell-group>

@@ -206,7 +206,7 @@ export default {
   mixins: [mixin],
   methods: {
     goBack(b) {
-      if (b) {
+      if (b==true) {
         this.$router.go(-1);
         return;
       }
