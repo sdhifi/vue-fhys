@@ -15,8 +15,7 @@
               <div class="flex just-between align-center">
                 <span>充值<span class="money">{{item.tradeMoney}}</span></span>
                 <span class="status status-0" v-if="item.tradeStatus==0">待支付</span>
-                <span class="status status-1" v-if="item.tradeStatus==1">支付成功</span>
-                <span class="status status-2" v-if="item.tradeStatus==2">支付失败</span>
+                <span class="status status-1" v-if="item.tradeStatus==1">已支付</span>
               </div>
             </li>
           </ul>

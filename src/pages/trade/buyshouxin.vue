@@ -48,6 +48,7 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { addShouXin } from "../../api/index";
+import {payMixin} from 'components/common/mixin'
 export default {
   name: "BuyShouxin",
   data() {
@@ -65,9 +66,10 @@ export default {
       return /^\+?[1-9][0-9]*$/.test(this.money) && !!this.payType;
     }
   },
-  created() {
-    this.getChannel();
-  },
+  mixins:[payMixin],
+  // created() {
+  //   this.getChannel();
+  // },
   activated() {},
   methods: {
     checkMoney() {
@@ -101,10 +103,14 @@ export default {
                 vm.pays["alipay"],
                 res.result.alyString,
                 function(result) {
-                  plus.nativeUI.alert("支付成功", function(){
-                    vm.$store.dispatch("getInfo");
-                    vm.$router.go(-1);
-                  }, "支付");
+                  plus.nativeUI.alert(
+                    "支付成功",
+                    function() {
+                      vm.$store.dispatch("getInfo");
+                      vm.$router.go(-1);
+                    },
+                    "支付"
+                  );
                 },
                 function(e) {
                   plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
@@ -123,40 +129,40 @@ export default {
         }
       });
     },
-    getChannel() {
-      plus.payment.getChannels(channels => {
-        for (let i in channels) {
-          var channel = channels[i];
-          if (channel.id == "alipay" || channel.id == "wxpay") {
-            this.pays[channel.id] = channel;
-          }
-        }
-      });
-    },
-    checkService(pc, callback) {
-      if (!pc.serviceReady) {
-        var txt = null;
-        switch (pc.id) {
-          case "alipay":
-            txt = "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
-            break;
-          case "wxpay":
-            txt = "系统未安装微信，无法完成支付，是否立即安装？";
-            break;
-        }
-        plus.nativeUI.confirm(
-          txt,
-          function(e) {
-            if (e.index == 0) {
-              pc.installService();
-            }
-          },
-          pc.description
-        );
-      } else {
-        callback && callback();
-      }
-    }
+    // getChannel() {
+    //   plus.payment.getChannels(channels => {
+    //     for (let i in channels) {
+    //       var channel = channels[i];
+    //       if (channel.id == "alipay" || channel.id == "wxpay") {
+    //         this.pays[channel.id] = channel;
+    //       }
+    //     }
+    //   });
+    // },
+    // checkService(pc, callback) {
+    //   if (!pc.serviceReady) {
+    //     var txt = null;
+    //     switch (pc.id) {
+    //       case "alipay":
+    //         txt = "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
+    //         break;
+    //       case "wxpay":
+    //         txt = "系统未安装微信，无法完成支付，是否立即安装？";
+    //         break;
+    //     }
+    //     plus.nativeUI.confirm(
+    //       txt,
+    //       function(e) {
+    //         if (e.index == 0) {
+    //           pc.installService();
+    //         }
+    //       },
+    //       pc.description
+    //     );
+    //   } else {
+    //     callback && callback();
+    //   }
+    // }
   }
 };
 </script>

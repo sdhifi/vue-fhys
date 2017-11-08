@@ -317,6 +317,27 @@ export default {
               vm.$store.commit("RECORD_PAY_INFO", res.result);
               vm.$router.push({ name: "YinLian" });
             }
+            //支付宝
+            else if(vm.payType == "2"){
+              vm.checkService(vm.pays["alipay"], function() {
+              plus.payment.request(
+                vm.pays["alipay"],
+                res.result.payString,
+                function(result) {
+                  plus.nativeUI.alert(
+                    "支付成功",
+                    function() {
+                      vm.goBack(true);
+                    },
+                    "支付"
+                  );
+                },
+                function(e) {
+                  plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                }
+              );
+            });
+            }
           } else if (vm.orderType == 1) {
             //积分换购，积分支付
             if(vm.settleList.pointNiceAmount){

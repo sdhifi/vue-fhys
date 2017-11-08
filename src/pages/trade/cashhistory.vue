@@ -7,7 +7,7 @@
           <ul slot="list">
             <li class="item" v-for="(item,index) in info" :key="index">
               <div class="flex align-center">
-                <span class="iconfont self-hongbao danger-color"></span>
+                <span class="iconfont-large self-rmb1 danger-color"></span>
                 <span class="time">{{formatTime(item.addTime)}}</span>
               </div>
               <div class="flex just-between align-center">

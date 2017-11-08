@@ -40,42 +40,45 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import { addDrawCash } from '../../api/index'
-import { mixin, getStore } from 'components/common/mixin'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import { addDrawCash } from "../../api/index";
+import { mixin, getStore } from "components/common/mixin";
 export default {
-  name: 'WithDrawals',
+  name: "WithDrawals",
   data() {
     return {
-      money: '',
-      remark: '',
-      showDialog: false,
-    }
+      money: "",
+      remark: "",
+      showDialog: false
+    };
   },
-  components: { HeaderTop},
+  components: { HeaderTop },
   computed: {
-    ...mapState(['balanceMoney', 'account', 'defaultBankCard']),
+    ...mapState(["balanceMoney", "account", "defaultBankCard"]),
     validMoney() {
-      return !isNaN(this.money) && this.money >= 200 && this.money <= 50000
+      return !isNaN(this.money) && this.money >= 200 && this.money <= 50000;
     },
     valid() {
-      return this.defaultBankCard && this.validMoney && this.money < this.balanceMoney
+      return (
+        this.defaultBankCard &&
+        this.validMoney &&
+        this.money < this.balanceMoney
+      );
     }
   },
   mixins: [mixin],
   created() {
-    this.$store.dispatch('getBankList');
+    this.$store.dispatch("getBankList");
   },
-  activated() {
-  },
+  activated() {},
   methods: {
     drawCash() {
       let vm = this;
       mui.ajax({
         url: addDrawCash,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           account: this.account,
           myBankId: this.defaultBankCard.id,
@@ -84,17 +87,23 @@ export default {
           token: md5(`addDrawCash${this.account}${this.money}`)
         },
         success(res) {
-          vm.$dialog.toast({
-            mes: res.msg
-          })
+          if (res.code == 200) {
+            vm.$dialog.toast({
+              mes: res.msg
+            });
+          } else {
+            vm.$dialog.alert({
+              mes: res.msg
+            });
+          }
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .tips {
   .mg-v;
   padding-left: @pd;
@@ -105,7 +114,7 @@ export default {
   background-color: @white;
   margin-bottom: @pd;
   .icon {
-    .wh(.8rem, .8rem);
+    .wh(0.8rem, 0.8rem);
     background-size: cover;
   }
   .bank-name {
@@ -113,7 +122,7 @@ export default {
     color: @lightgray;
     text-align: left;
     p {
-      margin-bottom: .1rem;
+      margin-bottom: 0.1rem;
       &:first-of-type {
         font-size: 15px;
         color: #333;

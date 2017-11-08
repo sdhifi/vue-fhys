@@ -25,12 +25,21 @@
           <span slot="left">当前授信额度值</span>
           <input slot="right" type="text" readonly style="text-align:right;color:#04be02;" v-model="member.lineOfCrade">
         </yd-cell-item>
+        <yd-cell-item v-show="payType=='5'">
+          <span slot="left">当前账户余额</span>
+          <input slot="right" type="text" readonly style="text-align:right;color:#04be02;" v-model="member.balanceMoney">
+        </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group title="支付方式" v-show="money>0">
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont self-edu" style="color:#f9a340;"></span>
           <span slot="left">授信额度</span>
           <input slot="right" type="radio" value="4" v-model="payType" @change="setPayMoney" />
+        </yd-cell-item>
+        <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont self-wallet danger-color"></span>
+          <span slot="left">会员余额 </span>
+          <input slot="right" type="radio" value="5" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont self-weixinzhifu" style="color:#25d025;"></span>
@@ -81,9 +90,6 @@ export default {
 
   },
   activated() {
-    this.money="";
-    this.payMoney="";
-    this.mobile="";
   },
   methods: {
     findMember() {
@@ -117,6 +123,12 @@ export default {
         })
         return;
       }
+      if (this.payType=='5'&&this.member.balanceMoney < +this.money) {
+        this.$dialog.toast({
+          mes: '账户金额不足请选择其他支付方式'
+        })
+        return;
+      }
       let vm = this;
       mui.ajax({
         url: addBenefit,
@@ -131,7 +143,7 @@ export default {
         },
         success(res) {
           //授信额度直接录入
-          if (vm.payType == '4') {
+          if (vm.payType == '4' ||vm.payType == '5') {
             vm.$dialog.toast({
               mes: res.msg
             })

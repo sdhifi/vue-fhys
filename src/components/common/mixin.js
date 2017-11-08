@@ -33,18 +33,18 @@ export const mixin = {
      * @param {*类型} type 
      * 
      */
-    formatTime(t,type){
-      var date, year, month, day, hour, minute,second;
-      if(!t)
-      return '--'
+    formatTime(t, type) {
+      var date, year, month, day, hour, minute, second;
+      if (!t)
+        return '--'
       date = new Date(t);
       /**
        * @param  {String} time 日期时间
        * @return {String}      格式化日期时间
        */
       var complete = function (time) {
-          return time.toString().replace(/^(\d)$/, "0$1");
-          // return time.toString().padStart(2,'0');
+        return time.toString().replace(/^(\d)$/, "0$1");
+        // return time.toString().padStart(2,'0');
       };
       year = date.getFullYear();
       month = complete(date.getMonth() + 1);
@@ -52,7 +52,7 @@ export const mixin = {
       hour = complete(date.getHours());
       minute = complete(date.getMinutes());
       second = complete(date.getSeconds());
-      return type?`${year}-${month}-${day} ${hour}:${minute}:${second}`:`${year}年${month}月${day}日 ${hour}:${minute}`;
+      return type ? `${year}-${month}-${day} ${hour}:${minute}:${second}` : `${year}年${month}月${day}日 ${hour}:${minute}`;
     },
     /**
      * 格式化金额，返回两位小数
@@ -68,14 +68,14 @@ export const mixin = {
     getImgPath(path) {
       return path ? path : (process.env.NODE_ENV == 'development' ? "/static/img/default.png" : "./static/img/default.png")
     },
-    errorImg(){
+    errorImg() {
       return process.env.NODE_ENV == 'development' ? "/static/img/default.png" : "./static/img/default.png";
     },
     /**
      * 格式化背景图片,例如abc.png
      * @param {*图片名称} url
      */
-    formatBg(url){
+    formatBg(url) {
       return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(./static/img/${url})`
     },
     /**
@@ -121,36 +121,78 @@ export const removeStore = name => {
 }
 
 export const validateSettle = {
-  computed:{
-    validStoreName(){
+  computed: {
+    validStoreName() {
       return this.storeName && /^([A-Za-z]|[\u4E00-\u9FA5])+$/.test(this.storeName)
     },
-    validSellerName(){
+    validSellerName() {
       return this.sellerName && /^([A-Za-z]|[\u4E00-\u9FA5])+$/.test(this.sellerName)
     },
-    validSellerMobile(){
+    validSellerMobile() {
       return /^(86)?1[3,4,5,7,8]\d{9}$/.test(this.sellerMobile)
     },
-    validEmail(){
+    validEmail() {
       return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(this.sellerEmail)
     },
-    validStoreCitys(){
+    validStoreCitys() {
       return !!this.storeCitys
     },
-    validAddressDetail(){
+    validAddressDetail() {
       return !!this.addressDetail
     },
-    validLicenseNumber(){
+    validLicenseNumber() {
       return !!this.businessLicenceNumber
     },
-    validLicenseAddress(){
+    validLicenseAddress() {
       return !!this.businessLicenceAddress
     },
-    validFileContent(){
+    validFileContent() {
       return !!this.fileContent
     },
-    validBankAccount(){
+    validBankAccount() {
       return /^\d{15,19}$/.test(this.bankAccountNumber)
+    }
+  }
+}
+
+export const payMixin = {
+  created() {
+    this.getChannel();
+  },
+  methods: {
+    getChannel() {
+      plus.payment.getChannels(channels => {
+        for (let i in channels) {
+          var channel = channels[i];
+          if (channel.id == "alipay" || channel.id == "wxpay") {
+            this.pays[channel.id] = channel;
+          }
+        }
+      });
+    },
+    checkService(pc, callback) {
+      if (!pc.serviceReady) {
+        var txt = null;
+        switch (pc.id) {
+          case "alipay":
+            txt = "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
+            break;
+          case "wxpay":
+            txt = "系统未安装微信，无法完成支付，是否立即安装？";
+            break;
+        }
+        plus.nativeUI.confirm(
+          txt,
+          function (e) {
+            if (e.index == 0) {
+              pc.installService();
+            }
+          },
+          pc.description
+        );
+      } else {
+        callback && callback();
+      }
     }
   }
 }

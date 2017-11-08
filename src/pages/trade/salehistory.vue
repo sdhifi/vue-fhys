@@ -5,18 +5,19 @@
       <section v-if="info.length">
         <ul>
           <li class="item" v-for="(item,index) in info" :key="index">
-            <div class="item-top flex just-between">
-              <p class="time">{{formatTime(item.addTime)}}</p>
+            <div class="item-top flex just-between align-center">
+              <p class="time">
+                <span class="iconfont-large self-weixinzhifu" style="color:#25d025;" v-if="item.payType=='0'"></span>
+                <span class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;" v-if="item.payType=='2'"></span>
+                <span class="iconfont-large self-edu" style="color:#f9a340;" v-if="item.payType=='4'"></span>
+                <span class="iconfont-large self-shoukuan danger-color" v-if="item.payType=='5'"></span>
+                {{formatTime(item.addTime)}}
+                </p>
               <span class="status status-0" v-if="item.tradeStatus==0">待支付</span>
               <span class="status status-1" v-if="item.tradeStatus==1">已支付</span>
-              <span class="status status-2" v-if="item.tradeStatus==2">支付失败</span>
-              <span class="status status-3" v-if="item.tradeStatus==3">取消</span>
             </div>
             <div class="item-bottom flex just-between align-center">
-              <span>
-                <span class="iconfont self-hongbao danger-color"></span>
-                <span class="money">{{item.benefitMoney}}元</span>
-              </span>
+              <span class="money">{{item.benefitMoney}}元</span>
               <p class="fs-14">{{item.mobile}}</p>
             </div>
           </li>
@@ -30,25 +31,23 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import { benefits } from '../../api/index'
-import { mixin } from 'components/common/mixin'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import { benefits } from "../../api/index";
+import { mixin } from "components/common/mixin";
 export default {
-  name: '',
+  name: "",
   data() {
     return {
       info: []
-    }
+    };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(['account'])
+    ...mapState(["account"])
   },
   mixins: [mixin],
-  created() {
-
-  },
+  created() {},
   activated() {
     this.getInfo();
   },
@@ -57,28 +56,28 @@ export default {
       let vm = this;
       mui.ajax({
         url: benefits,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           account: this.account,
           token: md5(`benefits`)
         },
         success(res) {
-          if(res.code!==200){
+          if (res.code !== 200) {
             vm.$dialog.toast({
-              mes:res.msg,
-            })
+              mes: res.msg
+            });
             return;
           }
           vm.info = res.result;
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .item {
   background-color: @white;
   margin-top: @pd;
@@ -92,7 +91,7 @@ export default {
     vertical-align: top;
   }
   .status {
-    font-size: .28rem;
+    font-size: 0.28rem;
     &.status-0 {
       color: @blue;
     }
