@@ -2,7 +2,7 @@
   <div>
     <header-top title="快捷支付申请"></header-top>
     <main class='scroll-content-2'>
-      <section style="margin-top:.4rem;" v-show="!toggleTag">
+      <section style="margin-top:.4rem;">
         <router-link :to="{path: '/trade/bankcard?type=choose'}" class="bank-card flex align-center" v-if="defaultBankCard">
         <div class="icon" :style="{'background-image':formatBg(defaultBankCard.bankPic)}"></div>
         <div class="bank-name flex-1">
@@ -40,22 +40,13 @@
         <yd-button type="warning" size="large" @click.native="sureInfo">确认信息</yd-button>
       </div>
       </section>
-      <section v-show="toggleTag" style="padding:0 .2rem;margin-top: 1rem;">
-        <yd-cell-group>
-          <yd-cell-item>
-            <span slot="left">验证码：</span>
-            <yd-input slot="right" v-model="verifyCode" type="tel" placeholder="请输入手机验证码" required></yd-input>
-          </yd-cell-item>
-        </yd-cell-group>
-        <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="doPay">确认支付</yd-button>
-      </section>
     </main>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { yinLPay, yinLPayCofirom} from "../../api/index";
+import { yinLPay} from "../../api/index";
 import { mixin } from "components/common/mixin";
 
 export default {
@@ -63,29 +54,23 @@ export default {
   data() {
     return {
       info:null,
-      toggleTag:false,
-      verifyCode:''
     };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account", "defaultBankCard", "payInfo"]),
-    valid(){
-      return /^\d{6}$/.test(this.verifyCode)
-    }
+    ...mapState(["account", "defaultBankCard", "payInfo"])
   },
   created() {},
   activated() {
     if (!this.defaultBankCard) {
       this.$store.dispatch("getBankList");
     }
-    this.toggleTag = false;
-    this.verifyCode='';
   },
   mixins: [mixin],
   methods: {
     sureInfo() {
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: yinLPay,
         type: "post",
@@ -100,12 +85,22 @@ export default {
           token: md5(`yinLPay`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           if (res.code == 200) {
             vm.info=res.result;
             vm.$dialog.alert({
               mes:res.msg,
               callback:()=>{
-                vm.toggleTag = true;
+                vm.$router.push({name:"YinLianConfirm"})
+              }
+            })
+          }
+          //订单号存在，重新交易
+          else if(res.code==400){
+            vm.$dialog.alert({
+              mes:res.msg,
+              callback:()=>{
+                vm.$router.push({name:"YinLianConfirm"})
               }
             })
           }
@@ -116,38 +111,6 @@ export default {
           }
         }
       });
-    },
-    doPay(){
-      let vm = this;
-      mui.ajax({
-        url: yinLPayCofirom,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
-        data: {
-          orderId: this.payInfo.orderId,
-          payMoney: this.payInfo.payMoney,
-          verifyCode: this.verifyCode,
-          accNo: this.defaultBankCard.bankCard,
-          mobile: this.payInfo.mobile,
-          account: this.account,
-          token: md5(`yinLPayCofirom`)
-        },
-        success(res){
-          if(res.code==200){
-           vm.$dialog.toast({
-              mes: res.msg,
-              callback:()=>{
-                vm.$router.go(-1);
-              }
-            });
-          }
-          else{
-            vm.$dialog.toast({
-              mes: res.msg
-            });
-          }
-        }
-      })
     }
   }
 };

@@ -1,9 +1,9 @@
 <template>
-  <li class="order-item px-1">
+  <li class="order-item">
     <h2 class="px-1">{{name}}</h2>
     <router-link class="good-list" :to="{name:'OrderDetail',query:{sn:sn}}">
       <p class="order-id">订单编号：{{sn}}</p>
-      <div class="good-item flex px-1" v-for="good in goods" :key="good.goodsId">
+      <div class="good-item flex" v-for="good in goods" :key="good.goodsId">
         <img :src="good.goodsImg" :alt="good.goodsName">
         <div class="good-info flex-1 flex just-between">
           <h3 class="good-title">{{good.goodsName}}</h3>
@@ -97,6 +97,7 @@ export default {
   .good-item {
     padding-bottom: 0.1rem;
     margin-bottom: 0.1rem;
+    border-bottom: 1px solid #f7f5f5;
     img {
       .wh(1.5rem,1.5rem);
     }

@@ -291,10 +291,11 @@ export default {
         headers: { "app-version": "v1.0" },
         data: cmParams,
         success(res) {
-          //品牌商城||责任消费
-          if (vm.orderType == 0 || vm.orderType == 2) {
-            // 余额支付||责任金额
-            if (vm.payType == "0" || vm.payType == "8") {
+          let _result = res.result;
+          //品牌商城
+          if (vm.orderType == 0) {
+            // 余额支付
+            if (vm.payType == "0") {
               vm.$dialog.loading.close();
               if (res.code == 200) {
                 vm.showPassword = false;
@@ -314,14 +315,14 @@ export default {
               }
             } else if (vm.payType == "3") {
               //银联支付跳转
-              vm.$store.commit("RECORD_PAY_INFO", res.result);
+              vm.$store.commit("RECORD_PAY_INFO", _result);
               vm.$router.push({ name: "YinLian" });
             } else if (vm.payType == "2") {
               //支付宝
               vm.checkService(vm.pays["alipay"], function() {
                 plus.payment.request(
                   vm.pays["alipay"],
-                  res.result.payString,
+                  _result.payString,
                   function(result) {
                     plus.nativeUI.alert(
                       "支付成功",
@@ -342,10 +343,11 @@ export default {
             if (vm.settleList.pointNiceAmount) {
               let payInfo = {
                 idCard: vm.settleList.gjfMemberInfo.idCard,
-                orderId: res.result.orderSn,
+                orderId: _result.orderSn,
                 mobile: vm.account,
-                payMoney: res.result.offlinePayAmount,
-                retUrl:"http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify"
+                payMoney: _result.offlinePayAmount,
+                retUrl:
+                  "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify"
               };
               vm.$store.commit("RECORD_PAY_INFO", payInfo);
               vm.$router.push({ name: "YinLian" });
@@ -361,6 +363,34 @@ export default {
               vm.$dialog.toast({
                 mes: res.msg
               });
+            }
+          } else if (vm.orderType == 2) {
+            //责任消费
+            vm.$dialog.loading.close();
+            if (res.code == 200) {
+              vm.showPassword = false;
+              vm.$dialog.toast({
+                mes: res.msg,
+                callback: () => {
+                  let payInfo = {
+                    idCard: _result.memberId.idCard,
+                    orderId: _result.orderSn,
+                    mobile: vm.account,
+                    payMoney: _result.offlinePayAmount,
+                    retUrl:
+                      "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify"
+                  };
+                  vm.$store.commit("RECORD_PAY_INFO", payInfo);
+                  vm.$router.push({ name: "YinLian" });
+                }
+              });
+            } else if (res.code == 401) {
+              vm.$refs.keyboard.$emit(
+                "ydui.keyboard.error",
+                "对不起，您的支付密码不正确，请重新输入。"
+              );
+            } else {
+              vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
             }
           }
         },

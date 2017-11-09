@@ -227,6 +227,10 @@ const router =  new Router({
     path: '/order/yinlian',
     name: 'YinLian',
     component: require('../pages/order/yinlian')
+  }, {
+    path: '/order/yinlianconfirm',
+    name: 'YinLianConfirm',
+    component: require('../pages/order/yinlianconfirm')
   },  {
     path: '*',
     redirect: '/home/index'

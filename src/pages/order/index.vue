@@ -188,7 +188,7 @@ export default {
             });
           } else if (paytype == "3") {
             //银联
-          } else if (paytype == "7") {
+          } else if (paytype == "7" ||paytype == "8") {
             //积分
             if (_result.offlinePayAmount) {
               let payInfo = {
