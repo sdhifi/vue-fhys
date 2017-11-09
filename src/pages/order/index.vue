@@ -8,7 +8,7 @@
       <div v-show="index==0">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist7">
           <ul slot="list">
-            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus"></order-item>
+            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>

@@ -89,7 +89,7 @@ export default {
   data() {
     return {
       editTag: true,
-      info: {},
+      info: null,
       showPopup: false,
       intro: "", //简介
       tag: false, //简介是否可编辑

@@ -77,6 +77,7 @@ let toAdd = `${order}/toAdd` //立即购买下单
 let actCartInH5 = `${order}/actCartInH5` //结算购物车
 let yinLPay = `${order}/yinLPay` //银联预下单
 let yinLPayCofirom = `${order}/yinLPayCofirom` //银联支付
+let payOrderSign = `${order}/payOrderSign` //订单付款
 
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
 
@@ -166,7 +167,9 @@ export {
   actCartInH5,
   yinLPay,
   yinLPayCofirom,
+  payOrderSign,
 
+  
   newProCommet,
 
   addStore,

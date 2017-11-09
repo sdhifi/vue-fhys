@@ -143,7 +143,7 @@
 <script>
 import { mapState } from "vuex";
 import { addOrder, toAdd } from "../../api/index";
-import { mixin } from "components/common/mixin";
+import { mixin, payMixin } from "components/common/mixin";
 export default {
   name: "Settle",
   data() {
@@ -153,7 +153,7 @@ export default {
       remark: "", //备注
       payType: "", //支付方式
       showPassword: false, //安全键盘
-      pays:{}
+      pays: {}
     };
   },
   computed: {
@@ -166,10 +166,7 @@ export default {
       "member"
     ]),
     total() {
-      return (
-        this.settleList.totalAmount +
-        this.settleList.pointNiceAmount
-      );
+      return this.settleList.totalAmount + this.settleList.pointNiceAmount;
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -203,10 +200,10 @@ export default {
         break;
     }
   },
-  mixins: [mixin],
+  mixins: [mixin, payMixin],
   methods: {
     goBack(b) {
-      if (b==true) {
+      if (b == true) {
         this.$router.go(-1);
         return;
       }
@@ -291,7 +288,6 @@ export default {
         headers: { "app-version": "v1.0" },
         data: cmParams,
         success(res) {
-          // vm.$router.go(-1);
           //品牌商城||责任消费
           if (vm.orderType == 0 || vm.orderType == 2) {
             // 余额支付||责任金额
@@ -317,43 +313,49 @@ export default {
               //银联支付跳转
               vm.$store.commit("RECORD_PAY_INFO", res.result);
               vm.$router.push({ name: "YinLian" });
-            }
-            //支付宝
-            else if(vm.payType == "2"){
+            } else if (vm.payType == "2") {
+              //支付宝
               vm.checkService(vm.pays["alipay"], function() {
-              plus.payment.request(
-                vm.pays["alipay"],
-                res.result.payString,
-                function(result) {
-                  plus.nativeUI.alert(
-                    "支付成功",
-                    function() {
-                      vm.goBack(true);
-                    },
-                    "支付"
-                  );
-                },
-                function(e) {
-                  plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
-                }
-              );
-            });
+                plus.payment.request(
+                  vm.pays["alipay"],
+                  res.result.payString,
+                  function(result) {
+                    plus.nativeUI.alert(
+                      "支付成功",
+                      function() {
+                        vm.goBack(true);
+                      },
+                      "支付"
+                    );
+                  },
+                  function(e) {
+                    plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  }
+                );
+              });
             }
           } else if (vm.orderType == 1) {
             //积分换购，积分支付
-            if(vm.settleList.pointNiceAmount){
-              vm.$store.commit("RECORD_PAY_INFO", res.result);
+            if (vm.settleList.pointNiceAmount) {
+              let payInfo = {
+                idCard: vm.settleList.gjfMemberInfo.idCard,
+                orderId: res.result.orderSn,
+                mobile: vm.account,
+                payMoney: res.result.offlinePayAmount,
+                retUrl:
+                  "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify; "
+              };
+              vm.$store.commit("RECORD_PAY_INFO", payInfo);
               vm.$router.push({ name: "YinLian" });
-            }
-            // if (res.code == 200) {
-            //   vm.$dialog.toast({
-            //     mes: res.msg,
-            //     callback: () => {
-            //       vm.goBack(true);
-            //     }
-            //   });
-            // }
-             else {
+            } else {
+              // if (res.code == 200) {
+              //   vm.$dialog.toast({
+              //     mes: res.msg,
+              //     callback: () => {
+              //       vm.goBack(true);
+              //     }
+              //   });
+              // }
               vm.$dialog.toast({
                 mes: res.msg
               });
@@ -364,8 +366,8 @@ export default {
           vm.$dialog.loading.close();
           vm.$dialog.toast({
             mes: "超时，请稍后重试",
-            callback:()=>{
-              if(vm.payType=='0' || vm.payType=='8'){
+            callback: () => {
+              if (vm.payType == "0" || vm.payType == "8") {
                 vm.$refs.keyboard.$emit("ydui.keyboard.error", "超时，请稍后重试");
               }
             }
