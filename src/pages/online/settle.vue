@@ -55,7 +55,7 @@
           <span slot="left">配送方式：</span>
           <span slot="right" class="fs-14">快递：￥{{formatPrice(settleList.pos)}}</span>
         </yd-cell-item>
-         <yd-cell-item>
+        <yd-cell-item>
           <span slot="left">支付明细：</span>
           <span slot="right" class="fs-14" v-if="settleList.isCanUseCou==1">{{settleList.totalAmount}}积分+￥{{formatPrice(settleList.pointNiceAmount)}}</span>
           <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==2">{{settleList.totalAmount}}责任金额+￥{{formatPrice(settleList.pointNiceAmount)}}</span>
@@ -67,19 +67,20 @@
         </yd-cell-item>
         <yd-cell-item>
           <p slot="right" class="fs-16">
-            总支付：<span  class="danger-color">￥{{formatPrice(total)}}</span>
+            总支付：
+            <span class="danger-color">￥{{formatPrice(total)}}</span>
           </p>
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group v-if="orderType==1">
-         <yd-cell-item type="radio">
+        <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">积分支付</span>
           <input slot="right" type="radio" value="7" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
-       <yd-cell-group v-else-if="orderType==2">
-         <yd-cell-item type="radio">
+      <yd-cell-group v-else-if="orderType==2">
+        <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">责任消费余额</span>
           <input slot="right" type="radio" value="8" v-model="payType" />
@@ -89,10 +90,10 @@
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <div slot="left">
-            <p>会员余额 
-              </p>
-            <span  class="danger-color fs-12">(余额支付需要额外支付10%税费)</span>
-            </div>
+            <p>会员余额
+            </p>
+            <span class="danger-color fs-12">(余额支付需要额外支付10%税费)</span>
+          </div>
           <input slot="right" type="radio" value="0" v-model="payType" />
         </yd-cell-item>
         <yd-cell-item type="radio">
@@ -113,28 +114,30 @@
       </yd-cell-group>
       <div style="padding:0 .2rem .2rem;">
         <yd-button size="large" type="danger" @click.native="pay">确认支付</yd-button>
-        </div> 
+      </div>
     </main>
     <div v-show="showPassword" class="text-center pay-box">
       <h3 class="fs-18 pay-title" style="background-color:#9ED97C">待支付金额</h3>
       <div v-if="orderType=='0'">
         <p class="pay-price fs-14">
-        {{total}}×(1+10%)=
-        <span class="fs-20 danger-color">￥{{formatPrice(total * 1.1)}}</span>
-      </p>
-      <P class="balance-price">
-        <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
-        余额：<span>{{member.balanceMoney}}</span>元
-      </P>
+          {{total}}×(1+10%)=
+          <span class="fs-20 danger-color">￥{{formatPrice(total * 1.1)}}</span>
+        </p>
+        <P class="balance-price">
+          <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
+          余额：
+          <span>{{member.balanceMoney}}</span>元
+        </P>
       </div>
       <div v-if="orderType=='2'">
         <p class="pay-price fs-14">
-        <span class="fs-20 danger-color">￥{{formatPrice(total)}}</span>
-      </p>
-      <P class="balance-price">
-        <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
-        余额：<span>{{member.insuranceMoney}}</span>元
-      </P>
+          <span class="fs-20 danger-color">￥{{formatPrice(total)}}</span>
+        </p>
+        <P class="balance-price">
+          <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
+          余额：
+          <span>{{member.insuranceMoney}}</span>元
+        </P>
       </div>
     </div>
     <yd-keyboard v-model="showPassword" :callback="checkPayPwd" ref="keyboard" title="凤凰云商安全键盘" input-text="请输入会员卡支付密码"></yd-keyboard>

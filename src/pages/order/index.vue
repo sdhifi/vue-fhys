@@ -1,8 +1,8 @@
 <template>
   <div>
     <header-top title="我的订单"></header-top>
-     <tab :line-width="2" active-color='#ff5350' v-model="index" custom-bar-width="60px">
-      <tab-item  v-for="(item, index) in menu" :key="index" @on-item-click="toggleItem(index)">{{item.value}}</tab-item>
+    <tab :line-width="2" active-color='#ff5350' v-model="index" custom-bar-width="60px">
+      <tab-item v-for="(item, index) in menu" :key="index" @on-item-click="toggleItem(index)">{{item.value}}</tab-item>
     </tab>
     <main class='scroll-content-1'>
       <div v-show="index==0">
@@ -15,28 +15,28 @@
       <div v-show="index==1">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist0">
           <ul slot="list">
-            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus"></order-item>
+            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==2">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist1">
           <ul slot="list">
-            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus"></order-item>
+            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==3">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist2">
           <ul slot="list">
-            <order-item v-for="item in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus"></order-item>
+            <order-item v-for="item in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==4">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
           <ul slot="list">
-           <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus"></order-item>
+            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
@@ -44,13 +44,13 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import OrderItem from 'components/common/OrderItem'
-import { Tab, TabItem } from "vux"
-import { getOrder } from '../../api/index'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import OrderItem from "components/common/OrderItem";
+import { Tab, TabItem } from "vux";
+import { getOrder } from "../../api/index";
 export default {
-  name: 'MyOrder',
+  name: "MyOrder",
   data() {
     return {
       menu: [
@@ -61,7 +61,7 @@ export default {
         { key: "3", value: "交易完成" }
       ],
       index: 0, //控制tab
-      orderType: '7', //控制订单类型
+      orderType: "7", //控制订单类型
       noData0: false,
       noData1: false,
       noData2: false,
@@ -77,32 +77,30 @@ export default {
       pageNo2: 1,
       pageNo3: 1,
       pageNo7: 1
-    }
+    };
   },
-  components: { HeaderTop, OrderItem, Tab, TabItem  },
+  components: { HeaderTop, OrderItem, Tab, TabItem },
   computed: {
-    ...mapState(['account'])
+    ...mapState(["account"])
   },
-  created() {
-
-  },
+  created() {},
   activated() {
     this.reset();
     this.index = +this.$route.query.id;
     this.toggleItem(this.index);
   },
   methods: {
-    reset(){
-      this.orderType= '7';
-      this.noData0= false;
-      this.noData3= false;
-      this.noData7= false;
-      this.list0= [];
-      this.list3= [];
-      this.list7= [];
-      this.pageNo0= 1;
-      this.pageNo3= 1;
-      this.pageNo7= 1;
+    reset() {
+      this.orderType = "7";
+      this.noData0 = false;
+      this.noData3 = false;
+      this.noData7 = false;
+      this.list0 = [];
+      this.list3 = [];
+      this.list7 = [];
+      this.pageNo0 = 1;
+      this.pageNo3 = 1;
+      this.pageNo7 = 1;
     },
     toggleItem(index) {
       this.orderType = this.menu[index].key;
@@ -114,8 +112,8 @@ export default {
       let vm = this;
       mui.ajax({
         url: getOrder,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           pageNo: this[`pageNo${this.orderType}`],
           pageSize: 10,
@@ -126,13 +124,20 @@ export default {
         success(res) {
           if (res.code == 200) {
             let _list = res.result;
-            vm[`list${vm.orderType}`] = [...vm[`list${vm.orderType}`],..._list];
+            vm[`list${vm.orderType}`] = [
+              ...vm[`list${vm.orderType}`],
+              ..._list
+            ];
             if (_list.length < 10) {
               vm[`noData${vm.orderType}`] = true;
-              vm.$refs[`orderlist${vm.orderType}`].$emit("ydui.infinitescroll.loadedDone");
+              vm.$refs[`orderlist${vm.orderType}`].$emit(
+                "ydui.infinitescroll.loadedDone"
+              );
               return;
             }
-            vm.$refs[`orderlist${vm.orderType}`].$emit("ydui.infinitescroll.finishLoad");
+            vm.$refs[`orderlist${vm.orderType}`].$emit(
+              "ydui.infinitescroll.finishLoad"
+            );
             vm[`pageNo${vm.orderType}`]++;
           } else {
             vm.$dialog.toast({
@@ -141,11 +146,11 @@ export default {
             return;
           }
         }
-      })
+      });
       // axios.get('/static/json/order.json').then(res=>{
       //   this.list7=res.data.result;
       // })
     }
   }
-}
+};
 </script>

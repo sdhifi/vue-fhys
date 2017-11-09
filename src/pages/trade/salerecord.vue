@@ -56,7 +56,7 @@
         <yd-button type="warning" @click.native="goSaleHistory" style="font-size:15px;"> 更 多 记 录
           <span class="iconfont self-right"></span>
         </yd-button>
-        <yd-button :type="valid?'primary':'disabled'" @click.native="save"  style="font-size:15px;"> 确 认 录 入 
+        <yd-button :type="valid?'primary':'disabled'" @click.native="save" style="font-size:15px;"> 确 认 录 入
           <span class="iconfont self-dui"></span>
         </yd-button>
       </div>
@@ -157,8 +157,8 @@ export default {
         }
       });
     },
-    goSaleHistory(){
-      this.$router.push({name:"SaleHistory"})
+    goSaleHistory() {
+      this.$router.push({ name: "SaleHistory" });
     }
   }
 };

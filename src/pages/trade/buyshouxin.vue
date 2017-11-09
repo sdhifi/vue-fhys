@@ -9,7 +9,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">充值额度</span>
-          <input slot="right" v-model="money" style="text-align:right;" placeholder="请输入您要充值的授信额度" type="tel" @input="checkMoney"/>
+          <input slot="right" v-model="money" style="text-align:right;" placeholder="请输入您要充值的授信额度" type="tel" @input="checkMoney" />
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group>
@@ -48,7 +48,7 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { addShouXin } from "../../api/index";
-import {payMixin} from 'components/common/mixin'
+import { payMixin } from "components/common/mixin";
 export default {
   name: "BuyShouxin",
   data() {
@@ -66,7 +66,7 @@ export default {
       return /^\+?[1-9][0-9]*$/.test(this.money) && !!this.payType;
     }
   },
-  mixins:[payMixin],
+  mixins: [payMixin],
   // created() {
   //   this.getChannel();
   // },
@@ -128,7 +128,7 @@ export default {
           }
         }
       });
-    },
+    }
     // getChannel() {
     //   plus.payment.getChannels(channels => {
     //     for (let i in channels) {
