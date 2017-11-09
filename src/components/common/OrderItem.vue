@@ -19,8 +19,8 @@
         <span class="danger-color  fs-16">￥{{total}}</span>
         <span class="pay-tag">{{payType(paytype)}}</span>
       </p>
-      <yd-button type="warning" v-if="status=='0'" @click.native="payOrder(sn)">去付款</yd-button>
-      <yd-button type="danger" v-if="status=='2'" @click.native="updateOrder(sn,status)">确认收货</yd-button>
+      <yd-button type="warning" v-if="status=='0'" @click.native="pay">去付款</yd-button>
+      <yd-button type="danger" v-if="status=='2'" @click.native="update">确认收货</yd-button>
       <yd-button type="disabled" disabled v-if="status=='3'">已收货</yd-button>
       <yd-button type="disabled" disabled v-if="status=='6'">已退款</yd-button>
     </div>
@@ -28,8 +28,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { updateOrderStatus, payOrderSign } from "../../api/index";
-import {payMixin} from "components/common/mixin"
+
 export default {
   name: "OrderItem",
   props: {
@@ -45,15 +44,6 @@ export default {
     status: String,
     paytype: String
   },
-  data(){
-    return {
-      pays:{}
-    }
-  },
-  computed: {
-    ...mapState(["account"])
-  },
-  mixins: [payMixin],
   methods: {
     payType(a) {
       switch (a) {
@@ -77,42 +67,11 @@ export default {
           break;
       }
     },
-    payOrder(sn) {
-      let vm = this;
-      mui.ajax({
-        url: payOrderSign,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          orderSn: sn,
-          account: this.account,
-          token: md5(`payOrderSign${sn}${this.account}`)
-        },
-        success(res) {
-          vm.$dialog.toast({
-            mes: res.msg
-          });
-        }
-      });
+    pay(){
+      this.$emit("pay")
     },
-    updateOrder(sn, status) {
-      let vm = this;
-      mui.ajax({
-        url: updateOrderStatus,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          status: status,
-          orderSn: sn,
-          account: this.account,
-          token: md5(`updateOrderStatus${this.account}${sn}`)
-        },
-        success(res) {
-          vm.$dialog.toast({
-            mes: res.msg
-          });
-        }
-      });
+    update(){
+      this.$emit("update")
     }
   }
 };

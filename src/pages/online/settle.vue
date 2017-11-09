@@ -345,8 +345,7 @@ export default {
                 orderId: res.result.orderSn,
                 mobile: vm.account,
                 payMoney: res.result.offlinePayAmount,
-                retUrl:
-                  "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify; "
+                retUrl:"http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify"
               };
               vm.$store.commit("RECORD_PAY_INFO", payInfo);
               vm.$router.push({ name: "YinLian" });
