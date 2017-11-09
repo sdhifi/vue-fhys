@@ -95,15 +95,15 @@ export default {
               }
             })
           }
-          //订单号存在，重新交易
-          else if(res.code==400){
-            vm.$dialog.alert({
-              mes:res.msg,
-              callback:()=>{
-                vm.$router.push({name:"YinLianConfirm"})
-              }
-            })
-          }
+          // //订单号存在，重新交易
+          // else if(res.code==400){
+          //   vm.$dialog.alert({
+          //     mes:res.msg,
+          //     callback:()=>{
+          //       vm.$router.push({name:"YinLianConfirm"})
+          //     }
+          //   })
+          // }
           else{
             vm.$dialog.toast({
               mes: res.msg

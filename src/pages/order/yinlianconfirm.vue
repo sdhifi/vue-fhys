@@ -100,14 +100,14 @@ export default {
               }
             });
           }
-          else if(res.code==400){
-            vm.$dialog.alert({
-              mes:res.msg,
-              callback:()=>{
-                vm.getCode();
-              }
-            })
-          }
+          // else if(res.code==400){
+          //   vm.$dialog.alert({
+          //     mes:res.msg,
+          //     callback:()=>{
+          //       vm.getCode();
+          //     }
+          //   })
+          // }
           else{
             vm.$dialog.alert({
               mes: res.msg

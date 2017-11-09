@@ -4,11 +4,11 @@
     <main class='scroll-content-2'>
       <ul class="container">
         <li class="item">
-          <span class="left">流水账单号：</span>
+          <span class="left">&emsp;流水账单号：</span>
           {{info.orderSn}}
         </li>
         <li class="item">
-          <span class="left">下单时间：</span>
+          <span class="left">&emsp;&emsp;下单时间：</span>
           {{formatTime(info.addTime,true)}}
         </li>
         <li class="item">
@@ -72,15 +72,11 @@
           </p>
         </li>
         <li class="item">
-          <span class="left">快递单号：</span>
+          <span class="left">&emsp;快递单号：</span>
           {{info.shippingCode || "--"}}
         </li>
       </ul>
       <ul class="container">
-        <li class="item">
-          <span class="left">支付类型：</span>
-          {{payType}}
-        </li>
         <li class="item">
           <span class="left">订单类型：</span>
           {{orderType}}
@@ -93,11 +89,15 @@
           <span class="status3" v-if="info.orderStatus=='3'">{{orderStatus}}</span>
         </li>
         <li class="item">
-          <span class="left">线上支付金额：</span>
+          <span class="left">支付类型：</span>
+          {{payType}}
+        </li>
+        <li class="item">
+          <span class="left">线上支付：</span>
           <span class="danger-color">{{info.onlinePayAmount}}</span>
         </li>
         <li class="item">
-          <span class="left">线下支付金额：</span>
+          <span class="left">线下支付：</span>
           <span class="danger-color">{{info.offlinePayAmount}}</span>
         </li>
       </ul>

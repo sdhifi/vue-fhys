@@ -1,6 +1,6 @@
 <template>
   <li class="order-item">
-    <h2 class="px-1">{{name}}</h2>
+    <h2>{{name}}</h2>
     <router-link class="good-list" :to="{name:'OrderDetail',query:{sn:sn}}">
       <p class="order-id">订单编号：{{sn}}</p>
       <div class="good-item flex" v-for="good in goods" :key="good.goodsId">
@@ -85,6 +85,7 @@ export default {
   h2 {
     padding-bottom: @pd;
     font-size: 0.28rem;
+    border-bottom: 1px solid #f7f5f5;
   }
 }
 .good-list {
