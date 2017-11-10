@@ -7,33 +7,17 @@
   </div>
 </template>
 <script>
-import {mapState} from 'vuex'
-import HeaderTop from 'components/header/index'
-import ProductList from 'components/common/ProductList'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import ProductList from "components/common/ProductList";
 export default {
-  name: 'SearchResult',
+  name: "SearchResult",
   data() {
-    return {
-
-    }
+    return {};
   },
-  components: { HeaderTop, ProductList},
+  components: { HeaderTop, ProductList },
   computed: {
-    ...mapState(['searchValue'])
-  },
-  created() {
-
-  },
-  activated() {
-   
-  },
-  methods: {
-
+    ...mapState(["searchValue"])
   }
-}
+};
 </script>
-<style lang='less' scoped>
-@import '../../style/mixin.less';
-
-
-</style>

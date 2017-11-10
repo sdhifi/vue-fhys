@@ -60,7 +60,7 @@ export default {
       type: String,
       default: "1"
     },
-    stickTag:false
+    stickTag: false
   },
   components: { ProductItem },
   computed: {
@@ -85,6 +85,9 @@ export default {
     getProduct() {
       let vm = this;
       if (!this.noData) {
+        if (this.tabType == "line") {
+          this.$dialog.loading.open();
+        }
         mui.ajax({
           url: products,
           type: "post",
@@ -101,6 +104,9 @@ export default {
             token: md5(`products${this.longitude}${this.latitude}`)
           },
           success(res) {
+            if (vm.tabType == "line") {
+              vm.$dialog.loading.close();
+            }
             let _list = res.result;
             vm.productList = [...vm.productList, ..._list];
             if (_list.length < 10) {
@@ -150,7 +156,7 @@ export default {
     }
   }
 }
-.stick-nav{
+.stick-nav {
   position: fixed;
   left: 0;
   right: 0;
