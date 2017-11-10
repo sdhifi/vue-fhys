@@ -1,9 +1,9 @@
 <template>
   <section class="nav-list">
-    <ul class="flex just-around text-center block" v-if="tabType=='block'">
+    <ul class="nav-tab flex just-around text-center block" v-if="tabType=='block'" :class="{'stick-nav':stickTag}">
       <li class="nav-item" :class="{'nav-active':index+1==filterIndex}" @click="filter(item)" v-for="(item,index) in orderType" :key="index">{{item.name}}</li>
     </ul>
-    <ul class="flex just-around text-center" v-else>
+    <ul class="nav-tab flex just-around text-center" v-else>
       <li class="nav-item" :class="{'nav-active':index+1==filterIndex}" @click="filter(item)" v-for="(item,index) in orderType2" :key="index">{{item.name}}</li>
     </ul>
     <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
@@ -16,12 +16,12 @@
   </section>
 </template>
 <script>
-import ProductItem from './ProductItem'
-import { mapState } from 'vuex'
-import { products } from '../../api/index'
+import ProductItem from "./ProductItem";
+import { mapState } from "vuex";
+import { products } from "../../api/index";
 
 export default {
-  name: 'ProductList',
+  name: "ProductList",
   data() {
     return {
       noData: false,
@@ -32,41 +32,41 @@ export default {
         { type: "1", name: "距离近" },
         { type: "2", name: "人气高" },
         { type: "3", name: "价格低" },
-        { type: "4", name: "最  新" },
+        { type: "4", name: "最  新" }
       ],
       orderType2: [
         { type: "1", name: "距离最近" },
         { type: "2", name: "人气优先" },
         { type: "3", name: "价格最低" },
-        { type: "4", name: "最新发布" },
+        { type: "4", name: "最新发布" }
       ]
-    }
+    };
   },
   props: {
     tabType: {
       type: String,
-      default: 'block' //tab类型，默认【block】块状，还有【line】下划线状
+      default: "block" //tab类型，默认【block】块状，还有【line】下划线状
     },
     likeValue: {
       // 模糊查询-商品或店铺值
       type: String,
-      default: ''
+      default: ""
     },
     columnId: {
       type: String,
-      default:''
+      default: ""
     },
     columnType: {
       type: String,
-      default: '1'
-    }
+      default: "1"
+    },
+    stickTag:false
   },
   components: { ProductItem },
   computed: {
-    ...mapState(['longitude', 'latitude'])
+    ...mapState(["longitude", "latitude"])
   },
-  created() {
-  },
+  created() {},
   activated() {
     this.filterIndex = 1;
     this.reset();
@@ -79,7 +79,7 @@ export default {
       this.getProduct();
     },
     filter(e) {
-      this.filterIndex = +e.type
+      this.filterIndex = +e.type;
       this.reset();
     },
     getProduct() {
@@ -90,8 +90,8 @@ export default {
           type: "post",
           headers: { "app-version": "v1.0" },
           data: {
-            pageNo:this.pageNo,
-            pageSize:10,
+            pageNo: this.pageNo,
+            pageSize: 10,
             longitude: this.longitude,
             latitude: this.latitude,
             columnId: this.columnId,
@@ -105,33 +105,33 @@ export default {
             vm.productList = [...vm.productList, ..._list];
             if (_list.length < 10) {
               vm.noData = true;
-              vm.$refs.pdlist.$emit('ydui.infinitescroll.loadedDone');
+              vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
               return;
             }
-            vm.$refs.pdlist.$emit('ydui.infinitescroll.finishLoad');
+            vm.$refs.pdlist.$emit("ydui.infinitescroll.finishLoad");
             vm.pageNo++;
           }
-        })
+        });
       }
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .nav-list {
   background-color: @white;
-  padding: @pd;
+  .pd-v;
   ul {
     padding-bottom: 0;
     border-bottom: 1px solid #ddd;
     .nav-item {
       flex: 1;
-      margin:0 3%;
-      padding: .15rem 0;
+      margin: 0 3%;
+      padding: 0.15rem 0;
       border-bottom: 2px solid transparent;
-      transition: all .2s;
-      font-size: .28rem;
+      transition: all 0.2s;
+      font-size: 0.28rem;
       &.nav-active {
         color: @red;
         border-bottom: 2px solid currentColor;
@@ -149,5 +149,16 @@ export default {
       }
     }
   }
+}
+.stick-nav{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 1rem;
+
+  background-color: @white;
+  padding-top: @pd;
+  z-index: 500;
+  margin-top: -1px;
 }
 </style>

@@ -23,7 +23,7 @@
           </router-link>
         </ul>
       </section>
-      <product-list :column-id="$route.params.id" ></product-list>
+      <product-list :column-id="$route.params.id" :stick-tag="stickTag"></product-list>
     </main>
   </div>
 </template>
@@ -33,12 +33,14 @@ import HeaderTop from 'components/header/index'
 import ProductList from 'components/common/ProductList'
 import { subColumn} from '../../api/index'
 import { mixin } from 'components/common/mixin'
+import { throttle } from 'vux'
 export default {
   name: 'SubColumn',
   data() {
     return {
       banner: [],
       subcolumns: [],
+      stickTag:false
     }
   },
   components: { HeaderTop,ProductList},
@@ -54,9 +56,10 @@ export default {
     init() {
       this.getColumn();
     },
-
     getColumn() {
       let vm = this;
+      let main = document.querySelector("main"),
+      list = document.querySelector(".nav-tab");
       mui.ajax({
         url: subColumn + this.$route.params.id,
         type: "post",
@@ -68,6 +71,11 @@ export default {
         success(res) {
           vm.banner = res.result.subAds;
           vm.subcolumns = res.result.subColumns;
+          vm.$nextTick(()=>{
+            main.addEventListener("scroll",throttle((e)=>{
+                vm.stickTag = e.target.scrollTop>list.offsetTop;
+            },300))
+          })
         }
       })
     }
@@ -90,23 +98,4 @@ export default {
   }
 }
 
-.nav-list {
-  background-color: @white;
-  padding: @pd;
-  ul {
-    padding-bottom: @pd;
-    border-bottom: 1px solid #ddd;
-  }
-  .nav-item {
-    width: 20%;
-    padding: .15rem;
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    transition: all .2s;
-    &.nav-active {
-      color: @red;
-      border-color: currentColor;
-    }
-  }
-}
 </style>

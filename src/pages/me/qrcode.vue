@@ -20,17 +20,17 @@
       <section class="share-container text-center">
         <h3 class="fs-16">分享到</h3>
         <ul class="flex just-around align-center">
-          <li>
+          <li @click="shareAction('weixin','WXSceneSession')">
             <span class="iconfont self-weixin" style="font-size:.6rem;color:#6eb243"></span>
-            <p class="fs-14">微信</p>
+            <p class="fs-14">微信好友</p>
           </li>
-          <li>
+          <li @click="shareAction('weixin','WXSceneTimeline')">
             <span class="iconfont self-pengyouquan" style="font-size:.6rem;color:#52bfa2;"></span>
             <p class="fs-14">朋友圈</p>
           </li>
-          <li>
+          <li @click="shareAction('sinaweibo')">
             <span class="iconfont self-weibo" style="font-size:.6rem;color:#cf6558;"></span>
-            <p class="fs-14">微博</p>
+            <p class="fs-14">新浪微博</p>
           </li>
         </ul>
       </section>
@@ -80,6 +80,44 @@ export default {
           this.shares[t.id] = t;
         }
       });
+    },
+    shareAction(type,extraScene){
+      if(!this.shares||!this.shares[type]){
+        this.$dialog.toast({
+          mes:"未找到相关分享服务!"
+        })
+        return;
+      }
+      var msg = {
+        content:"扫一扫我的二维码",
+        extra:{
+          scene:extraScene
+        },
+        pictures:[this.qrInfo.imgAppQrUrl]
+      }
+      if(this.shares[type].authenticated){
+        this.shareMessage(msg,this.shares[type])
+      }
+      else{
+        this.shares[type].authorize(()=>{
+         this.shareMessage(msg,this.shares[type]) 
+        },(e)=>{
+          this.$dialog.alert({
+            mes:`认证授权失败：${e.message}`
+          })
+        })
+      }
+    },
+    shareMessage(msg,s){
+      s.send(msg,()=>{
+        this.$dialog.toast({
+          mes:"分享成功"
+        })
+      },(e)=>{
+         this.$dialog.alert({
+            mes:`分享失败：${e.message}`
+          })
+      })
     }
   }
 };
