@@ -51,6 +51,8 @@ export default {
   },
   activated() {
     this.init();
+
+    this.stickTag = false;
   },
   methods: {
     init() {
