@@ -28,26 +28,26 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import ProductList from 'components/common/ProductList'
-import { subColumn} from '../../api/index'
-import { mixin } from 'components/common/mixin'
-import { throttle } from 'vux'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import ProductList from "components/common/ProductList";
+import { subColumn } from "../../api/index";
+import { mixin } from "components/common/mixin";
+import { throttle } from "vux";
 export default {
-  name: 'SubColumn',
+  name: "SubColumn",
   data() {
     return {
       banner: [],
       subcolumns: [],
-      stickTag:false
-    }
+      stickTag: false
+    };
   },
-  components: { HeaderTop,ProductList},
-  computed: { ...mapState(['longitude', 'latitude']) },
+  components: { HeaderTop, ProductList },
+  computed: { ...mapState(["longitude", "latitude"]) },
   mixins: [mixin],
   created() {
-   // this.init();
+    // this.init();
   },
   activated() {
     this.init();
@@ -61,7 +61,7 @@ export default {
     getColumn() {
       let vm = this;
       let main = document.querySelector("main"),
-      list = document.querySelector(".nav-tab");
+        list = document.querySelector(".nav-tab");
       mui.ajax({
         url: subColumn + this.$route.params.id,
         type: "post",
@@ -73,31 +73,33 @@ export default {
         success(res) {
           vm.banner = res.result.subAds;
           vm.subcolumns = res.result.subColumns;
-          vm.$nextTick(()=>{
-            main.addEventListener("scroll",throttle((e)=>{
-                vm.stickTag = e.target.scrollTop>list.offsetTop;
-            },300))
-          })
+          vm.$nextTick(() => {
+            main.addEventListener(
+              "scroll",
+              throttle(e => {
+                vm.stickTag = e.target.scrollTop > list.offsetTop;
+              }, 300)
+            );
+          });
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .subcolumns-list {
   background-color: @white;
-  padding: .4rem 0;
+  padding: 0.4rem 0;
   margin-bottom: @pd;
   .type-item {
     width: 20%;
     margin-bottom: @pd;
     img {
       width: 100%;
-      padding: 0 .4rem @pd .4rem;
+      padding: 0 0.4rem @pd 0.4rem;
     }
   }
 }
-
 </style>
