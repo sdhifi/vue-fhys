@@ -68,28 +68,12 @@ export const mixin = {
     getImgPath(path) {
       return path ? path : (process.env.NODE_ENV == 'development' ? "/static/img/default.png" : "./static/img/default.png")
     },
-    errorImg() {
-      return process.env.NODE_ENV == 'development' ? "/static/img/default.png" : "./static/img/default.png";
-    },
     /**
      * 格式化背景图片,例如abc.png
      * @param {*图片名称} url
      */
     formatBg(url) {
       return process.env.NODE_ENV == 'development' ? `url(/static/img/${url})` : `url(./static/img/${url})`
-    },
-    /**
-     * 过滤表情符号
-     * @param {*值} v 
-     */
-    filterMotion(v) {
-      return v.replace(/\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/g, "")
-    },
-    isEmpty(e) {
-      var t;
-      for (t in e)
-        return !1;
-      return !0;
     }
   }
 }
