@@ -192,10 +192,10 @@ export default {
       this.$store.dispatch("getAddressList");
     }
     switch (this.orderType) {
-      case 1:
+      case "1":
         this.payType = "7";
         break;
-      case 2:
+      case "2":
         this.payType = "8";
         break;
       default:
@@ -231,7 +231,7 @@ export default {
         return;
       }
       //TODO:判断是否设置过支付密码，没有就跳转密码设置
-      if (this.payType == "0" && !this.paypwd) {
+      if ((this.payType == "0" || this.payType == "8") && !this.paypwd) {
         this.$router.push({ name: "PwdManage" });
         return;
       }
@@ -262,6 +262,8 @@ export default {
         d = [],
         e = [];
       this.settleList.orderAddVos.forEach(item => {
+        if(/(,)$/.test(item.goodsAttrIds))
+          item.goodsAttrIds = item.goodsAttrIds.slice(0,item.goodsAttrIds.length-1)
         a.push(item.goodsId);
         b.push(item.goodsAttrStockId);
         c.push(item.goodsAttrIds);

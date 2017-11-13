@@ -19,7 +19,7 @@
                 <span class="fs-14 price1" v-if="pdtype=='0'">￥{{pd.pointNicePrice}}
                   <span class="price2">+{{pd.price}}积分</span>
                 </span>
-                <span  class="fs-14 price1" v-else>
+                <span class="fs-14 price1" v-else>
                   ￥{{pd.price}}
                 </span>
                 <yd-button type="danger" v-if="account&&pdtype!='2'" @click.native="add2cart(pd.id,$event)">加入购物车</yd-button>
@@ -38,37 +38,39 @@
   </div>
 </template>
 <script>
-import {mapState,mapGetters} from 'vuex'
-import HeaderTop from 'components/header/index'
-import { onlineProductsByAllColumn, onlineProductsDetailInfoInH5,addCart} from '../../api/index'
+import { mapState, mapGetters } from "vuex";
+import HeaderTop from "components/header/index";
+import {
+  onlineProductsByAllColumn,
+  onlineProductsDetailInfoInH5,
+  addCart
+} from "../../api/index";
 export default {
-  name: 'Products',
+  name: "Products",
   data() {
     return {
-      pdtype: '',
-      searchValue: '',
-      columnId: '',
-      type: '',//栏目级别
+      pdtype: "",
+      searchValue: "",
+      columnId: "",
+      type: "", //栏目级别
       pageNo: 1,
       noData: false,
       productList: []
-    }
+    };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(['account']),
-    ...mapGetters(['cartNum'])
+    ...mapState(["account"]),
+    ...mapGetters(["cartNum"])
   },
-  created() {
-
-  },
+  created() {},
   activated() {
     this.reset();
     this.type = this.$route.query.type;
     this.columnId = this.$route.query.id;
     this.pdtype = this.$route.query.pdtype;
-    this.searchValue = '';
-    this.$refs.pdlist.$emit('ydui.infinitescroll.reInit');
+    this.searchValue = "";
+    this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
     // setTimeout(()=>{
     this.getProduct();
     // },0)
@@ -88,13 +90,13 @@ export default {
         let vm = this;
         mui.ajax({
           url: `${onlineProductsByAllColumn}/${this.type}/${this.columnId}`,
-          type: 'post',
-          headers: { 'app-version': 'v1.0' },
+          type: "post",
+          headers: { "app-version": "v1.0" },
           data: {
             pageNo: this.pageNo,
             pageSize: 10,
-            logitude: '',
-            latitude: '',
+            logitude: "",
+            latitude: "",
             columnId: this.columnId,
             type: this.type,
             likeValue: this.searchValue,
@@ -105,13 +107,13 @@ export default {
             vm.productList = [...vm.productList, ..._list];
             if (_list.length < 10) {
               vm.noData = true;
-              vm.$refs.pdlist.$emit('ydui.infinitescroll.loadedDone');
+              vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
               return;
             }
-            vm.$refs.pdlist.$emit('ydui.infinitescroll.finishLoad');
+            vm.$refs.pdlist.$emit("ydui.infinitescroll.finishLoad");
             vm.pageNo++;
           }
-        })
+        });
       }
     },
     searchProduct() {
@@ -120,80 +122,84 @@ export default {
     },
     navigate(event, pd) {
       //pdtype产品类型||积分换购：0，品牌商城：1，京东：2，责任消费：3
-      if (event.target.tagName == 'BUTTON') {
+      if (event.target.tagName == "BUTTON") {
         // this.$router.push({ path: '/online/settle', query: { pdtype: this.$route.query.pdtype } })
-      }
-      else {
-        this.$router.push({ path: '/online/product', query: { id: pd.id, pdtype: this.$route.query.pdtype } })
+      } else {
+        this.$router.push({
+          path: "/online/product",
+          query: { id: pd.id, pdtype: this.$route.query.pdtype }
+        });
       }
     },
-    add2cart(id,event){
+    add2cart(id, event) {
       let vm = this;
       var ct = event.currentTarget;
-      var img = ct.parentElement.parentElement.parentElement.querySelector('img');
-      var src = img.src;      
+      var img = ct.parentElement.parentElement.parentElement.querySelector(
+        "img"
+      );
+      var src = img.src;
       var bottom = window.innerHeight - ct.getBoundingClientRect().bottom;
       var left = ct.getBoundingClientRect().left;
       // debugger
       mui.ajax({
         url: onlineProductsDetailInfoInH5,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           id,
-          token:md5(`onlineProductsDetailInfoInH5${id}`)
+          token: md5(`onlineProductsDetailInfoInH5${id}`)
         },
-        success(res){
-          let _result=res.result;
-          if(!_result.productAttrStock.repertory){
+        success(res) {
+          let _result = res.result;
+          if (!_result.productAttrStock.repertory) {
             vm.$dialog.toast({
               mes: "库存不足，请查看其他商品"
             });
             return;
           }
-          
+
           mui.ajax({
             url: addCart,
             type: "post",
             headers: { "app-version": "v1.0" },
             data: {
               goodsId: id,
-              goodsAttrStockId:_result.productAttrStock.id,
-              goodsAttrIds:_result.productAttrStock.productAttrIds,
-              goodsAttr:_result.productAttrStock.productAttrIds,
+              goodsAttrStockId: _result.productAttrStock.id,
+              goodsAttrIds: _result.productAttrStock.productAttrIds,
+              goodsAttr: _result.productAttrStock.productAttrIds,
               goodsNum: 1,
               account: vm.account,
               token: md5(`addCart${vm.account}`)
             },
             success(response) {
               vm.$dialog.toast({
-                mes: response.msg
+                mes: response.msg,
+                timeout: 1000
               });
               // 商品加入购物车动画
-            
-            var m = document.createElement('img');
-            m.className="img-animate";
-            var tt = `bottom:${bottom}px;left:${left}px;`;
-            // m.style = `${tt}`;
-            m.setAttribute('style',tt);
-            m.src = src;
-            document.body.appendChild(m);
 
-            setTimeout(() => {
-               m.remove();
-            }, 1500);
+              var m = document.createElement("img");
+              m.className = "img-animate";
+              var tt = `bottom:${bottom}px;left:${left}px;`;
+              // m.style = `${tt}`;
+              m.setAttribute("style", tt);
+              m.src = src;
+              document.body.appendChild(m);
 
+              setTimeout(() => {
+                m.remove();
+              }, 1500);
               vm.$store.dispatch("getCartList");
             }
           });
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .pd-list {
   margin-top: @pd;
 }
@@ -202,7 +208,7 @@ export default {
   .pd;
   border-bottom: 1px solid #f9f9f9;
   img {
-    .wh(1.5rem, 1.5rem)
+    .wh(1.5rem, 1.5rem);
   }
   .pd-info {
     margin-left: @pd;
@@ -219,23 +225,22 @@ export default {
     }
   }
 }
-.shopping-container{
+.shopping-container {
   position: fixed;
-  left:@pd;
+  left: @pd;
   bottom: @pd * 2;
   .wh(1rem,1rem);
   border-radius: 50%;
   z-index: 1000;
-  background-color: rgba(0,0,0,.5);
-  .shopping-cart{
-   .hv-cen;
-   color: @white; 
+  background-color: rgba(0, 0, 0, 0.5);
+  .shopping-cart {
+    .hv-cen;
+    color: @white;
   }
-  .shopping-num{
-      position: absolute;
-      left:.5rem;
-      top:.1rem;
-    }
+  .shopping-num {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.1rem;
+  }
 }
-
 </style>
