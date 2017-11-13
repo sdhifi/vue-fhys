@@ -74,7 +74,7 @@ export default {
     },
     getpd() {
       let vm = this;
-      this.$dialog.loading.open();
+      // this.$dialog.loading.open();
       mui.ajax({
         url: myStorePro,
         type: 'post',
@@ -84,7 +84,7 @@ export default {
           token: md5(`myStorePro${getStore('account')}`)
         },
         success(res) {
-          vm.$dialog.loading.close();
+          // vm.$dialog.loading.close();
           if (res.code != 200) {
             vm.$dialog.toast({
               mes: res.msg

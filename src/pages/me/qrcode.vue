@@ -4,11 +4,11 @@
     <main class='scroll-content-2'>
       <section class="qr-container">
         <div class="head-box">
-          <img :src="qrInfo.imgHeadUrl" alt="头像">
+          <img :src="member.imgHeadUrl" alt="头像">
         </div>
         <div class="qr-box">
           <img src="http://jfh.jfeimao.com/gjfeng-web-client/upload/member/qr-code/922f6d9a39e80be4f248d91efaf177f5.png" alt="">
-          <!-- <img :src="qrInfo.imgAppQrUrl" alt="二维码"> -->
+          <!-- <img :src="member.imgAppQrUrl" alt="二维码"> -->
         </div>
         <div class="qr-img img-1" :style="{'background-image':formatBg('qr-1.png')}"></div>
         <div class="qr-img img-2" :style="{'background-image':formatBg('qr-2.png')}"></div>
@@ -38,41 +38,24 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { myQr } from "../../api/index";
 import { mixin } from "components/common/mixin";
 export default {
-  name: "Qrcode",
+  name: "QrCode",
   data() {
     return {
-      qrInfo: {},
       shares: {}
     };
   },
   components: { HeaderTop },
-  computed: {},
+  computed: { ...mapState(["member"]) },
   mixins: [mixin],
-  created() {
-    this.getQr();
+  created() {},
+  activated() {
     this.updateServices();
   },
-  activated() {},
   methods: {
-    getQr() {
-      let vm = this;
-      mui.ajax({
-        url: myQr,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          account: this.$store.state.account,
-          token: md5("myQr")
-        },
-        success(res) {
-          vm.qrInfo = res.result;
-        }
-      });
-    },
     updateServices() {
       plus.share.getServices(s => {
         for (var i in s) {
@@ -81,43 +64,49 @@ export default {
         }
       });
     },
-    shareAction(type,extraScene){
-      if(!this.shares||!this.shares[type]){
+    shareAction(type, extraScene) {
+      if (!this.shares || !this.shares[type]) {
         this.$dialog.toast({
-          mes:"未找到相关分享服务!"
-        })
+          mes: "未找到相关分享服务!"
+        });
         return;
       }
       var msg = {
-        content:"扫一扫我的二维码",
-        extra:{
-          scene:extraScene
+        content: "扫一扫我的二维码",
+        extra: {
+          scene: extraScene
         },
-        pictures:[this.qrInfo.imgAppQrUrl]
-      }
-      if(this.shares[type].authenticated){
-        this.shareMessage(msg,this.shares[type])
-      }
-      else{
-        this.shares[type].authorize(()=>{
-         this.shareMessage(msg,this.shares[type]) 
-        },(e)=>{
-          this.$dialog.alert({
-            mes:`认证授权失败：${e.message}`
-          })
-        })
+        pictures: [this.member.imgAppQrUrl]
+      };
+      if (this.shares[type].authenticated) {
+        this.shareMessage(msg, this.shares[type]);
+      } else {
+        this.shares[type].authorize(
+          () => {
+            this.shareMessage(msg, this.shares[type]);
+          },
+          e => {
+            this.$dialog.alert({
+              mes: `认证授权失败：${e.message}`
+            });
+          }
+        );
       }
     },
-    shareMessage(msg,s){
-      s.send(msg,()=>{
-        this.$dialog.toast({
-          mes:"分享成功"
-        })
-      },(e)=>{
-         this.$dialog.alert({
-            mes:`分享失败：${e.message}`
-          })
-      })
+    shareMessage(msg, s) {
+      s.send(
+        msg,
+        () => {
+          this.$dialog.toast({
+            mes: "分享成功"
+          });
+        },
+        e => {
+          this.$dialog.alert({
+            mes: `分享失败：${e.message}`
+          });
+        }
+      );
     }
   }
 };

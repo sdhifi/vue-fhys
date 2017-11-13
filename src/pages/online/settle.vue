@@ -52,11 +52,11 @@
       </section>
       <yd-cell-group>
         <yd-cell-item>
-          <span slot="left">配送方式：</span>
+          <span slot="left">配送方式</span>
           <span slot="right" class="fs-14">快递：￥{{formatPrice(settleList.pos)}}</span>
         </yd-cell-item>
         <yd-cell-item>
-          <span slot="left">支付明细：</span>
+          <span slot="left">支付明细</span>
           <span slot="right" class="fs-14" v-if="settleList.isCanUseCou==1">{{settleList.totalAmount}}积分+￥{{formatPrice(settleList.pointNiceAmount)}}</span>
           <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==2">{{settleList.totalAmount}}责任金额+￥{{formatPrice(settleList.pointNiceAmount)}}</span>
           <span slot="right" class="fs-14" v-else>￥{{settleList.totalAmount}}</span>
