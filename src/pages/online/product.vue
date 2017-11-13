@@ -16,7 +16,7 @@
           <span v-else-if="info.isCanUserCou=='0'">￥{{info.productAttrStock.price}}</span>
           <span v-else>{{info.productAttrStock.price}}
             <span class="fs-12" style="margin-left:.1rem;">责任金额</span>
-         </span>
+          </span>
           <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
       </section>
@@ -92,8 +92,8 @@
             <div class="flex align-center">
               <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="pdtype==0" readonly></yd-spinner>
               <div v-else>
-              <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock.repertory" v-if="info.productAttrStock.repertory"></yd-spinner>
-              <yd-spinner :min="0" :max="0" readonly  v-else></yd-spinner>
+                <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock.repertory" v-if="info.productAttrStock.repertory"></yd-spinner>
+                <yd-spinner :min="0" :max="0" readonly v-else></yd-spinner>
               </div>
               <p style="margin-left:.2rem;">库存
                 <span class="danger-color">{{info.productAttrStock.repertory}}</span>件(商品限购
@@ -111,7 +111,7 @@
   </div>
 </template>
 <script>
-import { mapState,mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import HeaderTop from "components/header/index";
 import { LoadMore } from "vux";
 import {
@@ -132,17 +132,28 @@ export default {
       show: false,
       buyType: 0, //购买方式--加入购物车：0，立即购买：1
       pdnum: 1,
-      attrId: "",
-
+      attrId: ""
     };
   },
   components: { HeaderTop, LoadMore },
   computed: {
     ...mapState(["account", "cartList"]),
-    ...mapGetters(['cartNum']),
-    orderType(){
-      return this.pdtype==0?1:(this.pdtype==3?2:0);
+    ...mapGetters(["cartNum"]),
+    orderType() {
+      return this.pdtype == 0 ? "1" : this.pdtype == 3 ? "2" : "0";
     },
+    goodSource(){
+      //商品来源：平台自营
+      if(this.info.productAttrStock.productAttrIds){
+        return 0;
+      }
+      //商品来源：京东
+      else if(this.info.isCanUserCou=="0"){
+        return 2;
+      }
+      //商品来源：友品集
+      else return 1;
+    }
   },
   mixins: [mixin],
   created() {},
@@ -176,12 +187,15 @@ export default {
         success(res) {
           let _result = res.result;
           //图片路径处理
-          _result.content = _result.content.replace(/\/userfiles/g,"http://jfh.jfeimao.com/userfiles");
+          _result.content = _result.content.replace(
+            /\/userfiles/g,
+            "http://jfh.jfeimao.com/userfiles"
+          );
           if (vm.pdtype != 2) {
             _result.attrs.forEach((item, index) => {
-              //排序：防止数据错乱 
-              item.attrValues.sort(function(a,b){
-                return a.id-b.id
+              //排序：防止数据错乱
+              item.attrValues.sort(function(a, b) {
+                return a.id - b.id;
               });
               //属性选中：默认第一个
               item.attrValues.forEach((i, j) => {
@@ -195,7 +209,7 @@ export default {
           }
 
           vm.info = _result;
-        // 轮播图单独处理
+          // 轮播图单独处理
           for (let i = 1; i <= 5; i++) {
             if (vm.info[`para${i}`]) {
               vm.imgList.push(vm.info[`para${i}`]);
@@ -203,31 +217,35 @@ export default {
           }
           // 商品详情图片和表格填充布局
           vm.$nextTick(function() {
-            Array.from(document.querySelector(".pd-content").querySelectorAll("img,table,div")).forEach(function(e) {
+            Array.from(
+              document
+                .querySelector(".pd-content")
+                .querySelectorAll("img,table,div")
+            ).forEach(function(e) {
               e.style.width = "100%";
             });
           });
         }
       });
     },
-    collect(){
+    collect() {
       let vm = this;
       mui.ajax({
         url: addMyCollect,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          account:this.account,
-          collectType:2,
-          id:this.info.proId,
-          token:md5(`addMyCollect${this.account}2`)
+          account: this.account,
+          collectType: 2,
+          id: this.info.proId,
+          token: md5(`addMyCollect${this.account}2`)
         },
-        success(res){
+        success(res) {
           vm.$dialog.toast({
-              mes:res.msg
-            });
+            mes: res.msg
+          });
         }
-      })
+      });
     },
     chooseAttr(item, attr, attrIndex) {
       item.attrValues.forEach((i, j) => {
@@ -257,7 +275,9 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          vm.info.productAttrStock = Object.assign({},vm.info.productAttrStock,
+          vm.info.productAttrStock = Object.assign(
+            {},
+            vm.info.productAttrStock,
             {
               id: _result.id,
               price: _result.price,
@@ -291,8 +311,8 @@ export default {
       if (!this.info.productAttrStock.repertory) {
         this.$dialog.toast({
           mes: "库存不足，请查看其他商品",
-          callback:()=>{
-            this.show=false;
+          callback: () => {
+            this.show = false;
           }
         });
         return;
@@ -333,33 +353,43 @@ export default {
         let attrIds = this.info.productAttrStock.productAttrIds;
         mui.ajax({
           url: toAdd,
-          type: 'post',
-          headers: {'app-version': 'v1.0'},
+          type: "post",
+          headers: { "app-version": "v1.0" },
           data: {
-          "orderAddVos[0].goodsId":this.info.proId,
-          "orderAddVos[0].goodsAttrIds":attrIds,
-          "orderAddVos[0].goodsNum":this.pdnum,
-          goodSource:this.goodSource,
-          orderAddressId:'',
-          account:this.account,
-          token:md5(`toAdd${this.account}`)
-        },
-        success(res){
-          let _result =res.result;
-          _result.orderAddVos[0].goodsAttr = attrValueStr.join(' ');
-          _result.orderAddVos[0].goodsAttrIds = attrIds.slice(0,attrIds.length-1);
-          _result.orderAddVos[0].goodsAttrStockId = vm.info.productAttrStock.id;
-          vm.show = false;
-          vm.$store.commit("RECORD_SETTLE_LIST",_result);
-          vm.$store.commit('SET_PAY_PASSWORD',_result.gjfMemberInfo.payPassword?true:false);
-          // vm.$router.push({ path: "/online/settle" ,query:{orderType:vm.orderType,goodSource:vm.goodSource,buynow:true }});
-          vm.$router.push({ name: "SettleBalance", query: { orderType:vm.orderType,buynow:true}});
+            "orderAddVos[0].goodsId": this.info.proId,
+            "orderAddVos[0].goodsAttrIds": attrIds,
+            "orderAddVos[0].goodsNum": this.pdnum,
+            goodSource: this.goodSource,
+            orderAddressId: "",
+            account: this.account,
+            token: md5(`toAdd${this.account}`)
+          },
+          success(res) {
+            let _result = res.result;
+            _result.orderAddVos[0].goodsAttr = attrValueStr.join(" ");
+            _result.orderAddVos[0].goodsAttrIds = attrIds.slice(
+              0,
+              attrIds.length - 1
+            );
+            _result.orderAddVos[0].goodsAttrStockId =
+              vm.info.productAttrStock.id;
+            vm.show = false;
+            vm.$store.commit("RECORD_SETTLE_LIST", _result);
+            vm.$store.commit(
+              "SET_PAY_PASSWORD",
+              _result.gjfMemberInfo.payPassword ? true : false
+            );
+            // vm.$router.push({ path: "/online/settle" ,query:{orderType:vm.orderType,goodSource:vm.goodSource,buynow:true }});
+            vm.$router.push({
+              name: "SettleBalance",
+              query: { orderType: vm.orderType, buynow: true }
+            });
           }
-        })
+        });
       }
     },
     goShoppingCart() {
-      if(!this.account){
+      if (!this.account) {
         this.$router.push("/me/login");
         return;
       }
@@ -494,7 +524,7 @@ footer {
         border-radius: 4px;
         font-size: 13px;
         color: #232326;
-        margin: .1rem;
+        margin: 0.1rem;
         padding: 3px @pd;
         .text-center;
         &.active {

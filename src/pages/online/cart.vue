@@ -185,7 +185,7 @@
       settleCart() {
         let vm = this;
         let settleList = [],
-          orderType = 0; //0普通商品 1积分换购 2责任消费
+          orderType = "0"; //0普通商品 1积分换购 2责任消费
         var length = this.checkList.length,
           count0 = 0,
           count1 = 0,
@@ -207,9 +207,9 @@
           });
           return;
         }
-        if (count0) orderType = 0
-        else if (count1) orderType = 1
-        else if (count2) orderType = 2
+        if (count0) orderType = "0"
+        else if (count1) orderType = "1"
+        else if (count2) orderType = "2"
         mui.ajax({
           url: actCartInH5,
           type: "post",
