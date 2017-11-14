@@ -343,16 +343,24 @@ export default {
           } else if (vm.orderType == 1) {
             //积分换购，积分支付
             if (vm.settleList.pointNiceAmount) {
-              let payInfo = {
-                idCard: vm.settleList.gjfMemberInfo.idCard,
-                orderId: _result.orderSn,
-                mobile: vm.account,
-                payMoney: _result.offlinePayAmount,
-                retUrl:
-                  "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify"
-              };
-              vm.$store.commit("RECORD_PAY_INFO", payInfo);
-              vm.$router.push({ name: "YinLian" });
+              vm.checkService(vm.pays["alipay"], function() {
+                plus.payment.request(
+                  vm.pays["alipay"],
+                  _result.payString,
+                  function(result) {
+                    plus.nativeUI.alert(
+                      "支付成功",
+                      function() {
+                        vm.goBack(true);
+                      },
+                      "支付"
+                    );
+                  },
+                  function(e) {
+                    plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  }
+                );
+              });
             } else {
               vm.$dialog.toast({
                 mes: res.msg
@@ -366,16 +374,24 @@ export default {
               vm.$dialog.toast({
                 mes: res.msg,
                 callback: () => {
-                  let payInfo = {
-                    idCard: _result.memberId.idCard,
-                    orderId: _result.orderSn,
-                    mobile: vm.account,
-                    payMoney: _result.offlinePayAmount,
-                    retUrl:
-                      "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify"
-                  };
-                  vm.$store.commit("RECORD_PAY_INFO", payInfo);
-                  vm.$router.push({ name: "YinLian" });
+                 vm.checkService(vm.pays["alipay"], function() {
+                plus.payment.request(
+                  vm.pays["alipay"],
+                  _result.payString,
+                  function(result) {
+                    plus.nativeUI.alert(
+                      "支付成功",
+                      function() {
+                        vm.goBack(true);
+                      },
+                      "支付"
+                    );
+                  },
+                  function(e) {
+                    plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  }
+                );
+              });
                 }
               });
             } else if (res.code == 401) {

@@ -17,26 +17,23 @@
         <div class="qr-img img-5" :style="{'background-image':formatBg('qr-5.png')}"></div>
         <div class="qr-desc fs-16">消费变分红，红包天天有！</div>
       </section>
-      <section class="share-container text-center">
+      <!-- <section class="share-container text-center">
         <h3 class="fs-16">分享到</h3>
         <ul class="flex just-around align-center">
           <li @click="shareAction('weixin','WXSceneSession')">
-            <!-- <span class="iconfont self-weixin" style="font-size:.6rem;color:#1aad19;"></span> -->
             <span :style="{'background-image':formatBg('weixin.png')}" class="share-icon"></span>
             <p class="fs-14">微信好友</p>
           </li>
           <li @click="shareAction('weixin','WXSceneTimeline')">
-            <!-- <span class="iconfont self-pengyouquan" style="font-size:.6rem;color:#52bfa2;"></span> -->
             <span :style="{'background-image':formatBg('pengyouquan.png')}" class="share-icon"></span>
             <p class="fs-14">朋友圈</p>
           </li>
           <li @click="shareAction('sinaweibo')">
-            <!-- <span class="iconfont self-weibo" style="font-size:.6rem;color:#eb192d;"></span> -->
             <span :style="{'background-image':formatBg('sina.png')}" class="share-icon"></span>
             <p class="fs-14">新浪微博</p>
           </li>
         </ul>
-      </section>
+      </section> -->
     </main>
   </div>
 </template>
@@ -56,7 +53,7 @@ export default {
   mixins: [mixin],
   created() {},
   activated() {
-    this.updateServices();
+   // this.updateServices();
   },
   methods: {
     updateServices() {
@@ -134,7 +131,7 @@ export default {
     border-radius: 50%;
     z-index: 5;
     img {
-      width: 100%;
+      .wh(100%,100%);
       border-radius: 50%;
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="score-box">
-    <a v-for="i in max" class="rater-box" :class="{'is-active':currentValue>i+1}" :style="{color:colors&&colors[i-1]?colors[i-1]:'#ccc'}" :key="i">
+    <a v-for="i in max" class="rater-box" @click="handleClick(i-1)" :class="{'is-active':currentValue>i+1}" :style="{color:colors&&colors[i-1]?colors[i-1]:'#ccc'}" :key="i">
       <span class="iconfont self-score rater-inner">
         <span v-if="cutPercent >0 && cutIndex == i-1" class="iconfont self-score rater-outer" :style="{color:activeColor,width:cutPercent+'%'}"></span>
       </span>
@@ -20,6 +20,7 @@ export default {
       type: Number,
       default: 0
     },
+    disabled: Boolean,
     activeColor: {
       type: String,
       default: '#fab068'
@@ -50,6 +51,16 @@ export default {
     this.updateStyle()
   },
   methods: {
+    handleClick (i, force) {
+      if (!this.disabled || force) {
+        if (this.currentValue === i + 1) {
+          this.currentValue = i
+          this.updateStyle()
+        } else {
+          this.currentValue = i + 1
+        }
+      }
+    },
     updateStyle() {
       for (var j = 0; j < this.max; j++) {
         if (j <= this.currentValue - 1) {
@@ -58,6 +69,15 @@ export default {
           this.$set(this.colors, j, '#ccc')
         }
       }
+    }
+  },
+   watch: {
+    currentValue (val) {
+      this.updateStyle()
+      this.$emit('input', val)
+    },
+    value (val) {
+      this.currentValue = val
     }
   }
 }

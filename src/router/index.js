@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import store from '../store/index';
 Vue.use(Router)
 
-const router =  new Router({
+const router = new Router({
   routes: [{
     path: '/home/index',
     name: 'Index',
@@ -32,23 +32,27 @@ const router =  new Router({
     path: '/online/index',
     name: 'Online',
     component: require('../pages/online/index')
-  },  {
+  }, {
     path: '/online/allcolumn',
     name: 'AllColumn',
     component: require('../pages/online/allcolumn')
-  },  {
+  }, {
     path: '/online/products',
     name: 'Products',
     component: require('../pages/online/products')
-  },  {
+  }, {
     path: '/online/product',
     name: 'Product',
     component: require('../pages/online/product')
   }, {
+    path: '/online/comment',
+    name: 'Comment',
+    component: require('../pages/online/comment')
+  }, {
     path: '/online/settle',
     name: 'SettleBalance',
     component: require('../pages/online/settle')
-  },{
+  }, {
     path: '/online/shoppingcart',
     name: 'ShoppingCart',
     component: require('../pages/online/cart')
@@ -83,7 +87,11 @@ const router =  new Router({
     path: '/order/detail',
     name: 'OrderDetail',
     component: require('../pages/order/orderdetail')
-  },{
+  }, {
+    path: '/order/addcomment',
+    name: 'AddComment',
+    component: require('../pages/order/addcomment')
+  }, {
     path: '/me/mywallet',
     name: 'MyWallet',
     component: require('../pages/me/mywallet')
@@ -103,7 +111,7 @@ const router =  new Router({
     path: '/me/updateApp',
     name: 'UpdateApp',
     component: require('../pages/me/updateApp')
-  },  {
+  }, {
     path: '/me/login',
     name: 'Login',
     component: require('../pages/me/login')
@@ -183,15 +191,15 @@ const router =  new Router({
     path: '/trade/participate',
     name: 'Participate',
     component: require('../pages/trade/participate')
-  },{
+  }, {
     path: '/trade/salerecord',
     name: 'SaleRecord',
     component: require('../pages/trade/salerecord')
-  },{
+  }, {
     path: '/trade/salehistory',
     name: 'SaleHistory',
     component: require('../pages/trade/salehistory')
-  },  {
+  }, {
     path: '/trade/salewelfare',
     name: 'SaleWelfare',
     component: require('../pages/trade/salewelfare')
@@ -231,15 +239,15 @@ const router =  new Router({
     path: '/order/yinlianconfirm',
     name: 'YinLianConfirm',
     component: require('../pages/order/yinlianconfirm')
-  },  {
+  }, {
     path: '*',
     redirect: '/home/index'
   }]
 })
-router.afterEach( (to,from) => {
+router.afterEach((to, from) => {
   store.commit('SAVE_POSITION', {
-    name:from.path,
-    position:document.querySelector("main").scrollTop
+    name: from.path,
+    position: document.querySelector("main").scrollTop
   })
 })
 export default router;

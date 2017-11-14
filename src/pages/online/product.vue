@@ -39,6 +39,9 @@
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
             </span>
           </yd-cell-item>
+          <yd-cell-item arrow type="link" :href="'/online/comment?id='+info.proId">
+            <span slot="left">商品评价</span>
+          </yd-cell-item>
         </yd-cell-group>
       </section>
       <section>
@@ -167,6 +170,11 @@ export default {
       this.$store.dispatch("getCartList");
     }
     this.getInfo();
+    if (this.$store.state.positions[this.$route.path]) {
+      document.querySelector("main").scrollTop = this.$store.state.positions[
+        this.$route.path
+      ];
+    }
   },
   beforeRouteLeave(to, from, next) {
     this.imgList = [];

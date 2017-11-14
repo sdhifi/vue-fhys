@@ -9,7 +9,7 @@
           <h3>{{title}}</h3>
         </div>
         <div class="product-score flex align-center just-between">
-          <crown :value="score"></crown>
+          <crown :value="score" :disabled="true"></crown>
           <div class="product-address" v-if="distance">
             <span class="iconfont self-location danger-color"></span>
             <span class="product-distance">{{formatDis(distance)}}</span>

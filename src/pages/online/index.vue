@@ -56,29 +56,27 @@
   </div>
 </template>
 <script>
-import HeaderTop from 'components/header/index'
-import FooterBar from 'components/footer/index'
-import { Swiper, SwiperItem } from 'vux'
-import { mixin } from 'components/common/mixin'
-import { onlineInH5 } from '../../api/index'
+import HeaderTop from "components/header/index";
+import FooterBar from "components/footer/index";
+import { Swiper, SwiperItem } from "vux";
+import { mixin } from "components/common/mixin";
+import { onlineInH5 } from "../../api/index";
 export default {
-  name: 'Online',
+  name: "Online",
   data() {
     return {
       oldBack: mui.back,
       info: {},
       pds: []
-    }
+    };
   },
   components: { HeaderTop, FooterBar },
-  computed: {
-
-  },
+  computed: {},
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.plusReady();
-    })
+    });
   },
   beforeRouteLeave(to, from, next) {
     mui.back = this.oldBack;
@@ -88,9 +86,11 @@ export default {
     this.getInfo();
   },
   activated() {
-    if(this.$store.state.positions[this.$route.path]){
-            document.querySelector('main').scrollTop=this.$store.state.positions[this.$route.path]
-        }
+    if (this.$store.state.positions[this.$route.path]) {
+      document.querySelector("main").scrollTop = this.$store.state.positions[
+        this.$route.path
+      ];
+    }
   },
   methods: {
     getInfo() {
@@ -98,8 +98,8 @@ export default {
       this.$dialog.loading.open();
       mui.ajax({
         url: onlineInH5,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           token: md5(`onlineInH5`)
         },
@@ -114,17 +114,17 @@ export default {
             item.id = desc[2];
             item.list = value[1];
             _pds.push(item);
-          })
+          });
           vm.info = res.result;
           vm.pds = _pds;
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 section {
   margin-bottom: @pd;
   background-color: @white;
@@ -144,7 +144,7 @@ section {
     }
     p {
       margin-top: @pd / 2;
-      font-size: .28rem;
+      font-size: 0.28rem;
     }
   }
 }
@@ -155,7 +155,7 @@ section {
   }
   .pd-item {
     width: 48%;
-    padding: .1rem;
+    padding: 0.1rem;
     margin-bottom: @pd;
     border: 1px solid #dfdfdf;
     .img-cover {
@@ -173,7 +173,7 @@ section {
       line-height: 20px;
       h3 {
         .multi-ellipsis(2);
-        font-size: .3rem;
+        font-size: 0.3rem;
         font-weight: normal;
         word-wrap: break-word;
         word-break: break-all;
@@ -181,7 +181,7 @@ section {
       }
     }
     .price {
-      margin-top: .1rem;
+      margin-top: 0.1rem;
       font-size: 14px;
       span:first-of-type {
         color: @red;

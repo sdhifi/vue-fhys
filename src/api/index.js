@@ -80,6 +80,7 @@ let yinLPayCofirom = `${order}/yinLPayCofirom` //银联支付
 let payOrderSign = `${order}/payOrderSign` //订单付款
 
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
+let getAllProCommetByPage = baseUrl + `/app/comment/${VERSION}/getAllProCommetByPage` //获取评论
 
 let addStore = `${store}/addStore` //入驻申请
 let myStore = `${store}/myStore` //商家信息
@@ -171,7 +172,8 @@ export {
 
   
   newProCommet,
-
+  getAllProCommetByPage,
+  
   addStore,
   myStore,
   updateBanner,

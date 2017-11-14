@@ -8,7 +8,7 @@
       <div v-show="index==0">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist7">
           <ul slot="list">
-            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item)" @update="updateOrder(item)"></order-item>
+            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item)" @update="updateOrder(item)" @comment="addComment(item)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
@@ -36,7 +36,7 @@
       <div v-show="index==4">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
           <ul slot="list">
-            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"></order-item>
+            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"  @comment="addComment(item)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
@@ -48,7 +48,7 @@ import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import OrderItem from "components/common/OrderItem";
 import { Tab, TabItem } from "vux";
-import { getOrder, updateOrderStatus, payOrderSign } from "../../api/index";
+import { getOrder, updateOrderStatus, payOrderSign ,newProCommet} from "../../api/index";
 import { payMixin } from "components/common/mixin";
 export default {
   name: "MyOrder",
@@ -211,16 +211,40 @@ export default {
           } else if (item.payType == "7" || item.payType == "8") {
             //积分
             if (_result.offlinePayAmount) {
-              let payInfo = {
-                idCard: _result.memberId.idCard,
-                orderId: _result.orderSn,
-                mobile: vm.account,
-                payMoney: _result.offlinePayAmount,
-                retUrl:
-                  "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify"
-              };
-              vm.$store.commit("RECORD_PAY_INFO", payInfo);
-              vm.$router.push({ name: "YinLian" });
+             vm.checkService(vm.pays["alipay"], function() {
+              plus.payment.request(
+                vm.pays["alipay"],
+                _result.payString,
+                function(result) {
+                  plus.nativeUI.alert(
+                    "支付成功",
+                    function() {
+                      //TODO:更改状态
+                      // 待支付->待发货
+                      if (index) {
+                        vm.list0.splice(index, 1);
+                      } else {
+                        //全部，只要改变状态
+                        item.orderStatus = "1";
+                      }
+                      //待支付状态需要重置.
+                      vm.list0 = [];
+                      vm.pageNo0 = 1;
+                      vm.noData0 = false;
+
+                      //待发货状态需要重置.
+                      vm.list1 = [];
+                      vm.pageNo1 = 1;
+                      vm.noData1 = false;
+                    },
+                    "支付"
+                  );
+                },
+                function(e) {
+                  plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                }
+              );
+            });
             }
           } else {
             vm.$dialog.toast({
@@ -268,6 +292,9 @@ export default {
           });
         }
       });
+    },
+    addComment(item){
+      this.$router.push({name:"AddComment",params:{item}});
     }
   }
 };
