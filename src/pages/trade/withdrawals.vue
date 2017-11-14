@@ -5,7 +5,7 @@
       <section>
         <p class="tips">可提取福利
           <span class="danger-color">{{balanceMoney}}</span> 元
-          <span class="danger-color">(提取福利扣10%手续费)</span>
+          <span class="danger-color">(提取福利扣10%手续费，另将10%转入会员义务消费，用于商城购物)</span>
         </p>
         <router-link :to="{path: '/trade/bankcard?type=choose'}" class="bank-card flex align-center" v-if="defaultBankCard">
           <div class="icon" :style="{'background-image':formatBg(defaultBankCard.bankPic)}"></div>
