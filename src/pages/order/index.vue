@@ -8,35 +8,35 @@
       <div v-show="index==0">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist7">
           <ul slot="list">
-            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item.orderSn,item.payType)" @update="updateOrder(item.orderSn,item.orderStatus)"></order-item>
+            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item)" @update="updateOrder(item)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==1">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist0">
           <ul slot="list">
-            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item.orderSn,item.payType)" @update="updateOrder(item.orderSn,item.orderStatus)"></order-item>
+            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item,index)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==2">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist1">
           <ul slot="list">
-            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item.orderSn,item.payType)" @update="updateOrder(item.orderSn,item.orderStatus)"></order-item>
+            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==3">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist2">
           <ul slot="list">
-            <order-item v-for="item in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item.orderSn,item.payType)" @update="updateOrder(item.orderSn,item.orderStatus)"></order-item>
+            <order-item v-for="(item,index) in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @update="updateOrder(item,index)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==4">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
           <ul slot="list">
-            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item.orderSn,item.payType)" @update="updateOrder(item.orderSn,item.orderStatus)"></order-item>
+            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
@@ -94,14 +94,20 @@ export default {
   },
   methods: {
     reset() {
-      this.orderType = "7";
+      // this.orderType = "7";
       this.noData0 = false;
+      this.noData1 = false;
+      this.noData2 = false;
       this.noData3 = false;
       this.noData7 = false;
       this.list0 = [];
+      this.list1 = [];
+      this.list2 = [];
       this.list3 = [];
       this.list7 = [];
       this.pageNo0 = 1;
+      this.pageNo1 = 1;
+      this.pageNo2 = 1;
       this.pageNo3 = 1;
       this.pageNo7 = 1;
     },
@@ -151,22 +157,20 @@ export default {
         }
       });
     },
-    payOrder(sn, paytype) {
+    payOrder(item, index) {
       let vm = this;
       mui.ajax({
         url: payOrderSign,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          orderSn: sn,
+          orderSn: item.orderSn,
           account: this.account,
-          token: md5(`payOrderSign${sn}${this.account}`)
+          token: md5(`payOrderSign${item.orderSn}${this.account}`)
         },
         success(res) {
           let _result = res.result;
-          // 余额
-          if (paytype == "0") {
-          } else if (paytype == "2") {
+          if (item.payType == "2") {
             //支付宝
             vm.checkService(vm.pays["alipay"], function() {
               plus.payment.request(
@@ -177,6 +181,18 @@ export default {
                     "支付成功",
                     function() {
                       //TODO:更改状态
+                      // 待支付->待发货
+                      if (index) {
+                        vm.list0.splice(index, 1);
+                      } else {
+                        //全部，只要改变状态
+                        item.orderStatus = "1";
+                      }
+
+                      //待发货状态需要重置.
+                      vm.list1 = [];
+                      vm.pageNo1 = 1;
+                      vm.noData1 = false;
                     },
                     "支付"
                   );
@@ -186,9 +202,9 @@ export default {
                 }
               );
             });
-          } else if (paytype == "3") {
+          } else if (item.payType == "3") {
             //银联
-          } else if (paytype == "7" ||paytype == "8") {
+          } else if (item.payType == "7" || item.payType == "8") {
             //积分
             if (_result.offlinePayAmount) {
               let payInfo = {
@@ -210,21 +226,35 @@ export default {
         }
       });
     },
-    updateOrder(sn, status) {
+    updateOrder(item, index) {
       let vm = this;
       mui.ajax({
         url: updateOrderStatus,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          status: status,
+          status: 3,
           orderSn: sn,
           account: this.account,
           token: md5(`updateOrderStatus${this.account}${sn}`)
         },
         success(res) {
           vm.$dialog.toast({
-            mes: res.msg
+            mes: res.msg,
+            callback: () => {
+              //更改状态
+              if (index) {
+                vm.list2.splice(index, 1);
+              } else {
+                //全部，只要改变状态
+                item.orderStatus = "3";
+              }
+
+              //交易完成状态需要重置.
+              vm.list3 = [];
+              vm.pageNo3 = 1;
+              vm.noData3 = false;
+            }
           });
         }
       });

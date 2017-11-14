@@ -71,10 +71,6 @@
             {{info.gjfOrderAddress.reciverDetailAddress}}
           </p>
         </li>
-        <li class="item">
-          <span class="left">&emsp;快递单号：</span>
-          {{info.shippingCode || "--"}}
-        </li>
       </ul>
       <ul class="container">
         <li class="item">

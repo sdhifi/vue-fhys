@@ -120,7 +120,7 @@ export default {
         },
         {
           icon: "self-shoukuan",
-          text: "收款",
+          text: "付款",
           link: "/store/receipt",
           color: "#fc9557"
         }

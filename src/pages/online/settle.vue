@@ -354,14 +354,6 @@ export default {
               vm.$store.commit("RECORD_PAY_INFO", payInfo);
               vm.$router.push({ name: "YinLian" });
             } else {
-              // if (res.code == 200) {
-              //   vm.$dialog.toast({
-              //     mes: res.msg,
-              //     callback: () => {
-              //       vm.goBack(true);
-              //     }
-              //   });
-              // }
               vm.$dialog.toast({
                 mes: res.msg
               });
