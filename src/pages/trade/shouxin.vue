@@ -30,17 +30,18 @@ export default {
           color: '#f47874'
         },
         {
-          icon: 'self-shoukuan',
-          text: '销售录入',
-          link: '/trade/salerecord',
-          color: '#f9a340'
-        },
-        {
           icon: 'self-xiaofeijilu',
           text: '查询授信记录',
           link: '/trade/shouxinlist',
           color: '#0f8ee9'
         },
+        {
+          icon: 'self-shoukuan',
+          text: '销售录入',
+          link: '/trade/salerecord',
+          color: '#f9a340'
+        },
+        
       ]
     }
   },
