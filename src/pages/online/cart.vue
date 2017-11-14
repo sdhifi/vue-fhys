@@ -49,7 +49,7 @@
       </label>
       <div class="flex-1 total-price">
         <p class="fs-16">合计：
-          <span class="danger-color">￥{{totalPrice}}</span>
+          <span class="danger-color">￥{{formatPrice(totalPrice)}}</span>
         </p>
         <p>不含运费</p>
       </div>
@@ -63,6 +63,7 @@
   import {mapState} from "vuex";
   import HeaderTop from "components/header/index";
   import {updateCartNum, delCart, actCartInH5} from "../../api/index";
+  import {mixin} from "components/common/mixin";
   export default {
     name: "ShoppingCart",
     data() {
@@ -94,8 +95,7 @@
       this.isCheckAll = false;
       this.totalPrice = 0;
     },
-    mounted() {
-    },
+    mixins: [mixin],
     methods: {
       countChange(e, item, index) {
         item.checked = !item.checked;
