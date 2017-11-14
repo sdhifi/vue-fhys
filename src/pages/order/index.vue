@@ -188,6 +188,10 @@ export default {
                         //全部，只要改变状态
                         item.orderStatus = "1";
                       }
+                      //待支付状态需要重置.
+                      vm.list0 = [];
+                      vm.pageNo0 = 1;
+                      vm.noData0 = false;
 
                       //待发货状态需要重置.
                       vm.list1 = [];
@@ -228,17 +232,19 @@ export default {
     },
     updateOrder(item, index) {
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: updateOrderStatus,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           status: 3,
-          orderSn: sn,
+          orderSn: item.orderSn,
           account: this.account,
-          token: md5(`updateOrderStatus${this.account}${sn}`)
+          token: md5(`updateOrderStatus${this.account}${item.orderSn}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           vm.$dialog.toast({
             mes: res.msg,
             callback: () => {
@@ -249,6 +255,10 @@ export default {
                 //全部，只要改变状态
                 item.orderStatus = "3";
               }
+              //待收货状态需要重置.
+              vm.list2 = [];
+              vm.pageNo2 = 1;
+              vm.noData2 = false;
 
               //交易完成状态需要重置.
               vm.list3 = [];

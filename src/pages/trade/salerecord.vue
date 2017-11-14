@@ -41,11 +41,11 @@
           <span slot="left">会员余额 </span>
           <input slot="right" type="radio" value="5" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-weixinzhifu" style="color:#25d025;"></span>
           <span slot="left">微信支付</span>
           <input slot="right" type="radio" value="0" v-model="payType" @change="setPayMoney" />
-        </yd-cell-item>
+        </yd-cell-item> -->
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
           <span slot="left">银联在线支付</span>

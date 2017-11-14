@@ -106,24 +106,24 @@ export default {
           link: "/store/productmanage",
           color: "#fc9557"
         },
-        {
-          icon: "self-dingdanguanli",
-          text: "订单管理",
-          link: "/store/ordermanage",
-          color: "#fab652"
-        },
+        // {
+        //   icon: "self-dingdanguanli",
+        //   text: "订单管理",
+        //   link: "/store/ordermanage",
+        //   color: "#fab652"
+        // },
         {
           icon: "self-fabu",
           text: "发布管理",
           link: "/store/publishmanage",
           color: "#fab652"
         },
-        {
-          icon: "self-shoukuan",
-          text: "付款",
-          link: "/store/receipt",
-          color: "#fc9557"
-        }
+        // {
+        //   icon: "self-shoukuan",
+        //   text: "付款",
+        //   link: "/store/receipt",
+        //   color: "#fc9557"
+        // }
       ]
     };
   },
