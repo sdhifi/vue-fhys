@@ -13,7 +13,7 @@
       </div>
     <main class='scroll-content-3' style="background-color:#fff;">
       <section class="pd-list">
-        <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
+        <yd-infinitescroll :callback="getProduct" ref="pdlist">
           <div slot="list">
             <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
           </div>

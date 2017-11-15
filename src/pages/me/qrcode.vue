@@ -7,8 +7,8 @@
           <img :src="member.imgHeadUrl" alt="头像">
         </div>
         <div class="qr-box">
-          <img src="http://jfh.jfeimao.com/gjfeng-web-client/upload/member/qr-code/922f6d9a39e80be4f248d91efaf177f5.png" alt="">
-          <!-- <img :src="member.imgAppQrUrl" alt="二维码"> -->
+          <!-- <img src="http://jfh.jfeimao.com/gjfeng-web-client/upload/member/qr-code/922f6d9a39e80be4f248d91efaf177f5.png" alt=""> -->
+          <img :src="member.imgAppQrUrl" alt="二维码">
         </div>
         <div class="qr-img img-1" :style="{'background-image':formatBg('qr-1.png')}"></div>
         <div class="qr-img img-2" :style="{'background-image':formatBg('qr-2.png')}"></div>

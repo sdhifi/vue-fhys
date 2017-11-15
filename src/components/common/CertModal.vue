@@ -92,7 +92,7 @@ export default {
                 vm.$store.commit('SHOW_CERTIFICATE', false);
                 vm.$store.commit('SET_CERTIFICATE', true);
                 vm.$store.commit('RECORD_ID_CARD',vm.certNum.replace(/x/gi, 'X'))
-                vm.$emit("updateName",vm.realName)
+                vm.$emit("update-name",vm.realName)
               }
             })
           }
@@ -175,6 +175,7 @@ export default {
       border: 1px solid #ddd;
       padding: @pd;
       width: 100%;
+      font-family:Helvetica;
       &:focus {
         border-color: @blue;
         box-shadow: 0 0 5px @blue;

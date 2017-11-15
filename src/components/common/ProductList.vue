@@ -6,7 +6,7 @@
     <ul class="nav-tab flex just-around text-center" v-else>
       <li class="nav-item" :class="{'nav-active':index+1==filterIndex}" @click="filter(item)" v-for="(item,index) in orderType2" :key="index">{{item.name}}</li>
     </ul>
-    <yd-infinitescroll :on-infinite="getProduct" ref="pdlist">
+    <yd-infinitescroll :callback="getProduct" ref="pdlist">
       <div slot="list">
         <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice" :sale-num="item.saleNum"></product-item>
       </div>

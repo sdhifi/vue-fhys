@@ -23,14 +23,14 @@
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
         <yd-cell-group>
-          <yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+item.id+'&pdtype='+index">
+          <yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+item.id">
             <span slot="icon" class="iconfont self-libao" style="color:#f98e25;font-size:20px;"></span>
             <span slot="left">{{item.label}}</span>
             <span slot="right">更多</span>
           </yd-cell-item>
         </yd-cell-group>
         <ul class="flex just-between">
-          <router-link :to="{path:'/online/product',query:{id:pd.id,pdtype:index}}" v-for="pd in item.list" :key="pd.id" tag="li" class="pd-item">
+          <router-link :to="{path:'/online/product',query:{id:pd.id}}" v-for="pd in item.list" :key="pd.id" tag="li" class="pd-item">
             <div class="img-cover">
               <img :src="pd.imgUrl" :alt="pd.name">
             </div>

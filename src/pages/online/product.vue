@@ -13,16 +13,16 @@
           <span v-if="info.isCanUserCou=='1'">{{info.productAttrStock.price}}
             <span class="fs-12" style="margin-left:.1rem;">积分</span>
           </span>
-          <span v-else-if="info.isCanUserCou=='0'">￥{{info.productAttrStock.price}}</span>
-          <span v-else>{{info.productAttrStock.price}}
-            <span class="fs-12" style="margin-left:.1rem;">责任金额</span>
-          </span>
+          <span v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock.price}}
+            <span class="fs-12" style="margin-left:.1rem;">责任金额</span></span>
+          <span v-else>￥{{info.productAttrStock.price}}</span>
+          
           <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
       </section>
       <section class="info-2">
         <yd-cell-group>
-          <yd-cell-item v-if="pdtype!=2">
+          <yd-cell-item v-if="info.isCanUserCou">
             <span slot="left">剩余：{{info.productAttrStock.repertory}}</span>
           </yd-cell-item>
           <yd-cell-item v-else>
@@ -50,10 +50,10 @@
       </section>
       <yd-backtop></yd-backtop>
     </main>
-    <footer class="fix-footer flex align-center" v-show="pdtype==2">
+    <footer class="fix-footer flex align-center" v-show="!info.isCanUserCou">
       <button @click="buynow" class="flex-1 btn-2">[京东]立即购买</button>
     </footer>
-    <footer class="fix-footer flex align-center" v-show="pdtype!=2" style="border-top:1px solid #dfdfdf;">
+    <footer class="fix-footer flex align-center" v-show="info.isCanUserCou" style="border-top:1px solid #dfdfdf;">
       <div class="shopping-cart flex just-center align-center" @click="goShoppingCart">
         <span class="iconfont-large self-shopcart"></span>
         <span class="shopping-num" type="danger" v-show="account&&cartNum>0">{{cartNum}}</span>
@@ -81,7 +81,7 @@
           </div>
         </div>
         <div class="middle">
-          <div class="middle-1" v-show="pdtype!=2">
+          <div class="middle-1" v-show="info.isCanUserCou">
             <h3>请选择属性：</h3>
             <div class="flex align-center" v-for="(item,index) in info.attrs" :key="index">
               <span class="attr-name fs-14">{{item.attrName}}</span>
@@ -93,14 +93,14 @@
           <div class="middle-2">
             <h3>请选择数量：</h3>
             <div class="flex align-center">
-              <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="pdtype==0" readonly></yd-spinner>
+              <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="info.isCanUserCou=='1' || info.isCanUserCou=='2'" readonly></yd-spinner>
               <div v-else>
                 <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock.repertory" v-if="info.productAttrStock.repertory"></yd-spinner>
                 <yd-spinner :min="0" :max="0" readonly v-else></yd-spinner>
               </div>
               <p style="margin-left:.2rem;">库存
                 <span class="danger-color">{{info.productAttrStock.repertory}}</span>件(商品限购
-                <span v-if="pdtype==0">1</span>
+                <span v-if="info.isCanUserCou=='1' || info.isCanUserCou=='2'">1</span>
                 <span v-else>{{info.purchasNum}}</span>件)
               </p>
             </div>
@@ -131,7 +131,7 @@ export default {
     return {
       info: {},
       imgList: [],
-      pdtype: -1, //产品类型--积分换购：0，品牌商城：1，京东：2，责任消费：3
+      //pdtype: -1, //产品类型--积分换购：0，品牌商城：1，京东：2，责任消费：3
       show: false,
       buyType: 0, //购买方式--加入购物车：0，立即购买：1
       pdnum: 1,
@@ -143,7 +143,7 @@ export default {
     ...mapState(["account", "cartList"]),
     ...mapGetters(["cartNum"]),
     orderType() {
-      return this.pdtype == 0 ? "1" : this.pdtype == 3 ? "2" : "0";
+      return this.info.isCanUserCou=='1' ? "1" : this.info.isCanUserCou=='2' ? "2" : "0";
     },
     goodSource(){
       //商品来源：平台自营
@@ -163,7 +163,7 @@ export default {
   activated() {
     this.imgList = [];
     this.info = {};
-    this.pdtype = this.$route.query.pdtype;
+    //this.pdtype = this.$route.query.pdtype;
     this.pdnum = 1;
 
     if (this.account) {
@@ -199,7 +199,7 @@ export default {
             /\/userfiles/g,
             "http://jfh.jfeimao.com/userfiles"
           );
-          if (vm.pdtype != 2) {
+          if (_result.isCanUserCou ) {
             _result.attrs.forEach((item, index) => {
               //排序：防止数据错乱
               item.attrValues.sort(function(a, b) {
@@ -387,7 +387,6 @@ export default {
               "SET_PAY_PASSWORD",
               _result.gjfMemberInfo.payPassword ? true : false
             );
-            // vm.$router.push({ path: "/online/settle" ,query:{orderType:vm.orderType,goodSource:vm.goodSource,buynow:true }});
             vm.$router.push({
               name: "SettleBalance",
               query: { orderType: vm.orderType, buynow: true }
@@ -493,6 +492,7 @@ footer {
       overflow: hidden;
       img {
         width: 100%;
+        height: 100%;
         border-radius: 5px;
       }
     }

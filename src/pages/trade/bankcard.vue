@@ -37,7 +37,7 @@
       <button class="delete-btn btn-large" @click="newBank">
         <span class="iconfont self-add"></span>添加银行卡</button>
     </footer>
-    <cert-modal></cert-modal>
+    <cert-modal @update-name="showRealName"></cert-modal>
   </div>
 </template>
 <script>
@@ -111,6 +111,9 @@ export default {
         this.$store.commit("RECORD_BANK_CARD",b);
         this.$router.go(-1);
       }
+    },
+    showRealName(){
+      this.$store.dispatch("getInfo");
     }
   }
 }

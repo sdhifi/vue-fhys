@@ -16,20 +16,23 @@
             <div class="pd-info flex-1">
               <h3>{{pd.name}}</h3>
               <div class="flex just-between align-center">
-                <span class="fs-14 price1" v-if="pdtype=='0'">￥{{pd.pointNicePrice}}
+                <span class="fs-14 price1" v-if="pd.isCanUserCou=='1'">￥{{pd.pointNicePrice}}
                   <span class="price2">+{{pd.price}}积分</span>
+                </span>
+                <span class="fs-14 price1" v-else-if="pd.isCanUserCou=='2'">￥{{pd.pointNicePrice}}
+                  <span class="price2">+{{pd.price}}责任金额</span>
                 </span>
                 <span class="fs-14 price1" v-else>
                   ￥{{pd.price}}
                 </span>
-                <yd-button type="danger" v-if="account&&pdtype!='2'" @click.native="add2cart(pd.id,$event)">加入购物车</yd-button>
+                <yd-button type="danger" v-if="account&&pd.isCanUserCou" @click.native="add2cart(pd.id,$event)">加入购物车</yd-button>
               </div>
             </div>
           </div>
         </div>
       </yd-infinitescroll>
     </main>
-    <router-link :to="{path:'/online/shoppingcart'}" class="shopping-container" v-show="account&&pdtype!='2'">
+    <router-link :to="{path:'/online/shoppingcart'}" class="shopping-container" v-show="account">
       <div class="shopping-cart">
         <span class="iconfont-large self-shopcart"></span>
       </div>
@@ -49,7 +52,6 @@ export default {
   name: "Products",
   data() {
     return {
-      pdtype: "",
       searchValue: "",
       columnId: "",
       type: "", //栏目级别
@@ -68,7 +70,6 @@ export default {
     this.reset();
     this.type = this.$route.query.type;
     this.columnId = this.$route.query.id;
-    this.pdtype = this.$route.query.pdtype;
     this.searchValue = "";
     this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
     // setTimeout(()=>{
@@ -121,13 +122,10 @@ export default {
       this.getProduct();
     },
     navigate(event, pd) {
-      //pdtype产品类型||积分换购：0，品牌商城：1，京东：2，责任消费：3
-      if (event.target.tagName == "BUTTON") {
-        // this.$router.push({ path: '/online/settle', query: { pdtype: this.$route.query.pdtype } })
-      } else {
+      if (event.target.tagName !== "BUTTON") {
         this.$router.push({
           path: "/online/product",
-          query: { id: pd.id, pdtype: this.$route.query.pdtype }
+          query: { id: pd.id }
         });
       }
     },

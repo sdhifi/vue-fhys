@@ -101,7 +101,7 @@ export default {
       this.$store.commit("SHOW_CERTIFICATE", true);
     },
     showRealName(val){
-      console.log(val)
+      this.info = Object.assign({},this.info,{name:val});
     },
     saveInfo() {
       if (!this.info.nickName) {
