@@ -22,7 +22,8 @@
       <yd-button type="warning" v-if="status=='0'" @click.native="pay">去付款</yd-button>
       <yd-button type="hollow" v-if="status=='1'">待发货</yd-button>
       <yd-button type="danger" v-if="status=='2'" @click.native="update">确认收货</yd-button>
-      <yd-button type="primary" v-if="status=='3'" @click.native="comment">去评价</yd-button>
+      <yd-button type="primary" v-if="status=='3' && evaluation=='0'" @click.native="comment">去评价</yd-button>
+      <yd-button type="disabled" v-if="status=='3' && evaluation=='1'" @click.native="comment">已评价</yd-button>
       <yd-button type="disabled" v-if="status=='6'">已退款</yd-button>
     </div>
   </li>
@@ -43,6 +44,7 @@ export default {
     },
     total: Number,
     status: String,
+    evaluation:String,
     paytype: String
   },
   methods: {

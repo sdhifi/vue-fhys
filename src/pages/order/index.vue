@@ -8,7 +8,7 @@
       <div v-show="index==0">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist7">
           <ul slot="list">
-            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item)" @update="updateOrder(item)" @comment="addComment(item)"></order-item>
+            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @pay="payOrder(item)" @update="updateOrder(item)" @comment="addComment(item)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
@@ -36,7 +36,7 @@
       <div v-show="index==4">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
           <ul slot="list">
-            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"  @comment="addComment(item)"></order-item>
+            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType"  @comment="addComment(item)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
