@@ -4,7 +4,7 @@
     <main class="scroll-content">
       <section class="head-container">
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
-          <router-link :to="{name:'Update',params:{member}}">
+          <router-link :to="{name:'Update'}">
             <div class="head-img" v-lazy:background-image="getImgPath(member.imgHeadUrl)"></div>
           </router-link>
         </div>

@@ -25,63 +25,72 @@
         <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
         <router-link to="/me/regpro" class="protocol">《凤凰云商o2o用户注册协议》</router-link>
       </div>
-      <yd-button size="large" type="primary" :disabled="!validRegister" @click.native="register" v-if="loginWay">注册</yd-button>
-      <yd-button size="large" type="primary" :disabled="!validLogin" @click.native="login" v-else>登录</yd-button>
-      <router-link to="/me/forgetpwd" v-if="!loginWay" class="forget-pwd">忘记密码</router-link>
+      <yd-button size="large" type="warning" :disabled="!validRegister" @click.native="register" v-if="loginWay">注册</yd-button>
+      <div class="flex just-between" v-else>
+        <yd-button type="primary" size="large" :disabled="!validLogin" @click.native="login">登 录</yd-button>
+        <yd-button type="danger" size="large" @click.native="forget">忘记密码</yd-button>
+      </div>
     </div>
 
   </div>
 </template>
 <script>
-import HeaderTop from 'components/header/index'
-import { sendcode, register, login } from '../../api/index'
-import { setStore } from 'components/common/mixin'
+import HeaderTop from "components/header/index";
+import { sendcode, register, login } from "../../api/index";
+import { setStore } from "components/common/mixin";
 export default {
-  name: 'Login',
+  name: "Login",
   data() {
     return {
-      loginWay: false,//judge login or register,default way is login
-      mobile: '',
-      code: '',
-      correctCode: '',
-      password: '',
+      loginWay: false, //judge login or register,default way is login
+      mobile: "",
+      code: "",
+      correctCode: "",
+      password: "",
       startSend: false,
       checkProtocol: true
-    }
+    };
   },
   components: { HeaderTop },
   computed: {
     rightMobile() {
-      return /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/gi.test(this.mobile)
+      return /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/gi.test(
+        this.mobile
+      );
     },
     rightCode() {
-      return /^\d{6}$/gi.test(this.code) && (this.code == this.correctCode)
+      return /^\d{6}$/gi.test(this.code) && this.code == this.correctCode;
     },
     rightPwd() {
-      return /[0-9a-zA-Z]{6,16}/.test(this.password)
+      return /[0-9a-zA-Z]{6,16}/.test(this.password);
     },
     validRegister() {
-      return this.rightMobile && this.rightCode && this.rightPwd && this.checkProtocol
+      return (
+        this.rightMobile &&
+        this.rightCode &&
+        this.rightPwd &&
+        this.checkProtocol
+      );
     },
     validLogin() {
       return this.rightMobile && this.rightPwd;
     }
   },
   activated() {
-    this.password = '';
+    this.password = "";
   },
   methods: {
     formatDigit(event) {
-      this.code = event.target.value.replace(/\D/g, '');
+      this.code = event.target.value.replace(/\D/g, "");
     },
     sendCode() {
       let vm = this;
-      this.code = '';
-      this.correctCode = '';
-      this.$dialog.loading.open('发送中...');
+      this.code = "";
+      this.correctCode = "";
+      this.$dialog.loading.open("发送中...");
       mui.ajax({
         url: sendcode,
-        type: 'post',
+        type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           mobile: this.mobile,
@@ -89,116 +98,112 @@ export default {
         },
         success(res) {
           vm.$dialog.loading.close();
-          if (res.code == 200) {
+          if (res.code == "2") {
             vm.correctCode = res.content;
             vm.startSend = true;
             vm.$dialog.toast({
-              mes: '已发送',
-              icon: 'success',
+              mes: "已发送",
+              icon: "success",
               timeout: 1500
             });
-          }
-          else {
-             vm.correctCode = '';
+          } else {
+            vm.correctCode = "";
             vm.startSend = false;
           }
         }
-      })
+      });
     },
 
     register() {
       let vm = this;
       mui.ajax({
         url: register,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           account: this.mobile,
           password: this.password,
-          nickname: '',
-          token: md5('register')
+          nickname: "",
+          token: md5("register")
         },
         success(res) {
-          if (res.code == '200') {
+          if (res.code == "200") {
             vm.$dialog.toast({
-              mes: '注册成功',
+              mes: "注册成功",
               timeout: 1500,
               callback: () => {
-                vm.$store.commit('SET_ACCOUNT', vm.mobile);
-                setStore('account', vm.mobile);
-                vm.$router.push({ path: '/me/index' })
+                vm.$store.commit("SET_ACCOUNT", vm.mobile);
+                setStore("account", vm.mobile);
+                vm.$router.push({ path: "/me/index" });
               }
-            })
-          }
-          else {
+            });
+          } else {
             vm.$dialog.toast({
-              mes: res.msg || '注册失败',
+              mes: res.msg || "注册失败",
               timeout: 1500
-            })
+            });
             return;
           }
         },
         error(res) {
           vm.$dialog.toast({
-            mes: res.msg || '注册失败',
+            mes: res.msg || "注册失败",
             timeout: 1500
-          })
+          });
           return;
         }
-      })
-
+      });
     },
     login() {
       let vm = this;
       mui.ajax({
         url: login,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           account: this.mobile,
           password: this.password,
-          token: md5('login')
+          token: md5("login")
         },
         success(res) {
-          if (res.code == '200') {
+          if (res.code == "200") {
             vm.$dialog.toast({
-              mes: '登录成功',
+              mes: "登录成功",
               timeout: 1000,
               callback: () => {
-                vm.$store.commit('SET_ACCOUNT', vm.mobile);
-                localStorage.setItem('account', vm.mobile);
+                vm.$store.commit("SET_ACCOUNT", vm.mobile);
+                localStorage.setItem("account", vm.mobile);
                 // vm.$router.push({ path: '/me/index' })
-                vm.$router.go(-1)
+                vm.$router.go(-1);
               }
-            })
-          }
-          else {
+            });
+          } else {
             vm.$dialog.toast({
-              mes: res.msg || '登录信息有误请检查',
+              mes: res.msg || "登录信息有误请检查",
               timeout: 1500
-            })
+            });
             return;
           }
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 
 .page-container {
-  padding: .3rem;
+  padding: 0.3rem;
   .protocol {
     color: #10aeff;
   }
   .forget-pwd {
     display: block;
     width: 2rem;
-    padding: .1rem 0;
+    padding: 0.1rem 0;
     .text-center;
-    margin: .8rem auto;
+    margin: 0.8rem auto;
     color: @blue;
     border: 1px solid currentColor;
     border-radius: 5px;

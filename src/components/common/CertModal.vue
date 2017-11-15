@@ -46,7 +46,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['account','showCertificate','idCard'])
+    ...mapState(['account','showCertificate'])
   },
   created() {
   },
@@ -92,6 +92,7 @@ export default {
                 vm.$store.commit('SHOW_CERTIFICATE', false);
                 vm.$store.commit('SET_CERTIFICATE', true);
                 vm.$store.commit('RECORD_ID_CARD',vm.certNum.replace(/x/gi, 'X'))
+                vm.$emit("updateName",vm.realName)
               }
             })
           }

@@ -45,7 +45,7 @@
         <yd-button size="large" type="primary" @click.native="saveInfo">保存</yd-button>
       </div> 
     </main>
-    <cert-modal></cert-modal>
+    <cert-modal @update-name="showRealName"></cert-modal>
   </div>
 </template>
 <script>
@@ -65,7 +65,7 @@ export default {
   },
   components: { HeaderTop, CertModal },
   computed: {
-    ...mapState(["account", "certificateStatus"])
+    ...mapState(["account","member", "certificateStatus"])
   },
   mixins: [mixin],
   created() {},
@@ -77,7 +77,7 @@ export default {
     });
   },
   activated() {
-    this.info = this.$route.params.member;
+    this.info = this.member;
   },
   methods: {
     previewImg(event) {
@@ -99,6 +99,9 @@ export default {
     },
     showModal() {
       this.$store.commit("SHOW_CERTIFICATE", true);
+    },
+    showRealName(val){
+      console.log(val)
     },
     saveInfo() {
       if (!this.info.nickName) {

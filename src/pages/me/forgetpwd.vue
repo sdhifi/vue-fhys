@@ -26,48 +26,50 @@
   </div>
 </template>
 <script>
-import HeaderTop from 'components/header/index'
-import {sendcode, forgetPassWord } from '../../api/index'
+import HeaderTop from "components/header/index";
+import { sendcode, forgetPassWord } from "../../api/index";
 export default {
-  name: 'ForgetPwd',
+  name: "ForgetPwd",
   data() {
     return {
-      mobile: '',
-      password: '',
+      mobile: "",
+      password: "",
       startSend: false,
-      code: '',
-      correctCode: '',
-    }
+      code: "",
+      correctCode: ""
+    };
   },
   components: { HeaderTop },
   computed: {
-    rightMobile(){
-      return /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/gi.test(this.mobile)
+    rightMobile() {
+      return /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/gi.test(
+        this.mobile
+      );
     },
     rightCode() {
-      return /^\d{6}$/gi.test(this.code) && (this.code == this.correctCode)
+      return /^\d{6}$/gi.test(this.code) && this.code == this.correctCode;
     },
-    rightPwd(){
-      return /[0-9a-zA-Z]{6,16}/.test(this.password)
+    rightPwd() {
+      return /[0-9a-zA-Z]{6,16}/.test(this.password);
     },
-    valid(){
-      return this.rightMobile && this.rightCode &&this.rightPwd;
+    valid() {
+      return this.rightMobile && this.rightCode && this.rightPwd;
     }
   },
   activated() {
-    this.code='';
-    this.correctCode='';
-    this.password = '';
+    this.code = "";
+    this.correctCode = "";
+    this.password = "";
   },
   methods: {
-      sendCode() {
+    sendCode() {
       let vm = this;
-      this.code = '';
-      this.correctCode = '';
-      this.$dialog.loading.open('发送中...');
+      this.code = "";
+      this.correctCode = "";
+      this.$dialog.loading.open("发送中...");
       mui.ajax({
         url: sendcode,
-        type: 'post',
+        type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           mobile: this.mobile,
@@ -76,53 +78,53 @@ export default {
         success(res) {
           vm.correctCode = res.content;
         }
-      })
+      });
       setTimeout(() => {
         this.startSend = true;
         this.$dialog.loading.close();
         this.$dialog.toast({
-          mes: '已发送',
-          icon: 'success',
+          mes: "已发送",
+          icon: "success",
           timeout: 1500
         });
       }, 1000);
     },
-    submit(){
+    submit() {
       let vm = this;
       mui.ajax({
         url: forgetPassWord,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          mobile:this.mobile,
-          newPassword:this.password,
-          reNewPassword:this.password,
-          token:md5('forgetPassWord')
+          mobile: this.mobile,
+          newPassword: this.password,
+          reNewPassword: this.password,
+          token: md5("forgetPassWord")
         },
-        success(res){
-          if (res.code == '200') {
+        success(res) {
+          if (res.code == "200") {
             vm.$dialog.toast({
-              mes: '修改成功',
+              mes: "修改成功",
               timeout: 1500,
-              icon:'success',
+              icon: "success",
               callback: () => {
-                vm.$router.go(-1)
+                vm.$router.go(-1);
               }
-            })
-          }
-          else{
+            });
+          } else {
             vm.$dialog.toast({
-              mes: res.msg||'修改失败',
+              mes: res.msg || "修改失败",
               timeout: 1500,
-              icon:'error'
-            })
+              icon: "error"
+            });
             return;
           }
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
+
 </style>

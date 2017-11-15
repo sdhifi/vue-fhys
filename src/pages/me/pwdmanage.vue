@@ -31,10 +31,6 @@
             <span class="iconfont self-lock" slot="icon"></span>
             <yd-input slot="right" type='password' v-model="password" required :max='6' :min='6' placeholder='请输入6位数字的密码' regex="^\d{6}$"></yd-input>
           </yd-cell-item>
-          <!-- <yd-cell-item>
-            <span class="iconfont self-lock" slot="icon"></span>
-            <yd-input slot="right" type='password' v-model="password" required :max='6' :min='6' placeholder='请再次输入密码' regex="^\d{6}$"></yd-input>
-          </yd-cell-item> -->
         </yd-cell-group>
         <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="submit">确定设置</yd-button>
       </section>
@@ -147,7 +143,7 @@ export default {
           token: md5(`setPay${this.account}`)
         },
         success(res) {
-          if (res.code == '200') {
+          if (res.code == 200) {
             vm.$store.commit('SET_PAY_PASSWORD',true);
             vm.$dialog.toast({
               mes: res.msg || '设置成功',

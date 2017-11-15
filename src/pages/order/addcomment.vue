@@ -18,7 +18,7 @@
           <yd-textarea placeholder="商品如何，评价下吧" class="flex-1"></yd-textarea>
         </div>
       </section>
-      <div>
+      <div style="padding:0 .2rem;">
         <yd-button size="large" @click.native="publish">立即发布</yd-button>
       </div>
     </main>
