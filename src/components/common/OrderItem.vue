@@ -68,13 +68,13 @@ export default {
           break;
       }
     },
-    pay(){
+    pay() {
       this.$emit("pay");
     },
-    update(){
+    update() {
       this.$emit("update");
     },
-    comment(){
+    comment() {
       this.$emit("comment");
     }
   }
@@ -105,6 +105,9 @@ export default {
     border-bottom: 1px solid #f7f5f5;
     img {
       .wh(1.5rem,1.5rem);
+      overflow: hidden;
+      border: 1px solid #ddd;
+      border-radius: 5px;
     }
     .good-info {
       flex-direction: column;
@@ -121,12 +124,12 @@ export default {
     }
   }
 }
-.pay-tag{
-  padding:2px 5px;
-  border:1px solid @blue;
+.pay-tag {
+  padding: 2px 5px;
+  border: 1px solid @blue;
   border-radius: 10px 0;
   color: @white;
   background-color: @blue;
-  font-size: .2rem;
+  font-size: 0.2rem;
 }
 </style>

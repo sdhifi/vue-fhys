@@ -138,7 +138,6 @@ export default {
       var src = img.src;
       var bottom = window.innerHeight - ct.getBoundingClientRect().bottom;
       var left = ct.getBoundingClientRect().left;
-      // debugger
       mui.ajax({
         url: onlineProductsDetailInfoInH5,
         type: "post",

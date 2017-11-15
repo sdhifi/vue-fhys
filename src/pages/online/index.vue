@@ -58,7 +58,6 @@
 <script>
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
-import { Swiper, SwiperItem } from "vux";
 import { mixin } from "components/common/mixin";
 import { onlineInH5 } from "../../api/index";
 export default {

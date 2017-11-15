@@ -38,18 +38,13 @@ export default {
 		}
 	},
 	components: { HeaderTop },
-	computed: {
-
-	},
-	created() {
-
-	},
 	activated() {
-
+		if (this.$store.state.positions[this.$route.path]) {
+      document.querySelector("main").scrollTop = this.$store.state.positions[
+        this.$route.path
+      ];
+    }
 	},
-	methods: {
-
-	}
 }
 </script>
 <style lang="less" scoped>

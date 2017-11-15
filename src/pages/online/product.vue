@@ -145,18 +145,6 @@ export default {
     orderType() {
       return this.info.isCanUserCou=='1' ? "1" : this.info.isCanUserCou=='2' ? "2" : "0";
     },
-    goodSource(){
-      //商品来源：平台自营
-      if(this.info.productAttrStock.productAttrIds){
-        return 0;
-      }
-      //商品来源：京东
-      else if(this.info.isCanUserCou=="0"){
-        return 2;
-      }
-      //商品来源：友品集
-      else return 1;
-    }
   },
   mixins: [mixin],
   created() {},
@@ -367,7 +355,7 @@ export default {
             "orderAddVos[0].goodsId": this.info.proId,
             "orderAddVos[0].goodsAttrIds": attrIds,
             "orderAddVos[0].goodsNum": this.pdnum,
-            goodSource: this.goodSource,
+            goodSource: this.info.goodSource,
             orderAddressId: "",
             account: this.account,
             token: md5(`toAdd${this.account}`)
