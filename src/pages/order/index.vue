@@ -313,8 +313,8 @@ export default {
         }
       });
     },
-    addComment(item) {
-      this.$router.push({ name: "AddComment", params: { item } });
+    addComment(order) {
+      this.$router.push({ name: "AddComment", params: { order } });
     }
   }
 };

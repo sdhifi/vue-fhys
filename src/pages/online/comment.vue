@@ -22,7 +22,7 @@
               <crown :value="item.comScore" :disabled="true"></crown>
             <div class="comment">{{item.content}}</div>
             <div class="img-list" v-if="item.comImg">
-              
+              <img :src="item.comImg" alt="">
             </div>
             </div>
             
@@ -104,6 +104,13 @@ export default {
     .pd;
     .comment{
       font-size: .28rem;
+    }
+    .img-list{
+      margin-top: @pd;
+      img{
+        .wh(1.2rem,1.2rem);
+        margin-right: @pd;
+      }
     }
   }
 }
