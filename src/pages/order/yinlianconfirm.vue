@@ -17,20 +17,20 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import {yinLPay, yinLPayCofirom} from "../../api/index";
+import { yinLPayCofirom } from "../../api/index";
 
 export default {
   name: "YinLianConfirm",
   data() {
     return {
-      verifyCode:''
+      verifyCode: ""
     };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account","defaultBankCard","payInfo"]),
-    valid(){
-      return /^\d{6}$/.test(this.verifyCode)
+    ...mapState(["account", "defaultBankCard", "payInfo"]),
+    valid() {
+      return /^\d{6}$/.test(this.verifyCode);
     }
   },
   created() {},
@@ -38,10 +38,10 @@ export default {
     if (!this.defaultBankCard) {
       this.$store.dispatch("getBankList");
     }
-    this.verifyCode='';
+    this.verifyCode = "";
   },
   methods: {
-        getCode() {
+    getCode() {
       let vm = this;
       this.$dialog.loading.open();
       mui.ajax({
@@ -60,13 +60,11 @@ export default {
         success(res) {
           vm.$dialog.loading.close();
           if (res.code == 200) {
-            vm.info=res.result;
+            vm.info = res.result;
             vm.$dialog.toast({
-              mes:res.msg,
-            })
-          }
-          
-          else{
+              mes: res.msg
+            });
+          } else {
             vm.$dialog.toast({
               mes: res.msg
             });
@@ -74,13 +72,13 @@ export default {
         }
       });
     },
-    doPay(){
+    doPay() {
       let vm = this;
       this.$dialog.loading.open();
       mui.ajax({
         url: yinLPayCofirom,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           orderId: this.payInfo.orderId,
           payMoney: this.payInfo.payMoney,
@@ -90,31 +88,30 @@ export default {
           account: this.account,
           token: md5(`yinLPayCofirom`)
         },
-        success(res){
+        success(res) {
           vm.$dialog.loading.close();
-          if(res.code==200){
-           vm.$dialog.toast({
+          if (res.code == 200) {
+            vm.$dialog.toast({
               mes: res.msg,
-              callback:()=>{
+              callback: () => {
                 vm.$router.go(-1);
               }
             });
-          }
-          // else if(res.code==400){
-          //   vm.$dialog.alert({
-          //     mes:res.msg,
-          //     callback:()=>{
-          //       vm.getCode();
-          //     }
-          //   })
-          // }
-          else{
+          } else {
+            // else if(res.code==400){
+            //   vm.$dialog.alert({
+            //     mes:res.msg,
+            //     callback:()=>{
+            //       vm.getCode();
+            //     }
+            //   })
+            // }
             vm.$dialog.alert({
               mes: res.msg
             });
           }
         }
-      })
+      });
     }
   }
 };

@@ -36,7 +36,7 @@
       <div v-show="index==4">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
           <ul slot="list">
-            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType"  @comment="addComment(item)"></order-item>
+            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @comment="addComment(item)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
@@ -48,7 +48,12 @@ import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import OrderItem from "components/common/OrderItem";
 import { Tab, TabItem } from "vux";
-import { getOrder, updateOrderStatus, payOrderSign ,newProCommet} from "../../api/index";
+import {
+  getOrder,
+  updateOrderStatus,
+  payOrderSign,
+  newProCommet
+} from "../../api/index";
 import { payMixin } from "components/common/mixin";
 export default {
   name: "MyOrder",
@@ -207,44 +212,53 @@ export default {
               );
             });
           } else if (item.payType == "3") {
+            let payInfo = {
+              orderId: item.orderSn,
+              payMoney: item.goodsTotalAmount,
+              mobile: vm.account,
+              retUrl:
+                "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify;"
+            };
+            vm.$store.commit("RECORD_PAY_INFO", payInfo);
+            vm.$router.push({ name: "YinLian" });
             //银联
           } else if (item.payType == "7" || item.payType == "8") {
             //积分
             if (_result.offlinePayAmount) {
-             vm.checkService(vm.pays["alipay"], function() {
-              plus.payment.request(
-                vm.pays["alipay"],
-                _result.payString,
-                function(result) {
-                  plus.nativeUI.alert(
-                    "支付成功",
-                    function() {
-                      //TODO:更改状态
-                      // 待支付->待发货
-                      if (index) {
-                        vm.list0.splice(index, 1);
-                      } else {
-                        //全部，只要改变状态
-                        item.orderStatus = "1";
-                      }
-                      //待支付状态需要重置.
-                      vm.list0 = [];
-                      vm.pageNo0 = 1;
-                      vm.noData0 = false;
+              vm.checkService(vm.pays["alipay"], function() {
+                plus.payment.request(
+                  vm.pays["alipay"],
+                  _result.payString,
+                  function(result) {
+                    plus.nativeUI.alert(
+                      "支付成功",
+                      function() {
+                        //TODO:更改状态
+                        // 待支付->待发货
+                        if (index) {
+                          vm.list0.splice(index, 1);
+                        } else {
+                          //全部，只要改变状态
+                          item.orderStatus = "1";
+                        }
+                        //待支付状态需要重置.
+                        vm.list0 = [];
+                        vm.pageNo0 = 1;
+                        vm.noData0 = false;
 
-                      //待发货状态需要重置.
-                      vm.list1 = [];
-                      vm.pageNo1 = 1;
-                      vm.noData1 = false;
-                    },
-                    "支付"
-                  );
-                },
-                function(e) {
-                  plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
-                }
-              );
-            });
+                        //待发货状态需要重置.
+                        vm.list1 = [];
+                        vm.pageNo1 = 1;
+                        vm.noData1 = false;
+                      },
+                      "支付"
+                    );
+                  },
+                  function(e) {
+                    plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  }
+                );
+              });
             }
           } else {
             vm.$dialog.toast({
@@ -256,45 +270,51 @@ export default {
     },
     updateOrder(item, index) {
       let vm = this;
-      this.$dialog.loading.open();
-      mui.ajax({
-        url: updateOrderStatus,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          status: 3,
-          orderSn: item.orderSn,
-          account: this.account,
-          token: md5(`updateOrderStatus${this.account}${item.orderSn}`)
-        },
-        success(res) {
-          vm.$dialog.loading.close();
-          vm.$dialog.toast({
-            mes: res.msg,
-            callback: () => {
-              //更改状态
-              if (index) {
-                vm.list2.splice(index, 1);
-              } else {
-                //全部，只要改变状态
-                item.orderStatus = "3";
-              }
-              //待收货状态需要重置.
-              vm.list2 = [];
-              vm.pageNo2 = 1;
-              vm.noData2 = false;
+      this.$dialog.confirm({
+        title: "确认收货吗？",
+        mes: "确认收到相关商品，完成收货操作！",
+        opts: () => {
+          this.$dialog.loading.open();
+          mui.ajax({
+            url: updateOrderStatus,
+            type: "post",
+            headers: { "app-version": "v1.0" },
+            data: {
+              status: 3,
+              orderSn: item.orderSn,
+              account: this.account,
+              token: md5(`updateOrderStatus${this.account}${item.orderSn}`)
+            },
+            success(res) {
+              vm.$dialog.loading.close();
+              vm.$dialog.toast({
+                mes: res.msg,
+                callback: () => {
+                  //更改状态
+                  if (index) {
+                    vm.list2.splice(index, 1);
+                  } else {
+                    //全部，只要改变状态
+                    item.orderStatus = "3";
+                  }
+                  //待收货状态需要重置.
+                  vm.list2 = [];
+                  vm.pageNo2 = 1;
+                  vm.noData2 = false;
 
-              //交易完成状态需要重置.
-              vm.list3 = [];
-              vm.pageNo3 = 1;
-              vm.noData3 = false;
+                  //交易完成状态需要重置.
+                  vm.list3 = [];
+                  vm.pageNo3 = 1;
+                  vm.noData3 = false;
+                }
+              });
             }
           });
         }
       });
     },
-    addComment(item){
-      this.$router.push({name:"AddComment",params:{item}});
+    addComment(item) {
+      this.$router.push({ name: "AddComment", params: { item } });
     }
   }
 };

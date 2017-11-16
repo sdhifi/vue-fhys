@@ -27,12 +27,12 @@
           <yd-cell-item>
           <span slot="left">&emsp;支付金额：</span>
           <!-- <span slot="right" class="fs-14">{{payInfo.payMoney}}</span> -->
-          <yd-input slot="right" v-model="payInfo.payMoney" type="tel"></yd-input>          
+          <yd-input slot="right" v-model="payInfo.payMoney" type="tel" :disabled="true"></yd-input>          
         </yd-cell-item>
           <yd-cell-item>
           <span slot="left">&emsp;电话号码：</span>
           <!-- <span slot="right" class="fs-14">{{payInfo.mobile}}</span> -->
-          <yd-input slot="right" :value="account" type="tel" readonly></yd-input>          
+          <yd-input slot="right" :value="account" type="tel" :disabled="true"></yd-input>          
         </yd-cell-item>
       </yd-cell-group>
       <div style="padding:0 .2rem;">
@@ -69,6 +69,19 @@ export default {
   mixins: [mixin],
   methods: {
     sureInfo() {
+      if(!this.defaultBankCard && !this.defaultBankCard.bankCard){
+        this.$dialog.alert({
+          mes:"请先添加银行卡信息"
+        })
+        return;
+      }
+      if(!this.payInfo.idCard){
+        this.$dialog.alert({
+          mes:"请先输入身份证信息"
+        })
+        return;
+      }
+
       let vm = this;
       this.$dialog.loading.open();
       mui.ajax({
@@ -95,15 +108,15 @@ export default {
               }
             })
           }
-          // //订单号存在，重新交易
-          // else if(res.code==400){
-          //   vm.$dialog.alert({
-          //     mes:res.msg,
-          //     callback:()=>{
-          //       vm.$router.push({name:"YinLianConfirm"})
-          //     }
-          //   })
-          // }
+          //订单号存在，重新交易
+          else if(res.code==400){
+            vm.$dialog.alert({
+              mes:res.msg,
+              callback:()=>{
+                vm.$router.push({name:"YinLianConfirm"})
+              }
+            })
+          }
           else{
             vm.$dialog.toast({
               mes: res.msg

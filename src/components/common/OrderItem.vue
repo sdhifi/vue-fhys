@@ -24,6 +24,7 @@
       <yd-button type="danger" v-if="status=='2'" @click.native="update">确认收货</yd-button>
       <yd-button type="primary" v-if="status=='3' && evaluation=='0'" @click.native="comment">去评价</yd-button>
       <yd-button type="disabled" v-if="status=='3' && evaluation=='1'" @click.native="comment">已评价</yd-button>
+      <yd-button type="disabled" v-if="status=='3' && evaluation=='2'" @click.native="comment">过期未评价</yd-button>
       <yd-button type="disabled" v-if="status=='6'">已退款</yd-button>
     </div>
   </li>

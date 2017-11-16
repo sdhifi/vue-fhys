@@ -355,7 +355,7 @@ export default {
             "orderAddVos[0].goodsId": this.info.proId,
             "orderAddVos[0].goodsAttrIds": attrIds,
             "orderAddVos[0].goodsNum": this.pdnum,
-            goodSource: this.info.goodSource,
+            goodSource: this.info.goodSoure,
             orderAddressId: "",
             account: this.account,
             token: md5(`toAdd${this.account}`)

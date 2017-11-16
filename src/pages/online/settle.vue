@@ -262,8 +262,11 @@ export default {
         d = [],
         e = [];
       this.settleList.orderAddVos.forEach(item => {
-        if(/(,)$/.test(item.goodsAttrIds))
-          item.goodsAttrIds = item.goodsAttrIds.slice(0,item.goodsAttrIds.length-1)
+        if (/(,)$/.test(item.goodsAttrIds))
+          item.goodsAttrIds = item.goodsAttrIds.slice(
+            0,
+            item.goodsAttrIds.length - 1
+          );
         a.push(item.goodsId);
         b.push(item.goodsAttrStockId);
         c.push(item.goodsAttrIds);
@@ -374,24 +377,27 @@ export default {
               vm.$dialog.toast({
                 mes: res.msg,
                 callback: () => {
-                 vm.checkService(vm.pays["alipay"], function() {
-                plus.payment.request(
-                  vm.pays["alipay"],
-                  _result.payString,
-                  function(result) {
-                    plus.nativeUI.alert(
-                      "支付成功",
-                      function() {
-                        vm.goBack(true);
-                      },
-                      "支付"
-                    );
-                  },
-                  function(e) {
-                    plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  //付邮费
+                  if (vm.settleList.pointNiceAmount) {
+                    vm.checkService(vm.pays["alipay"], function() {
+                      plus.payment.request(
+                        vm.pays["alipay"],
+                        _result.payString,
+                        function(result) {
+                          plus.nativeUI.alert(
+                            "支付成功",
+                            function() {
+                              vm.goBack(true);
+                            },
+                            "支付"
+                          );
+                        },
+                        function(e) {
+                          plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                        }
+                      );
+                    });
                   }
-                );
-              });
                 }
               });
             } else if (res.code == 401) {
