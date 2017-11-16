@@ -109,18 +109,10 @@ export default {
             })
           }
           //订单号存在，重新交易
-          else if(res.code==400){
+          else {
             vm.$dialog.alert({
-              mes:res.msg,
-              callback:()=>{
-                vm.$router.push({name:"YinLianConfirm"})
-              }
+              mes:res.msg
             })
-          }
-          else{
-            vm.$dialog.toast({
-              mes: res.msg
-            });
           }
         }
       });

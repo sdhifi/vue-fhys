@@ -15,7 +15,7 @@
       </div>
     </router-link>
     <div class="order-operate flex just-between align-center">
-      <p>应付金额：
+      <p class="fs-14">应付金额：
         <span class="danger-color  fs-16">￥{{total}}</span>
         <span class="pay-tag">{{payType(paytype)}}</span>
       </p>
@@ -134,5 +134,7 @@ export default {
   color: @white;
   background-color: @blue;
   font-size: 0.2rem;
+
+  vertical-align: 2px;
 }
 </style>

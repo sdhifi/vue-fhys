@@ -129,6 +129,7 @@ export default {
         return;
       }
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: addBenefit,
         type: "post",
@@ -141,6 +142,7 @@ export default {
           token: md5(`addBenefit${this.account}${this.mobile}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           //授信额度直接录入
           if (vm.payType == "4" || vm.payType == "5") {
             vm.$dialog.toast({
