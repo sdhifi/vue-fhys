@@ -4,9 +4,10 @@
     <main class='scroll-content-2'>
       <yd-cell-group title="店铺信息">
         <yd-cell-item>
-          <span slot="left">店铺名称
-            <small class="tips">(不可更改)</small>：
-          </span>
+          <div slot="left">
+            <p>店铺名称：</p>
+            <small class="tips">(不可更改)</small>
+          </div>
           <yd-input slot="right" v-model="storeName" placeholder="请填写店铺名称" required></yd-input>
         </yd-cell-item>
         <yd-cell-item>
