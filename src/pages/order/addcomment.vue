@@ -32,14 +32,14 @@
           <div class="upload-icon flex just-center align-center">
             <span class="iconfont-large self-upload"></span>
           </div>
-          <input type="file" name="" id="upload-img" @change="chooseImg($event,item)">
+          <input type="file" name="" id="upload-img" capture="camera" accept="image/*" @change="chooseImg($event,item)">
         </div>
         <div class="img-box" v-else>
           <yd-button type="warning" @click.native="item.toggle = true">我还要上传图片</yd-button>
         </div>
       </section>
       <div style="padding:0 .2rem .2rem;">
-        <yd-button size="large" @click.native="publish">立即发布</yd-button>
+        <yd-button size="large" @click.native="publish" :type="valid?'primary':'disabled'">立即发布</yd-button>
       </div>
     </main>
   </div>
@@ -58,7 +58,12 @@ export default {
   },
   components: { HeaderTop, Crown },
   computed: {
-    ...mapState(["member"])
+    ...mapState(["member"]),
+    valid(){
+      return this.info.goods.every(item=>{
+        return !!item.comment
+      })
+    }
   },
   created() {},
   activated() {
@@ -107,7 +112,7 @@ export default {
         proId.push(item.goodsId);
         score.push(item.score);
         content.push(item.comment);
-        pictures.push(item.imgs.replace("data:image/jpeg;base64,",""));
+        pictures.push(item.imgs?item.imgs.replace("data:image/jpeg;base64,",""):"abc");
       });
 
       mui.ajax({

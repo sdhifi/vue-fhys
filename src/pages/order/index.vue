@@ -287,27 +287,35 @@ export default {
             },
             success(res) {
               vm.$dialog.loading.close();
-              vm.$dialog.toast({
-                mes: res.msg,
-                callback: () => {
-                  //更改状态
-                  if (index) {
-                    vm.list2.splice(index, 1);
-                  } else {
-                    //全部，只要改变状态
-                    item.orderStatus = "3";
-                  }
-                  //待收货状态需要重置.
-                  vm.list2 = [];
-                  vm.pageNo2 = 1;
-                  vm.noData2 = false;
+              if (res.code == 200) {
+                vm.$dialog.toast({
+                  mes: "确认收货成功",
+                  icon: "success",
+                  callback: () => {
+                    //更改状态
+                    if (index) {
+                      vm.list2.splice(index, 1);
+                    } else {
+                      //全部，只要改变状态
+                      item.orderStatus = "3";
+                    }
+                    //待收货状态需要重置.
+                    vm.list2 = [];
+                    vm.pageNo2 = 1;
+                    vm.noData2 = false;
 
-                  //交易完成状态需要重置.
-                  vm.list3 = [];
-                  vm.pageNo3 = 1;
-                  vm.noData3 = false;
-                }
-              });
+                    //交易完成状态需要重置.
+                    vm.list3 = [];
+                    vm.pageNo3 = 1;
+                    vm.noData3 = false;
+                  }
+                });
+              } else {
+                vm.$dialog.toast({
+                  mes: res.msg,
+                  icon: "error"
+                });
+              }
             }
           });
         }
