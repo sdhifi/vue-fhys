@@ -39,7 +39,7 @@
       <section class="hv-cen text-center" v-show="!cartList.length">
         <span class="iconfont self-shopcart" style="font-size:40px;"></span>
         <p class="fs-14">购物车空空如也</p>
-        <p class="fs-14">去商城看看...</p>
+        <router-link class="fs-14" to="/online/index" replace>去商城看看...</router-link>
       </section>
     </main>
     <footer class="fix-footer flex align-center" style="border-top: 1px solid #dfdfdf;" v-show="cartList.length">

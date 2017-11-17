@@ -216,7 +216,7 @@ export default {
             Array.from(
               document
                 .querySelector(".pd-content")
-                .querySelectorAll("img,table,div")
+                .querySelectorAll("img,table,div,p")
             ).forEach(function(e) {
               e.style.width = "100%";
             });

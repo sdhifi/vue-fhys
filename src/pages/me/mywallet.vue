@@ -269,7 +269,7 @@ export default {
     },
     getInfo() {
       let vm = this;
-      // this.$dialog.loading.open('您的福利正在赶来...');
+      this.$dialog.loading.open('您的福利正在赶来...');
       mui.ajax({
         url: countMemberInfo,
         type: "post",
@@ -280,7 +280,7 @@ export default {
           token: md5(`countMemberInfo${getStore("account")}${this.type}`)
         },
         success(res) {
-          // vm.$dialog.loading.close();
+          vm.$dialog.loading.close();
           vm[`info${vm.type}`] = res.result;
         }
       });

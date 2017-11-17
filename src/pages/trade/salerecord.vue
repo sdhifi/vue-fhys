@@ -13,13 +13,14 @@
         </yd-cell-item>
         <yd-cell-item v-if="mobileName">
           <span slot="left">会员名称：</span>
-          <yd-input slot="right" readonly v-model="mobileName"></yd-input>
+          <yd-input slot="right" readonly v-model="mobileName" :show-clear-icon="false"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group v-if="payMoney">
         <yd-cell-item>
           <span slot="left">应付金额</span>
-          <input slot="right" type="text" readonly style="text-align:right;color:#ff5350;" v-model="payMoney">
+          <!-- <input slot="right" type="text" readonly style="text-align:right;color:#ff5350;" v-model="payMoney"> -->
+          <span slot="right" style="font-size:0.3rem;color:#ff5350;">{{payMoney}}</span>
         </yd-cell-item>
         <yd-cell-item v-show="payType=='4'">
           <span slot="left">当前授信额度值</span>
@@ -90,7 +91,13 @@ export default {
     }
   },
   created() {},
-  activated() {},
+  activated() {
+    this.money = "";
+    this.payMoney = "";
+    this.mobile = "";
+    this.mobileName = "";
+    this.payType = "";
+  },
   methods: {
     findMember() {
       let vm = this;
@@ -104,11 +111,10 @@ export default {
           token: md5(`findMemberByMoblie${this.mobile}`)
         },
         success(res) {
-          if(res.result){
+          if (res.result) {
             vm.mobileName = res.result.name || res.result.nickName;
-          }
-          else{
-            vm.mobileName = "用户不存在"
+          } else {
+            vm.mobileName = "用户不存在";
           }
         }
       });
@@ -127,7 +133,7 @@ export default {
         });
         return;
       }
-      if (this.payType == "5" && this.member.balanceMoney < +this.money) {
+      if (this.payType == "5" && this.member.balanceMoney < +this.payMoney) {
         this.$dialog.toast({
           mes: "账户金额不足请选择其他支付方式"
         });
