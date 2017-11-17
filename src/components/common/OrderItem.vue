@@ -15,7 +15,7 @@
       </div>
     </router-link>
     <div class="order-operate flex just-between align-center">
-      <p class="fs-14">应付金额：
+      <p class="fs-14">合计：
         <span class="danger-color  fs-16">￥{{total}}</span>
         <span class="pay-tag">{{payType(paytype)}}</span>
       </p>

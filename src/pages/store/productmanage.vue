@@ -33,7 +33,7 @@
     </main>
     <footer class="fix-footer">
       <div style="padding-left:12px;" v-show="pdlist.length">
-        <yd-checkbox v-model="isCheckAll" shape="circle" :change="checkAll">{{isCheckAll?'取消全选':'全选'}}</yd-checkbox>
+        <yd-checkbox v-model="isCheckAll" shape="circle" :change="checkAll">{{isCheckAll?'取消':'全选'}}</yd-checkbox>
       </div>
       <button class=" flex-1 delete-btn" @click="delpd" v-show="checkList.length">下架选中商品</button>
     </footer>

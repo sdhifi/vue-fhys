@@ -1,31 +1,32 @@
 <template>
   <div>
     <header-top title="商品评价"></header-top>
-     <yd-cell-group>
-        <yd-cell-item>
-          <span slot="left">全部评价（<span class="danger-color">{{commentCount}}</span>）</span>
-        </yd-cell-item>
-      </yd-cell-group>  
+    <yd-cell-group>
+      <yd-cell-item>
+        <span slot="left">全部评价（
+          <span class="danger-color">{{commentCount}}</span>）</span>
+      </yd-cell-item>
+    </yd-cell-group>
     <main class='scroll-content-1'>
-     
+
       <yd-infinitescroll :callback="getComment" ref="cmlist">
         <ul slot="list">
           <li v-for="(item,index) in info" class="item" :key="index">
             <yd-cell-group style="margin-bottom:0;">
               <yd-cell-item>
-                <img  slot="icon" :src="item.imgHeadUrl" :alt="item.nickName" class="icon">
+                <img slot="icon" :src="item.imgHeadUrl" :alt="item.nickName" class="icon">
                 <span slot="left">{{item.nickName}}</span>
                 <span slot="right">{{formatTime(item.comTime,true)}}</span>
               </yd-cell-item>
             </yd-cell-group>
             <div class="content-box">
               <crown :value="item.comScore" :disabled="true"></crown>
-            <div class="comment">{{item.content}}</div>
-            <div class="img-list" v-if="item.comImg">
-              <img :src="item.comImg" alt="">
+              <div class="comment">{{item.content}}</div>
+              <div class="img-list" v-if="item.comImg">
+                <img :src="item.comImg" alt="">
+              </div>
             </div>
-            </div>
-            
+
           </li>
         </ul>
       </yd-infinitescroll>
@@ -36,23 +37,23 @@
 import HeaderTop from "components/header/index";
 import Crown from "components/common/Crown";
 import { getAllProCommetByPage } from "../../api/index";
-import {mixin} from "components/common/mixin"
+import { mixin } from "components/common/mixin";
 export default {
   name: "Comment",
   data() {
     return {
-      noData:false,
+      noData: false,
       pageNo: 1,
       info: []
     };
   },
-  components: { HeaderTop ,Crown},
+  components: { HeaderTop, Crown },
   computed: {
     commentCount() {
       return this.info.length;
     }
   },
-  mixins:[mixin],
+  mixins: [mixin],
   created() {},
   activated() {
     this.noData = false;
@@ -94,20 +95,22 @@ export default {
 </script>
 <style lang='less' scoped>
 @import "../../style/mixin.less";
-.item{
+.item {
   background-color: @white;
   margin-bottom: @pd;
-  .icon{
+  .icon {
     border-radius: 50%;
+    width: 0.4rem;
+    font-size: 8px;
   }
-  .content-box{
+  .content-box {
     .pd;
-    .comment{
-      font-size: .28rem;
+    .comment {
+      font-size: 0.28rem;
     }
-    .img-list{
+    .img-list {
       margin-top: @pd;
-      img{
+      img {
         .wh(1.2rem,1.2rem);
         margin-right: @pd;
       }

@@ -4,25 +4,21 @@
     <main class='scroll-content-2'>
       <section class="wallet-top text-center" :style="{'background-image':formatBg('banner-wallet.png')}">
         <nav class="tab-list">
-          <div class="tab-item" :class="{'tab-active':!type}" @click="changeTab">个人福利</div>
-          <div class="tab-item" :class="{'tab-active':type}" @click="changeTab">商户福利</div>
+          <div class="tab-item" :class="{'tab-active':!type}" @click="changeTab(0)">个人福利</div>
+          <div class="tab-item" :class="{'tab-active':type}" @click="changeTab(1)">商户福利</div>
         </nav>
         <div class="wallet-today">
           今日福利
           <p v-if="!type">+{{info0.benefitYesterdayMoney}}</p>
-          <p v-else>+{{info0.benefitYesterdayMoney}}</p>
+          <p v-else>+{{info1.benefitYesterdayMoney}}</p>
         </div>
       </section>
       <section class="wallet-tab" v-show="!type">
         <ul class="flex text-center">
           <li v-for="(item,index) in tabs0" :key="index" class="tab-item">
-            <a :href="item.link" v-if="index<3" class="danger-bg">
+            <a :href="item.link" :class="{'danger-bg':index<3}">
               <p>{{item.text}}</p>
-              <p>{{info0[item.param]}}</p>
-            </a>
-            <a :href="item.link" v-else>
-              <p>{{item.text}}</p>
-              <p class="danger-color">{{info0[item.param]}}</p>
+              <p :class="{'danger-color':index>2}">{{info0[item.param]}}</p>
             </a>
           </li>
         </ul>
@@ -30,20 +26,16 @@
       <section class="wallet-tab" v-show="type">
         <ul class="flex text-center">
           <li v-for="(item,index) in tabs1" :key="index" class="tab-item" :class="{'tab-item2':index<2}">
-            <a :href="item.link" v-if="index<2" class="danger-bg">
+            <a :href="item.link" :class="{'danger-bg':index<2}">
               <p>{{item.text}}</p>
-              <p>{{info1[item.param]}}
+              <p :class="{'danger-color':index>1}">{{info1[item.param]}}
                 <span v-if="item.param=='canMoney'">%</span>
               </p>
-            </a>
-            <a :href="item.link" v-else>
-              <p>{{item.text}}</p>
-              <p class="danger-color">{{info1[item.param]}}</p>
             </a>
           </li>
         </ul>
       </section>
-       <yd-grids-group :rows="3" v-if="member.type=='0'">
+      <yd-grids-group :rows="3" v-if="member.type=='0'">
         <yd-grids-item v-for="(item,index) in menu0" :key="index" :link="item.link">
           <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
           <span slot="text">{{item.text}}</span>
@@ -82,203 +74,197 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import { countMemberInfo } from '../../api/index'
-import { mixin, getStore } from 'components/common/mixin'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import { countMemberInfo } from "../../api/index";
+import { mixin, getStore } from "components/common/mixin";
 export default {
-  name: 'MyWallet',
+  name: "MyWallet",
   data() {
     return {
       info0: {},
       info1: {},
       type: 0,
-      firstTag: false,
       showPopup: false,
-      settleWay: '',
+      settleWay: "",
       tabs0: [
         {
-          text: '可参与福利权益',
-          param: 'canParticipate',
-          link: '#/trade/participate?type=0',
+          text: "可参与福利权益",
+          param: "canParticipate",
+          link: "#/trade/participate?type=0"
         },
         {
-          text: '责任消费',
-          param: 'saleTotalMoney',
-          link: 'javascript:',
+          text: "责任消费",
+          param: "saleTotalMoney",
+          link: "javascript:"
         },
         {
-          text: '还可获得福利',
-          param: 'consumptionMoney',
-          link: 'javascript:',
+          text: "还可获得福利",
+          param: "consumptionMoney",
+          link: "javascript:"
         },
         {
-          text: '销售福利',
-          param: 'dividendsTotalMoney',
-          link: '#/trade/salewelfare',
+          text: "销售福利",
+          param: "dividendsTotalMoney",
+          link: "#/trade/salewelfare"
         },
         {
-          text: '累计消费',
-          param: 'cumulativeMoney',
-          link: '#/trade/interest?type=0',
+          text: "累计消费",
+          param: "cumulativeMoney",
+          link: "#/trade/interest?type=0"
         },
         {
-          text: '余额账户',
-          param: 'balanceMoney',
-          link: 'javascript:',
+          text: "余额账户",
+          param: "balanceMoney",
+          link: "javascript:"
         }
       ],
       tabs1: [
         {
-          text: '商户福利权益',
-          param: 'canParticipate',
-          link: '#/trade/participate?type=1',
+          text: "商户福利权益",
+          param: "canParticipate",
+          link: "#/trade/participate?type=1"
         },
         {
-          text: '已领取',
-          param: 'canMoney',
-          link: 'javascript:',
+          text: "已领取",
+          param: "canMoney",
+          link: "javascript:"
         },
         {
-          text: '总销售额',
-          param: 'saleTotalMoney',
-          link: 'javascript:',
+          text: "总销售额",
+          param: "saleTotalMoney",
+          link: "javascript:"
         },
         {
-          text: '累计贡献',
-          param: 'cumulativeMoney',
-          link: '#/trade/interest?type=1',
+          text: "累计贡献",
+          param: "cumulativeMoney",
+          link: "#/trade/interest?type=1"
         },
         {
-          text: '还可获得福利',
-          param: 'consumptionMoney',
-          link: 'javascript:',
+          text: "还可获得福利",
+          param: "consumptionMoney",
+          link: "javascript:"
         }
       ],
       menu0: [
         {
-          icon: 'self-tiqufuli',
-          text: '提取福利',
-          link: '/trade/withdrawals',
-          color: '#e7d489'
+          icon: "self-tiqufuli",
+          text: "提取福利",
+          link: "/trade/withdrawals",
+          color: "#e7d489"
         },
         {
-          icon: 'self-tiqulishi',
-          text: '提取历史',
-          link: '/trade/cashhistory',
-          color: '#663355'
+          icon: "self-tiqulishi",
+          text: "提取历史",
+          link: "/trade/cashhistory",
+          color: "#663355"
         },
         {
-          icon: 'self-yinhangka',
-          text: '银行卡',
-          link: '/trade/bankcard',
-          color: '#e7d489'
+          icon: "self-yinhangka",
+          text: "银行卡",
+          link: "/trade/bankcard",
+          color: "#e7d489"
         },
         {
-          icon: 'self-fulijilu',
-          text: '福利记录',
-          link: '/trade/welfrecord',
-          color: '#ee3355'
+          icon: "self-fulijilu",
+          text: "福利记录",
+          link: "/trade/welfrecord",
+          color: "#ee3355"
         },
         {
-          icon: 'self-xiaofeijilu',
-          text: '消费记录',
-          link: '/trade/interest?type=0',
-          color: '#663355'
+          icon: "self-xiaofeijilu",
+          text: "消费记录",
+          link: "/trade/interest?type=0",
+          color: "#663355"
         },
         {
-          icon: 'self-xiaofeiguize',
-          text: '消费规则',
-          link: '/trade/consumerule',
-          color: '#663355'
+          icon: "self-xiaofeiguize",
+          text: "消费规则",
+          link: "/trade/consumerule",
+          color: "#663355"
         },
         {
-          icon: 'self-download',
-          text: '协议下载',
-          link: '/trade/download',
-          color: '#663355'
+          icon: "self-download",
+          text: "协议下载",
+          link: "/trade/download",
+          color: "#663355"
         }
       ],
       menu1: [
         {
-          icon: 'self-tiqufuli',
-          text: '提取福利',
-          link: '/trade/withdrawals',
-          color: '#e7d489'
+          icon: "self-tiqufuli",
+          text: "提取福利",
+          link: "/trade/withdrawals",
+          color: "#e7d489"
         },
         {
-          icon: 'self-tiqulishi',
-          text: '提取历史',
-          link: '/trade/cashhistory',
-          color: '#663355'
+          icon: "self-tiqulishi",
+          text: "提取历史",
+          link: "/trade/cashhistory",
+          color: "#663355"
         },
         {
-          icon: 'self-yinhangka',
-          text: '银行卡',
-          link: '/trade/bankcard',
-          color: '#e7d489'
+          icon: "self-yinhangka",
+          text: "银行卡",
+          link: "/trade/bankcard",
+          color: "#e7d489"
         },
         {
-          icon: 'self-hongbao',
-          text: '销售录入',
-          link: '/trade/salerecord',
-          color: '#ee3355'
+          icon: "self-hongbao",
+          text: "销售录入",
+          link: "/trade/salerecord",
+          color: "#ee3355"
         },
         {
-          icon: 'self-fulijilu',
-          text: '福利记录',
-          link: '/trade/welfrecord',
-          color: '#ee3355'
+          icon: "self-fulijilu",
+          text: "福利记录",
+          link: "/trade/welfrecord",
+          color: "#ee3355"
         },
         {
-          icon: 'self-xiaofeijilu',
-          text: '消费记录',
-          link: '/trade/interest?type=0',
-          color: '#663355'
+          icon: "self-xiaofeijilu",
+          text: "消费记录",
+          link: "/trade/interest?type=0",
+          color: "#663355"
         },
         {
-          icon: 'self-xiaofeiguize',
-          text: '消费规则',
-          link: '/trade/consumerule',
-          color: '#663355'
+          icon: "self-xiaofeiguize",
+          text: "消费规则",
+          link: "/trade/consumerule",
+          color: "#663355"
         },
         {
-          icon: 'self-edu',
-          text: '授信额度',
-          link: '/trade/shouxin',
-          color: '#e7d489'
+          icon: "self-edu",
+          text: "授信额度",
+          link: "/trade/shouxin",
+          color: "#e7d489"
         },
         {
-          icon: 'self-download',
-          text: '协议下载',
-          link: '/trade/download',
-          color: '#663355'
+          icon: "self-download",
+          text: "协议下载",
+          link: "/trade/download",
+          color: "#663355"
         }
       ]
-    }
+    };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(['member'])
+    ...mapState(["member"])
   },
   mixins: [mixin],
-  created() {
-
-  },
+  created() {},
   activated() {
     this.type = 0;
     this.getInfo(this.type);
   },
   methods: {
-    changeTab() {
-      if (this.member.type == '0') {
+    changeTab(tag) {
+      if (this.member.type == "0" && tag==1) {
         this.showPopup = true;
         return;
       }
-      this.type = this.type == 0 ? 1 : 0;
-      if (this.firstTag) {
-        return;
-      }
+      this.type =tag;
       this.getInfo();
     },
     getInfo() {
@@ -286,46 +272,42 @@ export default {
       // this.$dialog.loading.open('您的福利正在赶来...');
       mui.ajax({
         url: countMemberInfo,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          account: getStore('account'),
+          account: getStore("account"),
           type: this.type,
-          token: md5(`countMemberInfo${getStore('account')}${this.type}`)
+          token: md5(`countMemberInfo${getStore("account")}${this.type}`)
         },
         success(res) {
           // vm.$dialog.loading.close();
-          vm[`info${vm.type}`] = res.result
+          vm[`info${vm.type}`] = res.result;
           if (vm.type == 0) {
-            vm.$store.commit('RECORD_BALANCE_MONEY', res.result.balanceMoney)
-          }
-          if (vm.type == 1) {
-            vm.firstTag = true;
+            vm.$store.commit("RECORD_BALANCE_MONEY", res.result.balanceMoney);
           }
         }
-      })
+      });
     },
     settle() {
-      if (this.settleWay == '') {
+      if (this.settleWay == "") {
         this.$dialog.toast({
-          mes: '请选择一种入驻方式后再确认',
+          mes: "请选择一种入驻方式后再确认",
           timeout: 1500
-        })
+        });
         return;
       }
       this.showPopup = false;
-      if (this.settleWay == '0') {
-        this.$router.push({ path: '/store/settle' })
-      }
-      else {
-        this.$router.push({ path: '/store/settle-1' })
+      if (this.settleWay == "0") {
+        this.$router.push({ path: "/store/settle" });
+      } else {
+        this.$router.push({ path: "/store/settle-1" });
       }
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .wallet-top {
   height: 5rem;
   background-size: cover;
@@ -367,12 +349,11 @@ export default {
   margin-bottom: @pd;
   .tab-item {
     width: 33.3%;
-    position: relative;
     a {
       .pd-v;
       display: block;
       p:last-child {
-        margin-top: .1rem;
+        margin-top: 0.1rem;
         font-size: 16px;
         height: 16px;
       }

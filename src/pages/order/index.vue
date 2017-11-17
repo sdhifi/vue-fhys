@@ -223,7 +223,7 @@ export default {
             vm.$router.push({ name: "YinLian" });
             //银联
           } else if (item.payType == "7" || item.payType == "8") {
-            //积分
+            //积分||责任金额
             if (_result.offlinePayAmount) {
               vm.checkService(vm.pays["alipay"], function() {
                 plus.payment.request(
