@@ -282,9 +282,6 @@ export default {
         success(res) {
           // vm.$dialog.loading.close();
           vm[`info${vm.type}`] = res.result;
-          if (vm.type == 0) {
-            vm.$store.commit("RECORD_BALANCE_MONEY", res.result.balanceMoney);
-          }
         }
       });
     },

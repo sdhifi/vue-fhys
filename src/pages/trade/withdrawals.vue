@@ -17,7 +17,7 @@
         </router-link>
         <yd-cell-group v-else>
           <yd-cell-item arrow href="/trade/newbank" type="link">
-            <span slot="icon" class="iconfont self-yinhangka"></span>
+            <span slot="icon" class="iconfont-large self-yinhangka"></span>
             <span slot="left">银行卡</span>
             <span slot="right">去添加</span>
           </yd-cell-item>
@@ -105,10 +105,8 @@ export default {
 <style lang='less' scoped>
 @import "../../style/mixin.less";
 .tips {
-  .mg-v;
-  padding-left: @pd;
+  .pd;
 }
-
 .bank-card {
   .pd;
   background-color: @white;
@@ -134,12 +132,5 @@ export default {
       }
     }
   }
-}
-
-.bank-list {
-  max-height: 8rem;
-  padding-left: @pd;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 </style>
