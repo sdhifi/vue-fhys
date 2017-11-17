@@ -271,7 +271,8 @@ section {
     }
   }
   .seller-tel {
-    .wh(40px, 40px);
+    display: block;
+    .wh(.8rem,1rem);
   }
   .collect {
     .pd;

@@ -104,11 +104,11 @@ export default {
             vm.$dialog.alert({
               mes:res.msg,
               callback:()=>{
-                vm.$router.push({name:"YinLianConfirm"})
+                vm.$router.replace({name:"YinLianConfirm"})
               }
             })
           }
-          //订单号存在，重新交易
+          //订单号存在，重新交易||获取动态秘钥失败
           else {
             vm.$dialog.alert({
               mes:res.msg

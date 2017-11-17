@@ -249,6 +249,12 @@ export default {
     },
     saveIntro() {
       let vm = this;
+      if(!this.info.storeDescription || this.info.storeDescription=="null"){
+        this.$dialog.alert({
+          mes:"请输入店铺简介"
+        })
+        return;
+      }
       mui.ajax({
         url: updateIntro,
         type: "post",

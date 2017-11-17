@@ -94,7 +94,7 @@ export default {
             vm.$dialog.toast({
               mes: res.msg,
               callback: () => {
-                vm.$router.go(-1);
+                vm.$router.go(-2);
               }
             });
           } else {

@@ -104,7 +104,12 @@ export default {
           token: md5(`findMemberByMoblie${this.mobile}`)
         },
         success(res) {
-          vm.mobileName = res.result.name || res.result.nickName;
+          if(res.result){
+            vm.mobileName = res.result.name || res.result.nickName;
+          }
+          else{
+            vm.mobileName = "用户不存在"
+          }
         }
       });
     },
