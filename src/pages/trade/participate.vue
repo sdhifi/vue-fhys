@@ -47,6 +47,7 @@ export default {
   methods: {
     getInfo() {
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: getParticipate,
         type: 'post',
@@ -57,6 +58,7 @@ export default {
           token: md5('getParticipate')
         },
         success(res) {
+          vm.$dialog.loading.close();
           vm.info = res.result;
         }
       })

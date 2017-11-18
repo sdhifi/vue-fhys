@@ -45,11 +45,13 @@ export default {
   },
   activated() {
     this.pageTitle=this.$route.query.type=='0'?'累计消费':'累计贡献';
+    this.info = [];
     this.getInfo();
   },
   methods: {
     getInfo(){
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: getInterests,
         type: 'post',
@@ -60,6 +62,7 @@ export default {
           token:md5(`getInterests`)
         },
         success(res){
+          vm.$dialog.loading.close();
           vm.info = res.result;
         }
       })
