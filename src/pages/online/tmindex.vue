@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top title="天猫"></header-top>
+    <header-top title="淘宝|天猫"></header-top>
     <div class="search-form" autocomplete="off">
       <div class="input-group  flex align-center">
         <span class="iconfont-large self-search"></span>

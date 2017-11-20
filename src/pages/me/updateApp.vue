@@ -31,7 +31,7 @@ export default {
       let u = navigator.userAgent;
       let isAndroid = u.indexOf("Android") > -1; //android终端
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
-      this.type = isAndroid ? "0" : "1";
+      this.type = isiOS ? "1" : "0";
       this.curVersion = plus.runtime.version;
     },
     getInfo() {
@@ -45,7 +45,9 @@ export default {
           token:md5('findAppUpgredeByType')
         },
         success(res) {
-          console.log(res.result)
+          vm.$dialog.toast({
+            mes:res.result.version
+          })
         }
       });
     }

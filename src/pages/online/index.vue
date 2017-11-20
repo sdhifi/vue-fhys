@@ -22,8 +22,8 @@
         </router-link>
       </section>
       <section class="platform-container flex">
-        <router-link :to="item.link" v-for="(item,index) in platform" :key="index" class="platform-item" :style="{'background-image':formatBg(item.img)}">
-        </router-link>
+        <div v-for="(item,index) in platform" :key="index" class="platform-item" :style="{'background-image':formatBg(item.img)}" @click="navigate(index)">
+        </div>
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
         <yd-cell-group>
@@ -72,7 +72,7 @@ export default {
       info: {},
       pds: [],
       platform:[
-        {img:"taobao.jpg",link:"/online/taobao"},
+        {img:"taobao.jpg",link:"/online/tmindex"},
         {img:"tianmao.png",link:"/online/tmindex"},
         {img:"yihaodian.png",link:"/online/hdindex"},
         {img:"jingdong.png",link:"/online/jdindex"}
@@ -134,6 +134,15 @@ export default {
           })
         }
       });
+    },
+    navigate(index){
+      if(index>1){
+        this.$dialog.toast({
+          mes:"数据对接中，敬请期待！"
+        })
+        return;
+      }
+      this.$router.push({name:"TianMao"})
     }
   }
 };
