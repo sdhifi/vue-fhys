@@ -112,7 +112,7 @@ export default {
           if (res.result) {
             vm.mobileName = res.result.name || res.result.nickName;
           } else {
-            vm.mobileName = "用户不存在";
+            vm.mobileName = res.msg||"用户不存在";
           }
         }
       });
@@ -167,6 +167,3 @@ export default {
   }
 };
 </script>
-<style lang='less' scoped>
-@import "../../style/mixin.less";
-</style>

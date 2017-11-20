@@ -32,6 +32,14 @@ const router = new Router({
     path: '/online/index',
     name: 'Online',
     component: require('../pages/online/index')
+  },{
+    path: '/online/jdindex',
+    name: 'JingDong',
+    component: require('../pages/online/jdindex')
+  },{
+    path: '/online/tmindex',
+    name: 'TianMao',
+    component: require('../pages/online/tmindex')
   }, {
     path: '/online/allcolumn',
     name: 'AllColumn',

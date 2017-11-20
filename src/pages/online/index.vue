@@ -21,6 +21,10 @@
           <p>全部分类</p>
         </router-link>
       </section>
+      <section class="platform-container flex">
+        <router-link :to="item.link" v-for="(item,index) in platform" :key="index" class="platform-item" :style="{'background-image':formatBg(item.img)}">
+        </router-link>
+      </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
         <yd-cell-group>
           <yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+item.id">
@@ -66,7 +70,13 @@ export default {
     return {
       oldBack: mui.back,
       info: {},
-      pds: []
+      pds: [],
+      plateform:[
+        {img:"taobao.png",link:"/online/taobao"},
+        {img:"tianmao.png",link:"/online/tmindex"},
+        {img:"yihaodian.png",link:"/online/hdindex"},
+        {img:"jingdong.png",link:"/online/jdindex"}
+      ]
     };
   },
   components: { HeaderTop, FooterBar },
@@ -145,6 +155,13 @@ section {
       margin-top: @pd / 2;
       font-size: 0.28rem;
     }
+  }
+}
+.platform-container{
+  padding: .4rem;
+  .platform-item{
+    display: block;
+    width: 50%;
   }
 }
 
