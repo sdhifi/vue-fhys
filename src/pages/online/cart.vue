@@ -38,8 +38,11 @@
       </ul>
       <section class="hv-cen text-center" v-show="!cartList.length">
         <span class="iconfont self-shopcart" style="font-size:40px;"></span>
-        <p class="fs-14">购物车空空如也</p>
-        <router-link class="fs-14" to="/online/index" replace>去商城看看...</router-link>
+        <p class="fs-14" style="margin-bottom:.5rem;">购物车空空如也</p>
+        <!-- <router-link class="fs-14" to="/online/index" replace>去商城看看...</router-link> -->
+        <yd-button type="warning" @click.native="goOnLine">去商城看看
+          <span class="iconfont self-right"></span>
+        </yd-button>
       </section>
     </main>
     <footer class="fix-footer flex align-center" style="border-top: 1px solid #dfdfdf;" v-show="cartList.length">
@@ -223,10 +226,12 @@
             let _result = res.result;
             vm.$store.commit('SET_PAY_PASSWORD', !!_result.gjfMemberInfo.payPassword);
             vm.$store.commit("RECORD_SETTLE_LIST", _result);
-            // vm.$store.commit("RECORD_SETTLE_LIST", res.result);
             vm.$router.push({name: "SettleBalance", query: {orderType}});
           }
         });
+      },
+      goOnLine(){
+        this.$router.replace("/online/index");
       }
     }
   };

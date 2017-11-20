@@ -41,11 +41,11 @@
             <div class="title flex align-center">
               <h3>{{pd.name}}</h3>
             </div>
-            <div class="price" v-if="item.label=='积分换购'">
+            <div class="price" v-if="pd.isCanUserCou=='1'">
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+
               <span>{{pd.price}}积分</span>
             </div>
-            <div class="price" v-else-if="item.label=='责任消费'">
+            <div class="price" v-else-if="pd.isCanUserCou=='2'">
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+
               <span>{{pd.price}}责任金额</span>
             </div>
@@ -163,7 +163,7 @@ section {
     display: block;
     margin: .1rem;
     height: 1.5rem;
-    width: 46%;
+    width: 47%;
     background-size: contain;
     background-repeat: no-repeat;
   }
