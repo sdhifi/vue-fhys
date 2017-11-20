@@ -5,7 +5,7 @@
       <yd-cell-group title="消费对象">
         <yd-cell-item>
           <span slot="left">消费金额：</span>
-          <yd-input slot="right" v-model="money" placeholder="输入金额（单位：元）" type="tel" @input.native="setPayMoney"></yd-input>
+          <yd-input slot="right" v-model="money" placeholder="输入金额（单位：元）" type="tel"></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">消费会员：</span>
@@ -35,22 +35,17 @@
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-edu" style="color:#f9a340;"></span>
           <span slot="left">授信额度</span>
-          <input slot="right" type="radio" value="4" v-model="payType" @change="setPayMoney" />
+          <input slot="right" type="radio" value="4" v-model="payType" />
         </yd-cell-item>
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">会员余额 </span>
-          <input slot="right" type="radio" value="5" v-model="payType" @change="setPayMoney" />
+          <input slot="right" type="radio" value="5" v-model="payType" />
         </yd-cell-item>
-        <!-- <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont-large self-weixinzhifu" style="color:#25d025;"></span>
-          <span slot="left">微信支付</span>
-          <input slot="right" type="radio" value="0" v-model="payType" @change="setPayMoney" />
-        </yd-cell-item> -->
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
           <span slot="left">银联在线支付</span>
-          <input slot="right" type="radio" value="2" v-model="payType" @change="setPayMoney" />
+          <input slot="right" type="radio" value="2" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
       <div class="btn-container flex just-around" style="padding:0 .2rem;">
@@ -73,7 +68,6 @@ export default {
   data() {
     return {
       money: "",
-      payMoney: "",
       mobile: "",
       mobileName: "",
       payType: ""
@@ -88,12 +82,16 @@ export default {
         /0?(13|14|15|18)[0-9]{9}/.test(this.mobile) &&
         !!this.payType
       );
+    },
+    payMoney() {
+      return !this.payType || this.payType == "4"
+        ? this.money
+        : (+this.money * 0.12).toFixed(2);
     }
   },
   created() {},
   activated() {
     this.money = "";
-    this.payMoney = "";
     this.mobile = "";
     this.mobileName = "";
     this.payType = "";
@@ -118,13 +116,6 @@ export default {
           }
         }
       });
-    },
-    setPayMoney() {
-      if (!this.payType || this.payType == "4") {
-        this.payMoney = this.money;
-      } else {
-        this.payMoney = (+this.money * 0.12).toFixed(2);
-      }
     },
     save() {
       if (this.payType == "4" && this.member.lineOfCrade < +this.money) {
