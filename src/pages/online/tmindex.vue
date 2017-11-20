@@ -9,171 +9,24 @@
       </div>
     </div>
     <main class="scroll-warpper">
-      <aside>
         <ul class="tab-list">
-          <li class="tab-item tab-active">热门推荐</li>
-          <li class="tab-item">国际大牌</li>
-          <li class="tab-item">女装</li>
-          <li class="tab-item">女鞋</li>
-          <li class="tab-item">男装</li>
-          <li class="tab-item">男鞋</li>
-          <li class="tab-item">内衣</li>
-          <li class="tab-item">母婴</li>
-          <li class="tab-item">手机</li>
-          <li class="tab-item">数码</li>
-          <li class="tab-item">家电</li>
-          <li class="tab-item">美妆</li>
-          <li class="tab-item">箱包</li>
-          <li class="tab-item">运动</li>
-          <li class="tab-item">户外</li>
-          <li class="tab-item">家装</li>
-          <li class="tab-item">家纺</li>
-          <li class="tab-item">居家</li>
-          <li class="tab-item">鲜花园艺</li>
-          <li class="tab-item">饰品</li>
-          <li class="tab-item">食品</li>
-          <li class="tab-item">生鲜</li>
-          <li class="tab-item">汽车摩托</li>
-          <li class="tab-item">医药</li>
-          <li class="tab-item">图书</li>
-          <li class="tab-item">通信</li>
-          <li class="tab-item">洗护</li>
-          <li class="tab-item">乐器</li>
+          <li class="tab-item" :class="{'tab-active':curIndex==index}" @click="changeTab(index)" v-for="(item,index) in tabList" :key="index">{{item.name}}</li>
         </ul>
-      </aside>
       <section class="main-list">
         <ul class="product-list flex">
-          <li class="product-item">
-            <a href="">
+          <li class="product-item" v-for="(item,index) in productList" :key="index">
+            <router-link>
               <div class="product-img">
-                <img src="https://m.360buyimg.com/mobilecms/s357x357_jfs/t11569/290/1772238500/387735/a89d43fd/5a0918b6N1403ae81.jpg!q50.jpg" alt="">
+                <img :src="item.smallPic" :alt="item.title">
               </div>
               <div class="product-info flex align-center">
-                <div class="product-name">倪妃2017冬季羊毛真皮平底防水防滑雪地靴女短筒加厚保暖加绒短靴女牛筋底孕妇棉鞋女靴女鞋子 卡其色 37</div>
+                <div class="product-name">{{item.title}}</div>
               </div>
               <div class="product-price">
-                <span>￥</span>
-                <span>199.00</span>
+                <span>优惠券：</span>
+                <span class="fs-16 danger-color">￥{{item.yhqmoney}}</span>
               </div>
-            </a>
-          </li>
-          <li class="product-item">
-            <a href="">
-              <div class="product-img">
-                <img src="https://m.360buyimg.com/mobilecms/s357x357_jfs/t9085/22/907696059/71305/93f88c62/59b85847N20776d8e.jpg!q50.jpg" alt="">
-              </div>
-              <div class="product-info">
-                <div class="product-name">
-                  Apple iPhone 8
-                </div>
-              </div>
-              <div class="product-price">
-                <span>￥</span>
-                <span class="price">5888.00</span>
-              </div>
-            </a>
-          </li>
-          <li class="product-item">
-            <a href="">
-              <div class="product-img">
-                <img src="https://m.360buyimg.com/mobilecms/s357x357_jfs/t2308/25/2381146788/201967/9249b208/56cd5463N35ed50c3.jpg!q50.jpg" alt="">
-              </div>
-              <div class="product-info">
-                <div class="product-name">老人头（LAORENTOU）牛皮时尚单肩包欧美潮流斜挎手提包998J086L1A黑色</div>
-              </div>
-              <div class="product-price">
-                <span>￥</span>
-                <span>338.00</span>
-              </div>
-            </a>
-          </li>
-          <li class="product-item">
-            <a href="">
-              <div class="product-img">
-                <img src="https://m.360buyimg.com/mobilecms/s357x357_jfs/t11569/290/1772238500/387735/a89d43fd/5a0918b6N1403ae81.jpg!q50.jpg" alt="">
-              </div>
-              <div class="product-info">
-                <div class="product-name">倪妃2017冬季羊毛真皮平底防水防滑雪地靴女短筒加厚保暖加绒短靴女牛筋底孕妇棉鞋女靴女鞋子 卡其色 37</div>
-              </div>
-              <div class="product-price">
-                <span>￥</span>
-                <span>199.00</span>
-              </div>
-            </a>
-          </li>
-          <li class="product-item">
-            <a href="">
-              <div class="product-img">
-                <img src="https://m.360buyimg.com/mobilecms/s357x357_jfs/t9085/22/907696059/71305/93f88c62/59b85847N20776d8e.jpg!q50.jpg" alt="">
-              </div>
-              <div class="product-info">
-                <div class="product-name">
-                  Apple iPhone 8
-                </div>
-              </div>
-              <div class="product-price">
-                <span>￥</span>
-                <span class="price">5888.00</span>
-              </div>
-            </a>
-          </li>
-          <li class="product-item">
-            <a href="">
-              <div class="product-img">
-                <img src="https://m.360buyimg.com/mobilecms/s357x357_jfs/t2308/25/2381146788/201967/9249b208/56cd5463N35ed50c3.jpg!q50.jpg" alt="">
-              </div>
-              <div class="product-info">
-                <div class="product-name">老人头（LAORENTOU）牛皮时尚单肩包欧美潮流斜挎手提包998J086L1A黑色</div>
-              </div>
-              <div class="product-price">
-                <span>￥</span>
-                <span>338.00</span>
-              </div>
-            </a>
-          </li>
-          <li class="product-item">
-            <a href="">
-              <div class="product-img">
-                <img src="https://m.360buyimg.com/mobilecms/s357x357_jfs/t11569/290/1772238500/387735/a89d43fd/5a0918b6N1403ae81.jpg!q50.jpg" alt="">
-              </div>
-              <div class="product-info">
-                <div class="product-name">倪妃2017冬季羊毛真皮平底防水防滑雪地靴女短筒加厚保暖加绒短靴女牛筋底孕妇棉鞋女靴女鞋子 卡其色 37</div>
-              </div>
-              <div class="product-price">
-                <span>￥</span>
-                <span>199.00</span>
-              </div>
-            </a>
-          </li>
-          <li class="product-item">
-            <a href="">
-              <div class="product-img">
-                <img src="https://m.360buyimg.com/mobilecms/s357x357_jfs/t9085/22/907696059/71305/93f88c62/59b85847N20776d8e.jpg!q50.jpg" alt="">
-              </div>
-              <div class="product-info">
-                <div class="product-name">
-                  Apple iPhone 8
-                </div>
-              </div>
-              <div class="product-price">
-                <span>￥</span>
-                <span class="price">5888.00</span>
-              </div>
-            </a>
-          </li>
-          <li class="product-item">
-            <a href="">
-              <div class="product-img">
-                <img src="https://m.360buyimg.com/mobilecms/s357x357_jfs/t2308/25/2381146788/201967/9249b208/56cd5463N35ed50c3.jpg!q50.jpg" alt="">
-              </div>
-              <div class="product-info">
-                <div class="product-name">老人头（LAORENTOU）牛皮时尚单肩包欧美潮流斜挎手提包998J086L1A黑色</div>
-              </div>
-              <div class="product-price">
-                <span>￥</span>
-                <span>338.00</span>
-              </div>
-            </a>
+            </router-link>
           </li>
         </ul>
       </section>
@@ -187,22 +40,24 @@ export default {
   name: "TianMao",
   data() {
     return {
-      searchValue:"",
-      curIndex:0
+      searchValue: "",
+      curIndex: 0,
+      tabList: [],
+      productList: []
     };
   },
   components: { HeaderTop },
   computed: {},
   created() {},
-  activated() {},
+  activated() {
+    this.searchValue = "";
+  },
   methods: {
-    searchProduct(){},
-    changeTab(index){
+    searchProduct() {},
+    changeTab(index) {
       this.curIndex = index;
     },
-    getProduct(){
-
-    }
+    getProduct() {}
   }
 };
 </script>
@@ -231,7 +86,7 @@ export default {
     height: 46px;
     text-align: center;
     border-bottom: 1px solid #ccc;
-    font-size: .28rem;
+    font-size: 0.28rem;
     &.tab-active {
       color: @red;
     }

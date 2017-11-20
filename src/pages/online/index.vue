@@ -71,8 +71,8 @@ export default {
       oldBack: mui.back,
       info: {},
       pds: [],
-      plateform:[
-        {img:"taobao.png",link:"/online/taobao"},
+      platform:[
+        {img:"taobao.jpg",link:"/online/taobao"},
         {img:"tianmao.png",link:"/online/tmindex"},
         {img:"yihaodian.png",link:"/online/hdindex"},
         {img:"jingdong.png",link:"/online/jdindex"}
@@ -158,10 +158,14 @@ section {
   }
 }
 .platform-container{
-  padding: .4rem;
+  .pd-h;
   .platform-item{
     display: block;
-    width: 50%;
+    margin: .1rem;
+    height: 1.5rem;
+    width: 46%;
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
 
