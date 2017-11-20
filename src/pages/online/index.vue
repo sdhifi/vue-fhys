@@ -126,6 +126,12 @@ export default {
           });
           vm.info = res.result;
           vm.pds = _pds;
+        },
+        error(e){
+          vm.$dialog.loading.close();
+          vm.$dialog.toast({
+            mes:"网络异常，请稍后重试！"
+          })
         }
       });
     }

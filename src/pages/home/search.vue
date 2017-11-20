@@ -85,7 +85,6 @@ export default {
 
 .search-history {
   .mg;
-  border-top: 1px solid #f5f5f5;
   .search-title {
     .flex;
     .just-cont(space-between);

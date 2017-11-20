@@ -173,7 +173,7 @@ export default {
               callback: () => {
                 vm.$store.commit("SET_ACCOUNT", vm.mobile);
                 localStorage.setItem("account", vm.mobile);
-                // vm.$router.push({ path: '/me/index' })
+                vm.$store.dispatch('getInfo');
                 vm.$router.go(-1);
               }
             });
@@ -186,6 +186,9 @@ export default {
           }
         }
       });
+    },
+    forget(){
+      this.$router.push({name:"Forgetpwd"});
     }
   }
 };

@@ -3,20 +3,25 @@
     <header-top title="商品详情"></header-top>
     <main class='scroll-content'>
       <section class="info-1">
-        <yd-slider :loop="false">
+        <!-- <yd-slider>
           <yd-slider-item v-for="(item,index) in imgList" :key="index">
             <img :src="item">
           </yd-slider-item>
-        </yd-slider>
+        </yd-slider> -->
+        <swiper :aspect-ratio="1" :show-desc-mask="false" dots-position="center" :loop="false">
+          <swiper-item v-for="(item, index) in imgList" :key="index">
+            <img :src="item">
+          </swiper-item>
+        </swiper>
         <p>{{info.proName}}</p>
         <p class="danger-color fs-16 flex just-between align-center">
           <span v-if="info.isCanUserCou=='1'">{{info.productAttrStock.price}}
             <span class="fs-12" style="margin-left:.1rem;">积分</span>
           </span>
           <span v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock.price}}
-            <span class="fs-12" style="margin-left:.1rem;">责任金额</span></span>
+            <span class="fs-12" style="margin-left:.1rem;">责任金额</span>
+          </span>
           <span v-else>￥{{info.productAttrStock.price}}</span>
-          
           <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
       </section>
@@ -116,7 +121,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import HeaderTop from "components/header/index";
-import { LoadMore } from "vux";
+import { LoadMore, Swiper, SwiperItem } from "vux";
 import {
   onlineProductsDetailInfoInH5,
   addMyCollect,
@@ -138,18 +143,20 @@ export default {
       attrId: ""
     };
   },
-  components: { HeaderTop, LoadMore },
+  components: { HeaderTop, LoadMore, Swiper, SwiperItem },
   computed: {
     ...mapState(["account", "cartList"]),
     ...mapGetters(["cartNum"]),
     orderType() {
-      return this.info.isCanUserCou=='1' ? "1" : this.info.isCanUserCou=='2' ? "2" : "0";
-    },
+      return this.info.isCanUserCou == "1"
+        ? "1"
+        : this.info.isCanUserCou == "2" ? "2" : "0";
+    }
   },
   mixins: [mixin],
   created() {},
   activated() {
-    this.imgList = [];
+    // this.imgList = [];
     this.info = {};
     //this.pdtype = this.$route.query.pdtype;
     this.pdnum = 1;
@@ -182,12 +189,18 @@ export default {
         },
         success(res) {
           let _result = res.result;
+          // 轮播图单独处理
+          for (let i = 1; i <= 5; i++) {
+            if (_result[`para${i}`]) {
+              vm.imgList.push(_result[`para${i}`]);
+            }
+          }
           //图片路径处理
           _result.content = _result.content.replace(
             /\/userfiles/g,
             "http://jfh.jfeimao.com/userfiles"
           );
-          if (_result.isCanUserCou ) {
+          if (_result.isCanUserCou) {
             _result.attrs.forEach((item, index) => {
               //排序：防止数据错乱
               item.attrValues.sort(function(a, b) {
@@ -205,12 +218,7 @@ export default {
           }
 
           vm.info = _result;
-          // 轮播图单独处理
-          for (let i = 1; i <= 5; i++) {
-            if (vm.info[`para${i}`]) {
-              vm.imgList.push(vm.info[`para${i}`]);
-            }
-          }
+
           // 商品详情图片和表格填充布局
           vm.$nextTick(function() {
             Array.from(
@@ -401,6 +409,9 @@ section {
 }
 
 .info-1 {
+  img{
+    width: 100%;
+  }
   p {
     .pd;
     font-size: 0.3rem;

@@ -9,13 +9,13 @@
       </div>
     </div>
     <main class="scroll-warpper">
-        <ul class="tab-list">
-          <li class="tab-item" :class="{'tab-active':curIndex==index}" @click="changeTab(index)" v-for="(item,index) in tabList" :key="index">{{item.name}}</li>
-        </ul>
-      <section class="main-list">
-        <ul class="product-list flex">
-          <li class="product-item" v-for="(item,index) in productList" :key="index">
-            <router-link>
+      <ul class="tab-list">
+        <li class="tab-item" :class="{'tab-active':curIndex==index}" @click="changeTab(index)" v-for="(item,index) in tabList" :key="index">{{item.catName}}</li>
+      </ul>
+      <section class="main-list" ref="mainList">
+        <yd-infinitescroll :callback="getProduct" ref="pdlist">
+          <ul class="product-list flex" slot="list">
+            <li class="product-item" v-for="(item,index) in productList" :key="index" @click="navigate(item)">
               <div class="product-img">
                 <img :src="item.smallPic" :alt="item.title">
               </div>
@@ -24,40 +24,131 @@
               </div>
               <div class="product-price">
                 <span>优惠券：</span>
-                <span class="fs-16 danger-color">￥{{item.yhqmoney}}</span>
+                <span class="fs-16 danger-color">￥{{item.yhqmoney || 0}}</span>
               </div>
-            </router-link>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </yd-infinitescroll>
       </section>
     </main>
   </div>
 </template>
 <script>
 import HeaderTop from "components/header/index";
-import {} from "../../api/index";
+import { mapState } from "vuex";
+import { getStore } from "components/common/mixin";
+import {
+  findProdutCat,
+  findProductList,
+  findProductListBySerch
+} from "../../api/index";
 export default {
   name: "TianMao",
   data() {
     return {
       searchValue: "",
+      pageNo: 1,
       curIndex: 0,
       tabList: [],
       productList: []
     };
   },
   components: { HeaderTop },
-  computed: {},
-  created() {},
+  computed: {
+    ...mapState(["member"])
+  },
+  created() {
+    this.getCatalog();
+  },
   activated() {
+    if (getStore("account") && getStore("account").length > 0) {
+      this.$store.dispatch("getInfo");
+    }
     this.searchValue = "";
   },
   methods: {
-    searchProduct() {},
-    changeTab(index) {
-      this.curIndex = index;
+    searchProduct() {
+      if(!this.searchValue){
+        this.$dialog.alert({
+          mes:"请输入关键词！",
+        })
+        return;
+      }
+      this.pageNo = 1;
+      this.productList = [];
+      let vm = this;
+      this.$dialog.loading.open();
+      mui.ajax({
+        url: findProductListBySerch,
+        type: "get",
+        data: {
+          keyWord: this.searchValue,
+          page: this.pageNo
+        },
+        success(res) {
+          vm.$dialog.loading.close();
+          vm.productList = [...vm.productList, ...res];
+          if (res.length < 30) {
+            vm.noData = true;
+            vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
+            return;
+          }
+          vm.$refs.pdlist.$emit("ydui.infinitescroll.finishLoad");
+          vm.pageNo++;
+        }
+      });
     },
-    getProduct() {}
+    changeTab(index) {
+      this.pageNo = 1;
+      this.curIndex = index;
+      this.$refs.mainList.scrollTop = 0;
+      this.productList = [];
+      this.getProduct();
+    },
+    getCatalog() {
+      let vm = this;
+      mui.ajax({
+        url: findProdutCat,
+        type: "get",
+        success(res) {
+          vm.tabList = res;
+          vm.getProduct();
+        }
+      });
+    },
+    getProduct() {
+      let vm = this;
+      this.$dialog.loading.open();
+      mui.ajax({
+        url: findProductList,
+        type: "get",
+        data: {
+          type: this.tabList[this.curIndex].id,
+          page: this.pageNo
+        },
+        success(res) {
+          vm.$dialog.loading.close();
+          vm.productList = [...vm.productList, ...res];
+          if (res.length < 30) {
+            vm.noData = true;
+            vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
+            return;
+          }
+          vm.$refs.pdlist.$emit("ydui.infinitescroll.finishLoad");
+          vm.pageNo++;
+        }
+      });
+    },
+    navigate(pd) {
+      if (!this.member) {
+        this.$router.push("/me/login");
+        return;
+      }
+      let pdId = pd.id;
+      let userId = `1004${this.member.id}`;
+      let url = `http://aihua.likecs.com/index.php?mod=aihua&act=fenghuang&param=detail&id=${pdId}&userid=${userId}&phone=${this.member.mobile}&email=102286545@qq.com&kh=fenghuang&tbnum=4654646465465`
+      window.location.href = url;
+    }
   }
 };
 </script>
@@ -104,10 +195,10 @@ export default {
   .product-item {
     width: 50%;
     margin-bottom: 5px;
+    padding: 5px;
     border: 1px solid #f7f5f0;
     color: #333;
     .product-img {
-      padding: 5px;
       img {
         width: 100%;
       }

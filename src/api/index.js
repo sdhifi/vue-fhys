@@ -31,6 +31,9 @@ let onlineProductsByAllColumn = `${pd}/online/onlineProductsByAllColumn` //网�
 let onlineProductsDetailInfoInH5 = `${pd}/online/onlineProductsDetailInfoInH5` //网上商城商品详情
 let stockAndPrice = `${pd}/online/product/stockAndPrice` //商品价格和库存
 
+let findProdutCat = `${baseUrl}/wx/product/findProdutCat` //目录
+let findProductList = `${baseUrl}/wx/product/findProductList`//商品
+let findProductListBySerch = `${baseUrl}/wx/product/findProductListBySerch` //搜索商品列表
 
 let myCart = `${cart}/myCart` //我的购物车
 let updateCartNum = `${cart}/updateCartNum` //修改购物车数量
@@ -123,6 +126,10 @@ export {
   onlineProductsDetailInfoInH5,
   stockAndPrice,
 
+  findProdutCat,
+  findProductList,
+  findProductListBySerch,
+  
   myCart,
   updateCartNum,
   delCart,
@@ -170,7 +177,6 @@ export {
   yinLPayCofirom,
   payOrderSign,
 
-  
   newProCommet,
   getAllProCommetByPage,
   

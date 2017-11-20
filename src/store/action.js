@@ -14,6 +14,7 @@ import {
   getMyAddress,
   myCart,
 } from '../api/index'
+import {getStore} from "../components/common/mixin"
 export default {
   getInfo({
     commit,
@@ -26,8 +27,8 @@ export default {
         "app-version": "v1.0"
       },
       data: {
-        account: state.account,
-        token: md5(`my${state.account}`)
+        account: getStore('account'),
+        token: md5(`my${getStore('account')}`)
       },
       success(res) {
         let _result = res.result
