@@ -4,7 +4,7 @@
     <router-link class="good-list" :to="{name:'OrderDetail',query:{sn:sn}}">
       <p class="order-id">订单编号：{{sn}}</p>
       <div class="good-item flex" v-for="good in goods" :key="good.goodsId">
-        <img :src="good.goodsImg" :alt="good.goodsName">
+        <img :src="getImgPath(good.goodsImg)" :alt="good.goodsName">
         <div class="good-info flex-1 flex just-between">
           <h3 class="good-title">{{good.goodsName}}</h3>
           <div class="good-price flex just-between">
@@ -31,7 +31,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-
+import {mixin} from "./mixin"
 export default {
   name: "OrderItem",
   props: {
@@ -48,6 +48,7 @@ export default {
     evaluation:String,
     paytype: String
   },
+  mixins: [mixin],
   methods: {
     payType(a) {
       switch (a) {
@@ -69,6 +70,8 @@ export default {
         case "8":
           return "责任消费金额";
           break;
+        default:
+          return "其他"
       }
     },
     pay() {

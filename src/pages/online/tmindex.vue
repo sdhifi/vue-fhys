@@ -14,7 +14,7 @@
     </div>
     <main class="scroll-warpper">
       <ul class="tab-list">
-        <li class="tab-item" :class="{'tab-active':curIndex==index}" @click="changeTab(index)" v-for="(item,index) in tabList" :key="index">{{item.catName}}</li>
+        <li class="tab-item" :class="{'danger-bg':curIndex==index}" @click="changeTab(index)" v-for="(item,index) in tabList" :key="index">{{item.catName}}</li>
       </ul>
       <section class="main-list" ref="mainList">
         <yd-infinitescroll :callback="getProduct" ref="pdlist">
@@ -195,9 +195,6 @@ export default {
     text-align: center;
     border-bottom: 1px solid #ccc;
     font-size: 0.28rem;
-    &.tab-active {
-      color: @red;
-    }
   }
 }
 .main-list {

@@ -244,6 +244,14 @@ const router = new Router({
     name: 'ShouxinList',
     component: require('../pages/trade/shouxinlist')
   }, {
+    path: '/trade/transfer',
+    name: 'Transfer',
+    component: require('../pages/trade/transfer')
+  }, {
+    path: '/trade/merge',
+    name: 'Merge',
+    component: require('../pages/trade/merge')
+  }, {
     path: '/order/yinlian',
     name: 'YinLian',
     component: require('../pages/order/yinlian')
