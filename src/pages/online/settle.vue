@@ -140,7 +140,7 @@
         </P>
       </div>
     </div>
-    <yd-keyboard v-model="showPassword" :callback="checkPayPwd" ref="keyboard" title="凤凰云商安全键盘" input-text="请输入会员卡支付密码"></yd-keyboard>
+    <yd-keyboard v-model="showPassword" :callback="checkPayPwd" ref="keyboard" title="凤凰云商安全键盘" input-text="请输入支付密码"></yd-keyboard>
   </div>
 </template>
 <script>

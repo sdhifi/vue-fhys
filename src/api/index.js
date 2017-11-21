@@ -63,6 +63,7 @@ let realNameByAly = `${member}/realNameByAly` //用户实名认证
 let update = `${member}/update` //编辑个人信息
 let myQr = `${member}/myQr` //我的二维码
 let countMemberInfo = `${member}/countMemberInfo` //我的钱包
+let myWallet = `${member}/myWallet` //我的钱包2
 let setPay = `${member}/setPay` //设置支付密码
 let myCollect = `${member}/myCollect` //我的收藏
 let addMyCollect = `${member}/addMyCollect` //添加收藏
@@ -158,6 +159,7 @@ export {
   update,
   myQr,
   countMemberInfo,
+  myWallet,
   setPay,
   myCollect,
   addMyCollect,

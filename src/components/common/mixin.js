@@ -58,8 +58,8 @@ export const mixin = {
      * 格式化金额，返回两位小数
      * @param {*数值} m 
      */
-    formatPrice(m) {
-      return (m || 0).toFixed(2);
+    formatPrice(m,d=2) {
+      return (m || 0).toFixed(d);
     },
     /**
      * 格式化图片地址，默认图片

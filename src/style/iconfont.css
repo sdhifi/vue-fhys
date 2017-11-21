@@ -156,6 +156,8 @@
 
 .self-shangpinguanli:before { content: "\e611"; }
 
+.self-zhuanyi:before { content: "\e650"; }
+
 .self-home:before { content: "\e63f"; }
 
 .self-qrcode:before { content: "\e6e8"; }
@@ -165,6 +167,8 @@
 .self-weixinzhifu:before { content: "\e61c"; }
 
 .self-noorder:before { content: "\e60b"; }
+
+.self-miaozhunjing:before { content: "\e614"; }
 
 .self-ruanjian:before { content: "\e663"; }
 

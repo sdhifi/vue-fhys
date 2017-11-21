@@ -21,6 +21,15 @@
               <p :class="{'danger-color':index>2}">{{info0[item.param]}}</p>
             </a>
           </li>
+          <li v-for="(item,index) in tabs3" :key="index" class="tab-item">
+            <a :href="item.link">
+              <p>{{item.text}}</p>
+              <p  class="danger-color" v-if="item.param=='diviTotalMoney'">{{info[item.param] *100}}
+                <span>%</span>
+              </p>
+              <p v-else class="danger-color">{{info[item.param]}}</p>
+            </a>
+          </li>
         </ul>
       </section>
       <section class="wallet-tab" v-show="type">
@@ -28,8 +37,16 @@
           <li v-for="(item,index) in tabs1" :key="index" class="tab-item" :class="{'tab-item2':index<2}">
             <a :href="item.link" :class="{'danger-bg':index<2}">
               <p>{{item.text}}</p>
-              <p :class="{'danger-color':index>1}">{{info1[item.param]}}
-                <span v-if="item.param=='canMoney'">%</span>
+              <p :class="{'danger-color':index>1}" v-if="item.param=='canMoney'">{{info1[item.param] *100}}
+                <span>%</span>
+              </p>
+              <p v-else :class="{'danger-color':index>1}">{{info1[item.param]}}</p>
+            </a>
+          </li>
+          <li v-for="(item,index) in tabs4" :key="index" class="tab-item">
+            <a :href="item.link">
+              <p>{{item.text}}</p>
+              <p class="danger-color">{{info[item.param] || 0}}
               </p>
             </a>
           </li>
@@ -76,7 +93,7 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { countMemberInfo } from "../../api/index";
+import { countMemberInfo,myWallet } from "../../api/index";
 import { mixin, getStore } from "components/common/mixin";
 export default {
   name: "MyWallet",
@@ -84,6 +101,7 @@ export default {
     return {
       info0: {},
       info1: {},
+      info:{},
       type: 0,
       showPopup: false,
       settleWay: "",
@@ -146,6 +164,35 @@ export default {
           link: "javascript:"
         }
       ],
+      tabs3:[
+        {
+          text: "储备池",
+          param: "dedecutDiviNum",
+          link: "javascript:"
+        },
+        {
+          text: "已领回",
+          param: "diviTotalMoney",
+          link: "javascript:"
+        },
+        {
+          text: "线上消费笔数",
+          param: "orCount",
+          link: "javascript:"
+        },
+         {
+          text: "线下消费笔数",
+          param: "beCount",
+          link: "javascript:"
+        }
+      ],
+      tabs4:[
+        {
+          text: "储备池",
+          param: "storeDedecut",
+          link: "javascript:"
+        }
+      ],
       menu0: [
         {
           icon: "self-tiqufuli",
@@ -163,6 +210,18 @@ export default {
           icon: "self-yinhangka",
           text: "银行卡",
           link: "/trade/bankcard",
+          color: "#e7d489"
+        },
+        {
+          icon: "self-zhuanyi",
+          text: "积分转移",
+          link: "/trade/transfer",
+          color: "#ee3355"
+        },
+        {
+          icon: "self-miaozhunjing",
+          text: "合并用户信息",
+          link: "/trade/merge",
           color: "#e7d489"
         },
         {
@@ -210,6 +269,18 @@ export default {
           color: "#e7d489"
         },
         {
+          icon: "self-zhuanyi",
+          text: "积分转移",
+          link: "/trade/transfer",
+          color: "#ee3355"
+        },
+        {
+          icon: "self-miaozhunjing",
+          text: "合并用户信息",
+          link: "/trade/merge",
+          color: "#e7d489"
+        },
+        {
           icon: "self-hongbao",
           text: "销售录入",
           link: "/trade/salerecord",
@@ -253,10 +324,13 @@ export default {
     ...mapState(["member"])
   },
   mixins: [mixin],
-  created() {},
+  created() {
+    
+  },
   activated() {
     this.type = 0;
     this.getInfo();
+    this.getWallet();
   },
   methods: {
     changeTab(tag) {
@@ -269,6 +343,21 @@ export default {
       }
       this.type =tag;
       this.getInfo();
+    },
+    getWallet(){
+      let vm = this;
+      mui.ajax({
+        url: myWallet,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {
+          account:getStore("account"),
+          token: md5(`myWallet${getStore("account")}`)
+        },
+        success(res){
+          vm.info = res.result;
+        }
+      })
     },
     getInfo() {
       let vm = this;
@@ -309,7 +398,7 @@ export default {
 <style lang='less' scoped>
 @import "../../style/mixin.less";
 .wallet-top {
-  height: 5rem;
+  height: 4rem;
   background-size: cover;
   color: @white;
   font-size: 14px;

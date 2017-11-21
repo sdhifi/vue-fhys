@@ -22,8 +22,8 @@
           {{content}}
         </div>
         <div class="product-price flex align-center">
-          <span class="price">￥{{formatPrice(price1)}}</span>
-          <span class="market-price">门市价:￥{{formatPrice(price2)}}</span>
+          <span class="price">￥{{formatPrice(price1,1)}}</span>
+          <span class="market-price">门市价:￥{{formatPrice(price2,1)}}</span>
         </div>
       </div>
     </router-link>
