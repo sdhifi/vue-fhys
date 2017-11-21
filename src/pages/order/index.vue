@@ -212,15 +212,18 @@ export default {
               );
             });
           } else if (item.payType == "3") {
-            let payInfo = {
-              orderId: item.orderSn,
-              payMoney: item.goodsTotalAmount,
-              mobile: vm.account,
-              retUrl:
-                "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify;"
-            };
-            vm.$store.commit("RECORD_PAY_INFO", payInfo);
-            vm.$router.push({ name: "YinLian" });
+            // let payInfo = {
+            //   orderId: item.orderSn,
+            //   payMoney: item.goodsTotalAmount,
+            //   mobile: vm.account,
+            //   retUrl:
+            //     "http://gz.gjfeng.net/gjfeng-web-client/wx/notify/payOrderWangYiLNotify;"
+            // };
+            // vm.$store.commit("RECORD_PAY_INFO", payInfo);
+            // vm.$router.push({ name: "YinLian" });
+            vm.$dialog.alert({
+              mes:"银联支付功能暂时无法使用，请更换支付其他方式重新下单"
+            })
             //银联
           } else if (item.payType == "7" || item.payType == "8") {
             //积分||责任金额

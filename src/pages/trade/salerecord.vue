@@ -42,11 +42,11 @@
           <span slot="left">会员余额 </span>
           <input slot="right" type="radio" value="5" v-model="payType" />
         </yd-cell-item>
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
           <span slot="left">银联在线支付</span>
           <input slot="right" type="radio" value="2" v-model="payType" />
-        </yd-cell-item>
+        </yd-cell-item> -->
       </yd-cell-group>
       <div class="btn-container flex just-around" style="padding:0 .2rem;">
         <yd-button type="warning" @click.native="goSaleHistory" style="font-size:15px;"> 更 多 记 录

@@ -101,11 +101,11 @@
           <span slot="left">微信支付</span>
           <input slot="right" type="radio" value="1" v-model="payType" />
         </yd-cell-item> -->
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
           <span slot="left">银联在线支付</span>
           <input slot="right" type="radio" value="3" v-model="payType" />
-        </yd-cell-item>
+        </yd-cell-item> -->
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea"></span>
           <span slot="left">支付宝支付</span>

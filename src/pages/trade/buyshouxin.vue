@@ -32,11 +32,11 @@
           <span slot="left">支付宝支付</span>
           <input slot="right" type="radio" value="2" v-model="payType" @change="setPayMoney" />
         </yd-cell-item>
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
           <span slot="left">银联在线支付</span>
           <input slot="right" type="radio" value="3" v-model="payType" @change="setPayMoney" />
-        </yd-cell-item>
+        </yd-cell-item> -->
       </yd-cell-group>
       <div style="padding:0 .4rem;">
         <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="buy">确认购买</yd-button>
