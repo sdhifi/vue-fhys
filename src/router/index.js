@@ -247,10 +247,18 @@ const router = new Router({
     path: '/trade/transfer',
     name: 'Transfer',
     component: require('../pages/trade/transfer')
-  }, {
+  },  {
+    path: '/trade/transferhistory',
+    name: 'TransferHistory',
+    component: require('../pages/trade/transferhistory')
+  },{
     path: '/trade/merge',
-    name: 'Merge',
+    name: 'MergeHistory',
     component: require('../pages/trade/merge')
+  },{
+    path: '/trade/mergehistory',
+    name: 'Merge',
+    component: require('../pages/trade/mergehistory')
   }, {
     path: '/order/yinlian',
     name: 'YinLian',

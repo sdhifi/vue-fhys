@@ -311,6 +311,13 @@ export default {
                   }
                 });
               } else if (res.code == 401) {
+                vm.$dialog.confirm({
+                  title: "忘记密码？",
+                  mes: `${res.msg}，前往设置`,
+                  opts: () => {
+                    vm.$router.push({ name: "PwdManage" });
+                  }
+                });
                 vm.$refs.keyboard.$emit(
                   "ydui.keyboard.error",
                   "对不起，您的支付密码不正确，请重新输入。"
@@ -401,6 +408,13 @@ export default {
                 }
               });
             } else if (res.code == 401) {
+              vm.$dialog.confirm({
+                title: "忘记密码？",
+                mes: `${res.msg}，前往设置`,
+                opts: () => {
+                  vm.$router.push({ name: "PwdManage" });
+                }
+              });
               vm.$refs.keyboard.$emit(
                 "ydui.keyboard.error",
                 "对不起，您的支付密码不正确，请重新输入。"
