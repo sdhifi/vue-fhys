@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       type: "",
-      curVersion:'' //app版本
+      curVersion: "" //app版本
     };
   },
   components: { HeaderTop },
@@ -41,13 +41,26 @@ export default {
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          type:this.type,
-          token:md5('findAppUpgredeByType')
+          type: this.type,
+          token: md5("findAppUpgredeByType")
         },
         success(res) {
-          vm.$dialog.toast({
-            mes:res.result.version
-          })
+          let _result = res.result;
+          if (vm.curVersion == _result.version) {
+            vm.$dialog.toast({
+              mes: "当前版本已是最新！"
+            });
+            return;
+          }
+          else{
+            vm.$dialog.confirm({
+              title:"确认升级吗？",
+              mes:`检测到新版本：${_result.version}。\n${_result.describe}`,
+              opts:()=>{
+
+              }
+            });
+          }
         }
       });
     }
@@ -56,10 +69,10 @@ export default {
 </script>
 <style lang='less' scoped>
 @import "../../style/mixin.less";
-.app-info{
- .hv-cen;
-  width:70%;
-  div{
+.app-info {
+  .hv-cen;
+  width: 70%;
+  div {
     margin-bottom: 10%;
   }
 }

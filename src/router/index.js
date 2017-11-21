@@ -40,6 +40,10 @@ const router = new Router({
     path: '/online/tmindex',
     name: 'TianMao',
     component: require('../pages/online/tmindex')
+  },{
+    path: '/online/tmdetail',
+    name: 'TMDetail',
+    component: require('../pages/online/tmdetail')
   }, {
     path: '/online/allcolumn',
     name: 'AllColumn',
