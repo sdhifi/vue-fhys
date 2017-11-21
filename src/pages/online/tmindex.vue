@@ -1,6 +1,10 @@
 <template>
   <div>
-    <header-top title="淘宝|天猫"></header-top>
+    <yd-navbar title="淘宝|天猫" :fixed="true">
+      <section slot="left" @click="goBack">
+        <yd-navbar-back-icon>返回</yd-navbar-back-icon>
+      </section>
+    </yd-navbar>
     <div class="search-form" autocomplete="off">
       <div class="input-group  flex align-center">
         <span class="iconfont-large self-search"></span>
@@ -34,7 +38,6 @@
   </div>
 </template>
 <script>
-import HeaderTop from "components/header/index";
 import { mapState } from "vuex";
 import { getStore } from "components/common/mixin";
 import {
@@ -46,6 +49,7 @@ export default {
   name: "TianMao",
   data() {
     return {
+      oldBack: mui.back,
       searchValue: "",
       pageNo: 1,
       curIndex: 0,
@@ -53,9 +57,17 @@ export default {
       productList: []
     };
   },
-  components: { HeaderTop },
   computed: {
     ...mapState(["member"])
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      mui.back = vm.goBack;
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
   },
   created() {
     this.getCatalog();
@@ -67,6 +79,9 @@ export default {
     this.searchValue = "";
   },
   methods: {
+    goBack(){
+      this.$router.replace("/online/index");
+    },
     searchProduct() {
       if (!this.searchValue) {
         this.$dialog.alert({
@@ -150,89 +165,6 @@ export default {
         .member
         .mobile}&email=102286545@qq.com&kh=fenghuang&tbnum=4654646465465`;
         this.$router.push({name:"TMDetail",params:{url}})
-      // window.location.href = url;
-      // mui.openWindow({
-      //   url,
-      //   id:"tmall-product-detail",
-      //   styles:{
-      //     top:"1rem",
-      //     bottom:"0",
-      //     titleNView:{
-      //       titleText:"优惠券",
-      //       titleColor:"#5C5C5C",
-      //       backgroundColor:"#FFFFFF",
-      //       fontSize:"0.4rem",
-      //       progress:{
-      //         color:"#00FF00",
-      //         height:"2px"
-      //       },
-      //       splitLine:{
-      //         color:"#FFF7F5",
-      //         height:"1px"
-      //       }
-      //     }
-      //   }
-      // })
-      // mui.openWindowWithTitle(
-      //   {
-      //     url,
-      //     id: "tmall-product-detail"
-      //   },
-      //   {
-      //     id: "title", //导航栏ID,默认为title,若不指定将会使用WebviewOptions中指定的 [webviewID+ "_title"] 作为id
-      //     height: "44px", //导航栏高度值
-      //     backgroundColor: "#f7f7f7", //导航栏背景色
-      //     bottomBorderColor: "#cccccc", //底部边线颜色
-      //     title: {
-      //       //标题配置
-      //       text: "优惠券", //标题文字
-      //       position: {
-      //         //绘制文本的目标区域，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.Rect
-      //         top: 0,
-      //         left: 0,
-      //         width: "100%",
-      //         height: "100%"
-      //       },
-      //       styles: {
-      //         //绘制文本样式，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.TextStyles
-      //         color: "#000000",
-      //         align: "center",
-      //         family: "'Helvetica Neue',Helvetica,sans-serif",
-      //         size: "17px",
-      //         style: "normal",
-      //         weight: "normal",
-      //         fontSrc: ""
-      //       }
-      //     },
-      //     back: {
-      //       //左上角返回箭头
-      //       image: {
-      //         //图片格式
-      //         base64Data:
-      //           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAb1BMVEUAAAAAev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8Aev8AAACubimgAAAAI3RSTlMAGfUTGfQTGPMSGPIYGhgaGBsXGxcbFxwXHBccFhwWHRYdHWufDPQAAAABYktHRACIBR1IAAAAB3RJTUUH4QETEBwooeTlkQAAAJVJREFUSMft1EkSgkAQRNFGUXFWHBDBibr/HTUwD5B/48Ig1y+io7u6MqUhf5hsNEY+j5hMgZ/FJ8Xc9ovos3T96utjbfqN/Nb0O/m96Uv5g+mP8ifTn+Ur01/ka9Nf5RvTt/I309/lH6Z/yr9Mn+Q71/MT8B34K/E58Enzv8R/K98HvnF8p3lr8F7izce7lbf3kJ/lDQp9HdBhgg3PAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE3LTAxLTE5VDE2OjI4OjQwKzA4OjAwpTDFwQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNy0wMS0xOVQxNjoyODo0MCswODowMNRtfX0AAAAASUVORK5CYII=", //加载图片的Base64编码格式数据 base64Data 和 imgSRC 必须指定一个.否则不显示返回箭头
-      //         sprite: {
-      //           //图片源的绘制区域，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.Rect
-      //           top: "0px",
-      //           left: "0px",
-      //           width: "100%",
-      //           height: "100%"
-      //         },
-      //         position: {
-      //           //绘制图片的目标区域，参考：http://www.html5plus.org/doc/zh_cn/nativeobj.html#plus.nativeObj.Rect
-      //           top: "10px",
-      //           left: "10px",
-      //           width: "24px",
-      //           height: "24px"
-      //         }
-      //       },
-      //       click: function() {
-      //         //重写 点击返回图标时执行的回调函数，默认执行mui.back();
-      //         // mui.back();
-      //         history.go(-1);
-      //       }
-      //     }
-      //   }
-      // );
     }
   }
 };

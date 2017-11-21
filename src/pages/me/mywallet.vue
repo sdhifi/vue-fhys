@@ -256,12 +256,15 @@ export default {
   created() {},
   activated() {
     this.type = 0;
-    this.getInfo(this.type);
+    this.getInfo();
   },
   methods: {
     changeTab(tag) {
       if (this.member.type == "0" && tag==1) {
         this.showPopup = true;
+        return;
+      }
+      if(this.type==tag){
         return;
       }
       this.type =tag;

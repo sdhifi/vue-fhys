@@ -134,6 +134,7 @@ export default {
   name: "Product",
   data() {
     return {
+      oldBack: mui.back,
       info: {},
       imgList: [],
       //pdtype: -1, //产品类型--积分换购：0，品牌商城：1，京东：2，责任消费：3
@@ -171,12 +172,21 @@ export default {
       ];
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      mui.back = vm.goBack;
+    });
+  },
   beforeRouteLeave(to, from, next) {
     this.imgList = [];
+    mui.back = this.oldBack;
     next();
   },
   mounted() {},
   methods: {
+    goBack(){
+      this.show?this.show=false:this.$router.go(-1);
+    },
     getInfo() {
       let vm = this;
       mui.ajax({
