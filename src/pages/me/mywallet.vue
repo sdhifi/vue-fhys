@@ -219,7 +219,7 @@ export default {
           color: "#ee3355"
         },
         {
-          icon: "self-miaozhunjing",
+          icon: "self-hebing",
           text: "合并用户信息",
           link: "/trade/merge",
           color: "#e7d489"
@@ -275,7 +275,7 @@ export default {
           color: "#ee3355"
         },
         {
-          icon: "self-miaozhunjing",
+          icon: "self-hebing",
           text: "合并用户信息",
           link: "/trade/merge",
           color: "#e7d489"

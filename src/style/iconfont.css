@@ -22,6 +22,8 @@
 
 .self-mobile:before { content: "\e621"; }
 
+.self-jifen:before { content: "\e70a"; }
+
 .self-bianji:before { content: "\e83f"; }
 
 .self-rmb:before { content: "\e62f"; }
@@ -168,7 +170,7 @@
 
 .self-noorder:before { content: "\e60b"; }
 
-.self-miaozhunjing:before { content: "\e614"; }
+.self-hebing:before { content: "\e614"; }
 
 .self-ruanjian:before { content: "\e663"; }
 
