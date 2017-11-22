@@ -104,7 +104,6 @@ export default {
           vm.$dialog.loading.close();
           vm.productList = [...vm.productList, ...res];
           if (res.length < 30) {
-            vm.noData = true;
             vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
             return;
           }

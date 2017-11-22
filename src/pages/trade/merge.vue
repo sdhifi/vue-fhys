@@ -2,7 +2,9 @@
   <div>
     <header-top title="合并用户信息"></header-top>
     <main class='scroll-content-2'>
-      <p class="danger-color fs-14" style="background-color:#fff;padding:.2rem;">合并过程中，积分、余额、累计消费、责任消费、分红权，系统扣除10%作为服务费</p>
+      <p class="danger-color fs-14" style="background-color:#fff;padding:.2rem;">
+        {{tips}}
+      </p>
       <yd-cell-group title="合并信息">
         <yd-cell-item>
           <span slot="left"> 合并到：</span>
@@ -28,12 +30,13 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { memberPointTransfer } from "../../api/index";
+import { transferPage,memberPointTransfer } from "../../api/index";
 import { findMemberByMobile } from "components/common/mixin";
 export default {
   name: "Merge",
   data() {
     return {
+      tips:'',
       mobile: "",
       mobileName: "",
       showPassword: false
@@ -46,24 +49,49 @@ export default {
       return /0?(13|14|15|18)[0-9]{9}/.test(this.mobile);
     }
   },
-  created() {},
+  created() {
+    this.getPos();
+  },
   mixins: [findMemberByMobile],
   activated() {},
   methods: {
+    getPos(){
+      let vm = this;
+      mui.ajax({
+        url: transferPage,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {
+          token: md5(`transferPage`)
+        },
+        success(res){
+          let pos = +res.result.value * 100;
+          vm.tips = `合并过程中，积分、余额、累计消费、责任消费、分红权，系统扣除${pos}%作为服务费`
+        }
+      })
+    },
     checkPayPwd(val) {
       this.$dialog.loading.open("验证支付密码");
       this.merge(val);
     },
     merge(val) {
+      if (this.account == this.mobile) {
+        this.$dialog.alert({
+          mes: "消费会员不能是自己"
+        });
+        return;
+      }
+      let vm = this;
       mui.ajax({
         url: memberPointTransfer,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          transferMoney: '',
+          transferMoney: "",
           transferMemberMobile: this.mobile,
           payPassword: val,
           type: 3,
+          account: this.account,
           token: md5(`memberPointTransfer`)
         },
         success(res) {
@@ -72,6 +100,7 @@ export default {
             vm.$dialog.toast({
               mes: res.msg
             });
+            vm.showPassword = false;
           } else if (res.code == 401) {
             vm.$dialog.confirm({
               title: "忘记密码？",
@@ -84,6 +113,13 @@ export default {
               "ydui.keyboard.error",
               "对不起，您的支付密码不正确，请重新输入。"
             );
+          } else if (res.code == 402) {
+            vm.$dialog.alert({
+              mes: res.msg,
+              callback: () => {
+                vm.$router.push({ name: "PwdManage" });
+              }
+            });
           } else {
             vm.$dialog.alert({
               mes: res.msg
@@ -93,7 +129,7 @@ export default {
       });
     },
     goMergeHistory() {
-      this.$router.push({ name: "TransferHistory" ,query:{type:1}});
+      this.$router.push({ name: "TransferHistory", query: { type: 1 } });
     }
   }
 };

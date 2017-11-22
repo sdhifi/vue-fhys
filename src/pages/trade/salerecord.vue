@@ -100,6 +100,12 @@ export default {
   },
   methods: {
     save() {
+      if(this.account == this.mobile){
+         this.$dialog.alert({
+          mes: "消费会员不能是自己"
+        });
+        return;
+      }
       if (this.payType == "4" && this.member.lineOfCrade < +this.money) {
         this.$dialog.toast({
           mes: "授信金额不足请选择其他支付方式或充值授信金额"

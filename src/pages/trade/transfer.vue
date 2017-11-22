@@ -16,18 +16,18 @@
           <yd-input slot="right" readonly v-model="mobileName" :show-clear-icon="false"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group title="转移类型(转移扣除10%手续费)">
+      <yd-cell-group :title="title">
         <yd-cell-item>
           <span slot="left">分红权</span>
-          <span slot="right" class="danger-color">0.00000</span>
+          <span slot="right" class="danger-color">{{member.dividendsNum}}</span>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">余额</span>
-          <span slot="right" class="danger-color">0.000</span>
+          <span slot="right" class="danger-color">{{member.balanceMoney}}</span>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">积分</span>
-          <span slot="right" class="danger-color">0.0</span>
+          <span slot="right" class="danger-color">{{member.consumptionMoney}}</span>
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group title="转移方式" v-show="money>0">
@@ -62,12 +62,13 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { memberPointTransfer } from "../../api/index";
+import { transferPage,memberPointTransfer } from "../../api/index";
 import { findMemberByMobile } from "components/common/mixin";
 export default {
   name: "Transfer",
   data() {
     return {
+      title:"",
       money: "",
       mobile: "",
       mobileName: "",
@@ -86,15 +87,38 @@ export default {
       );
     }
   },
-  created() {},
+  created() {
+    this.getPos();
+  },
   mixins: [findMemberByMobile],
   activated() {},
   methods: {
+    getPos(){
+      let vm = this;
+      mui.ajax({
+        url: transferPage,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {
+          token: md5(`transferPage`)
+        },
+        success(res){
+          let pos = +res.result.value * 100;
+          vm.title = `转移类型(转移扣除${pos}%手续费)`
+        }
+      })
+    },
     checkPayPwd(val) {
       this.$dialog.loading.open("验证支付密码");
       this.save(val);
     },
     save(val) {
+      if (this.account == this.mobile) {
+        this.$dialog.alert({
+          mes: "消费会员不能是自己"
+        });
+        return;
+      }
       let vm = this;
       mui.ajax({
         url: memberPointTransfer,
@@ -105,6 +129,7 @@ export default {
           transferMemberMobile: this.mobile,
           payPassword: val,
           type: this.payType,
+          account: this.account,
           token: md5(`memberPointTransfer`)
         },
         success(res) {
@@ -113,6 +138,7 @@ export default {
             vm.$dialog.toast({
               mes: res.msg
             });
+            vm.showPassword = false;
           } else if (res.code == 401) {
             vm.$dialog.confirm({
               title: "忘记密码？",
@@ -125,6 +151,13 @@ export default {
               "ydui.keyboard.error",
               "对不起，您的支付密码不正确，请重新输入。"
             );
+          } else if (res.code == 402) {
+            vm.$dialog.alert({
+              mes: res.msg,
+              callback: () => {
+                vm.$router.push({ name: "PwdManage" });
+              }
+            });
           } else {
             vm.$dialog.alert({
               mes: res.msg

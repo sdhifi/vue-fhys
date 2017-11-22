@@ -198,10 +198,11 @@ export const findMemberByMobile={
           token: md5(`findMemberByMoblie${this.mobile}`)
         },
         success(res) {
-          if (res.result) {
-            vm.mobileName = res.result.name || res.result.nickName;
-          } else {
-            vm.mobileName = "用户不存在";
+          if(res.code==200){
+            vm.mobileName = res.result?res.result.name || res.result.nickName:"用户不存在";
+          }
+          else {
+            vm.mobileName = res.msg;
           }
         }
       });
