@@ -9,7 +9,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">消费会员：</span>
-          <yd-input slot="right" v-model="mobile" placeholder="请输入会员手机号" type="tel" regex="mobile" @change.native="findMember"></yd-input>
+          <yd-input slot="right" v-model="mobile" placeholder="请输入会员手机号" type="tel" regex="mobile" @input.native="findMember"></yd-input>
         </yd-cell-item>
         <yd-cell-item v-if="mobileName">
           <span slot="left">会员名称：</span>
@@ -98,6 +98,9 @@ export default {
   },
   methods: {
     findMember() {
+      if(!this.mobile || this.mobile.length<11){
+        return;
+      }
       let vm = this;
       mui.ajax({
         url: findMemberByMoblie,
