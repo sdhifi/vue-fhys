@@ -63,6 +63,7 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { findMemberByMoblie } from "../../api/index";
+import { findMemberByMobile } from "components/common/mixin";
 export default {
   name: "Transfer",
   data() {
@@ -76,7 +77,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account","member"]),
+    ...mapState(["account", "member"]),
     valid() {
       return (
         /^(([1-9]\d*)|([0-9]+\.[0-9]{1,2}))$/.test(this.money) &&
@@ -86,31 +87,9 @@ export default {
     }
   },
   created() {},
+  mixins: [findMemberByMobile],
   activated() {},
   methods: {
-    findMember() {
-      if(!this.mobile || this.mobile.length<11){
-        return;
-      }
-      let vm = this;
-      mui.ajax({
-        url: findMemberByMoblie,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          account: this.account,
-          mobile: this.mobile,
-          token: md5(`findMemberByMoblie${this.mobile}`)
-        },
-        success(res) {
-          if (res.result) {
-            vm.mobileName = res.result.name || res.result.nickName;
-          } else {
-            vm.mobileName = "用户不存在";
-          }
-        }
-      });
-    },
     checkPayPwd(val) {
       this.$dialog.loading.open("验证支付密码");
       this.save(val);

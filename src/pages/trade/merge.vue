@@ -13,7 +13,7 @@
           <yd-input slot="right" readonly v-model="mobileName" :show-clear-icon="false"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
-       <div class="btn-container flex just-around" style="padding:0 .2rem;">
+      <div class="btn-container flex just-around" style="padding:0 .2rem;">
         <yd-button type="warning" @click.native="goMergeHistory" style="font-size:15px;"> 更 多 记 录
           <span class="iconfont self-right"></span>
         </yd-button>
@@ -28,7 +28,8 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import {findMemberByMoblie} from "../../api/index";
+import { findMemberByMoblie } from "../../api/index";
+import { findMemberByMobile } from "components/common/mixin";
 export default {
   name: "Merge",
   data() {
@@ -40,46 +41,22 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(['account']),
+    ...mapState(["account"]),
     valid() {
-      return (
-        /0?(13|14|15|18)[0-9]{9}/.test(this.mobile)
-      );
+      return /0?(13|14|15|18)[0-9]{9}/.test(this.mobile);
     }
   },
   created() {},
+  mixins: [findMemberByMobile],
   activated() {},
   methods: {
-    findMember() {
-      if(!this.mobile || this.mobile.length<11){
-        return;
-      }
-      let vm = this;
-      mui.ajax({
-        url: findMemberByMoblie,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          account: this.account,
-          mobile: this.mobile,
-          token: md5(`findMemberByMoblie${this.mobile}`)
-        },
-        success(res) {
-          if (res.result) {
-            vm.mobileName = res.result.name || res.result.nickName;
-          } else {
-            vm.mobileName = "用户不存在";
-          }
-        }
-      });
-    },
     checkPayPwd(val) {
       this.$dialog.loading.open("验证支付密码");
       this.merge(val);
     },
     merge(val) {},
-    goMergeHistory(){
-      this.$router.push({name:"MergeHistory"})
+    goMergeHistory() {
+      this.$router.push({ name: "MergeHistory" });
     }
   }
 };

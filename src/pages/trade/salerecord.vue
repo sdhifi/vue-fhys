@@ -63,6 +63,7 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { findMemberByMoblie, addBenefit } from "../../api/index";
+import { findMemberByMobile } from "components/common/mixin";
 export default {
   name: "SaleRecord",
   data() {
@@ -90,6 +91,7 @@ export default {
     }
   },
   created() {},
+  mixins: [findMemberByMobile],
   activated() {
     this.money = "";
     this.mobile = "";
@@ -97,29 +99,6 @@ export default {
     this.payType = "";
   },
   methods: {
-    findMember() {
-      if(!this.mobile || this.mobile.length<11){
-        return;
-      }
-      let vm = this;
-      mui.ajax({
-        url: findMemberByMoblie,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          account: this.account,
-          mobile: this.mobile,
-          token: md5(`findMemberByMoblie${this.mobile}`)
-        },
-        success(res) {
-          if (res.result) {
-            vm.mobileName = res.result.name || res.result.nickName;
-          } else {
-            vm.mobileName = "用户不存在";
-          }
-        }
-      });
-    },
     save() {
       if (this.payType == "4" && this.member.lineOfCrade < +this.money) {
         this.$dialog.toast({

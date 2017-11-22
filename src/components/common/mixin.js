@@ -180,3 +180,31 @@ export const payMixin = {
     }
   }
 }
+
+export const findMemberByMobile={
+  methods:{
+    findMember() {
+      if(!this.mobile || this.mobile.length<11){
+        return;
+      }
+      let vm = this;
+      mui.ajax({
+        url: findMemberByMoblie,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: {
+          account: this.account,
+          mobile: this.mobile,
+          token: md5(`findMemberByMoblie${this.mobile}`)
+        },
+        success(res) {
+          if (res.result) {
+            vm.mobileName = res.result.name || res.result.nickName;
+          } else {
+            vm.mobileName = "用户不存在";
+          }
+        }
+      });
+    }
+  }
+}
