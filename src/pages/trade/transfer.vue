@@ -34,12 +34,12 @@
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-edu danger-color"></span>
           <span slot="left">分红权</span>
-          <input slot="right" type="radio" value="4" v-model="payType" />
+          <input slot="right" type="radio" value="0" v-model="payType" />
         </yd-cell-item>
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet" style="color:#f9a340;"></span>
           <span slot="left">余额 </span>
-          <input slot="right" type="radio" value="5" v-model="payType" />
+          <input slot="right" type="radio" value="1" v-model="payType" />
         </yd-cell-item>
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-jifen" style="color:#077d8d;"></span>
@@ -62,7 +62,7 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { findMemberByMoblie } from "../../api/index";
+import { memberPointTransfer } from "../../api/index";
 import { findMemberByMobile } from "components/common/mixin";
 export default {
   name: "Transfer",
@@ -94,9 +94,56 @@ export default {
       this.$dialog.loading.open("验证支付密码");
       this.save(val);
     },
-    save(val) {},
+    save(val) {
+      let vm = this;
+      mui.ajax({
+        url: memberPointTransfer,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: {
+          transferMoney: this.money,
+          transferMemberMobile: this.mobile,
+          payPassword: val,
+          type: this.payType,
+          token: md5(`memberPointTransfer`)
+        },
+        success(res) {
+          vm.$dialog.loading.close();
+          if (res.code == 200) {
+            vm.$dialog.toast({
+              mes: res.msg
+            });
+          } else if (res.code == 401) {
+            vm.$dialog.confirm({
+              title: "忘记密码？",
+              mes: `${res.msg}，前往设置`,
+              opts: () => {
+                vm.$router.push({ name: "PwdManage" });
+              }
+            });
+            vm.$refs.keyboard.$emit(
+              "ydui.keyboard.error",
+              "对不起，您的支付密码不正确，请重新输入。"
+            );
+          } else {
+            vm.$dialog.alert({
+              mes: res.msg
+            });
+          }
+        },
+        error(err) {
+          vm.$dialog.loading.close();
+          vm.$dialog.toast({
+            mes: "超时，请稍后重试",
+            callback: () => {
+              vm.$refs.keyboard.$emit("ydui.keyboard.error", "超时，请稍后重试");
+            }
+          });
+        }
+      });
+    },
     goTransferHistory() {
-      this.$router.push({ name: "TransferHistory" });
+      this.$router.push({ name: "TransferHistory", query: { type: 0 } });
     }
   }
 };

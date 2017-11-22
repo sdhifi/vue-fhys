@@ -113,7 +113,7 @@
         </yd-cell-item>
       </yd-cell-group>
       <div style="padding:0 .2rem .2rem;">
-        <yd-button size="large" type="danger" @click.native="pay">确认支付</yd-button>
+        <yd-button size="large" :type="defaultAddress?'danger':'disabled'" @click.native="pay">确认支付</yd-button>
       </div>
     </main>
     <div v-show="showPassword" class="text-center pay-box">
@@ -307,7 +307,8 @@ export default {
                 vm.$dialog.toast({
                   mes: res.msg,
                   callback: () => {
-                    vm.goBack(true);
+                    // vm.goBack(true);
+                    vm.$router.replace({name:"MyOrder",query:{id:0}})
                   }
                 });
               } else if (res.code == 401) {
@@ -339,7 +340,8 @@ export default {
                     plus.nativeUI.alert(
                       "支付成功",
                       function() {
-                        vm.goBack(true);
+                        //vm.goBack(true);
+                        vm.$router.replace({name:"MyOrder",query:{id:0}})
                       },
                       "支付"
                     );
@@ -361,7 +363,8 @@ export default {
                     plus.nativeUI.alert(
                       "支付成功",
                       function() {
-                        vm.goBack(true);
+                        //vm.goBack(true);
+                        vm.$router.replace({name:"MyOrder",query:{id:0}})
                       },
                       "支付"
                     );
@@ -394,7 +397,8 @@ export default {
                           plus.nativeUI.alert(
                             "支付成功",
                             function() {
-                              vm.goBack(true);
+                              //vm.goBack(true);
+                              vm.$router.replace({name:"MyOrder",query:{id:0}})
                             },
                             "支付"
                           );

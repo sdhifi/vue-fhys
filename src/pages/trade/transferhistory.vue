@@ -8,12 +8,12 @@
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import { } from '../../api/index'
+import { findTransferHistory} from '../../api/index'
 export default {
   name: 'TransferHistory',
   data() {
     return {
-
+      info:[]
     }
   },
   components: { HeaderTop },
@@ -27,7 +27,21 @@ export default {
 
   },
   methods: {
-
+    getInfo(){
+      let vm = this;
+      mui.ajax({
+        url: findTransferHistory,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {
+          type:this.$route.query.type,
+          token: md5(`findTransferHistory`)
+        },
+        success(res){
+          vm.info = res.result;
+        }
+      })
+    }
   }
 }
 </script>

@@ -28,7 +28,7 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { findMemberByMoblie } from "../../api/index";
+import { memberPointTransfer } from "../../api/index";
 import { findMemberByMobile } from "components/common/mixin";
 export default {
   name: "Merge",
@@ -54,9 +54,46 @@ export default {
       this.$dialog.loading.open("验证支付密码");
       this.merge(val);
     },
-    merge(val) {},
+    merge(val) {
+      mui.ajax({
+        url: memberPointTransfer,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: {
+          transferMoney: '',
+          transferMemberMobile: this.mobile,
+          payPassword: val,
+          type: 3,
+          token: md5(`memberPointTransfer`)
+        },
+        success(res) {
+          vm.$dialog.loading.close();
+          if (res.code == 200) {
+            vm.$dialog.toast({
+              mes: res.msg
+            });
+          } else if (res.code == 401) {
+            vm.$dialog.confirm({
+              title: "忘记密码？",
+              mes: `${res.msg}，前往设置`,
+              opts: () => {
+                vm.$router.push({ name: "PwdManage" });
+              }
+            });
+            vm.$refs.keyboard.$emit(
+              "ydui.keyboard.error",
+              "对不起，您的支付密码不正确，请重新输入。"
+            );
+          } else {
+            vm.$dialog.alert({
+              mes: res.msg
+            });
+          }
+        }
+      });
+    },
     goMergeHistory() {
-      this.$router.push({ name: "MergeHistory" });
+      this.$router.push({ name: "TransferHistory" ,query:{type:1}});
     }
   }
 };

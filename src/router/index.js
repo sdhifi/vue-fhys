@@ -255,10 +255,6 @@ const router = new Router({
     path: '/trade/merge',
     name: 'MergeHistory',
     component: require('../pages/trade/merge')
-  },{
-    path: '/trade/mergehistory',
-    name: 'Merge',
-    component: require('../pages/trade/mergehistory')
   }, {
     path: '/order/yinlian',
     name: 'YinLian',

@@ -104,6 +104,9 @@ let addDrawCash = `${trade}/addDrawCash` //添加提现
 let addBenefit = `${trade}/addBenefit` //销售录入
 let addShouXin = `${trade}/addShouXin` //购买授信额度
 let benefits = `${trade}/benefits` //让利记录
+let memberPointTransfer = `${trade}/memberPointTransfer` //积分转移|合并
+let findTransferHistory = `${trade}/findTransferHistory` //转移|合并记录
+
 
 let findAppUpgredeByType =`${baseUrl}/app/upgrede/${VERSION}/findAppUpgredeByType` //APP版本信息
 export {
@@ -200,6 +203,8 @@ export {
   addBenefit,
   addShouXin,
   benefits,
+  memberPointTransfer,
+  findTransferHistory,
 
   findAppUpgredeByType,
 }
