@@ -62,7 +62,7 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { findMemberByMoblie, addBenefit } from "../../api/index";
+import {addBenefit } from "../../api/index";
 import { findMemberByMobile } from "components/common/mixin";
 export default {
   name: "SaleRecord",

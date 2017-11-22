@@ -180,7 +180,7 @@ export const payMixin = {
     }
   }
 }
-
+import {findMemberByMoblie} from "../../api/index"
 export const findMemberByMobile={
   methods:{
     findMember() {
