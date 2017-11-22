@@ -56,7 +56,7 @@
         </yd-button>
       </div>
     </main>
-        <yd-keyboard v-model="showPassword" :callback="checkPayPwd" ref="keyboard" title="凤凰云商安全键盘" input-text="请输入支付密码"></yd-keyboard>
+    <yd-keyboard v-model="showPassword" :callback="checkPayPwd" ref="keyboard" title="凤凰云商安全键盘" input-text="请输入支付密码"></yd-keyboard>
   </div>
 </template>
 <script>
@@ -71,7 +71,7 @@ export default {
       mobile: "",
       mobileName: "",
       payType: "",
-      showPassword:false
+      showPassword: false
     };
   },
   components: { HeaderTop },
@@ -108,14 +108,12 @@ export default {
         }
       });
     },
-    checkPayPwd(val){
+    checkPayPwd(val) {
       this.$dialog.loading.open("验证支付密码");
       this.save(val);
     },
-    save(val) {
-
-    },
-     goTransferHistory() {
+    save(val) {},
+    goTransferHistory() {
       this.$router.push({ name: "TransferHistory" });
     }
   }
