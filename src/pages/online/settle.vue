@@ -389,16 +389,17 @@ export default {
       this.$refs.keyboard.$emit("ydui.keyboard.error", "对不起，您的支付密码不正确，请重新输入。");
     },
     zfbPay(payParams) {
+      let vm = this;
       this.checkService(this.pays["alipay"], function() {
         plus.payment.request(
-          this.pays["alipay"],
+          vm.pays["alipay"],
           payParams,
           function(result) {
             plus.nativeUI.alert(
               "支付成功",
               function() {
-                //this.goBack(true);
-                this.$router.replace({
+                //vm.goBack(true);
+                vm.$router.replace({
                   name: "MyOrder",
                   query: { id: 0 }
                 });

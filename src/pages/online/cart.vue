@@ -213,6 +213,7 @@
         if (count0) orderType = "0"
         else if (count1) orderType = "1"
         else if (count2) orderType = "2"
+        this.$dialog.loading.open();
         mui.ajax({
           url: actCartInH5,
           type: "post",
@@ -223,6 +224,7 @@
             token: md5(`actCartInH5${settleList.join(",")}`)
           },
           success(res) {
+            vm.$dialog.loading.close();
             let _result = res.result;
             vm.$store.commit('SET_PAY_PASSWORD', !!_result.gjfMemberInfo.payPassword);
             vm.$store.commit("RECORD_SETTLE_LIST", _result);

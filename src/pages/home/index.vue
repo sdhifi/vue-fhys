@@ -169,7 +169,7 @@ export default {
             latitude: latitude,
             pageNo: this.pageNo,
             pageSize: 10,
-            token: md5(`gjfenglike${longitude}${latitude}`)
+            token: md5(`like${longitude}${latitude}`)
           },
           headers: { "app-version": "v1.0" },
           success(res) {
