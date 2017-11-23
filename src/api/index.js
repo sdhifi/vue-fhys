@@ -98,6 +98,7 @@ let bindBank = `${trade}/bindBank` //添加银行卡
 let getAllBank = `${trade}/getAllBank` //所有银行卡信息
 let deleteMemBank = `${trade}/deleteMemBank` //删除银行卡
 let getParticipate = `${trade}/getParticipate` //福利权益
+let getSalesWelfare = `${trade}/getSalesWelfare` //销售福利
 let getInterests = `${trade}/getInterests` //累计消费
 let getDrawHistory = `${trade}/getDrawHistory` //提取历史
 let diviHis = `${trade}/diviHis` //福利记录
@@ -108,7 +109,6 @@ let benefits = `${trade}/benefits` //让利记录
 let transferPage = `${trade}/transferPage` //积分转移|合并税费
 let memberPointTransfer = `${trade}/memberPointTransfer` //积分转移|合并
 let findTransferHistory = `${trade}/findTransferHistory` //转移|合并记录
-
 
 let findAppUpgredeByType =`${baseUrl}/app/upgrede/${VERSION}/findAppUpgredeByType` //APP版本信息
 export {
@@ -199,6 +199,7 @@ export {
   getAllBank,
   deleteMemBank,
   getParticipate,
+  getSalesWelfare,
   getInterests,
   getDrawHistory,
   diviHis,

@@ -20,14 +20,16 @@
               <span style="margin-right:.2rem;font-weight:bold;">{{defaultAddress.consigneeName}}</span>
               <span>{{defaultAddress.mobile}}</span>
             </p>
-            <p>收货地址：{{defaultAddress.proviceId.province}}{{defaultAddress.cityId.city}}{{defaultAddress.areaId.area}}{{defaultAddress.addressDetail}}</p>
+            <p>收货地址：{{defaultAddress.proviceId.province}}{{defaultAddress.cityId.city}}
+              <span v-if="defaultAddress.areaId">{{defaultAddress.areaId.area}}</span>{{defaultAddress.addressDetail}}</p>
           </div>
           <div v-else-if="addressList[0]" class="fs-14 flex-1">
             <p>收货人：
               <span style="margin-right:.2rem;font-weight:bold;">{{addressList[0].consigneeName}}</span>
               <span>{{addressList[0].mobile}}</span>
             </p>
-            <p>收货地址：{{addressList[0].proviceId.province}}{{addressList[0].cityId.city}}{{addressList[0].areaId.area}}{{addressList[0].addressDetail}}</p>
+            <p>收货地址：{{addressList[0].proviceId.province}}{{addressList[0].cityId.city}}
+              <span v-if="addressList[0].areaId">{{addressList[0].areaId.area}}</span>{{addressList[0].addressDetail}}</p>
           </div>
           <span class="iconfont self-right"></span>
         </router-link>
@@ -113,7 +115,7 @@
         </yd-cell-item>
       </yd-cell-group>
       <div style="padding:0 .2rem .2rem;">
-        <yd-button size="large" :type="defaultAddress?'danger':'disabled'" @click.native="pay">确认支付</yd-button>
+        <yd-button size="large" :type="valid ?'danger':'disabled'" @click.native="pay">确认支付</yd-button>
       </div>
     </main>
     <div v-show="showPassword" class="text-center pay-box">
@@ -131,7 +133,7 @@
       </div>
       <div v-if="orderType=='2'">
         <p class="pay-price fs-14">
-          <span class="fs-20 danger-color">￥{{formatPrice(total)}}</span>
+          <span class="fs-20 danger-color">￥{{formatPrice(settleList.totalAmount)}}</span>
         </p>
         <P class="balance-price">
           <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
@@ -170,6 +172,9 @@ export default {
     ]),
     total() {
       return this.settleList.totalAmount + this.settleList.pointNiceAmount;
+    },
+    valid() {
+      return this.defaultAddress || !!this.addressList.length;
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -304,42 +309,9 @@ export default {
               vm.$dialog.loading.close();
               if (res.code == 200) {
                 vm.showPassword = false;
-                vm.$dialog.confirm({
-                  mes: res.msg,
-                  opts: [
-                    {
-                      txt: "返回购物",
-                      color: false,
-                      stay:false,
-                      callback: () => {
-                        vm.goBack(true);
-                      }
-                    },
-                    {
-                      txt: "查看订单",
-                      color: true,
-                      stay:false,
-                      callback: () => {
-                        vm.$router.replace({
-                          name: "MyOrder",
-                          query: { id: 0 }
-                        });
-                      }
-                    }
-                  ]
-                });
+                vm.confirmBox();
               } else if (res.code == 401) {
-                vm.$dialog.confirm({
-                  title: "忘记密码？",
-                  mes: `${res.msg}，前往设置`,
-                  opts: () => {
-                    vm.$router.push({ name: "PwdManage" });
-                  }
-                });
-                vm.$refs.keyboard.$emit(
-                  "ydui.keyboard.error",
-                  "对不起，您的支付密码不正确，请重新输入。"
-                );
+                vm.forgetpwd();
               } else {
                 vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
               }
@@ -349,106 +321,19 @@ export default {
               vm.$router.push({ name: "YinLian" });
             } else if (vm.payType == "2") {
               //支付宝
-              vm.checkService(vm.pays["alipay"], function() {
-                plus.payment.request(
-                  vm.pays["alipay"],
-                  _result.payString,
-                  function(result) {
-                    plus.nativeUI.alert(
-                      "支付成功",
-                      function() {
-                        //vm.goBack(true);
-                        vm.$router.replace({
-                          name: "MyOrder",
-                          query: { id: 0 }
-                        });
-                      },
-                      "支付"
-                    );
-                  },
-                  function(e) {
-                    plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
-                  }
-                );
-              });
+              vm.zfbPay(_result.payString);
             }
           } else if (vm.orderType == 1) {
             //积分换购，积分支付
-            if (vm.settleList.pointNiceAmount) {
-              vm.checkService(vm.pays["alipay"], function() {
-                plus.payment.request(
-                  vm.pays["alipay"],
-                  _result.payString,
-                  function(result) {
-                    plus.nativeUI.alert(
-                      "支付成功",
-                      function() {
-                        //vm.goBack(true);
-                        vm.$router.replace({
-                          name: "MyOrder",
-                          query: { id: 0 }
-                        });
-                      },
-                      "支付"
-                    );
-                  },
-                  function(e) {
-                    plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
-                  }
-                );
-              });
-            } else {
-              vm.$dialog.toast({
-                mes: res.msg
-              });
-            }
+            vm.payPos(_result.payString, res.msg);
           } else if (vm.orderType == 2) {
             //责任消费
             vm.$dialog.loading.close();
             if (res.code == 200) {
               vm.showPassword = false;
-              vm.$dialog.toast({
-                mes: res.msg,
-                callback: () => {
-                  //付邮费
-                  if (vm.settleList.pointNiceAmount) {
-                    vm.checkService(vm.pays["alipay"], function() {
-                      plus.payment.request(
-                        vm.pays["alipay"],
-                        _result.payString,
-                        function(result) {
-                          plus.nativeUI.alert(
-                            "支付成功",
-                            function() {
-                              //vm.goBack(true);
-                              vm.$router.replace({
-                                name: "MyOrder",
-                                query: { id: 0 }
-                              });
-                            },
-                            "支付"
-                          );
-                        },
-                        function(e) {
-                          plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
-                        }
-                      );
-                    });
-                  }
-                }
-              });
+              vm.payPos(_result.payString, res.msg);
             } else if (res.code == 401) {
-              vm.$dialog.confirm({
-                title: "忘记密码？",
-                mes: `${res.msg}，前往设置`,
-                opts: () => {
-                  vm.$router.push({ name: "PwdManage" });
-                }
-              });
-              vm.$refs.keyboard.$emit(
-                "ydui.keyboard.error",
-                "对不起，您的支付密码不正确，请重新输入。"
-              );
+              vm.forgetpwd();
             } else {
               vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
             }
@@ -466,6 +351,80 @@ export default {
           });
         }
       });
+    },
+    confirmBox() {
+      this.$dialog.confirm({
+        mes: "下单成功！",
+        opts: [
+          {
+            txt: "返回购物",
+            color: false,
+            stay: false,
+            callback: () => {
+              this.goBack(true);
+            }
+          },
+          {
+            txt: "查看订单",
+            color: true,
+            stay: false,
+            callback: () => {
+              this.$router.replace({
+                name: "MyOrder",
+                query: { id: 0 }
+              });
+            }
+          }
+        ]
+      });
+    },
+    forgetpwd() {
+      this.$dialog.confirm({
+        title: "忘记密码？",
+        mes: `支付密码错误，前往设置`,
+        opts: () => {
+          this.$router.push({ name: "PwdManage" });
+        }
+      });
+      this.$refs.keyboard.$emit("ydui.keyboard.error", "对不起，您的支付密码不正确，请重新输入。");
+    },
+    zfbPay(payParams) {
+      this.checkService(this.pays["alipay"], function() {
+        plus.payment.request(
+          this.pays["alipay"],
+          payParams,
+          function(result) {
+            plus.nativeUI.alert(
+              "支付成功",
+              function() {
+                //this.goBack(true);
+                this.$router.replace({
+                  name: "MyOrder",
+                  query: { id: 0 }
+                });
+              },
+              "支付"
+            );
+          },
+          function(e) {
+            plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+          }
+        );
+      });
+    },
+    payPos(payParams, successTips) {
+      if (this.settleList.pointNiceAmount) {
+        this.$dialog.alert({
+          mes: "下单成功，继续去支付邮费",
+          callback: () => {
+            this.zfbPay(payParams);
+          }
+        });
+      } else {
+        this.$dialog.alert({
+          mes: successTips
+        });
+      }
     }
   }
 };

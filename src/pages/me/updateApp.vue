@@ -54,10 +54,10 @@ export default {
           }
           else{
             vm.$dialog.confirm({
-              title:"确认升级吗？",
-              mes:`检测到新版本：${_result.version}。\n${_result.describe}`,
+              title:`检测到新版本：${_result.version}，是否升级？`,
+              mes:`${_result.describe}`,
               opts:()=>{
-
+                window.open(_result.jumpUrl);
               }
             });
           }

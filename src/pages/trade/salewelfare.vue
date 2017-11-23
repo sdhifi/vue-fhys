@@ -2,8 +2,8 @@
   <div>
     <header-top title="销售福利"></header-top>
     <main class='scroll-content-2'>
-      <!-- <section v-if="info.length"> -->
-      <section>
+      <section v-if="info.length">
+      <!-- <section> -->
         <ul>
           <li class="item" v-for="(item,index) in info" :key="index">
             <div class="item-top flex just-between align-center">
@@ -16,52 +16,24 @@
               <span class="status status-1" v-if="item.tradeType=='1'">{{storeInfo.storeName}}</span>
             </div>
             <div class="item-bottom flex just-between align-center">
-              <span class="money">{{item.benefitMoney}}
-                <span class="fs-14">元</span>
-              </span>
-            </div>
-          </li>
-          <li class="item">
-            <div class="item-top flex just-between align-center">
-              <p>
-                <span class="iconfont-large self-mairu" style="color:#f9a340;"></span>
-                <span class="time">2017年10月21日 10:30</span>
-                </p>
-              <span class="status status-0">张三丰</span>
-            </div>
-            <div class="item-bottom flex just-between align-center">
-              <span class="money">0.12
-                <span class="fs-14">元</span>
-              </span>
-            </div>
-          </li>
-          <li class="item">
-            <div class="item-top flex just-between align-center">
-              <p>
-                <span class="iconfont-large self-maichu danger-color"></span>
-                <span class="time">2017年10月21日 11:30</span>
-                </p>
-              <span class="status status-1">木棉花</span>
-            </div>
-            <div class="item-bottom flex just-between align-center">
-              <span class="money">0.52
+              <span class="money">{{item.tradeMoney}}
                 <span class="fs-14">元</span>
               </span>
             </div>
           </li>
         </ul>
       </section>
-      <!-- <section class="hv-cen text-center" v-else>
+      <section class="hv-cen text-center" v-else>
         <span class="iconfont self-noorder" style="font-size:40px;"></span>
         <p>没有数据</p>
-      </section> -->
+      </section>
     </main>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { diviHis ,myStore} from "../../api/index";
+import { getSalesWelfare ,myStore} from "../../api/index";
 import { mixin } from "components/common/mixin";
 export default {
   name: "SaleWelfare",
@@ -76,10 +48,10 @@ export default {
   },
    mixins: [mixin],
   created() {
-    this.getMyStore();
-  },
+    },
   activated() {
     this.getInfo();
+    this.getMyStore();
   },
   methods: {
     getMyStore() {
@@ -101,12 +73,12 @@ export default {
       let vm = this;
       this.$dialog.loading.open();
       mui.ajax({
-        url: diviHis,
+        url: getSalesWelfare,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           account: this.member.mobile,
-          token: md5("diviHis")
+          token: md5("getSalesWelfare")
         },
         success(res) {
           vm.$dialog.loading.close();
