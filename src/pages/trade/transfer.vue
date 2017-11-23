@@ -81,7 +81,7 @@ export default {
     ...mapState(["account", "member"]),
     valid() {
       return (
-        /^(([1-9]\d*)|([0-9]+\.[0-9]{1,2}))$/.test(this.money) &&
+        /^(([1-9]\d*)|([0-9]+\.[0-9]{1,6}))$/.test(this.money) &&
         /0?(13|14|15|18)[0-9]{9}/.test(this.mobile) &&
         !!this.payType
       );
@@ -136,9 +136,13 @@ export default {
           vm.$dialog.loading.close();
           if (res.code == 200) {
             vm.$dialog.toast({
-              mes: res.msg
+              mes: res.msg,
+              callback:()=>{
+                 vm.$store.dispatch("getInfo");
+              }
             });
             vm.showPassword = false;
+           
           } else if (res.code == 401) {
             vm.$dialog.confirm({
               title: "忘记密码？",

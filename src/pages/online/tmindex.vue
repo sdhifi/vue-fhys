@@ -90,6 +90,7 @@ export default {
         return;
       }
       this.pageNo = 1;
+      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
       this.productList = [];
       let vm = this;
       this.$dialog.loading.open();
@@ -116,6 +117,7 @@ export default {
       this.pageNo = 1;
       this.curIndex = index;
       this.$refs.mainList.scrollTop = 0;
+      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
       this.productList = [];
       this.getProduct();
     },

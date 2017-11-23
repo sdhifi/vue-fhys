@@ -8,7 +8,7 @@
             <img :src="item">
           </yd-slider-item>
         </yd-slider> -->
-        <swiper :aspect-ratio="1" :show-desc-mask="false" dots-position="center" :loop="false">
+        <swiper :aspect-ratio="0.8" :show-desc-mask="false" dots-position="center" :loop="false">
           <swiper-item v-for="(item, index) in imgList" :key="index">
             <img :src="item">
           </swiper-item>
@@ -420,7 +420,7 @@ section {
 
 .info-1 {
   img{
-    width: 100%;
+    .wh(100%,100%);
   }
   p {
     .pd;

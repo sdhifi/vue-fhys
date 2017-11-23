@@ -304,12 +304,29 @@ export default {
               vm.$dialog.loading.close();
               if (res.code == 200) {
                 vm.showPassword = false;
-                vm.$dialog.toast({
+                vm.$dialog.confirm({
                   mes: res.msg,
-                  callback: () => {
-                    // vm.goBack(true);
-                    vm.$router.replace({name:"MyOrder",query:{id:0}})
-                  }
+                  opts: [
+                    {
+                      txt: "返回购物",
+                      color: false,
+                      stay:false,
+                      callback: () => {
+                        vm.goBack(true);
+                      }
+                    },
+                    {
+                      txt: "查看订单",
+                      color: true,
+                      stay:false,
+                      callback: () => {
+                        vm.$router.replace({
+                          name: "MyOrder",
+                          query: { id: 0 }
+                        });
+                      }
+                    }
+                  ]
                 });
               } else if (res.code == 401) {
                 vm.$dialog.confirm({
@@ -341,7 +358,10 @@ export default {
                       "支付成功",
                       function() {
                         //vm.goBack(true);
-                        vm.$router.replace({name:"MyOrder",query:{id:0}})
+                        vm.$router.replace({
+                          name: "MyOrder",
+                          query: { id: 0 }
+                        });
                       },
                       "支付"
                     );
@@ -364,7 +384,10 @@ export default {
                       "支付成功",
                       function() {
                         //vm.goBack(true);
-                        vm.$router.replace({name:"MyOrder",query:{id:0}})
+                        vm.$router.replace({
+                          name: "MyOrder",
+                          query: { id: 0 }
+                        });
                       },
                       "支付"
                     );
@@ -398,7 +421,10 @@ export default {
                             "支付成功",
                             function() {
                               //vm.goBack(true);
-                              vm.$router.replace({name:"MyOrder",query:{id:0}})
+                              vm.$router.replace({
+                                name: "MyOrder",
+                                query: { id: 0 }
+                              });
                             },
                             "支付"
                           );
