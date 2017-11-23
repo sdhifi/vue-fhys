@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-top title="订单详情"></header-top>
-    <main class='scroll-content-2'>
+    <main class='scroll-content-2' v-if="info">
       <ul class="container">
         <li class="item">
           <span class="left">&emsp;流水账单号：</span>
@@ -109,7 +109,7 @@ export default {
   name: "OrderDetail",
   data() {
     return {
-      info: {}
+      info: null
     };
   },
   components: { HeaderTop },
@@ -166,6 +166,7 @@ export default {
   },
   created() {},
   activated() {
+    this.info =null;
     this.getDetail(this.$route.query.sn);
   },
   mixins: [mixin],
@@ -182,7 +183,18 @@ export default {
           token: md5(`detail${this.account}${this.$route.query.sn}`)
         },
         success(res) {
-          vm.info = res.result;
+          if(res.code==200){
+            vm.info = res.result;
+          }
+          else {
+            vm.$dialog.toast({
+              mes:"查询失败",
+              callback:()=>{
+                vm.$router.go(-1);
+              }
+            })
+          }
+          
         }
       });
     }
