@@ -10,8 +10,8 @@
           </div>
           <div class="item-bottom flex just-between">
             <p>{{formatTime(item.addTime)}}</p>
-            <p v-if="$route.query.type=='0'">{{item.consumptionMoney<10000?"满500增加1个":(item.consumptionMoney<1000000?"满1000增加1个":"满5000增加1个")}}</p>
-            <p v-else>{{item.consumptionMoney<10000?"满500增加1个":"满1000增加1个"}}</p>
+            <!-- <p v-if="$route.query.type=='0'">{{item.consumptionMoney<10000?"满500增加1个":(item.consumptionMoney<1000000?"满1000增加1个":"满5000增加1个")}}</p>
+            <p v-else>{{item.consumptionMoney<10000?"满500增加1个":"满1000增加1个"}}</p> -->
           </div>
         </li>
       </ul>
