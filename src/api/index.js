@@ -30,6 +30,7 @@ let goMoneyPage = `${pd}/goMoneyPage` //付款
 let onlineProductsByAllColumn = `${pd}/online/onlineProductsByAllColumn` //网上商城栏目下的商品
 let onlineProductsDetailInfoInH5 = `${pd}/online/onlineProductsDetailInfoInH5` //网上商城商品详情
 let stockAndPrice = `${pd}/online/product/stockAndPrice` //商品价格和库存
+let allColumn = `${pd}/online/allColumn` //商城所有分类
 
 let findProdutCat = `${baseUrl}/wx/product/findProdutCat` //目录
 let findProductList = `${baseUrl}/wx/product/findProductList`//商品
@@ -132,6 +133,7 @@ export {
   onlineProductsByAllColumn,
   onlineProductsDetailInfoInH5,
   stockAndPrice,
+  allColumn,
 
   findProdutCat,
   findProductList,

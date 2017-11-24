@@ -1,52 +1,83 @@
 <template>
 	<div>
 		<header-top title="所有栏目"></header-top>
-		<main class="scroll-content-2" style="padding-top:.2rem;">
-			<yd-cell-group v-for="(item,index) in menu" :key="index">
-				<yd-cell-item arrow type="link" :href="'/online/products?type=0&id='+item.id">
-					<span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
-					<span slot="left">{{item.names}}</span>
-				</yd-cell-item>
-						<yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+m.id" v-for="(m,i) in item.subcolumn" :key="i">
-					<span slot="left">{{m.names}}</span>
-				</yd-cell-item>
-			
-			</yd-cell-group>
+		<main class="scroll-content-2">
+			<section class="container" v-for="(item,index) in info" :key="index">
+				<div class="flex align-center title">
+					<img :src="item.icon" alt="">
+					<span>{{item.label}}</span>
+				</div>
+				<ul v-if="item.sub" class="flex" style="margin-top:.2rem;">
+					<router-link :to="'/online/products?type=1&id='+sub.id" v-for="(sub,subIndex) in item.sub" :key="subIndex" class="item text-center" tag="li">
+						{{sub.names}}
+					</router-link>
+				</ul>
+			</section>
 		</main>
 	</div>
 </template>
 <script>
-import HeaderTop from 'components/header/index'
+import HeaderTop from "components/header/index";
+import { allColumn } from "../../api/index";
 export default {
-	name: "AllColumn",
-	data() {
-		return {
-			menu: [
-				{ id: 1333, names: '丽人', icon: 'self-huazhuangpin', color: '#e3c77e', subcolumn: [{ id: 1334, names: '美妆' }, { id: 1400, names: '女性护理' }] },
-				{ id: 1335, names: '汽车', icon: 'self-qiche', color: '#fdd357' },
-				{ id: 1337, names: '居家', icon: 'self-dianfanguo', color: '#c1dd31', subcolumn: [{ id: 1345, names: '家用电器' }, { id: 1346, names: '生活日用' }] },
-				{ id: 1338, names: '生活服务', icon: 'self-shenghuofuwu', color: '#bbdca7' },
-				{ id: 1339, names: '休闲娱乐', icon: 'self-KTV', color: '#e4ce37' },
-				{ id: 1340, names: '软件服务', icon: 'self-ruanjian', color: '#84c75e' },
-				{
-					id: 1342, names: '购物', icon: 'self-bags', color: '#ff9b52', subcolumn: [{ id: 1343, names: '食品' }, { id: 1344, names: '精品文具' },
-					{ id: 1359, names: '汽车' }, { id: 1401, names: '养生保健' }, { id: 1402, names: '基础护肤' }, { id: 1403, names: '化妆香水' },
-					{ id: 1404, names: '个人护理' }, { id: 1405, names: '服装饰品' }, { id: 1406, names: '母婴儿童' }, { id: 1407, names: '食品饮料' },
-					{ id: 1408, names: '鞋靴箱包' }, { id: 1409, names: '家居厨卫' }, { id: 1410, names: '数码家电' }]
-				}
-			]
-		}
-	},
-	components: { HeaderTop },
-	activated() {
-		if (this.$store.state.positions[this.$route.path]) {
-      document.querySelector("main").scrollTop = this.$store.state.positions[
-        this.$route.path
-      ];
+  name: "AllColumn",
+  data() {
+    return {
+      info: null
+    };
+  },
+  components: { HeaderTop },
+  created() {
+    this.getColumn();
+  },
+  activated() {},
+  methods: {
+    getColumn() {
+      let vm = this;
+      mui.ajax({
+        url: allColumn,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: {
+          token: md5(`allColumn`)
+        },
+        success(res) {
+          let _result = res.result;
+          let menu = [];
+          Object.entries(_result).forEach((value, index) => {
+            var item = {};
+            var parent = value[0],
+              children = value[1];
+            item.icon = parent.split(/~/)[0];
+            item.label = parent.split(/~/)[1];
+            children.length && (item.sub = children);
+            menu.push(item);
+          });
+          vm.info = menu;
+        }
+      });
     }
-	},
-}
+  }
+};
 </script>
 <style lang="less" scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
+.container {
+  .pd;
+  background-color: @white;
+  margin-bottom: @pd;
+  font-size: 0.3rem;
+  .title {
+    font-size: 0.35rem;
+  }
+  img {
+    .wh(0.7rem,0.7rem);
+    margin-right: @pd;
+  }
+  .item {
+    width: 25%;
+    border: 1px solid #fff7f5;
+    .pd;
+  }
+}
 </style>	
