@@ -278,6 +278,7 @@ export default {
       this.$store.commit("SET_ACCOUNT", "");
       this.$store.commit("RECORD_BANK_List",[]);
       this.$store.commit("RECORD_BANK_CARD", null);
+      this.$store.commit("RECORD_MEMBER_INFO", null);
 
       this.$dialog.toast({
         mes: "退出成功",

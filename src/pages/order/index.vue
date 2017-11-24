@@ -227,7 +227,6 @@ export default {
             //银联
           } else if (item.payType == "7" || item.payType == "8") {
             //积分||责任金额
-            if (_result.offlinePayAmount) {
               vm.checkService(vm.pays["alipay"], function() {
                 plus.payment.request(
                   vm.pays["alipay"],
@@ -262,7 +261,6 @@ export default {
                   }
                 );
               });
-            }
           } else {
             vm.$dialog.toast({
               mes: "该支付功能暂时无法使用，请更换其他支付方式重新下单"

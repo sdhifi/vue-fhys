@@ -1,71 +1,62 @@
 <template>
-    <div>
-        <header-top :back="false" :login="!loginAccount">注册|登录</header-top>
-        <main class="scroll-content">
-            <section class="city-search flex text-center align-center danger-bg">
-                <router-link to="/address/city" class="current-city">
-                    <span>{{city}}</span>
-                    <span class="iconfont self-down"></span>
-                </router-link>
-                <router-link to="/home/search" class="search-box flex align-center just-center">
-                    <span class="iconfont-large self-search"></span>
-                    <span>搜索商家或商品</span>
-                </router-link>
-            </section>
-            <section class="type-list">
-                <!-- <yd-slider>
-                        <yd-slider-item v-for="(item,index) in slideTypes" :key="index">
-                            <ul class="flex">
-                                <li v-for="e in item" :key="e.id" class="type-item text-center">
-                                    <router-link :to="{path:'/home/subcolumn/'+e.id}">
-                                        <img :src="e.pic2" :alt="e.names">
-                                        <p>{{e.names}}</p>
-                                    </router-link>
-                                </li>
-                            </ul>
-                        </yd-slider-item>
-                    </yd-slider> -->
-                <swiper dots-position="center">
-                    <swiper-item v-for="(item,index) in slideTypes" :key="index">
-                        <ul class="flex">
-                            <li v-for="e in item" :key="e.id" class="type-item text-center">
-                                <router-link :to="{path:'/home/subcolumn/'+e.id}">
-                                    <img :src="e.pic2" :alt="e.names">
-                                    <p>{{e.names}}</p>
-                                </router-link>
-                            </li>
-                        </ul>
-                    </swiper-item>
-                </swiper>
-            </section>
-            <section class="banner-list">
-                <yd-slider>
-                    <yd-slider-item v-for="(item,index) in banner" :key="item.id">
-                        <router-link :to="'/shop/index/'+item.address.substring(item.address.lastIndexOf('/')+1)">
-                            <img :src="item.photo" :alt="item.names">
-                        </router-link>
-                    </yd-slider-item>
-                </yd-slider>
-            </section>
-            <section class="product-list">
-                <div class="title-wrap text-center">
-                    <div class="like-title">
-                        <span class="iconfont self-crown fs-20"></span>
-                        <span class="fs-16">猜你喜欢</span>
-                    </div>
-                </div>
-                <yd-infinitescroll :callback="getYourlike" ref="pdlist">
-                    <div slot="list">
-                        <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
-                    </div>
-                    <p slot="doneTip">
-                        <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦
-                    </p>
-                </yd-infinitescroll>
-            </section>
-        </main>
-        <footer-bar></footer-bar>
-    </div>
+  <div>
+    <header-top :back="false" :login="!loginAccount">注册|登录</header-top>
+    <main class="scroll-content">
+      <yd-pullrefresh :callback="refreshList" ref="refreshcontainer">
+        <section class="city-search flex text-center align-center danger-bg">
+          <router-link to="/address/city" class="current-city">
+            <span>{{city}}</span>
+            <span class="iconfont self-down"></span>
+          </router-link>
+          <router-link to="/home/search" class="search-box flex align-center just-center">
+            <span class="iconfont-large self-search"></span>
+            <span>搜索商家或商品</span>
+          </router-link>
+        </section>
+        <section class="type-list">
+          <swiper dots-position="center">
+            <swiper-item v-for="(item,index) in slideTypes" :key="index">
+              <ul class="flex">
+                <li v-for="e in item" :key="e.id" class="type-item text-center">
+                  <router-link :to="{path:'/home/subcolumn/'+e.id}">
+                    <img :src="e.pic2" :alt="e.names">
+                    <p>{{e.names}}</p>
+                  </router-link>
+                </li>
+              </ul>
+            </swiper-item>
+          </swiper>
+        </section>
+        <section class="banner-list">
+          <yd-slider>
+            <yd-slider-item v-for="(item,index) in banner" :key="item.id">
+              <router-link :to="'/shop/index/'+item.address.substring(item.address.lastIndexOf('/')+1)">
+                <img :src="item.photo" :alt="item.names">
+              </router-link>
+            </yd-slider-item>
+          </yd-slider>
+        </section>
+        <section class="product-list">
+          <div class="title-wrap text-center">
+            <div class="like-title">
+              <span class="iconfont self-crown fs-20"></span>
+              <span class="fs-16">猜你喜欢</span>
+            </div>
+          </div>
+          <yd-infinitescroll :callback="getYourlike" ref="pdlist">
+            <div slot="list">
+              <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
+            </div>
+            <p slot="doneTip">
+              <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦
+            </p>
+          </yd-infinitescroll>
+        </section>
+
+      </yd-pullrefresh>
+    </main>
+    <footer-bar></footer-bar>
+  </div>
 </template>
 <script>
 import { mapState } from "vuex";
@@ -74,7 +65,7 @@ import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
 import ProductItem from "components/common/ProductItem";
 import { o2o, like } from "../../api/index";
-import { mixin, getStore } from "components/common/mixin";
+import { mixin, getStore,setStore } from "components/common/mixin";
 export default {
   name: "Home",
   data() {
@@ -85,7 +76,8 @@ export default {
       slideTypes: [],
       banner: [],
       productList: [],
-      loginAccount: false
+      loginAccount: false,
+      refreshTag:false
     };
   },
   components: { Swiper, SwiperItem, HeaderTop, FooterBar, ProductItem },
@@ -105,6 +97,17 @@ export default {
   created() {
     this.getPosition();
     this.getColumns();
+    if(!getStore("tips")|| getStore("tips")=="0"){
+      this.$dialog.notify({
+        mes:"点击标题可以回到顶部！",
+        callback:()=>{
+          setStore("tips","1")
+        }
+      })
+    }
+    else{
+       setStore("tips","0")
+    }
   },
   activated() {
     if (getStore("account") && getStore("account").length > 0) {
@@ -160,7 +163,6 @@ export default {
         let vm = this;
         let longitude = this.longitude;
         let latitude = this.latitude;
-        // this.$dialog.loading.open()
         mui.ajax({
           url: like,
           type: "post",
@@ -186,6 +188,36 @@ export default {
           }
         });
       }
+    },
+    refreshList() {
+      this.noData = false;
+      this.productList = [];
+      let vm = this;
+      mui.ajax({
+          url: like,
+          type: "post",
+          data: {
+            longitude: this.longitude,
+            latitude: this.latitude,
+            pageNo: 1,
+            pageSize: 10,
+            token: md5(`like${this.longitude}${this.latitude}`)
+          },
+          headers: { "app-version": "v1.0" },
+          success(res) {
+            let _list = res.result;
+            vm.productList =_list;
+            vm.$dialog.notify({
+              mes:"已更新",
+              timeout:1500,
+              callback:()=>{
+                vm.refreshTag = true;
+                vm.pageNo = 2;
+              }
+            })
+            vm.$refs.refreshcontainer.$emit("ydui.pullrefresh.finishLoad");
+          }
+        });
     }
   },
   watch: {

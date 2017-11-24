@@ -25,7 +25,7 @@
                 <span class="fs-14 price1" v-else>
                   ￥{{pd.price}}
                 </span>
-                <yd-button type="danger" v-if="account&&pd.isCanUserCou" @click.native="add2cart(pd.id,$event)">加入购物车</yd-button>
+                <yd-button type="warning" v-if="account" @click.native="add2cart(pd.id,$event)">加入购物车</yd-button>
               </div>
             </div>
           </div>
@@ -178,7 +178,6 @@ export default {
               var m = document.createElement("img");
               m.className = "img-animate";
               var tt = `bottom:${bottom}px;left:${left}px;`;
-              // m.style = `${tt}`;
               m.setAttribute("style", tt);
               m.src = src;
               document.body.appendChild(m);
