@@ -3,7 +3,6 @@
     <header-top title="我的店铺"></header-top>
     <main class='scroll-content-2'>
       <section class="store-banner px-1" :style="{backgroundImage:'url('+info.storeBanner+')'}">
-        <!-- <img :src="info.storeBanner" alt="" class="banner-img"> -->
         <div class="upload-box">
           更换封面
         </div>
@@ -14,7 +13,8 @@
         <div class="flex align-center">
           <div class="flex-1 fs-15">
             <span class="iconfont-large self-location danger-color"></span>
-            <span>{{info.provinceId.province}}{{info.cityId.city}}<span v-if="info.areaId">{{info.areaId.area}}</span>{{info.addressDetail}}</span>
+            <span>{{info.provinceId.province}}{{info.cityId.city}}
+              <span v-if="info.areaId">{{info.areaId.area}}</span>{{info.addressDetail}}</span>
           </div>
           <span class="iconfont self-bianji danger-color" @click="showEdit"></span>
         </div>
@@ -36,7 +36,7 @@
             <span class="iconfont self-dui"></span>保存</span>
           <span slot="right" @click="editTag=false" v-else>
             <span class="iconfont self-bianji">编辑</span>
-            </span>
+          </span>
         </yd-cell-item>
       </yd-cell-group>
       <section class="store-menu">
@@ -88,6 +88,7 @@ export default {
   name: "MyStore",
   data() {
     return {
+      oldBack: mui.back,
       editTag: true,
       info: null,
       showPopup: false,
@@ -117,7 +118,7 @@ export default {
           text: "发布管理",
           link: "/store/publishmanage",
           color: "#fab652"
-        },
+        }
         // {
         //   icon: "self-shoukuan",
         //   text: "付款",
@@ -131,16 +132,27 @@ export default {
   computed: {
     valid() {
       return (
-        /^1[3|4|5|7|8][0-9]{9}$/.test(this.newMobile) && this.newAddressDetail
+        /^1[3|4|5|7|8][0-9]{9}$/.test(this.newMobile) && !!this.newAddressDetail
       );
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      mui.back = vm.goBack;
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
   },
   created() {},
   activated() {
     this.getMyStore();
-    if(this.$store.state.positions[this.$route.path]){
-            document.querySelector('main').scrollTop=this.$store.state.positions[this.$route.path]
-        }
+    if (this.$store.state.positions[this.$route.path]) {
+      document.querySelector("main").scrollTop = this.$store.state.positions[
+        this.$route.path
+      ];
+    }
   },
   mounted() {
     [
@@ -157,6 +169,15 @@ export default {
     });
   },
   methods: {
+    goBack() {
+      if (this.show1) {
+        this.show1 = false;
+      } else if (this.showPopup) {
+        this.showPopup = false;
+      } else {
+        this.$router.go(-1);
+      }
+    },
     getMyStore() {
       let vm = this;
       mui.ajax({
@@ -208,7 +229,10 @@ export default {
     },
     showEdit() {
       this.newMobile = this.info.sellerMobile;
-      this.newStoreCityName = this.info.areaId?`${this.info.provinceId.province},${this.info.cityId.city},${this.info.areaId.area}`:`${this.info.provinceId.province},${this.info.cityId.city}`;
+      this.newStoreCityName = this.info.areaId
+        ? `${this.info.provinceId.province},${this.info.cityId.city},${this.info
+            .areaId.area}`
+        : `${this.info.provinceId.province},${this.info.cityId.city}`;
       this.newAddressDetail = this.info.addressDetail;
       this.showPopup = true;
     },
@@ -249,10 +273,10 @@ export default {
     },
     saveIntro() {
       let vm = this;
-      if(!this.info.storeDescription || this.info.storeDescription=="null"){
+      if (!this.info.storeDescription || this.info.storeDescription == "null") {
         this.$dialog.alert({
-          mes:"请输入店铺简介"
-        })
+          mes: "请输入店铺简介"
+        });
         return;
       }
       mui.ajax({

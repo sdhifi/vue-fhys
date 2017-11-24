@@ -21,7 +21,7 @@
       <section class="order-container">
         <yd-cell-group>
           <yd-cell-item arrow type="link" href="/order/index?id=0">
-          <span class="iconfont self-dingdanguanli" slot="icon" style="font-size:20px;"></span>
+            <span class="iconfont self-dingdanguanli" slot="icon" style="font-size:20px;"></span>
             <span slot="left">我的订单</span>
             <span slot="right">查看所有订单</span>
           </yd-cell-item>
@@ -79,17 +79,17 @@
           <span class="tel-num">拨打:020-29030366</span>
         </a>
         <p>
-          <span>工作日9:00-12:00  13:30-18:00 </span><br>节假日不上班，不便之处，尽请谅解</p>
+          <span>工作日9:00-12:00 13:30-18:00 </span><br>节假日不上班，不便之处，尽请谅解</p>
         <p class="fs-14">
           (客服微信：gjfeng-kf01 、 gjfeng-kf02)
-          </p>
+        </p>
         <yd-button type="danger" @click.native="showDialog=false">我知道了</yd-button>
       </div>
     </yd-popup>
   </div>
 </template>
 <script>
-import { mapState,mapGetters } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
 import CertModal from "components/common/CertModal";
@@ -146,7 +146,7 @@ export default {
             icon: "self-shopcart c1",
             link: "/online/shoppingcart",
             type: "label",
-            badge:true
+            badge: true
           },
           {
             name: "设置密码",
@@ -204,12 +204,11 @@ export default {
       showDialog: false
     };
   },
-  components: { HeaderTop, FooterBar, CertModal},
-  created() {
-  },
+  components: { HeaderTop, FooterBar, CertModal },
+  created() {},
   computed: {
-    ...mapState(["certificateStatus", "showCertificate","account","member"]),
-    ...mapGetters(['cartNum'])
+    ...mapState(["certificateStatus", "showCertificate", "account", "member"]),
+    ...mapGetters(["cartNum"])
   },
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
@@ -222,19 +221,20 @@ export default {
     next();
   },
   activated() {
-    if(this.$store.state.positions[this.$route.path]){
-            document.querySelector('main').scrollTop=this.$store.state.positions[this.$route.path]
-        }
+    if (this.$store.state.positions[this.$route.path]) {
+      document.querySelector("main").scrollTop = this.$store.state.positions[
+        this.$route.path
+      ];
+    }
     if (getStore("account") && getStore("account").length > 0) {
       this.$store.commit("SET_ACCOUNT", getStore("account"));
-      this.$store.dispatch('getInfo');
-      this.$store.dispatch('getCartList');
+      this.$store.dispatch("getInfo");
+      this.$store.dispatch("getCartList");
     } else {
       this.$router.push("/me/login");
     }
   },
   methods: {
-    
     navigate(item) {
       if (/store/.test(item.link)) {
         //身份认证
@@ -250,7 +250,10 @@ export default {
         }
       }
       if (/recommend/.test(item.link)) {
-        this.$router.push({name: "Recommend",params: { id: this.member.id }});
+        this.$router.push({
+          name: "Recommend",
+          params: { id: this.member.id }
+        });
       }
       if (item.tel) {
         this.showDialog = true;
@@ -275,8 +278,9 @@ export default {
     signOut() {
       removeStore("account");
       removeStore("storeId");
+      removeStore("tips");
       this.$store.commit("SET_ACCOUNT", "");
-      this.$store.commit("RECORD_BANK_List",[]);
+      this.$store.commit("RECORD_BANK_List", []);
       this.$store.commit("RECORD_BANK_CARD", null);
       this.$store.commit("RECORD_MEMBER_INFO", null);
 
@@ -312,7 +316,7 @@ section {
     position: relative;
     height: 1.6rem;
     background-size: cover;
-    padding:@pd 0;
+    padding: @pd 0;
     a {
       display: block;
       .wh(1.7rem,1.7rem);

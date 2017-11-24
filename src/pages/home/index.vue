@@ -65,7 +65,7 @@ import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
 import ProductItem from "components/common/ProductItem";
 import { o2o, like } from "../../api/index";
-import { mixin, getStore,setStore } from "components/common/mixin";
+import { mixin, getStore, setStore } from "components/common/mixin";
 export default {
   name: "Home",
   data() {
@@ -77,7 +77,7 @@ export default {
       banner: [],
       productList: [],
       loginAccount: false,
-      refreshTag:false
+      refreshTag: false
     };
   },
   components: { Swiper, SwiperItem, HeaderTop, FooterBar, ProductItem },
@@ -97,23 +97,20 @@ export default {
   created() {
     this.getPosition();
     this.getColumns();
-    if(!getStore("tips")|| getStore("tips")=="0"){
-      this.$dialog.notify({
-        mes:"点击标题可以回到顶部！",
-        callback:()=>{
-          setStore("tips","1")
-        }
-      })
-    }
-    else{
-       setStore("tips","0")
-    }
   },
   activated() {
     if (getStore("account") && getStore("account").length > 0) {
       this.loginAccount = true;
       this.$store.commit("SET_ACCOUNT", getStore("account"));
       this.$store.dispatch("getInfo");
+    }
+    if (!getStore("tips")) {
+      this.$dialog.notify({
+        mes: "点击标题可以回到顶部！",
+        callback: () => {
+          setStore("tips", "1");
+        }
+      });
     }
     if (this.$store.state.positions[this.$route.path]) {
       document.querySelector("main").scrollTop = this.$store.state.positions[
@@ -194,30 +191,30 @@ export default {
       this.productList = [];
       let vm = this;
       mui.ajax({
-          url: like,
-          type: "post",
-          data: {
-            longitude: this.longitude,
-            latitude: this.latitude,
-            pageNo: 1,
-            pageSize: 10,
-            token: md5(`like${this.longitude}${this.latitude}`)
-          },
-          headers: { "app-version": "v1.0" },
-          success(res) {
-            let _list = res.result;
-            vm.productList =_list;
-            vm.$dialog.notify({
-              mes:"已更新",
-              timeout:1500,
-              callback:()=>{
-                vm.refreshTag = true;
-                vm.pageNo = 2;
-              }
-            })
-            vm.$refs.refreshcontainer.$emit("ydui.pullrefresh.finishLoad");
-          }
-        });
+        url: like,
+        type: "post",
+        data: {
+          longitude: this.longitude,
+          latitude: this.latitude,
+          pageNo: 1,
+          pageSize: 10,
+          token: md5(`like${this.longitude}${this.latitude}`)
+        },
+        headers: { "app-version": "v1.0" },
+        success(res) {
+          let _list = res.result;
+          vm.productList = _list;
+          vm.$dialog.notify({
+            mes: "已更新",
+            timeout: 1500,
+            callback: () => {
+              vm.refreshTag = true;
+              vm.pageNo = 2;
+            }
+          });
+          vm.$refs.refreshcontainer.$emit("ydui.pullrefresh.finishLoad");
+        }
+      });
     }
   },
   watch: {
