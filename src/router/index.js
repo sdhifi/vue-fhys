@@ -32,15 +32,15 @@ const router = new Router({
     path: '/online/index',
     name: 'Online',
     component: require('../pages/online/index')
-  },{
+  }, {
     path: '/online/jdindex',
     name: 'JingDong',
     component: require('../pages/online/jdindex')
-  },{
+  }, {
     path: '/online/tmindex',
     name: 'TianMao',
     component: require('../pages/online/tmindex')
-  },{
+  }, {
     path: '/online/tmdetail',
     name: 'TMDetail',
     component: require('../pages/online/tmdetail')
@@ -164,6 +164,10 @@ const router = new Router({
     name: 'MyStore',
     component: require('../pages/store/my')
   }, {
+    path: '/store/service',
+    name: 'StoreService',
+    component: require('../pages/store/storeservice')
+  }, {
     path: '/store/productmanage',
     name: 'ProductManage',
     component: require('../pages/store/productmanage')
@@ -247,11 +251,11 @@ const router = new Router({
     path: '/trade/transfer',
     name: 'Transfer',
     component: require('../pages/trade/transfer')
-  },  {
+  }, {
     path: '/trade/transferhistory',
     name: 'TransferHistory',
     component: require('../pages/trade/transferhistory')
-  },{
+  }, {
     path: '/trade/merge',
     name: 'MergeHistory',
     component: require('../pages/trade/merge')

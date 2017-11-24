@@ -6,7 +6,7 @@
         <yd-cell-item>
           <div slot="left">
             <p>店铺名称：</p>
-            <small class="tips">(不可更改)</small>
+            <small class="danger-color">(不可更改)</small>
           </div>
           <yd-input slot="right" v-model="storeName" placeholder="请填写店铺名称" required></yd-input>
         </yd-cell-item>
@@ -24,7 +24,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">注册资金
-            <small class="tips">(万元)</small>：
+            <small class="danger-color">(万元)</small>：
           </span>
           <yd-input slot="right" v-model="companyRegisteredCapital" type="tel" regex="^\d{1,}" placeholder="请填写金额" required></yd-input>
         </yd-cell-item>
@@ -51,7 +51,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">经营范围
-            <small class="tips">(选填)</small>：
+            <small class="danger-color">(选填)</small>：
           </span>
           <yd-textarea slot="right" v-model="businessSphere" placeholder="填写您的经营范围" maxlength="400"></yd-textarea>
         </yd-cell-item>
@@ -117,6 +117,10 @@
           <yd-input slot="right" v-model="taxRegistrationCertificate" placeholder="税务登记证号" required></yd-input>
         </yd-cell-item>
       </yd-cell-group>
+      <div style="padding:0 .2rem;">
+        <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
+        <router-link to="/store/service" class="protocol">《凤凰云商o2o店铺入驻协议》</router-link>
+      </div>
       <div style="padding:0 .2rem .2rem;">
       <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="applicate">提交申请</yd-button>
       </div>
@@ -168,7 +172,9 @@ export default {
       settlementBankAddress: "", //结算银行地址id
       settlementBankAddressName: "", //结算银行地址
       fileContent: "", //营业执照base64
-      district: District //省市县数据
+      district: District, //省市县数据
+      
+      checkProtocol:true
     };
   },
   components: { HeaderTop },
@@ -198,7 +204,8 @@ export default {
         this.validBankAccount &&
         this.validCapital &&
         this.validBankAddress &&
-        this.validBankAccountName
+        this.validBankAccountName &&
+        this.checkProtocol
       );
     }
   },
@@ -346,10 +353,6 @@ export default {
 </script>
 <style lang='less' scoped>
 @import "../../style/mixin.less";
-.tips {
-  color: @red;
-}
-
 .upload-container {
   padding: @pd;
   .tips {

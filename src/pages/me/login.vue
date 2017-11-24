@@ -198,9 +198,6 @@ export default {
 
 .page-container {
   padding: 0.3rem;
-  .protocol {
-    color: #10aeff;
-  }
   .forget-pwd {
     display: block;
     width: 2rem;

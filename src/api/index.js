@@ -56,6 +56,7 @@ let updataLoginPassword = baseUrl + `/app/${VERSION}/updataLoginPassword` //忘�
 let service = `${rule}/service` //服务协议
 let aboutGjf = `${rule}/aboutGjf` //关于凤凰云商O2O
 let consumptionInH5 = `${rule}/consumptionInH5` //消费规则
+let toStoreServiceRules = `${rule}/toStoreServiceRules` //店铺入驻协议
 
 let sendcode = baseUrl + `/sms/send` //获取验证码
 
@@ -157,7 +158,8 @@ export {
   service,
   aboutGjf,
   consumptionInH5,
-  
+  toStoreServiceRules,
+
   sendcode,
 
   my,

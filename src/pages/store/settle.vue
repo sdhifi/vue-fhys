@@ -6,7 +6,7 @@
         <yd-cell-item>
           <div slot="left">
             <p>店铺名称：</p>
-            <small class="tips">(不可更改)</small>
+            <small class="danger-color">(不可更改)</small>
           </div>
           <yd-input slot="right" v-model="storeName" placeholder="请填写店铺名称" required></yd-input>
         </yd-cell-item>
@@ -45,7 +45,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">经营范围
-            <small class="tips">(选填)</small>：
+            <small class="danger-color">(选填)</small>：
           </span>
           <yd-textarea slot="right" v-model="businessSphere" placeholder="填写您的经营范围" maxlength="400"></yd-textarea>
         </yd-cell-item>
@@ -76,11 +76,15 @@
           <yd-input slot="right" v-model="bankAccountNumber" regex="bankcard" placeholder="请填写银行账号" required></yd-input>
         </yd-cell-item>
       </yd-cell-group>
-      <cert-modal></cert-modal>
+      <div style="padding:0 .2rem;">
+        <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
+        <router-link to="/store/service" class="protocol">《凤凰云商o2o店铺入驻协议》</router-link>
+      </div>
       <div style="padding:0 .2rem .2rem;">
         <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="applicate">提交申请</yd-button>
       </div>
     </main>
+      <cert-modal></cert-modal>
   </div>
 </template>
 <script>
@@ -117,7 +121,9 @@ export default {
       bankAccountNumber: "", //银行账号
 
       fileContent: "", //营业执照base64
-      district: District //省市县数据
+      district: District, //省市县数据
+
+      checkProtocol:true
     };
   },
   components: { HeaderTop, CertModal },
@@ -135,7 +141,8 @@ export default {
         this.validLicenseNumber &&
         this.validLicenseAddress &&
         this.validFileContent &&
-        this.validBankAccount
+        this.validBankAccount &&
+        this.checkProtocol
       );
     }
   },
@@ -250,10 +257,6 @@ export default {
 </script>
 <style lang='less' scoped>
 @import "../../style/mixin.less";
-.tips {
-  color: @red;
-}
-
 .upload-container {
   padding: @pd;
   .tips {
