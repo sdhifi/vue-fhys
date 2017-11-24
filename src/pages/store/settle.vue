@@ -77,66 +77,99 @@
         </yd-cell-item>
       </yd-cell-group>
       <cert-modal></cert-modal>
-      <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="applicate">提交申请</yd-button>
+      <div style="padding:0 .2rem .2rem;">
+        <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="applicate">提交申请</yd-button>
+      </div>
     </main>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import CertModal from 'components/common/CertModal'
-import District from 'ydui-district/dist/gov_province_city_area_id'
-import { addStore } from '../../api/index'
-import { validateSettle } from 'components/common/mixin'
-import 'lrz/dist/lrz.bundle.js'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import CertModal from "components/common/CertModal";
+import District from "ydui-district/dist/gov_province_city_area_id";
+import { addStore } from "../../api/index";
+import { validateSettle } from "components/common/mixin";
+import "lrz/dist/lrz.bundle.js";
 export default {
-  name: 'Settle',
+  name: "Settle",
   data() {
     return {
-      show1: false,//店铺地址判断标志
-      show2: false,//营业执照所在地判断标志
+      oldBack: mui.back,
+      show1: false, //店铺地址判断标志
+      show2: false, //营业执照所在地判断标志
 
-      storeName: '',//店铺名称
-      sellerName: '',//联系人
-      sellerMobile: '',//联系电话
-      sellerEmail: '',//联系邮箱
+      storeName: "", //店铺名称
+      sellerName: "", //联系人
+      sellerMobile: "", //联系电话
+      sellerEmail: "", //联系邮箱
 
-      storeCitys: '',//店铺地址id
-      storeCityName: '',//店铺地址
-      addressDetail: '',//街道
+      storeCitys: "", //店铺地址id
+      storeCityName: "", //店铺地址
+      addressDetail: "", //街道
 
-      businessLicenceNumber: '',//营业执照号
-      businessLicenceAddress: '',//营业执照地id
-      businessLicenceAddressName: '',//营业执照地
-      businessSphere: '',//经营范围
+      businessLicenceNumber: "", //营业执照号
+      businessLicenceAddress: "", //营业执照地id
+      businessLicenceAddressName: "", //营业执照地
+      businessSphere: "", //经营范围
 
-      bankAccountName: '',//银行开户名
-      bankAccountNumber: '',//银行账号
+      bankAccountName: "", //银行开户名
+      bankAccountNumber: "", //银行账号
 
-      fileContent: '',//营业执照base64
-      district: District//省市县数据
-    }
+      fileContent: "", //营业执照base64
+      district: District //省市县数据
+    };
   },
   components: { HeaderTop, CertModal },
   mixins: [validateSettle],
   computed: {
-    ...mapState(['account', 'certificateStatus']),
+    ...mapState(["account", "certificateStatus"]),
     valid() {
-      return this.validStoreName && this.validSellerName && this.validSellerMobile && this.validEmail && this.validStoreCitys
-        && this.validAddressDetail && this.validLicenseNumber && this.validLicenseAddress && this.validFileContent && this.validBankAccount
+      return (
+        this.validStoreName &&
+        this.validSellerName &&
+        this.validSellerMobile &&
+        this.validEmail &&
+        this.validStoreCitys &&
+        this.validAddressDetail &&
+        this.validLicenseNumber &&
+        this.validLicenseAddress &&
+        this.validFileContent &&
+        this.validBankAccount
+      );
     }
   },
-  activated() {
-
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      mui.back = vm.goBack;
+    });
   },
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
+  },
+  activated() {},
   mounted() {
-    [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
-      item.addEventListener('focus', function() {
+    [
+      ...document.querySelectorAll(
+        "input[type='text'],input[type='tel'],input[type='number'],textarea"
+      )
+    ].forEach((item, index) => {
+      item.addEventListener("focus", function() {
         item.scrollIntoView();
-      })
-    })
+      });
+    });
   },
   methods: {
+    goBack() {
+      if (this.show1) {
+        this.show1 = false;
+      } else if (this.show2) {
+        this.show2 = false;
+      } else {
+        this.$router.go(-1);
+      }
+    },
     result1(res) {
       this.storeCityName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
       this.storeCitys = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
@@ -146,30 +179,30 @@ export default {
       this.businessLicenceAddress = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
     },
     showModal() {
-      this.$store.commit('SHOW_CERTIFICATE', true);
+      this.$store.commit("SHOW_CERTIFICATE", true);
     },
     choosePicture(event) {
-      let p = document.querySelector('.licence-picture'),
+      let p = document.querySelector(".licence-picture"),
         file = event.target.files[0];
       let vm = this;
       if (!/image\/\w+/.test(file.type)) {
         this.$dialog.toast({
-          mes: '请上传图片',
+          mes: "请上传图片",
           timeout: 1000,
-          icon: 'error'
-        })
+          icon: "error"
+        });
         return;
       }
       lrz(file, { width: 800 }).then(rst => {
         p.src = rst.base64;
         vm.fileContent = rst.base64;
-      })
+      });
     },
     applicate() {
       let vm = this;
       let params = {
-        storePro: '0',
-        storeType: '0',//入驻类型-个体入驻
+        storePro: "0",
+        storeType: "0", //入驻类型-个体入驻
         storeName: this.storeName,
         sellerName: this.sellerName,
         sellerMobile: this.sellerMobile,
@@ -179,27 +212,27 @@ export default {
         businessLicenceNumber: this.businessLicenceNumber,
         businessLicenceAddress: this.businessLicenceAddress,
         businessSphere: this.businessSphere,
-        businessLicenceStart: '20160901',
-        businessLicenceEnd: '20700901',
+        businessLicenceStart: "20160901",
+        businessLicenceEnd: "20700901",
         bankAccountName: this.bankAccountName,
         bankAccountNumber: this.bankAccountNumber,
-        fileName: '123.png',
+        fileName: "123.png",
         account: this.account,
-        token: md5('addStore'),
+        token: md5("addStore"),
         fileContent: this.fileContent
       };
 
       mui.ajax({
         url: addStore,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: params,
         success(res) {
           if (res.code != 200) {
             vm.$dialog.toast({
               mes: res.msg,
               timeout: 1500
-            })
+            });
             return;
           }
           vm.$dialog.toast({
@@ -208,15 +241,15 @@ export default {
             callback: () => {
               vm.$router.go(-1);
             }
-          })
+          });
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .tips {
   color: @red;
 }
@@ -226,7 +259,7 @@ export default {
   .tips {
     font-size: 12px;
     color: #999;
-    margin-bottom: .1rem;
+    margin-bottom: 0.1rem;
   }
   .licence-picture {
     width: 100%;

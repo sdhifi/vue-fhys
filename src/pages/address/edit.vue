@@ -50,6 +50,7 @@ export default {
   name: "EditOrNew",
   data() {
     return {
+      oldBack: mui.back,
       district: District,
       show1: false,
       addressTitle: "",
@@ -77,6 +78,15 @@ export default {
         !!this.addressDetail
       );
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      mui.back = vm.goBack;
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
   },
   created() {},
   activated() {
@@ -115,6 +125,13 @@ export default {
     }
   },
   methods: {
+    goBack() {
+      if (this.show1) {
+        this.show1 = false;
+      } else {
+        this.$router.go(-1);
+      }
+    },
     result1(res) {
       this.proviceId = res.itemValue1;
       this.cityId = res.itemValue2;

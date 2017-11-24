@@ -51,7 +51,7 @@ export default {
   name: 'BankCard',
   data() {
     return {
-
+      oldBack: mui.back,
     }
   },
   components: { HeaderTop, CertModal, GroupTitle, Swipeout, SwipeoutItem },
@@ -59,6 +59,15 @@ export default {
     ...mapState(['bankList', 'showCertificate', 'certificateStatus'])
   },
   mixins: [mixin],
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      mui.back = vm.goBack;
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
+  },
   created() {
 
   },
@@ -66,6 +75,13 @@ export default {
     this.$store.dispatch('getBankList');
   },
   methods: {
+    goBack() {
+      if (this.show1) {
+        this.show1 = false;
+      } else {
+        this.$router.go(-1);
+      }
+    },
     formatCard(num) {
       return `**** **** **** ${num.slice(-4)}`;
     },
