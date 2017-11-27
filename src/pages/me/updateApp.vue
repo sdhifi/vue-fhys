@@ -22,8 +22,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {},
-  created() {},
-  activated() {
+  created() {
     this.init();
   },
   methods: {

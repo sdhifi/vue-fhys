@@ -51,91 +51,106 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import { setPay, sendcode, updataLoginPassword } from '../../api/index'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import { setPay, sendcode, updataLoginPassword } from "../../api/index";
 export default {
-  name: 'PayPwd',
+  name: "PayPwd",
   data() {
     return {
       picked: true,
-      password: '',
+      password: "",
       startSend: false,
-      code: '',
-      correctCode: '',
-      oldPwd: '',
-      newPwd: '',
-    }
+      code: "",
+      correctCode: "",
+      oldPwd: "",
+      newPwd: ""
+    };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(['account']),
+    ...mapState(["account"]),
     pageTitle() {
-      return this.picked ? '设置支付密码' : '修改登录密码';
+      return this.picked ? "设置支付密码" : "修改登录密码";
     },
     rightCode() {
-      return /^\d{6}$/gi.test(this.code) && (this.code == this.correctCode)
+      return /^\d{6}$/gi.test(this.code) && this.code == this.correctCode;
     },
     rightPwd() {
-      return /^\d{6}$/.test(this.password)
+      return /^\d{6}$/.test(this.password);
     },
     valid() {
       return this.rightCode && this.rightPwd;
     },
     valid2() {
-      return /[0-9a-zA-Z]{6,16}/.test(this.oldPwd) && /[0-9a-zA-Z]{6,16}/.test(this.newPwd)
+      return (
+        /[0-9a-zA-Z]{6,16}/.test(this.oldPwd) &&
+        /[0-9a-zA-Z]{6,16}/.test(this.newPwd)
+      );
     }
   },
   activated() {
     this.picked = true;
     this.startSend = false;
-    this.code = '';
-    this.correctCode = '';
-    this.password = '';
-    this.oldPwd = '';
-    this.newPwd = '';
+    this.code = "";
+    this.correctCode = "";
+    this.password = "";
+    this.oldPwd = "";
+    this.newPwd = "";
   },
-   mounted(){
-     [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],input[type='password'],textarea")].forEach((item, index) => {
-      item.addEventListener('focus', function() {
+  mounted() {
+    [
+      ...document.querySelectorAll(
+        "input[type='text'],input[type='tel'],input[type='number'],input[type='password'],textarea"
+      )
+    ].forEach((item, index) => {
+      item.addEventListener("focus", function() {
         item.scrollIntoView();
-      })
-    })
+      });
+    });
   },
   methods: {
     sendCode() {
       let vm = this;
-      this.code = '';
-      this.correctCode = '';
-      this.$dialog.loading.open('发送中...');
+      this.code = "";
+      this.correctCode = "";
+      this.$dialog.loading.open("发送中...");
       mui.ajax({
         url: sendcode,
-        type: 'post',
+        type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           mobile: this.account,
           token: md5(`send${this.account}`)
         },
         success(res) {
-          vm.correctCode = res.content;
+          vm.$dialog.loading.close();
+          if (res) {
+            vm.correctCode = res.content;
+            vm.$dialog.toast({
+              mes: "已发送",
+              icon: "success",
+              timeout: 1000
+            });
+            vm.startSend = true;
+          }
+          else{
+            vm.$dialog.toast({
+              mes:"请重试",
+              callback:()=>{
+                vm.startSend = false;
+              }
+            })
+          }
         }
-      })
-      setTimeout(() => {
-        this.startSend = true;
-        this.$dialog.loading.close();
-        this.$dialog.toast({
-          mes: '已发送',
-          icon: 'success',
-          timeout: 1000
-        });
-      }, 1000);
+      });
     },
     submit() {
       let vm = this;
       mui.ajax({
         url: setPay,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           mobile: this.account,
           pwd1: this.password,
@@ -144,34 +159,33 @@ export default {
         },
         success(res) {
           if (res.code == 200) {
-            vm.$store.commit('SET_PAY_PASSWORD',true);
+            vm.$store.commit("SET_PAY_PASSWORD", true);
             vm.$dialog.toast({
-              mes: res.msg || '设置成功',
+              mes: res.msg || "设置成功",
               timeout: 1500,
-              icon: 'success',
+              icon: "success",
               callback: () => {
-                vm.$router.go(-1)
+                vm.$router.go(-1);
               }
-            })
-          }
-          else {
-            vm.$store.commit('SET_PAY_PASSWORD',false);
+            });
+          } else {
+            vm.$store.commit("SET_PAY_PASSWORD", false);
             vm.$dialog.toast({
-              mes: res.msg || '设置失败',
+              mes: res.msg || "设置失败",
               timeout: 1500,
-              icon: 'error'
-            })
+              icon: "error"
+            });
             return;
           }
         }
-      })
+      });
     },
     edit() {
       let vm = this;
       mui.ajax({
         url: updataLoginPassword,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           account: this.account,
           oldPassword: this.oldPwd,
@@ -183,16 +197,15 @@ export default {
           if (res.code == 200) {
             vm.$dialog.toast({
               mes: `${res.msg}，请牢记`
-            })
-          }
-          else {
+            });
+          } else {
             vm.$dialog.toast({
               mes: `旧${res.msg}，请重新输入`
-            })
+            });
           }
         }
-      })
+      });
     }
   }
-}
+};
 </script>

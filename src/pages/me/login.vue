@@ -3,10 +3,6 @@
     <header-top title="登录注册"></header-top>
     <div class="page-container">
       <yd-cell-group>
-        <yd-cell-item type="div">
-          <h3 slot="left">{{loginWay?'没有账号，注册':'已有账号，登录'}}</h3>
-          <yd-switch slot="right" v-model="loginWay"></yd-switch>
-        </yd-cell-item>
         <yd-cell-item>
           <span class="iconfont self-mobile" slot="icon"></span>
           <yd-input :debug="true" v-model="mobile" placeholder="请输入手机号码" required regex="mobile" slot="right"></yd-input>
@@ -24,11 +20,17 @@
       <div v-if="loginWay">
         <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
         <router-link to="/me/regpro" class="protocol">《凤凰云商o2o用户注册协议》</router-link>
+      <yd-button size="large" type="warning" :disabled="!validRegister" @click.native="register">注册</yd-button>
+      <div class="tips text-center">
+          已有账号？<span style="color:#10aeff;" @click="loginWay=false">直接登录</span>
+        </div>
       </div>
-      <yd-button size="large" type="warning" :disabled="!validRegister" @click.native="register" v-if="loginWay">注册</yd-button>
       <div class="flex just-between" v-else>
         <yd-button type="primary" size="large" :disabled="!validLogin" @click.native="login">登 录</yd-button>
         <yd-button type="danger" size="large" @click.native="forget">忘记密码</yd-button>
+        <div class="tips text-center">
+          没有账号？<span style="color:#10aeff;" @click="loginWay=true">注册账户</span>
+        </div>
       </div>
     </div>
 
@@ -98,7 +100,7 @@ export default {
         },
         success(res) {
           vm.$dialog.loading.close();
-          if (res.code == "2") {
+          if (res) {
             vm.correctCode = res.content;
             vm.startSend = true;
             vm.$dialog.toast({
@@ -110,6 +112,10 @@ export default {
             vm.correctCode = "";
             vm.startSend = false;
           }
+        },
+        error(e){
+          vm.correctCode = "";
+            vm.startSend = false;
         }
       });
     },
@@ -195,7 +201,6 @@ export default {
 </script>
 <style lang='less' scoped>
 @import "../../style/mixin.less";
-
 .page-container {
   padding: 0.3rem;
   .forget-pwd {
@@ -212,5 +217,10 @@ export default {
       color: @white;
     }
   }
+}
+
+.tips{
+  margin: 1rem auto 0;
+  font-size: .32rem;
 }
 </style>

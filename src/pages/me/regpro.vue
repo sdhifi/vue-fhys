@@ -2,7 +2,7 @@
   <div>
     <header-top title="服务协议"></header-top>
     <main class="scroll-content-2 page-container">
-      <iframe :src="url" frameborder="0"></iframe>
+      <iframe :src="url" frameborder="0" style="width: 100%;height: 100%;"></iframe>
     </main>
   </div>
 </template>
@@ -33,11 +33,3 @@ export default {
   },
 }
 </script>
-<style lang='less' scoped>
-.page-container{
-  iframe{
-    width: 100%;
-    height: 100%;
-  }
-}
-</style>

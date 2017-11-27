@@ -36,9 +36,6 @@ export default {
   },
   mixins: [mixin],
   created() {
-
-  },
-  activated() {
     this.getRecommend();
   },
   methods: {

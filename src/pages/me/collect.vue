@@ -71,16 +71,11 @@ export default {
     ...mapState(["account"])
   },
   mixins: [mixin],
-  created() {},
-  activated() {
-    this.noData2 = false;
-    this.noData1 = false;
-    this.info2 = [];
-    this.info1 = [];
-    this.pageNo2 = 1;
-    this.pageNo1 = 1;
-    this.tabIndex = 0;
+  created() {
     this.toggleItem(this.tabIndex);
+  },
+  activated() {
+
   },
   methods: {
     toggleItem(index) {

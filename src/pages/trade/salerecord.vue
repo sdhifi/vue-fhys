@@ -92,12 +92,6 @@ export default {
   },
   created() {},
   mixins: [findMemberByMobile],
-  activated() {
-    this.money = "";
-    this.mobile = "";
-    this.mobileName = "";
-    this.payType = "";
-  },
   methods: {
     save() {
       if(this.account == this.mobile){

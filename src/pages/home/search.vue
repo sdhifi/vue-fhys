@@ -24,64 +24,67 @@
   </div>
 </template>
 <script>
-import HeaderTop from 'components/header/index'
-import { setStore, getStore, removeStore } from 'components/common/mixin'
+import HeaderTop from "components/header/index";
+import { setStore, getStore, removeStore } from "components/common/mixin";
 export default {
-  name: 'Search',
+  name: "Search",
   data() {
     return {
-      account: '',
-      searchValue: '',
+      account: "",
+      searchValue: "",
       searchHistory: [],
-      bg: ['#178CEC', '#E51417', '#34B34C', '#FDBA2D', '#FE5B24', '#829DAE', '#1FBFCB']
-    }
+      bg: [
+        "#178CEC",
+        "#E51417",
+        "#34B34C",
+        "#FDBA2D",
+        "#FE5B24",
+        "#829DAE",
+        "#1FBFCB"
+      ]
+    };
   },
   components: { HeaderTop },
-  computed: {
-
-  },
+  computed: {},
   created() {
-
-  },
-  activated() {
-    this.searchValue = '';
-    if (getStore('account') && getStore('account').length > 0) {
-      this.account = getStore('account');
+    if (getStore("account") && getStore("account").length > 0) {
+      this.account = getStore("account");
     }
     if (getStore(`${this.account}_search`)) {
-      this.searchHistory = JSON.parse(getStore(`${this.account}_search`))
+      this.searchHistory = JSON.parse(getStore(`${this.account}_search`));
     }
   },
   methods: {
     search(v) {
       if (!v) return;
       this.searchValue = v;
-      this.$store.commit('RECORD_SEARCH_VALUE', this.searchValue);
+      this.$store.commit("RECORD_SEARCH_VALUE", this.searchValue);
       let history = getStore(`${this.account}_search`);
       if (history) {
         let repeat = false;
         this.searchHistory = JSON.parse(history);
         this.searchHistory.forEach(item => {
           if (item == this.searchValue) repeat = true;
-        })
-        if (!repeat)
-          this.searchHistory.push(this.searchValue)
+        });
+        if (!repeat) this.searchHistory.push(this.searchValue);
+      } else {
+        this.searchHistory.push(this.searchValue);
       }
-      else {
-        this.searchHistory.push(this.searchValue)
-      }
-      setStore(`${this.account}_search`, this.searchHistory)
-      this.$router.push({ name: 'SearchResult', params: { searchValue: this.searchValue } })
+      setStore(`${this.account}_search`, this.searchHistory);
+      this.$router.push({
+        name: "SearchResult",
+        params: { searchValue: this.searchValue }
+      });
     },
     clearHistory() {
       this.searchHistory = [];
-      removeStore(`${this.account}_search`)
+      removeStore(`${this.account}_search`);
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 
 .search-history {
   .mg;
@@ -94,12 +97,12 @@ export default {
   .search-list {
     .search-item {
       .text-center;
-      padding: .04rem .3rem;
+      padding: 0.04rem 0.3rem;
       margin: 0 1.5% @pd;
       color: @white;
       border-radius: 10px 0;
       .ellipsis;
-      font-size: .28rem;
+      font-size: 0.28rem;
     }
   }
 }

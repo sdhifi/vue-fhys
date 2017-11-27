@@ -20,9 +20,6 @@ export default {
   created() {
     this.getInfo();
   },
-  activated() {
-
-  },
   methods: {
     getInfo(){
       let vm = this;

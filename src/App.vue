@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <transition name="router-fade" mode="out-in">
+    <!-- <transition name="router-fade" mode="out-in"> -->
       <keep-alive>
-        <router-view></router-view>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
-    </transition>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <!-- </transition> -->
   </div>
 </template>
 
@@ -14,10 +15,7 @@ import { getStore } from 'components/common/mixin'
 export default {
   name: 'app',
   computed: {
-    ...mapState(['account']),
-    key() {
-      return this.$route.name !== undefined ? this.$route.name + new Date() : this.$route + new Date()
-    }
+    ...mapState(['account'])
   },
   created() {
     this.redirect();

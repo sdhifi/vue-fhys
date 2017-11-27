@@ -56,11 +56,6 @@ export default {
       return this.rightMobile && this.rightCode && this.rightPwd;
     }
   },
-  activated() {
-    this.code = "";
-    this.correctCode = "";
-    this.password = "";
-  },
   methods: {
     sendCode() {
       let vm = this;
@@ -76,18 +71,18 @@ export default {
           token: md5(`send${this.mobile}`)
         },
         success(res) {
-          vm.correctCode = res.content;
+          vm.$dialog.loading.close();
+          if (res) {
+            vm.correctCode = res.content;
+            vm.startSend = true;
+            vm.$dialog.toast({
+              mes: "已发送",
+              icon: "success",
+              timeout: 1500
+            });
+          }
         }
       });
-      setTimeout(() => {
-        this.startSend = true;
-        this.$dialog.loading.close();
-        this.$dialog.toast({
-          mes: "已发送",
-          icon: "success",
-          timeout: 1500
-        });
-      }, 1000);
     },
     submit() {
       let vm = this;

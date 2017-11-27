@@ -59,14 +59,13 @@ export default {
   components: { HeaderTop, Crown },
   computed: {
     ...mapState(["member"]),
-    valid(){
-      return this.info.goods.every(item=>{
-        return !!item.comment
-      })
+    valid() {
+      return this.info.goods.every(item => {
+        return !!item.comment;
+      });
     }
   },
-  created() {},
-  activated() {
+  created() {
     let order = this.$route.params.order;
     let goods = order.goods;
     let newGoods = [];
@@ -112,7 +111,9 @@ export default {
         proId.push(item.goodsId);
         score.push(item.score);
         content.push(item.comment);
-        pictures.push(item.imgs?item.imgs.replace("data:image/jpeg;base64,",""):"abc");
+        pictures.push(
+          item.imgs ? item.imgs.replace("data:image/jpeg;base64,", "") : "abc"
+        );
       });
 
       mui.ajax({
@@ -177,7 +178,7 @@ export default {
     .wh(1rem,1rem);
     border-radius: 50%;
     .hv-cen;
-    background-color:#ccc;
+    background-color: #ccc;
     color: @white;
   }
   #upload-img {
@@ -187,7 +188,7 @@ export default {
     z-index: 5;
   }
 
-  &.upload-box{
+  &.upload-box {
     min-height: 1.2rem;
   }
 }

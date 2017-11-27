@@ -26,22 +26,22 @@
       </yd-cell-group>
       <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="addBankCard">同意协议并绑定</yd-button>
       <yd-cityselect v-model="show1" :done="result1" :items="district"></yd-cityselect>
-      <router-link to="/me/regpro" class="tips">《凤凰云商O2O服务协议》</router-link>
+      <router-link to="/trade/service" class="tips">《凤凰云商O2O服务协议》</router-link>
     </main>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import HeaderTop from 'components/header/index'
-import { Group, Selector } from 'vux'
-import { getStore } from 'components/common/mixin'
-import { bindBank } from '../../api/index'
-import District from 'ydui-district/dist/gov_province_city_id'
+import { mapState } from "vuex";
+import HeaderTop from "components/header/index";
+import { Group, Selector } from "vux";
+import { getStore } from "components/common/mixin";
+import { bindBank } from "../../api/index";
+import District from "ydui-district/dist/gov_province_city_id";
 export default {
-  name: 'NewBank',
+  name: "NewBank",
   data() {
     return {
-      bankId: '',
+      bankId: "",
       bankNameList: [
         { key: 390, value: "中国工商银行" },
         { key: 391, value: "华夏银行" },
@@ -63,50 +63,67 @@ export default {
         { key: 704, value: "广州银行" },
         { key: 707, value: "中国邮政储蓄银行" },
         { key: 718, value: "中信银行" },
-        { key: 729, value: "中国光大银行" },
+        { key: 729, value: "中国光大银行" }
       ],
-      bankSub: '',
-      cityValue: '',
-      cityName: '',
+      bankSub: "",
+      cityValue: "",
+      cityName: "",
       district: District,
       show1: false,
-      holder: '',
-      bankCard: ''
-    }
+      holder: "",
+      bankCard: ""
+    };
   },
   components: { HeaderTop, Group, Selector },
   computed: {
-    ...mapState(['account', 'certificateStatus', 'member']),
+    ...mapState(["account", "certificateStatus", "member"]),
     validBankCard() {
-      return /^\d{15,19}$/.test(this.bankCard)
+      return /^\d{15,19}$/.test(this.bankCard);
     },
     valid() {
-      return !!this.bankId && !!this.bankSub && !!this.cityValue && !!this.validBankCard;
+      return (
+        !!this.bankId &&
+        !!this.bankSub &&
+        !!this.cityValue &&
+        !!this.validBankCard
+      );
     }
   },
-  created() {
-
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      mui.back = vm.goBack;
+    });
   },
-  activated() {
-
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
   },
+  created() {},
+  activated() {},
   methods: {
+    goBack() {
+      if (this.show1) {
+        this.show1 = false;
+      } else {
+        this.$router.go(-1);
+      }
+    },
     result1(res) {
       this.cityName = `${res.itemName1},${res.itemName2}`;
       this.cityValue = `${res.itemValue1},${res.itemValue2}`;
     },
     addBankCard() {
       let vm = this;
-      if(!this.certificateStatus&&!this.holder){
+      if (!this.certificateStatus && !this.holder) {
         this.$dialog.toast({
-          mes:'请填写开户人',
+          mes: "请填写开户人"
         });
         return;
       }
       mui.ajax({
         url: bindBank,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
           bankId: this.bankId,
           bankSub: this.bankSub,
@@ -123,16 +140,16 @@ export default {
               callback: () => {
                 vm.$router.go(-1);
               }
-            })
+            });
           }
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
-.tips{
+.tips {
   display: block;
   margin-top: 1rem;
   text-align: center;

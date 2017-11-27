@@ -91,31 +91,11 @@ export default {
     ...mapState(["account"])
   },
   mixins: [payMixin],
-  created() {},
-  activated() {
-    this.reset();
+  created() {
     this.index = +this.$route.query.id;
     this.toggleItem(this.index);
   },
   methods: {
-    reset() {
-      // this.orderType = "7";
-      this.noData0 = false;
-      this.noData1 = false;
-      this.noData2 = false;
-      this.noData3 = false;
-      this.noData7 = false;
-      this.list0 = [];
-      this.list1 = [];
-      this.list2 = [];
-      this.list3 = [];
-      this.list7 = [];
-      this.pageNo0 = 1;
-      this.pageNo1 = 1;
-      this.pageNo2 = 1;
-      this.pageNo3 = 1;
-      this.pageNo7 = 1;
-    },
     toggleItem(index) {
       this.orderType = this.menu[index].key;
       if (!this[`noData${this.orderType}`]) {
@@ -222,45 +202,45 @@ export default {
             // vm.$store.commit("RECORD_PAY_INFO", payInfo);
             // vm.$router.push({ name: "YinLian" });
             vm.$dialog.alert({
-              mes:"银联支付功能暂时无法使用，请更换其他支付方式重新下单"
-            })
+              mes: "银联支付功能暂时无法使用，请更换其他支付方式重新下单"
+            });
             //银联
           } else if (item.payType == "7" || item.payType == "8") {
             //积分||责任金额
-              vm.checkService(vm.pays["alipay"], function() {
-                plus.payment.request(
-                  vm.pays["alipay"],
-                  _result.payString,
-                  function(result) {
-                    plus.nativeUI.alert(
-                      "支付成功",
-                      function() {
-                        //TODO:更改状态
-                        // 待支付->待发货
-                        if (index) {
-                          vm.list0.splice(index, 1);
-                        } else {
-                          //全部，只要改变状态
-                          item.orderStatus = "1";
-                        }
-                        //待支付状态需要重置.
-                        vm.list0 = [];
-                        vm.pageNo0 = 1;
-                        vm.noData0 = false;
+            vm.checkService(vm.pays["alipay"], function() {
+              plus.payment.request(
+                vm.pays["alipay"],
+                _result.payString,
+                function(result) {
+                  plus.nativeUI.alert(
+                    "支付成功",
+                    function() {
+                      //TODO:更改状态
+                      // 待支付->待发货
+                      if (index) {
+                        vm.list0.splice(index, 1);
+                      } else {
+                        //全部，只要改变状态
+                        item.orderStatus = "1";
+                      }
+                      //待支付状态需要重置.
+                      vm.list0 = [];
+                      vm.pageNo0 = 1;
+                      vm.noData0 = false;
 
-                        //待发货状态需要重置.
-                        vm.list1 = [];
-                        vm.pageNo1 = 1;
-                        vm.noData1 = false;
-                      },
-                      "支付"
-                    );
-                  },
-                  function(e) {
-                    plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
-                  }
-                );
-              });
+                      //待发货状态需要重置.
+                      vm.list1 = [];
+                      vm.pageNo1 = 1;
+                      vm.noData1 = false;
+                    },
+                    "支付"
+                  );
+                },
+                function(e) {
+                  plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                }
+              );
+            });
           } else {
             vm.$dialog.toast({
               mes: "该支付功能暂时无法使用，请更换其他支付方式重新下单"

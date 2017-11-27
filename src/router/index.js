@@ -7,266 +7,466 @@ const router = new Router({
   routes: [{
     path: '/home/index',
     name: 'Index',
-    component: require('../pages/home/index')
+    component: require('../pages/home/index'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/home/subcolumn/:id',
     name: 'SubColumn',
-    component: require('../pages/home/subcolumn')
+    component: require('../pages/home/subcolumn'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/home/subcolumn2/:id',
     name: 'SubColumn2',
-    component: require('../pages/home/subcolumn2')
+    component: require('../pages/home/subcolumn2'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/home/search',
     name: 'Search',
-    component: require('../pages/home/search')
+    component: require('../pages/home/search'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/home/searchresult',
     name: 'SearchResult',
-    component: require('../pages/home/searchresult')
+    component: require('../pages/home/searchresult'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/near/index',
     name: 'Near',
-    component: require('../pages/near/index')
+    component: require('../pages/near/index'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/online/index',
     name: 'Online',
-    component: require('../pages/online/index')
+    component: require('../pages/online/index'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/online/jdindex',
     name: 'JingDong',
-    component: require('../pages/online/jdindex')
+    component: require('../pages/online/jdindex'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/online/tmindex',
     name: 'TianMao',
-    component: require('../pages/online/tmindex')
+    component: require('../pages/online/tmindex'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/online/tmdetail',
     name: 'TMDetail',
-    component: require('../pages/online/tmdetail')
+    component: require('../pages/online/tmdetail'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/online/allcolumn',
     name: 'AllColumn',
-    component: require('../pages/online/allcolumn')
+    component: require('../pages/online/allcolumn'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/online/products',
     name: 'Products',
-    component: require('../pages/online/products')
+    component: require('../pages/online/products'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/online/product',
     name: 'Product',
-    component: require('../pages/online/product')
+    component: require('../pages/online/product'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/online/comment',
     name: 'Comment',
-    component: require('../pages/online/comment')
+    component: require('../pages/online/comment'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/online/settle',
     name: 'SettleBalance',
-    component: require('../pages/online/settle')
+    component: require('../pages/online/settle'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/online/shoppingcart',
     name: 'ShoppingCart',
-    component: require('../pages/online/cart')
+    component: require('../pages/online/cart'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/address/city',
     name: 'City',
-    component: require('../pages/address/city')
+    component: require('../pages/address/city'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/address/index',
     name: 'AddressManage',
-    component: require('../pages/address/index')
+    component: require('../pages/address/index'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/address/edit',
     name: 'AddressEdit',
-    component: require('../pages/address/edit')
+    component: require('../pages/address/edit'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/address/new',
     name: 'AddressNew',
-    component: require('../pages/address/edit')
+    component: require('../pages/address/edit'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/me/index',
     name: 'Me',
     component: require('../pages/me/index'),
     meta: {
-      requireAuth: true
+      requireAuth: true,
+      keepAlive: true
     }
   }, {
     path: '/order/index',
     name: 'MyOrder',
-    component: require('../pages/order/index')
+    component: require('../pages/order/index'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/order/detail',
     name: 'OrderDetail',
-    component: require('../pages/order/orderdetail')
+    component: require('../pages/order/orderdetail'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/order/addcomment',
     name: 'AddComment',
-    component: require('../pages/order/addcomment')
+    component: require('../pages/order/addcomment'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/me/mywallet',
     name: 'MyWallet',
-    component: require('../pages/me/mywallet')
+    component: require('../pages/me/mywallet'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/me/qrcode',
     name: 'Qrcode',
-    component: require('../pages/me/qrcode')
+    component: require('../pages/me/qrcode'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/me/recommend',
     name: 'Recommend',
-    component: require('../pages/me/recommend')
+    component: require('../pages/me/recommend'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/me/about',
     name: 'About',
-    component: require('../pages/me/about')
+    component: require('../pages/me/about'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/me/updateApp',
     name: 'UpdateApp',
-    component: require('../pages/me/updateApp')
+    component: require('../pages/me/updateApp'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/me/login',
     name: 'Login',
-    component: require('../pages/me/login')
+    component: require('../pages/me/login'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/me/regpro',
     name: 'RegPro',
-    component: require('../pages/me/regpro')
+    component: require('../pages/me/regpro'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/me/forgetpwd',
     name: 'Forgetpwd',
-    component: require('../pages/me/forgetpwd')
+    component: require('../pages/me/forgetpwd'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/me/pwdmanage',
     name: 'PwdManage',
-    component: require('../pages/me/pwdmanage')
+    component: require('../pages/me/pwdmanage'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/me/update',
     name: 'Update',
-    component: require('../pages/me/update')
+    component: require('../pages/me/update'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/me/collect',
     name: 'MyCollect',
-    component: require('../pages/me/collect')
+    component: require('../pages/me/collect'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/shop/index/:id',
     name: 'Shop',
-    component: require('../pages/shop/index')
+    component: require('../pages/shop/index'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/store/settle',
     name: 'Settle',
-    component: require('../pages/store/settle')
+    component: require('../pages/store/settle'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/store/settle-1',
     name: 'Settle1',
-    component: require('../pages/store/settle1')
+    component: require('../pages/store/settle1'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/store/my',
     name: 'MyStore',
-    component: require('../pages/store/my')
+    component: require('../pages/store/my'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/store/service',
     name: 'StoreService',
-    component: require('../pages/store/storeservice')
+    component: require('../pages/store/storeservice'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/store/productmanage',
     name: 'ProductManage',
-    component: require('../pages/store/productmanage')
+    component: require('../pages/store/productmanage'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/store/ordermanage',
     name: 'OrderManage',
-    component: require('../pages/store/ordermanage')
+    component: require('../pages/store/ordermanage'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/store/publishmanage',
     name: 'PublishManage',
-    component: require('../pages/store/publishmanage')
+    component: require('../pages/store/publishmanage'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/store/updateproduct',
     name: 'UpdateProduct',
-    component: require('../pages/store/publishmanage')
+    component: require('../pages/store/publishmanage'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/store/receipt',
     name: 'Receipt',
-    component: require('../pages/store/receiptmanage')
+    component: require('../pages/store/receiptmanage'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/download',
     name: 'Download',
-    component: require('../pages/trade/download')
+    component: require('../pages/trade/download'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/trade/bankcard',
     name: 'BankCard',
-    component: require('../pages/trade/bankcard')
-  }, {
-    path: '/trade/consumerule',
-    name: 'ConsumeRule',
-    component: require('../pages/trade/consumerule')
+    component: require('../pages/trade/bankcard'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/newbank',
     name: 'NewBank',
-    component: require('../pages/trade/newbank')
-  }, {
+    component: require('../pages/trade/newbank'),
+    meta:{
+      keepAlive: true
+    }
+  },{
+    path: '/trade/service',
+    name: 'Service',
+    component: require('../pages/trade/service'),
+    meta:{
+      keepAlive: false
+    }
+  },{
+    path: '/trade/consumerule',
+    name: 'ConsumeRule',
+    component: require('../pages/trade/consumerule'),
+    meta:{
+      keepAlive: true
+    }
+  },  {
     path: '/trade/participate',
     name: 'Participate',
-    component: require('../pages/trade/participate')
+    component: require('../pages/trade/participate'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/salerecord',
     name: 'SaleRecord',
-    component: require('../pages/trade/salerecord')
+    component: require('../pages/trade/salerecord'),
+    meta:{
+      keepAlive: false
+    }
   }, {
     path: '/trade/salehistory',
     name: 'SaleHistory',
-    component: require('../pages/trade/salehistory')
+    component: require('../pages/trade/salehistory'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/salewelfare',
     name: 'SaleWelfare',
-    component: require('../pages/trade/salewelfare')
+    component: require('../pages/trade/salewelfare'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/interest',
     name: 'Interest',
-    component: require('../pages/trade/interest')
+    component: require('../pages/trade/interest'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/cashhistory',
     name: 'CashHistory',
-    component: require('../pages/trade/cashhistory')
+    component: require('../pages/trade/cashhistory'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/welfrecord',
     name: 'WelfareRecord',
-    component: require('../pages/trade/welfrecord')
+    component: require('../pages/trade/welfrecord'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/withdrawals',
     name: 'WithDrawals',
-    component: require('../pages/trade/withdrawals')
+    component: require('../pages/trade/withdrawals'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/shouxin',
     name: 'Shouxin',
-    component: require('../pages/trade/shouxin')
+    component: require('../pages/trade/shouxin'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/buyshouxin',
     name: 'BuyShouxin',
-    component: require('../pages/trade/buyshouxin')
+    component: require('../pages/trade/buyshouxin'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/shouxinlist',
     name: 'ShouxinList',
-    component: require('../pages/trade/shouxinlist')
+    component: require('../pages/trade/shouxinlist'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/transfer',
     name: 'Transfer',
-    component: require('../pages/trade/transfer')
+    component: require('../pages/trade/transfer'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/transferhistory',
     name: 'TransferHistory',
-    component: require('../pages/trade/transferhistory')
+    component: require('../pages/trade/transferhistory'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/trade/merge',
     name: 'MergeHistory',
-    component: require('../pages/trade/merge')
+    component: require('../pages/trade/merge'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/order/yinlian',
     name: 'YinLian',
-    component: require('../pages/order/yinlian')
+    component: require('../pages/order/yinlian'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '/order/yinlianconfirm',
     name: 'YinLianConfirm',
-    component: require('../pages/order/yinlianconfirm')
+    component: require('../pages/order/yinlianconfirm'),
+    meta:{
+      keepAlive: true
+    }
   }, {
     path: '*',
     redirect: '/home/index'

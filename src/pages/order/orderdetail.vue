@@ -164,9 +164,7 @@ export default {
       }
     }
   },
-  created() {},
-  activated() {
-    this.info =null;
+  created() {
     this.getDetail(this.$route.query.sn);
   },
   mixins: [mixin],

@@ -2,7 +2,7 @@
   <div>
     <header-top></header-top>
     <main class='scroll-content-2'>
-      <iframe :src="videoUrl" frameborder="0"></iframe>
+      <iframe :src="videoUrl" frameborder="0" style="width:100%;"></iframe>
     </main>
   </div>
 </template>
@@ -13,7 +13,7 @@ export default {
   name: 'About',
   data() {
     return {
-      videoUrl:'https://v.qq.com/iframe/player.html?vid=y0317vaal6b&tiny=0&auto=0'
+      videoUrl:''
     }
   },
   components: { HeaderTop },
@@ -21,7 +21,7 @@ export default {
 
   },
   created() {
-
+    this.getVideo();
   },
   activated() {
     //this.getVideo();
@@ -37,7 +37,12 @@ export default {
           token:md5('aboutGjf')
         },
         success(res){
-          vm.videoUrl = res.result;
+          if(res.code==200){
+            vm.videoUrl = res.result;
+          }
+          else {
+            vm.videoUrl = "https://v.qq.com/iframe/player.html?vid=y0317vaal6b&tiny=0&auto=0";
+          }
         }
       })
     }

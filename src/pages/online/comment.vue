@@ -54,12 +54,10 @@ export default {
     }
   },
   mixins: [mixin],
-  created() {},
-  activated() {
-    this.noData = false;
-    this.pageNo = 1;
-    this.info = [];
+  created() {
     this.getComment();
+  },
+  activated() {
   },
   methods: {
     getComment() {
