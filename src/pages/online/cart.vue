@@ -39,7 +39,6 @@
       <section class="hv-cen text-center" v-show="!cartList.length">
         <span class="iconfont self-shopcart" style="font-size:40px;"></span>
         <p class="fs-14" style="margin-bottom:.5rem;">购物车空空如也</p>
-        <!-- <router-link class="fs-14" to="/online/index" replace>去商城看看...</router-link> -->
         <yd-button type="warning" @click.native="goOnLine">去商城看看
           <span class="iconfont self-right"></span>
         </yd-button>
@@ -137,12 +136,12 @@
         item.close = true;
       },
       editCart(item, index) {
-        if (item.goodsId.isCanUserCou == "1") {
-          this.$dialog.toast({
-            mes: "积分换购商品限购一件"
-          });
-          return;
-        }
+        // if (item.goodsId.isCanUserCou == "1") {
+        //   this.$dialog.toast({
+        //     mes: "积分换购商品限购一件"
+        //   });
+        //   return;
+        // }
         item.close = false;
       },
       deleteCart(item, index) {

@@ -484,7 +484,7 @@ footer {
   bottom: 0;
   transform: translate3d(0, 120%, 0);
   backface-visibility: hidden;
-  z-index: 5000;
+  z-index: 1000;
   width: 100%;
   transition: transform 0.3s;
   background-color: @white;
