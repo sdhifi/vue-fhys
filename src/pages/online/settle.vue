@@ -423,7 +423,10 @@ export default {
         });
       } else {
         this.$dialog.alert({
-          mes: successTips
+          mes: successTips,
+          callback: () => {
+            this.goBack(true);
+          }
         });
       }
     }

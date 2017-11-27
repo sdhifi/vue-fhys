@@ -41,6 +41,7 @@ export default {
   name: "NewBank",
   data() {
     return {
+      oldBack:mui.back,
       bankId: "",
       bankNameList: [
         { key: 390, value: "中国工商银行" },

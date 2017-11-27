@@ -53,7 +53,6 @@
         <load-more tip="商品图文详情" :show-loading="false" background-color="rgb(236, 227, 124)" style="margin-bottom:0;"></load-more>
         <div v-html="info.content" class="pd-content"></div>
       </section>
-      <yd-backtop></yd-backtop>
     </main>
     <footer class="fix-footer flex align-center" v-show="!info.isCanUserCou">
       <button @click="buynow" class="flex-1 btn-2">[京东]立即购买</button>

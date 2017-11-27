@@ -51,7 +51,6 @@ export default {
   name: 'BankCard',
   data() {
     return {
-      oldBack: mui.back,
     }
   },
   components: { HeaderTop, CertModal, GroupTitle, Swipeout, SwipeoutItem },
