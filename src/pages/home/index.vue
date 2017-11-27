@@ -82,7 +82,7 @@ export default {
   },
   components: { Swiper, SwiperItem, HeaderTop, FooterBar, ProductItem },
   computed: {
-    ...mapState(["longitude", "latitude", "city"])
+    ...mapState(["longitude", "latitude", "city","member"])
   },
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
@@ -102,8 +102,11 @@ export default {
     if (getStore("account") && getStore("account").length > 0) {
       this.loginAccount = true;
       this.$store.commit("SET_ACCOUNT", getStore("account"));
-      this.$store.dispatch("getInfo");
+      if(!this.member){
+        this.$store.dispatch("getInfo");
+      }
     }
+    
     if (!getStore("tips")) {
       this.$dialog.notify({
         mes: "点击标题可以回到顶部！",

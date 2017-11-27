@@ -8,8 +8,9 @@
 					<span>{{item.label}}</span>
 				</div>
 				<ul v-if="item.sub" class="flex" style="margin-top:.2rem;">
-					<router-link :to="'/online/products?type=1&id='+sub.id" v-for="(sub,subIndex) in item.sub" :key="subIndex" class="item text-center" tag="li">
-						{{sub.names}}
+					<router-link :to="'/online/products?type=1&id='+sub.id" v-for="(sub,subIndex) in item.sub" :key="subIndex" class="item flex align-center just-between" tag="li">
+						<span>{{sub.names}}</span>
+            <span class="iconfont self-right" style="color:#00ceff"></span>
 					</router-link>
 				</ul>
 			</section>
@@ -66,9 +67,9 @@ export default {
   .pd;
   background-color: @white;
   margin-bottom: @pd;
-  font-size: 0.3rem;
+  font-size: .28rem;
   .title {
-    font-size: 0.35rem;
+    font-size: 0.32rem;
   }
   img {
     .wh(0.7rem,0.7rem);
@@ -77,7 +78,7 @@ export default {
   .item {
     width: 25%;
     border: 1px solid #fff7f5;
-    .pd;
+    padding: .2rem .1rem;
   }
 }
 </style>	
