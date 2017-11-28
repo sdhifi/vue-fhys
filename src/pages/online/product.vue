@@ -342,7 +342,8 @@ export default {
           success(res) {
             vm.show = false;
             vm.$dialog.toast({
-              mes: res.msg
+              mes: res.msg,
+              timeout:1000
             });
             vm.$store.dispatch("getCartList");
           }

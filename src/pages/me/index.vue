@@ -288,7 +288,7 @@ export default {
         mes: "退出成功",
         timeout: 1000,
         callback: () => {
-          this.$router.push("/me/login");
+          this.$router.replace("/me/login");
         }
       });
     }

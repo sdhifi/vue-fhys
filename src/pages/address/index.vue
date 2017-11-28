@@ -56,9 +56,6 @@ export default {
   computed: {
     ...mapState(['account', 'addressList'])
   },
-  created() {
-
-  },
   activated() {
     this.$store.dispatch('getAddressList');
   },
@@ -119,7 +116,8 @@ export default {
             success(res) {
               if (res.code !== 200) {
                 vm.$dialog.toast({
-                  mes: res.msg
+                  mes: res.msg,
+                  timeout:1000
                 })
                 return;
               }
