@@ -11,9 +11,9 @@
       <section class="store-info">
         <h2 class="store-title px-1">{{info.storeName}}</h2>
         <div class="flex align-center">
-          <div class="flex-1 fs-15">
+          <div class="flex-1 fs-15 flex">
             <span class="iconfont-large self-location danger-color"></span>
-            <span>{{info.provinceId.province}}{{info.cityId.city}}
+            <span class="flex-1">{{info.provinceId.province}}{{info.cityId.city}}
               <span v-if="info.areaId">{{info.areaId.area}}</span>{{info.addressDetail}}</span>
           </div>
           <span class="iconfont self-bianji danger-color" @click="showEdit"></span>

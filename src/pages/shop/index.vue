@@ -9,9 +9,9 @@
           <div class="pd-desc">{{pdDetail.name}}</div>
         </div>
         <div class="pd-price fs-12">
-            <span class="pd-rmb danger-color">￥</span>
-            <span class="pd-price1 danger-color fs-20">{{formatPrice(pdDetail.price)}}</span>
-            <span class="pd-price2">门市价:￥{{formatPrice(pdDetail.marketPrice)}}</span>
+          <span class="pd-rmb danger-color">￥</span>
+          <span class="pd-price1 danger-color fs-20">{{formatPrice(pdDetail.price)}}</span>
+          <span class="pd-price2">门市价:￥{{formatPrice(pdDetail.marketPrice)}}</span>
         </div>
       </section>
       <section class="seller-container">
@@ -22,10 +22,12 @@
               <span class="iconfont self-seller danger-color"></span>
               {{pdDetail.storeName}}
             </div>
-            <div class="seller-address fs-13">
-              <span class="iconfont self-location danger-color"></span>
-              {{pdDetail.storeAddress}}
-              <p class="fs-12">距离我最近{{formatDis(pdDetail.distance)}}</p>
+            <div class="seller-address fs-13 flex">
+              <span class="iconfont self-near danger-color"></span>
+              <div class="flex-1">
+                <p class="fs-16">{{pdDetail.storeAddress}}</p>
+                <p class="fs-12">距离我最近{{formatDis(pdDetail.distance)}}</p>
+              </div>
             </div>
           </div>
           <a class="seller-tel" :href="'tel:'+pdDetail.storeMobile">
@@ -33,8 +35,8 @@
           </a>
         </div>
         <div class="collect flex align-center just-between">
-          <span class="iconfont self-heart danger-color" @click="collect(pdDetail.id,2)">收藏商品</span> 
-          <span class="iconfont self-star" style="color:#f90;" @click="collect(pdDetail.storeId,1)">关注店铺</span> 
+          <span class="iconfont self-heart danger-color" @click="collect(pdDetail.id,2)">收藏商品</span>
+          <span class="iconfont self-star" style="color:#f90;" @click="collect(pdDetail.storeId,1)">关注店铺</span>
         </div>
       </section>
       <section class="tip-container">
@@ -132,7 +134,10 @@ export default {
           let result = res.result;
           if (result.product) {
             vm.pdDetail = result.product;
-            vm.comment = Object.assign({},{ count: result.comCount, cmt: result.comment });
+            vm.comment = Object.assign(
+              {},
+              { count: result.comCount, cmt: result.comment }
+            );
             vm.getHotProduct();
           } else {
             vm.$dialog.toast({
@@ -232,9 +237,13 @@ section {
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(to bottom,rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.8));
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.8)
+      );
       color: @white;
-      font-size: .3rem;
+      font-size: 0.3rem;
       padding: @pd;
       box-shadow: 0 -5px 5px rgba(255, 255, 255, 0.3) inset;
     }
@@ -266,13 +275,15 @@ section {
     .seller-address {
       p {
         color: @lightgray;
-        margin-left: 0.4rem;
+        &:first-of-type{
+          color: #333;
+        }
       }
     }
   }
   .seller-tel {
     display: block;
-    .wh(.8rem,1rem);
+    .wh(0.8rem,1rem);
   }
   .collect {
     .pd;
