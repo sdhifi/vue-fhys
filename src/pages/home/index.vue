@@ -106,7 +106,9 @@ export default {
         this.$store.dispatch("getInfo");
       }
     }
-    
+    else{
+      this.loginAccount = false;
+    }
     if (!getStore("tips")) {
       this.$dialog.notify({
         mes: "点击标题可以回到顶部！",
