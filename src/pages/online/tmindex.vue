@@ -171,6 +171,7 @@ export default {
 };
 </script>
 <style lang='less' scoped>
+  @import "../../style/mixin.less";
 .scroll-warpper {
   position: absolute;
   left: 0;
@@ -180,7 +181,6 @@ export default {
   overflow: hidden;
   background-color: @white;
 }
-@import "../../style/mixin.less";
 .tab-list {
   position: absolute;
   top: 0;
