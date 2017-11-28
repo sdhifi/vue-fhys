@@ -395,20 +395,47 @@ export default {
           vm.pays["alipay"],
           payParams,
           function(result) {
-            plus.nativeUI.alert(
-              "支付成功",
-              function() {
-                //vm.goBack(true);
-                vm.$router.replace({
-                  name: "MyOrder",
-                  query: { id: 0 }
-                });
-              },
-              "支付"
-            );
+            // plus.nativeUI.alert(
+            //   "支付成功",
+            //   function() {
+            //     //vm.goBack(true);
+            //     vm.$router.replace({
+            //       name: "MyOrder",
+            //       query: { id: 0 }
+            //     });
+            //   },
+            //   "支付"
+            // );
+            vm.$dialog.confirm({
+              mes: "支付成功！",
+              opts: [
+                {
+                  txt: "返回购物",
+                  color: false,
+                  stay: false,
+                  callback: () => {
+                    vm.goBack(true);
+                  }
+                },
+                {
+                  txt: "查看订单",
+                  color: true,
+                  stay: false,
+                  callback: () => {
+                    vm.$router.replace({
+                      name: "MyOrder",
+                      query: { id: 0 }
+                    });
+                  }
+                }
+              ]
+            });
           },
           function(e) {
-            plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+            // plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+            vm.$dialog.alert({
+              mes: "支付失败:" + e.message
+            });
           }
         );
       });
@@ -416,7 +443,7 @@ export default {
     payPos(payParams, successTips) {
       if (this.settleList.pointNiceAmount) {
         this.$dialog.alert({
-          mes: "下单成功，继续去支付邮费",
+          mes: "下单成功，去支付金额部分",
           callback: () => {
             this.zfbPay(payParams);
           }
