@@ -62,7 +62,7 @@ export default {
 
     },
   activated() {
-    this.$store.dispatch('getBankList');
+      this.$store.dispatch('getBankList');
   },
   methods: {
     formatCard(num) {

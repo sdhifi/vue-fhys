@@ -68,10 +68,10 @@ export default {
     }
   },
   mixins: [mixin],
-  created() {
-    this.$store.dispatch("getBankList");
+  created() {},
+  activated() {
+    if (!this.defaultBankCard) this.$store.dispatch("getBankList");
   },
-  activated() {},
   methods: {
     drawCash() {
       let vm = this;

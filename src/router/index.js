@@ -409,7 +409,7 @@ const router = new Router({
     name: 'WithDrawals',
     component: require('../pages/trade/withdrawals'),
     meta:{
-      keepAlive: false
+      keepAlive: true
     }
   }, {
     path: '/trade/shouxin',

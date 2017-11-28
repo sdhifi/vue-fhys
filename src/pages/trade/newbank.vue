@@ -17,14 +17,16 @@
         <yd-cell-item>
           <span slot="left">开户人&emsp;：</span>
           <yd-input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称" v-if="!certificateStatus"></yd-input>
-          <yd-input slot="right" v-model="member.name" readonly v-else></yd-input>
+          <yd-input slot="right" v-model="member.name" readonly :show-clear-icon="false" v-else></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">卡&emsp;&emsp;号：</span>
           <yd-input slot="right" v-model="bankCard" type="tel" placeholder="请输入卡号" regex="bankcard"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="addBankCard">同意协议并绑定</yd-button>
+      <div style="padding:0 .2rem;">
+        <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="addBankCard">同意协议并绑定</yd-button>
+      </div>
       <yd-cityselect v-model="show1" :done="result1" :items="district"></yd-cityselect>
       <router-link to="/trade/service" class="tips">《凤凰云商O2O服务协议》</router-link>
     </main>
@@ -41,7 +43,7 @@ export default {
   name: "NewBank",
   data() {
     return {
-      oldBack:mui.back,
+      oldBack: mui.back,
       bankId: "",
       bankNameList: [
         { key: 390, value: "中国工商银行" },
