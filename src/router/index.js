@@ -339,7 +339,7 @@ const router = new Router({
     name: 'NewBank',
     component: require('../pages/trade/newbank'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   },{
     path: '/trade/service',
@@ -353,14 +353,14 @@ const router = new Router({
     name: 'ConsumeRule',
     component: require('../pages/trade/consumerule'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   },  {
     path: '/trade/participate',
     name: 'Participate',
     component: require('../pages/trade/participate'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/salerecord',
@@ -374,42 +374,42 @@ const router = new Router({
     name: 'SaleHistory',
     component: require('../pages/trade/salehistory'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/salewelfare',
     name: 'SaleWelfare',
     component: require('../pages/trade/salewelfare'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/interest',
     name: 'Interest',
     component: require('../pages/trade/interest'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/cashhistory',
     name: 'CashHistory',
     component: require('../pages/trade/cashhistory'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/welfrecord',
     name: 'WelfareRecord',
     component: require('../pages/trade/welfrecord'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/withdrawals',
     name: 'WithDrawals',
     component: require('../pages/trade/withdrawals'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/shouxin',
@@ -423,14 +423,14 @@ const router = new Router({
     name: 'BuyShouxin',
     component: require('../pages/trade/buyshouxin'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/shouxinlist',
     name: 'ShouxinList',
     component: require('../pages/trade/shouxinlist'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/transfer',
@@ -444,7 +444,7 @@ const router = new Router({
     name: 'TransferHistory',
     component: require('../pages/trade/transferhistory'),
     meta:{
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/trade/merge',

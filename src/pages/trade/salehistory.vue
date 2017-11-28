@@ -49,8 +49,7 @@ export default {
     ...mapState(["account"])
   },
   mixins: [mixin],
-  created() {},
-  activated() {
+  created() {
     this.getInfo();
   },
   methods: {

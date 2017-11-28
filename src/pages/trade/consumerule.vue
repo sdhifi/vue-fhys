@@ -17,7 +17,7 @@ export default {
     }
   },
   components: { HeaderTop},
-  activated () {
+  created () {
     this.getInfo();
   },
   methods: {

@@ -92,15 +92,10 @@ export default {
   computed: {
     ...mapState(["account"])
   },
-  created() {},
-  mixins: [mixin],
-  activated() {
-    this.noData = false;
-    this.$refs.historyList.$emit("ydui.infinitescroll.reInit");
-    this.pageNo = 1;
-    this.info = [];
-    this.getInfo();
+  created() {
+      this.getInfo();
   },
+  mixins: [mixin],
   methods: {
     tranferType(type) {
       switch (type) {

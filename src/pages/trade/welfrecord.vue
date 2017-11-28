@@ -37,11 +37,9 @@ export default {
   },
   mixins:[mixin],
   created() {
-
-  },
-  activated() {
     this.getInfo();
   },
+
   methods: {
     getInfo() {
       let vm = this;

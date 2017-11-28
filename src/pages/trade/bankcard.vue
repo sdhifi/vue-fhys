@@ -60,7 +60,7 @@ export default {
   mixins: [mixin],
   created() {
 
-  },
+    },
   activated() {
     this.$store.dispatch('getBankList');
   },

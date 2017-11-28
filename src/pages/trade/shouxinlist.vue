@@ -41,14 +41,10 @@ export default {
   computed: {
     ...mapState(["account"])
   },
-  created() {},
-  mixins: [mixin],
-  activated() {
-    this.noData = false;
-    this.info = [];
-    this.pageNo = 1;
+  created() {
     this.getInfo();
   },
+  mixins: [mixin],
   methods: {
     getInfo() {
       let vm = this;

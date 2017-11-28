@@ -41,11 +41,7 @@ export default {
   },
   mixins:[mixin],
   created() {
-
-  },
-  activated() {
     this.pageTitle=this.$route.query.type=='0'?'累计消费':'累计贡献';
-    this.info = [];
     this.getInfo();
   },
   methods: {
