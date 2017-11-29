@@ -62,24 +62,30 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account"]),
+    ...mapState(["account", "cacheList", "positions"]),
     ...mapGetters(["cartNum"])
   },
   created() {},
   activated() {
-    this.reset();
-    this.type = this.$route.query.type;
-    this.columnId = this.$route.query.id;
-    this.searchValue = "";
-    this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
-    // setTimeout(()=>{
-    this.getProduct();
-    // },0)
+    if (this.$route.params.update) {
+      this.reset();
+      this.type = this.$route.query.type;
+      this.columnId = this.$route.query.id;
+      this.searchValue = "";
+      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
+      this.getProduct();
+    } else {
+      // if (this.$store.state.positions[this.$route.path]) {
+      document.querySelector("main").scrollTop = this.positions[
+        this.$route.path
+      ];
+      // }
+      this.noData = this.cacheList[this.$route.path].noData;
+      this.pageNo = this.cacheList[this.$route.path].page;
+      this.productList = this.cacheList[this.$route.path].list;
+    }
   },
-  beforeRouteLeave(to, from, next) {
-    this.reset();
-    next();
-  },
+
   methods: {
     reset() {
       this.pageNo = 1;
@@ -122,7 +128,16 @@ export default {
       this.getProduct();
     },
     navigate(event, pd) {
+      let p = this.$route.path;
       if (event.target.tagName !== "BUTTON") {
+        this.$store.commit("SAVE_LIST_WITH_PAGE", {
+          name: this.$route.path,
+          cacheInfo: {
+            noData: this.noData,
+            page: this.pageNo,
+            list: this.productList
+          }
+        });
         this.$router.push({
           path: "/online/product",
           query: { id: pd.id }

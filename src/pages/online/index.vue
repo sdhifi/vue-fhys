@@ -12,7 +12,7 @@
         </yd-slider>
       </section>
       <section class="column-list flex text-center align-center" v-show="info.indexColumns">
-        <router-link :to="{path:'/online/products',query:{type:0,id:item.id}}" class="column-item" v-for="item in info.indexColumns" :key="item.id">
+        <router-link :to="{name:'Products',params:{update:true},query:{type:0,id:item.id}}" class="column-item" v-for="item in info.indexColumns" :key="item.id">
           <img :src="getImgPath(item.pic2)" alt="" class="column-img">
           <p>{{item.names}}</p>
         </router-link>
@@ -27,7 +27,7 @@
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
         <yd-cell-group>
-          <yd-cell-item arrow type="link" :href="'/online/products?type=1&id='+item.id">
+          <yd-cell-item arrow type="label" @click.native="goProducts(item.id)">
             <span slot="icon" class="iconfont self-libao" style="color:#f98e25;font-size:20px;"></span>
             <span slot="left">{{item.label}}</span>
             <span slot="right">更多</span>
@@ -134,6 +134,9 @@ export default {
           })
         }
       });
+    },
+    goProducts(id){
+      this.$router.push({name:"Products",params:{update:true},query:{type:1,id}})
     },
     navigate(index){
       if(index>1){

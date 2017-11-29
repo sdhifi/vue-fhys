@@ -19,6 +19,8 @@ import {
   RECORD_SETTLE_LIST,
   SET_PAY_PASSWORD,
   RECORD_PAY_INFO,
+  SAVE_POSITION,
+  SAVE_LIST_WITH_PAGE
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -86,10 +88,13 @@ export default {
   [SET_PAY_PASSWORD](state, sta) {
     state.paypwd = sta;
   },
-  ['SAVE_POSITION'](state, payload) {
+  [SAVE_POSITION](state, payload) {
     state.positions[payload.name] = payload.position
   },
   [RECORD_PAY_INFO](state, payInfo) {
     state.payInfo = payInfo;
+  },
+  [SAVE_LIST_WITH_PAGE](state, payload) {
+    state.cacheList[payload.name]= payload.cacheInfo;
   }
 }

@@ -19,4 +19,5 @@ export default {
   paypwd: false, //支付密码状态
   positions: {}, //保存滚动条位置
   payInfo: null, //银联支付信息
+  cacheList: {}, //缓存列表
 }

@@ -80,6 +80,10 @@
           <span slot="left">积分支付</span>
           <input slot="right" type="radio" value="7" v-model="payType" />
         </yd-cell-item>
+        <yd-cell-item>
+          <span slot="left">当前积分</span>
+          <span slot="right">{{member.consumptionMoney}}</span>
+        </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group v-else-if="orderType==2">
         <yd-cell-item type="radio">

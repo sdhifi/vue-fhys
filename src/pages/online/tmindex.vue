@@ -12,11 +12,11 @@
         <button type="button" class="search-submit" @click="searchProduct">搜索</button>
       </div>
     </div>
-    <main class="scroll-warpper">
+    <div class="scroll-warpper">
       <ul class="tab-list">
         <li class="tab-item" :class="{'danger-bg':curIndex==index}" @click="changeTab(index)" v-for="(item,index) in tabList" :key="index">{{item.catName}}</li>
       </ul>
-      <section class="main-list" ref="mainList">
+      <main class="main-list" ref="mainList">
         <yd-infinitescroll :callback="getProduct" ref="pdlist">
           <ul class="product-list flex" slot="list">
             <li class="product-item" v-for="(item,index) in productList" :key="index" @click="navigate(item)">
@@ -33,8 +33,8 @@
             </li>
           </ul>
         </yd-infinitescroll>
-      </section>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 <script>
@@ -58,7 +58,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["member"])
+    ...mapState(["member", "positions", "cacheList"])
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -77,9 +77,17 @@ export default {
       this.$store.dispatch("getInfo");
     }
     this.searchValue = "";
+    if (this.positions[this.$route.path]) {
+      document.querySelector("main").scrollTop = this.positions[
+        this.$route.path
+      ];
+    }
+    this.noData = this.cacheList[this.$route.path].noData;
+    this.pageNo = this.cacheList[this.$route.path].page;
+    this.productList = this.cacheList[this.$route.path].list;
   },
   methods: {
-    goBack(){
+    goBack() {
       this.$router.replace("/online/index");
     },
     searchProduct() {
@@ -160,18 +168,26 @@ export default {
         this.$router.push("/me/login");
         return;
       }
+      this.$store.commit("SAVE_LIST_WITH_PAGE", {
+        name: this.$route.path,
+        cacheInfo: {
+          noData: this.noData,
+          page: this.pageNo,
+          list: this.productList
+        }
+      });
       let pdId = pd.id;
-      let userId = `1004${this.member.id}`;//广州：1004，O2O：1003，云南：1002，湛江：1001
+      let userId = `1004${this.member.id}`; //广州：1004，O2O：1003，云南：1002，湛江：1001
       let url = `http://aihua.likecs.com/index.php?mod=aihua&act=fenghuang&param=detail&id=${pdId}&userid=${userId}&phone=${this
         .member
         .mobile}&email=102286545@qq.com&kh=fenghuang&tbnum=4654646465465`;
-        this.$router.push({name:"TMDetail",params:{url}})
+      this.$router.push({ name: "TMDetail", params: { url } });
     }
   }
 };
 </script>
 <style lang='less' scoped>
-  @import "../../style/mixin.less";
+@import "../../style/mixin.less";
 .scroll-warpper {
   position: absolute;
   left: 0;
