@@ -329,7 +329,13 @@ export default {
             }
           } else if (vm.orderType == 1) {
             //积分换购，积分支付
-            vm.payPos(_result.payString, res.msg);
+            if (res.code == 200) {
+              vm.payPos(_result.payString, res.msg);
+            } else {
+              vm.$dialog.alert({
+                mes: res.msg
+              });
+            }
           } else if (vm.orderType == 2) {
             //责任消费
             vm.$dialog.loading.close();
