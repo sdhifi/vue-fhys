@@ -10,12 +10,14 @@
                 <span class="iconfont-large self-weixinzhifu" style="color:#25d025;" v-if="item.payType=='1'"></span>
                 <span class="iconfont-large self-zhifubao" style="color:#00a0ea;" v-if="item.payType=='2'"></span>
                 <span class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;" v-if="item.payType=='3'"></span>
+                <span class="iconfont-large self-rmb1" style="color:#ffd700;" v-if="item.payType=='6'"></span>
                 <span class="time">{{formatTime(item.addTime)}}</span>
               </div>
               <div class="flex just-between align-center">
                 <span>充值<span class="money">{{item.tradeMoney}}</span></span>
-                <span class="status status-0" v-if="item.tradeStatus==0">待支付</span>
-                <span class="status status-1" v-if="item.tradeStatus==1">已支付</span>
+                <span class="status status-2" v-if="item.payType=='6'&&item.tradeStatus=='0'">已支付待审核</span>
+                <span class="status status-0" v-if="item.payType!='6'&&item.tradeStatus=='0'">待支付</span>
+                <span class="status status-1" v-if="item.tradeStatus=='1'">已支付</span>
               </div>
             </li>
           </ul>
@@ -98,7 +100,7 @@ export default {
       color: @green;
     }
     &.status-2 {
-      color: @lightgray;
+      color: @gold;
     }
   }
 }

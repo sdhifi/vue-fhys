@@ -425,7 +425,14 @@ const router = new Router({
     meta: {
       keepAlive: false
     }
-  }, {
+  },{
+    path: '/trade/buyshouxin2',
+    name: 'BuyShouxin2',
+    component: require('../pages/trade/buyshouxin2'),
+    meta: {
+      keepAlive: false
+    }
+  },  {
     path: '/trade/shouxinlist',
     name: 'ShouxinList',
     component: require('../pages/trade/shouxinlist'),

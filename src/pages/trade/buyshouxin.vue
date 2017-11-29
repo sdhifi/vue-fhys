@@ -17,11 +17,11 @@
           <span slot="left">应付金额</span>
           <input slot="right" v-model="payMoney" type="text" readonly style="text-align:right;color:#ff5350;">
         </yd-cell-item>
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">会员余额 </span>
           <input slot="right" type="radio" value="0" v-model="payType" />
-        </yd-cell-item>
+        </yd-cell-item> -->
         <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-weixinzhifu" style="color:#25d025;"></span>
           <span slot="left">微信支付</span>
@@ -88,6 +88,8 @@ export default {
         data: {
           tradeMoney: this.money,
           type: this.payType,
+          shouType:0,
+          fileImage:"",
           account: this.account,
           token: md5(`addShouXin${this.account}`)
         },
@@ -103,17 +105,27 @@ export default {
                 vm.pays["alipay"],
                 res.result.alyString,
                 function(result) {
-                  plus.nativeUI.alert(
-                    "支付成功",
-                    function() {
+                  // plus.nativeUI.alert(
+                  //   "支付成功",
+                  //   function() {
+                  //     vm.$store.dispatch("getInfo");
+                  //     vm.$router.go(-1);
+                  //   },
+                  //   "支付"
+                  // );
+                  vm.$dialog.alert({
+                    mes:"支付成功！",
+                    callback:()=>{
                       vm.$store.dispatch("getInfo");
                       vm.$router.go(-1);
-                    },
-                    "支付"
-                  );
+                    }
+                  })
                 },
                 function(e) {
-                  plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  //plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  vm.$dialog.alert({
+                    mes:"支付失败:" + e.message
+                  })
                 }
               );
             });
@@ -129,40 +141,6 @@ export default {
         }
       });
     }
-    // getChannel() {
-    //   plus.payment.getChannels(channels => {
-    //     for (let i in channels) {
-    //       var channel = channels[i];
-    //       if (channel.id == "alipay" || channel.id == "wxpay") {
-    //         this.pays[channel.id] = channel;
-    //       }
-    //     }
-    //   });
-    // },
-    // checkService(pc, callback) {
-    //   if (!pc.serviceReady) {
-    //     var txt = null;
-    //     switch (pc.id) {
-    //       case "alipay":
-    //         txt = "检测到系统未安装“支付宝快捷支付服务”，无法完成支付操作，是否立即安装？";
-    //         break;
-    //       case "wxpay":
-    //         txt = "系统未安装微信，无法完成支付，是否立即安装？";
-    //         break;
-    //     }
-    //     plus.nativeUI.confirm(
-    //       txt,
-    //       function(e) {
-    //         if (e.index == 0) {
-    //           pc.installService();
-    //         }
-    //       },
-    //       pc.description
-    //     );
-    //   } else {
-    //     callback && callback();
-    //   }
-    // }
   }
 };
 </script>

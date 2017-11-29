@@ -77,6 +77,13 @@ export const mixin = {
     }
   }
 }
+export const localImg = {
+  methods:{
+    getLocalImg(filename){
+      return process.env.NODE_ENV == 'development' ? `/static/img/${filename}` : `./static/img/${filename}`
+    }
+  }
+}
 /**
  * 存储localStorage
  */
