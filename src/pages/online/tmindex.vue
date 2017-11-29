@@ -76,7 +76,6 @@ export default {
     if (getStore("account") && getStore("account").length > 0) {
       this.$store.dispatch("getInfo");
     }
-    this.searchValue = "";
     if (this.positions[this.$route.path]) {
       document.querySelector("main").scrollTop = this.positions[
         this.$route.path

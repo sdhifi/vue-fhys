@@ -6,6 +6,15 @@
 
 帮助商户销售，促进会员消费，增加粘性。
 
+---
+
+tags: 
+
+ - vue全家桶
+ - O2O
+
+---
+
 ## Build Setup
 
 ``` bash
@@ -22,7 +31,7 @@ npm run build
 npm run build --report
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+<!-- more -->
 
 ### 注意事项
 
@@ -93,6 +102,33 @@ router.afterEach( (to,from) => {
    },
 
 ```
+
+- 保存浏览位置，适合分页列表
+```javascript
+    activated(){
+      if (this.positions[this.$route.path]) {
+        document.querySelector("main").scrollTop = this.positions[
+          this.$route.path
+        ];
+      }
+      this.noData = this.cacheList[this.$route.path].noData;
+      this.pageNo = this.cacheList[this.$route.path].page;
+      this.productList = this.cacheList[this.$route.path].list;
+    },
+//列表页-->详情页，记录需要保存的信息
+    navigate(){
+      this.$store.commit("SAVE_LIST_WITH_PAGE", {
+        name: this.$route.path,
+        cacheInfo: {
+          noData: this.noData,
+          page: this.pageNo,
+          list: this.productList
+        }
+      });
+    }
+      
+```
+
 - 打包注意事项
 
 ```html
