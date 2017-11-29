@@ -6,15 +6,6 @@
 
 帮助商户销售，促进会员消费，增加粘性。
 
----
-
-tags: 
-
- - vue全家桶
- - O2O
-
----
-
 ## Build Setup
 
 ``` bash
@@ -30,8 +21,6 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
-
-<!-- more -->
 
 ### 注意事项
 

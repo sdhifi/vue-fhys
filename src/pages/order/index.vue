@@ -8,35 +8,35 @@
       <div v-show="index==0">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist7">
           <ul slot="list">
-            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @pay="payOrder(item)" @update="updateOrder(item)" @comment="addComment(item)"></order-item>
+            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @pay="payOrder(item)" @update="updateOrder(item)" @comment="addComment(item)" @navigate="goDetail(item.orderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==1">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist0">
           <ul slot="list">
-            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item,index)"></order-item>
+            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item,index)"  @navigate="goDetail(item.orderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==2">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist1">
           <ul slot="list">
-            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"></order-item>
+            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"  @navigate="goDetail(item.orderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==3">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist2">
           <ul slot="list">
-            <order-item v-for="(item,index) in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @update="updateOrder(item,index)"></order-item>
+            <order-item v-for="(item,index) in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @update="updateOrder(item,index)"  @navigate="goDetail(item.orderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==4">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
           <ul slot="list">
-            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @comment="addComment(item)"></order-item>
+            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @comment="addComment(item)"  @navigate="goDetail(item.orderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
@@ -88,14 +88,49 @@ export default {
   },
   components: { HeaderTop, OrderItem, Tab, TabItem },
   computed: {
-    ...mapState(["account"])
+    ...mapState(["account", "positions", "cacheList"])
   },
   mixins: [payMixin],
-  created() {
-    this.index = +this.$route.query.id;
-    this.toggleItem(this.index);
+  activated() {
+    if (this.$route.params.update) {
+      this.reset();
+      this.index = +this.$route.query.id;
+      this.toggleItem(this.index);
+    } else {
+      // if (this.cacheList[this.$route.path]) {
+      this.index = this.cacheList[this.$route.path].index;
+      this.orderType = this.menu[this.index].key;
+      this[`noData${this.orderType}`] = this.cacheList[this.$route.path].noData;
+      this[`pageNo${this.orderType}`] = this.cacheList[this.$route.path].page;
+      this[`list${this.orderType}`] = this.cacheList[this.$route.path].list;
+      // }
+      if (this.positions[this.$route.path]) {
+        document.querySelector("main").scrollTop = this.positions[
+          this.$route.path
+        ];
+      }
+    }
   },
+
   methods: {
+    reset() {
+      // this.orderType = "7";
+      this.noData0 = false;
+      this.noData1 = false;
+      this.noData2 = false;
+      this.noData3 = false;
+      this.noData7 = false;
+      this.list0 = [];
+      this.list1 = [];
+      this.list2 = [];
+      this.list3 = [];
+      this.list7 = [];
+      this.pageNo0 = 1;
+      this.pageNo1 = 1;
+      this.pageNo2 = 1;
+      this.pageNo3 = 1;
+      this.pageNo7 = 1;
+    },
     toggleItem(index) {
       this.orderType = this.menu[index].key;
       if (!this[`noData${this.orderType}`]) {
@@ -141,6 +176,19 @@ export default {
           }
         }
       });
+    },
+    goDetail(sn) {
+      this.orderType = this.menu[this.index].key;
+      this.$store.commit("SAVE_LIST_WITH_PAGE", {
+        name: this.$route.path,
+        cacheInfo: {
+          index: this.index,
+          noData: this[`noData${this.orderType}`],
+          page: this[`pageNo${this.orderType}`],
+          list: this[`list${this.orderType}`]
+        }
+      });
+      this.$router.push({ name: "OrderDetail", query: { sn } });
     },
     payOrder(item, index) {
       let vm = this;

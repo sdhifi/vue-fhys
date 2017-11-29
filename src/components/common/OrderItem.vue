@@ -1,7 +1,7 @@
 <template>
   <li class="order-item">
     <h2>{{name}}</h2>
-    <router-link class="good-list" :to="{name:'OrderDetail',query:{sn:sn}}">
+    <div class="good-list" @click="navigate">
       <p class="order-id">订单编号：{{sn}}</p>
       <div class="good-item flex" v-for="good in goods" :key="good.goodsId">
         <img :src="getImgPath(good.goodsImg)" :alt="good.goodsName">
@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-    </router-link>
+    </div>
     <div class="order-operate flex just-between align-center">
       <p class="fs-14">合计：
         <span class="danger-color  fs-16">￥{{total}}</span>
@@ -73,6 +73,9 @@ export default {
         default:
           return "其他"
       }
+    },
+    navigate(){
+      this.$emit("navigate");
     },
     pay() {
       this.$emit("pay");

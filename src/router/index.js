@@ -157,7 +157,7 @@ const router = new Router({
     name: 'MyOrder',
     component: require('../pages/order/index'),
     meta: {
-      keepAlive: false
+      keepAlive: true
     }
   }, {
     path: '/order/detail',

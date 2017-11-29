@@ -8,7 +8,7 @@
 					<span>{{item.label}}</span>
 				</div>
 				<ul v-if="item.sub" class="flex" style="margin-top:.2rem;">
-					<router-link :to="'/online/products?type=1&id='+sub.id" v-for="(sub,subIndex) in item.sub" :key="subIndex" class="item flex align-center just-between" tag="li">
+					<router-link :to="{name:'Products',params:{update:true},query:{type:1,id:sub.id}}" v-for="(sub,subIndex) in item.sub" :key="subIndex" class="item flex align-center just-between" tag="li">
 						<span>{{sub.names}}</span>
             <span class="iconfont self-right" style="color:#00ceff"></span>
 					</router-link>

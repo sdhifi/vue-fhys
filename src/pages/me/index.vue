@@ -20,17 +20,17 @@
       </section>
       <section class="order-container">
         <yd-cell-group>
-          <yd-cell-item arrow type="link" href="/order/index?id=0">
+          <yd-cell-item arrow type="label" @click.native="goOrder(0)">
             <span class="iconfont self-dingdanguanli" slot="icon" style="font-size:20px;"></span>
             <span slot="left">我的订单</span>
             <span slot="right">查看所有订单</span>
           </yd-cell-item>
         </yd-cell-group>
         <ul class="flex just-around align-center">
-          <router-link :to="{path:item.link,query:{id:index+1}}" v-for="(item,index) in order" tag="li" :key="index">
+          <li v-for="(item,index) in order" :key="index" @click="goOrder(index+1)">
             <span class="iconfont-large" :class="item.icon"></span>
             <p>{{item.name}}</p>
-          </router-link>
+          </li>
         </ul>
       </section>
       <section v-for="(item,index) in menu" :key="index">
@@ -105,26 +105,22 @@ export default {
         {
           id: 0,
           name: "待付款",
-          icon: "self-pay",
-          link: "/order/index"
+          icon: "self-pay"
         },
         {
           id: 1,
           name: "待发货",
-          icon: "self-delivery",
-          link: "/order/index"
+          icon: "self-delivery"
         },
         {
           id: 2,
           name: "待收货",
-          icon: "self-recept",
-          link: "/order/index"
+          icon: "self-recept"
         },
         {
           id: 3,
           name: "交易完成",
-          icon: "self-success",
-          link: "/order/index"
+          icon: "self-success"
         }
       ],
       menu: [
@@ -235,6 +231,9 @@ export default {
     }
   },
   methods: {
+    goOrder(index){
+      this.$router.push({name:"MyOrder",params:{update:true},query:{id:index}});
+    },
     navigate(item) {
       if (/store/.test(item.link)) {
         //身份认证
