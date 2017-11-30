@@ -8,7 +8,7 @@
     </ul>
     <yd-infinitescroll :callback="getProduct" ref="pdlist">
       <div slot="list">
-        <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice" :sale-num="item.saleNum"></product-item>
+        <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :sale-num="item.saleNum" :show-type="showType" :description="item.description"></product-item>
       </div>
       <p slot="doneTip">
         <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有更多数据</p>
@@ -60,7 +60,11 @@ export default {
       type: String,
       default: "1"
     },
-    stickTag: false
+    stickTag: false,
+    showType:{
+      type:Boolean,
+      default:true
+    }
   },
   components: { ProductItem },
   computed: {

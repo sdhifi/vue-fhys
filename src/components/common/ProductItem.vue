@@ -2,9 +2,9 @@
   <div class="like-item">
     <router-link :to="{path:'/shop/index/' + id}" class="like-link">
       <div class="product-cover">
-        <img v-lazy="imgUrl" :alt="title"/>
+        <img v-lazy="imgUrl" :alt="title" />
       </div>
-      <div class="product-info flex-1 flex align-center">
+      <div class="product-info flex-1 flex align-center" v-if="showType">
         <div class="product-head">
           <h3>{{title}}</h3>
         </div>
@@ -23,17 +23,31 @@
         </div>
         <div class="product-price flex align-center">
           <span class="price">￥{{formatPrice(price1)}}</span>
-          <span class="market-price">门市价:￥{{formatPrice(price2)}}</span>
+        </div>
+      </div>
+      <div class="product-info flex-1 flex align-center" v-else>
+        <div class="product-head">
+          <h3>{{title}}</h3>
+        </div>
+        <div class="product-score flex align-center just-between">
+          <crown :value="score" :disabled="true"></crown>
+          <div class="product-address" v-if="distance">
+            <span class="iconfont self-location danger-color"></span>
+            <span class="product-distance">{{formatDis(distance)}}</span>
+          </div>
+        </div>
+        <div class="product-content">
+          {{description ||"店主比较懒，没留下什么介绍"}}
         </div>
       </div>
     </router-link>
   </div>
 </template>
 <script>
-import { mixin } from 'components/common/mixin'
-import Crown from './Crown'
+import { mixin } from "components/common/mixin";
+import Crown from "./Crown";
 export default {
-  name: 'ProductItem',
+  name: "ProductItem",
   props: {
     id: [String, Number],
     imgUrl: String,
@@ -42,16 +56,16 @@ export default {
     distance: Number,
     content: String,
     price1: Number,
-    price2: Number,
     saleNum: Number,
+    showType: Boolean, //简短展示
+    description: String
   },
   components: { Crown },
-  mixins: [mixin],
-
-}
+  mixins: [mixin]
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 .like-item {
   position: relative;
   border-bottom: 1px solid #f7f5f5;
@@ -81,7 +95,7 @@ export default {
       }
     }
     .product-score {
-      margin: .1rem 0;
+      margin: 0.1rem 0;
       width: 100%;
     }
     .product-address {
@@ -105,13 +119,13 @@ export default {
     }
     .product-price {
       .price {
-        font-size: .36rem;
+        font-size: 0.36rem;
         font-weight: bold;
         color: @red;
       }
       .market-price {
         font-size: 12px;
-        margin-left: .2rem;
+        margin-left: 0.2rem;
       }
     }
   }

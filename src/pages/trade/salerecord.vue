@@ -33,15 +33,20 @@
       </yd-cell-group>
       <yd-cell-group title="支付方式" v-show="money>0">
         <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea;"></span>
+          <span slot="left">支付宝</span>
+          <input slot="right" type="radio" value="1" v-model="payType" />
+        </yd-cell-item>
+        <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-edu" style="color:#f9a340;"></span>
           <span slot="left">授信额度</span>
           <input slot="right" type="radio" value="4" v-model="payType" />
         </yd-cell-item>
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">会员余额 </span>
           <input slot="right" type="radio" value="5" v-model="payType" />
-        </yd-cell-item>
+        </yd-cell-item> -->
         <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
           <span slot="left">银联在线支付</span>
@@ -63,7 +68,7 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import {addBenefit } from "../../api/index";
-import { findMemberByMobile } from "components/common/mixin";
+import { findMemberByMobile ,payMixin} from "components/common/mixin";
 export default {
   name: "SaleRecord",
   data() {
@@ -71,7 +76,8 @@ export default {
       money: "",
       mobile: "",
       mobileName: "",
-      payType: ""
+      payType: "",
+      pays:{}
     };
   },
   components: { HeaderTop },
@@ -91,7 +97,7 @@ export default {
     }
   },
   created() {},
-  mixins: [findMemberByMobile],
+  mixins: [findMemberByMobile,payMixin],
   methods: {
     save() {
       if(this.account == this.mobile){
@@ -137,6 +143,33 @@ export default {
             //银联支付
             vm.$store.commit("RECORD_PAY_INFO", res.result);
             vm.$router.push({ name: "YinLian" });
+          } else if (vm.payType == "1") {
+            //支付宝
+            vm.checkService(vm.pays["alipay"], function() {
+              plus.payment.request(
+                vm.pays["alipay"],
+                res.result.alyString,
+                function(result) {
+                  // plus.nativeUI.alert(
+                  //   "支付成功",
+                  //   function() {
+                  //     vm.$store.dispatch("getInfo");
+                  //     vm.$router.go(-1);
+                  //   },
+                  //   "支付"
+                  // );
+                  vm.$dialog.alert({
+                    mes:"支付成功！"
+                  })
+                },
+                function(e) {
+                  //plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  vm.$dialog.alert({
+                    mes:"支付失败:" + e.message
+                  })
+                }
+              );
+            });
           } else {
             //微信支付
           }

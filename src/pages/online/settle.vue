@@ -69,7 +69,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <p slot="right" class="fs-16">
-            总支付：
+            支付：
             <span class="danger-color">￥{{formatPrice(total)}}</span>
           </p>
         </yd-cell-item>

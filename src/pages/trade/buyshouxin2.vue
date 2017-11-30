@@ -144,7 +144,8 @@ export default {
   }
   .upload-preview {
     display: block;
-    .wh(4rem,5rem);
+    width: 4rem;
+    max-height: 5rem;
     margin: 0 auto;
   }
   .upload-icon {

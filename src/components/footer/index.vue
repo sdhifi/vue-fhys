@@ -1,6 +1,6 @@
 <template>
   <yd-tabbar active-color="#ff5350" :fixed="true">
-    <yd-tabbar-item title="首页" link="/home/index" :active="$route.path.indexOf('/home/index') !== -1">
+    <yd-tabbar-item title="推荐" link="/home/index" :active="$route.path.indexOf('/home/index') !== -1">
       <span class="iconfont-large self-home" slot="icon"></span>
     </yd-tabbar-item>
     <yd-tabbar-item title="附近" link="/near/index" :active="$route.path.indexOf('/near/index') !== -1">

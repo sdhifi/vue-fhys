@@ -11,7 +11,7 @@
         <div class="pd-price fs-12">
           <span class="pd-rmb danger-color">￥</span>
           <span class="pd-price1 danger-color fs-20">{{formatPrice(pdDetail.price)}}</span>
-          <span class="pd-price2">门市价:￥{{formatPrice(pdDetail.marketPrice)}}</span>
+          <!-- <span class="pd-price2">门市价:￥{{formatPrice(pdDetail.marketPrice)}}</span> -->
         </div>
       </section>
       <section class="seller-container">
@@ -69,7 +69,7 @@
         </div>
         <yd-infinitescroll :on-infinite="getHotProduct" ref="pdlist">
           <div slot="list">
-            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.name" :score="item.score" :price1="item.price" :price2="item.marketPrice" :sale-num="item.salesNum"></product-item>
+            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.name" :score="item.score" :price1="item.price" :sale-num="item.salesNum" :description="item.description" :show-type="true"></product-item>
           </div>
           <p slot="doneTip">
             <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>本店暂时没有更多商品</p>
