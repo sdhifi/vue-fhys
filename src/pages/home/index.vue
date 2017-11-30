@@ -45,7 +45,7 @@
           </div>
           <yd-infinitescroll :callback="getYourlike" ref="pdlist">
             <div slot="list">
-              <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price"  :description="item.description" :show-type="true"></product-item>
+              <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :description="item.description" :show-type="true"></product-item>
             </div>
             <p slot="doneTip">
               <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦
@@ -82,7 +82,7 @@ export default {
   },
   components: { Swiper, SwiperItem, HeaderTop, FooterBar, ProductItem },
   computed: {
-    ...mapState(["longitude", "latitude", "city","member"])
+    ...mapState(["longitude", "latitude", "city", "member"])
   },
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
@@ -102,11 +102,10 @@ export default {
     if (getStore("account") && getStore("account").length > 0) {
       this.loginAccount = true;
       this.$store.commit("SET_ACCOUNT", getStore("account"));
-      if(!this.member){
+      if (!this.member) {
         this.$store.dispatch("getInfo");
       }
-    }
-    else{
+    } else {
       this.loginAccount = false;
     }
     if (!getStore("tips")) {
@@ -126,31 +125,40 @@ export default {
   methods: {
     getPosition() {
       if (!this.city) {
-        // axios.get("https://api.map.baidu.com/location/ip?ak=xVyOYxDsYKpFBx8zdICSlWxsqltd8QoC&coor=gcj02")
-        //   .then(res => {
-        //     let data = res.data.content;
-        //     let city = data.address_detail.city,
-        //       longitude = data.point.x,
-        //       latitude = data.point.y;
-        //     this.$store.commit("RECORD_ADDRESS", { latitude, longitude });
-        //     this.$store.commit("RECORD_CITY", city);
-        //     //this.getYourlike();
-        //   });
-        document.addEventListener('plusready',this.onPlusReady,false)
-        
+        if (process.env.NODE_ENV == "development") {
+          axios
+            .get(
+              "https://api.map.baidu.com/location/ip?ak=xVyOYxDsYKpFBx8zdICSlWxsqltd8QoC&coor=gcj02"
+            )
+            .then(res => {
+              let data = res.data.content;
+              let city = data.address_detail.city,
+                longitude = data.point.x,
+                latitude = data.point.y;
+              this.$store.commit("RECORD_ADDRESS", { latitude, longitude });
+              this.$store.commit("RECORD_CITY", city);
+            });
+        }
+        else{
+          document.addEventListener("plusready", this.onPlusReady, false);
+        }
       } else this.getYourlike();
     },
-    onPlusReady(){
+    onPlusReady() {
       let vm = this;
-        plus.geolocation.getCurrentPosition(function(p){
+      plus.geolocation.getCurrentPosition(
+        function(p) {
+          console.log(p);
           let latitude = p.coords.latitude;
           let longitude = p.coords.longitude;
           let city = p.address.city;
-             vm.$store.commit("RECORD_ADDRESS", { latitude, longitude });
-             vm.$store.commit("RECORD_CITY", city);
-        },function(e){
-          vm.$dialog.alert("定位失败："+e.message)
-        })
+          vm.$store.commit("RECORD_ADDRESS", { latitude, longitude });
+          vm.$store.commit("RECORD_CITY", city);
+        },
+        function(e) {
+          vm.$dialog.alert("定位失败：" + e.message);
+        }
+      );
     },
     getColumns() {
       let vm = this;

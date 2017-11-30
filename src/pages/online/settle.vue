@@ -149,12 +149,12 @@
       </div>
       <div v-if="orderType=='2'">
         <p class="pay-price fs-14">
-          <span class="fs-20 danger-color">￥{{formatPrice(settleList.totalAmount)}}</span>
+          <span class="fs-20 danger-color">{{formatPrice(settleList.totalAmount)}}</span>
         </p>
         <P class="balance-price">
           <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
-          余额：
-          <span>{{member.insuranceMoney}}</span>元
+          当前责任金：
+          <span>{{member.insuranceMoney}}</span>
         </P>
       </div>
     </div>

@@ -79,6 +79,7 @@ export default {
         return;
       }
       let vm = this;
+      this.$dialog.loading.open("上传中...");
       lrz(file, { width: 800 }).then(rst => {
          mui.ajax({
           url: imageUploadBStore,
@@ -89,6 +90,7 @@ export default {
             fileContent: rst.base64
           },
           success(res) {
+            vm.$dialog.loading.close();
             vm.baseUrl = res.result;
           }
         });
