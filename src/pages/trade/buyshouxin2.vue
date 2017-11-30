@@ -17,8 +17,8 @@
           <input slot="right" v-model="payMoney" type="text" readonly style="text-align:right;color:#ff5350;">
         </yd-cell-item>
       </yd-cell-group>
-      <div class="upload-container">
         <p class="tips">请确保截图清晰，文字可辨。</p>
+      <div class="upload-container">
         <img :src="baseUrl" alt="" class="upload-preview">
         <div class="upload-icon">
           <span class="iconfont self-upload"></span>
@@ -133,15 +133,16 @@ export default {
     margin: @pd auto;
     .wh(3rem,3rem);
   }
-}
+} 
+ .tips {
+    font-size: 12px;
+    color: #999;
+    margin:0 0 @pd @pd;
+  }
 .upload-container {
   position: relative;
   .pd-h;
-  .tips {
-    font-size: 12px;
-    color: #999;
-    margin-bottom: 0.1rem;
-  }
+  min-height: 1rem;
   .upload-preview {
     display: block;
     width: 4rem;

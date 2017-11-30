@@ -94,7 +94,7 @@ export default {
     mui.back = this.oldBack;
     next();
   },
-  created() {
+  mounted() {
     this.getPosition();
     this.getColumns();
   },
@@ -126,20 +126,31 @@ export default {
   methods: {
     getPosition() {
       if (!this.city) {
-        axios
-          .get(
-            "https://api.map.baidu.com/location/ip?ak=xVyOYxDsYKpFBx8zdICSlWxsqltd8QoC&coor=gcj02"
-          )
-          .then(res => {
-            let data = res.data.content;
-            let city = data.address_detail.city,
-              longitude = data.point.x,
-              latitude = data.point.y;
-            this.$store.commit("RECORD_ADDRESS", { latitude, longitude });
-            this.$store.commit("RECORD_CITY", city);
-            //this.getYourlike();
-          });
+        // axios.get("https://api.map.baidu.com/location/ip?ak=xVyOYxDsYKpFBx8zdICSlWxsqltd8QoC&coor=gcj02")
+        //   .then(res => {
+        //     let data = res.data.content;
+        //     let city = data.address_detail.city,
+        //       longitude = data.point.x,
+        //       latitude = data.point.y;
+        //     this.$store.commit("RECORD_ADDRESS", { latitude, longitude });
+        //     this.$store.commit("RECORD_CITY", city);
+        //     //this.getYourlike();
+        //   });
+        document.addEventListener('plusready',this.onPlusReady,false)
+        
       } else this.getYourlike();
+    },
+    onPlusReady(){
+      let vm = this;
+        plus.geolocation.getCurrentPosition(function(p){
+          let latitude = p.coords.latitude;
+          let longitude = p.coords.longitude;
+          let city = p.address.city;
+             vm.$store.commit("RECORD_ADDRESS", { latitude, longitude });
+             vm.$store.commit("RECORD_CITY", city);
+        },function(e){
+          vm.$dialog.alert("定位失败："+e.message)
+        })
     },
     getColumns() {
       let vm = this;
@@ -148,7 +159,7 @@ export default {
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          token: md5("gjfengo2o")
+          token: md5("o2o")
         },
         success(res) {
           let result = res.result;
@@ -169,15 +180,14 @@ export default {
           url: like,
           type: "post",
           data: {
-            longitude: longitude,
-            latitude: latitude,
+            longitude,
+            latitude,
             pageNo: this.pageNo,
             pageSize: 10,
             token: md5(`like${longitude}${latitude}`)
           },
           headers: { "app-version": "v1.0" },
           success(res) {
-            // vm.$dialog.loading.close();
             let _list = res.result;
             vm.productList = [...vm.productList, ..._list];
             if (_list.length < 10) {
