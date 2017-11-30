@@ -67,28 +67,40 @@
           <span slot="left">买家留言：</span>
           <yd-input slot="right" v-model="remark" placeholder="选填-可告诉卖家您的特殊要求"></yd-input>
         </yd-cell-item>
+        <yd-cell-item v-if="orderType=='1'">
+          <span slot="left" class="fs-12">当前积分:{{member.consumptionMoney}}</span>
+          <span slot="right">
+            <span class="iconfont self-dui fs-12" v-if="member.consumptionMoney>settleList.totalAmount">支付:{{settleList.totalAmount}}</span>
+            <span class="iconfont self-x fs-12" v-else><span class="danger-color">积分不足</span></span>
+          </span>
+        </yd-cell-item>
+        <yd-cell-item v-if="orderType=='2'">
+          <span slot="left" class="fs-12">当前责任金:{{member.insuranceMoney}}</span>
+          <span slot="right">
+            <span class="iconfont self-dui fs-12" v-if="member.insuranceMoney>settleList.totalAmount">支付:{{settleList.totalAmount}}</span>
+            <span class="iconfont self-x fs-12" v-else><span class="danger-color">责任金不足</span></span>
+          </span>
+        </yd-cell-item>
         <yd-cell-item>
           <p slot="right" class="fs-16">
             支付：
-            <span class="danger-color">￥{{formatPrice(total)}}</span>
+            <span class="danger-color" v-if="orderType=='1'||orderType=='2'">￥{{formatPrice(settleList.pointNiceAmount)}}</span>
+            <span class="danger-color" v-else>￥{{formatPrice(total)}}</span>
           </p>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group v-if="orderType==1">
+      <yd-cell-group v-if="orderType=='1'">
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
-          <span slot="left">积分支付</span>
+          <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea"></span>
+          <span slot="left">支付宝</span>
           <input slot="right" type="radio" value="7" v-model="payType" />
         </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">当前积分</span>
-          <span slot="right">{{member.consumptionMoney}}</span>
-        </yd-cell-item>
+
       </yd-cell-group>
-      <yd-cell-group v-else-if="orderType==2">
+      <yd-cell-group v-else-if="orderType=='2'">
         <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
-          <span slot="left">责任消费余额</span>
+          <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea"></span>
+          <span slot="left">支付宝</span>
           <input slot="right" type="radio" value="8" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
@@ -158,7 +170,7 @@ export default {
   data() {
     return {
       oldBack: mui.back,
-      orderType: 0, //0:普通商品 1：积分兑换 2责任消费
+      orderType: '0', //0:普通商品 1：积分兑换 2责任消费
       remark: "", //备注
       payType: "", //支付方式
       showPassword: false, //安全键盘
@@ -177,8 +189,20 @@ export default {
     total() {
       return this.settleList.totalAmount + this.settleList.pointNiceAmount;
     },
-    valid() {
+    validAddress() {
       return this.defaultAddress || !!this.addressList.length;
+    },
+    valid(){
+      switch (this.orderType){
+        case "1":
+          return this.validAddress && (this.member.consumptionMoney > this.settleList.totalAmount)
+        break;
+         case "2":
+          return this.validAddress && (this.member.insuranceMoney > this.settleList.totalAmount)
+        break;
+        default:
+          return this.validAddress && true;
+      }
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -453,7 +477,7 @@ export default {
     payPos(payParams, successTips) {
       if (this.settleList.pointNiceAmount) {
         this.$dialog.alert({
-          mes: "下单成功，去支付金额部分",
+          mes: "下单成功，去支付现金部分",
           callback: () => {
             this.zfbPay(payParams);
           }
