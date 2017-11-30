@@ -25,13 +25,13 @@ export default {
       menu: [
         {
           icon: 'self-edu',
-          text: '线上购买授信额度',
+          text: '在线充值授信额度',
           link: '/trade/buyshouxin',
           color: '#f47874'
         },
          {
           icon: 'self-rmb1',
-          text: '线下购买授信额度',
+          text: '转账充值授信额度',
           link: '/trade/buyshouxin2',
           color: '#ffd700'
         },

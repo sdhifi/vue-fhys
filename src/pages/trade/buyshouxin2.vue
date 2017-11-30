@@ -2,7 +2,7 @@
   <div>
     <header-top title="线下充值额度"></header-top>
     <main class='scroll-content-2'>
-      <div class="fs-14 danger-color" style="padding:.2rem;">输入要充值的额度，系统计算实际需要支付的金额。然后识别下方二维码去支付宝付款，上传支付成功后的截图，即可购买授信额度</div>
+      <div class="fs-13 danger-color" style="padding:.2rem;">输入要充值的额度，系统计算实际需要支付的金额。然后识别下方二维码去支付宝付款，上传支付成功后的截图，即可购买授信额度。提交后24小时内处理</div>
       <yd-cell-group>
         <yd-cell-item>
           <span slot="left">现有授信额度</span>
