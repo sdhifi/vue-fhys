@@ -2,7 +2,7 @@
   <div>
     <header-top title="线下充值额度"></header-top>
     <main class='scroll-content-2'>
-      <div class="fs-13 danger-color" style="padding:.2rem;">输入要充值的额度，系统计算实际需要支付的金额。然后识别下方二维码去支付宝付款，上传支付成功后的截图，即可购买授信额度。提交后24小时内处理</div>
+      <div class="fs-13 danger-color" style="padding:.2rem;">输入要充值的额度，系统计算实际需要支付的金额。然后识别下方二维码去付款，上传支付成功后的截图，即可购买授信额度。提交后24小时内处理</div>
       <yd-cell-group>
         <yd-cell-item>
           <span slot="left">现有授信额度</span>
@@ -25,11 +25,28 @@
           <input type="file" name="upload-box" id="" capture="camera" accept="image/*" @change="previewImg($event)">
         </div>
       </div>
-      <div style="padding:0 .4rem;">
+      <div style="padding:.4rem;">
         <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="buy">确认购买</yd-button>
       </div>
+      <yd-cell-group>
+         <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea;"></span>
+          <span slot="left">支付宝</span>
+          <input slot="right" type="radio" value="1" v-model="payType" @change="changeQr" />
+        </yd-cell-item>
+         <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-weixin" style="color:#25d025;"></span>
+          <span slot="left">微信</span>
+          <input slot="right" type="radio" value="2" v-model="payType" @change="changeQr" />
+        </yd-cell-item>
+         <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
+          <span slot="left">其他方式</span>
+          <input slot="right" type="radio" value="3" v-model="payType" @change="changeQr" />
+        </yd-cell-item>
+      </yd-cell-group>
       <div class="pay-box">
-        <img :src="getLocalImg('ali_pay.png')" alt="">
+        <img :src="getLocalImg(qrUrl)" alt="">
       </div>
     </main>
   </div>
@@ -46,7 +63,9 @@ export default {
     return {
       money: "",
       payMoney: "",
-      baseUrl: ""
+      baseUrl: "",
+      payType:"1",
+      qrUrl:'ali_pay.png'
     };
   },
   components: { HeaderTop },
@@ -95,6 +114,19 @@ export default {
           }
         });
       });
+    },
+    changeQr(){
+      switch (this.payType){
+        case "1":
+         this.qrUrl = "ali_pay.png";
+         break;
+        case "2":
+         this.qrUrl = "weixin_pay.jpg";
+         break;
+        default:
+         this.qrUrl = "ali_pay.png";
+         break;
+      }
     },
     buy() {
       let vm = this;

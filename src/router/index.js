@@ -425,14 +425,14 @@ const router = new Router({
     meta: {
       keepAlive: false
     }
-  },{
+  }, {
     path: '/trade/buyshouxin2',
     name: 'BuyShouxin2',
     component: require('../pages/trade/buyshouxin2'),
     meta: {
       keepAlive: false
     }
-  },  {
+  }, {
     path: '/trade/shouxinlist',
     name: 'ShouxinList',
     component: require('../pages/trade/shouxinlist'),
@@ -480,9 +480,10 @@ const router = new Router({
   }]
 })
 router.afterEach((to, from) => {
+  let s = document.querySelector("main") && document.querySelector("main").scrollTop
   store.commit('SAVE_POSITION', {
     name: from.path,
-    position: document.querySelector("main").scrollTop
+    position: s
   });
 })
 export default router;
