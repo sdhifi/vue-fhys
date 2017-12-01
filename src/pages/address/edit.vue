@@ -73,7 +73,8 @@ export default {
 
   created() {
       this.info = this.$route.params.item;
-      this.address = [this.info.proviceId.provinceId+"",this.info.cityId.cityId+"",(this.info.areaId&&this.info.areaId.areaId)+""]
+      let area = this.info.areaId?this.info.areaId.areaId+"":'--';
+      this.address = [this.info.proviceId.provinceId+"",this.info.cityId.cityId+"",area]
       this.sex = this.info.consigneeSex=='1'?true:false
   },
   methods: {
