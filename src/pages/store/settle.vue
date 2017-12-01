@@ -23,25 +23,15 @@
           <yd-input slot="right" v-model="sellerEmail" type="email" regex="email" placeholder="请填写联系人的邮箱" required></yd-input>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group title="店铺地址">
-        <yd-cell-item arrow>
-          <span slot="left">省份城市：</span>
-          <input slot="right" type="text" @click.stop="show1 = true" v-model="storeCityName" readonly placeholder="请选择" style="text-align:right;">
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">详细地址：</span>
-          <yd-input slot="right" v-model="addressDetail" placeholder="街道、楼牌号码等" required></yd-input>
-        </yd-cell-item>
-      </yd-cell-group>
-      <yd-cityselect v-model="show1" :done="result1" :items="district"></yd-cityselect>
+      <group title="店铺地址">
+        <x-address title="省份城市：" v-model="storeCitys" :list="addressData" placeholder="请选择地址" :show.sync="show1"></x-address>
+        <x-textarea title="详细地址：" v-model="addressDetail" placeholder="街道、楼牌号码等"></x-textarea>
+        <x-address title="营业执照" inline-desc="所在地" v-model="businessLicenceAddress" :list="addressData" placeholder="营业执照所在地" :show.sync="show2"></x-address>
+      </group>
       <yd-cell-group title="信息完善">
         <yd-cell-item>
           <span slot="left">营业执照号：</span>
           <yd-input slot="right" v-model="businessLicenceNumber" placeholder="请填写营业执照号" required></yd-input>
-        </yd-cell-item>
-        <yd-cell-item arrow>
-          <span slot="left">营业执照所在地：</span>
-          <input slot="right" type="text" @click.stop="show2 = true" v-model="businessLicenceAddressName" readonly placeholder="请选择" style="text-align:right;">
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">经营范围
@@ -58,7 +48,6 @@
           </div>
         </div>
       </yd-cell-group>
-      <yd-cityselect v-model="show2" :done="result2" :items="district"></yd-cityselect>
       <yd-cell-group>
         <yd-cell-item :arrow="!certificateStatus">
           <span slot="left">身份认证</span>
@@ -84,14 +73,14 @@
         <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="applicate">提交申请</yd-button>
       </div>
     </main>
-      <cert-modal></cert-modal>
+    <cert-modal></cert-modal>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import CertModal from "components/common/CertModal";
-import District from "ydui-district/dist/gov_province_city_area_id";
+import { Group, XTextarea, XAddress, ChinaAddressV4Data } from "vux";
 import { addStore } from "../../api/index";
 import { validateSettle } from "components/common/mixin";
 import "lrz/dist/lrz.bundle.js";
@@ -108,12 +97,11 @@ export default {
       sellerMobile: "", //联系电话
       sellerEmail: "", //联系邮箱
 
-      storeCitys: "", //店铺地址id
-      storeCityName: "", //店铺地址
+      storeCitys: [], //店铺地址id
       addressDetail: "", //街道
 
       businessLicenceNumber: "", //营业执照号
-      businessLicenceAddress: "", //营业执照地id
+      businessLicenceAddress: [], //营业执照地id
       businessLicenceAddressName: "", //营业执照地
       businessSphere: "", //经营范围
 
@@ -121,12 +109,18 @@ export default {
       bankAccountNumber: "", //银行账号
 
       fileContent: "", //营业执照base64
-      district: District, //省市县数据
+      addressData: ChinaAddressV4Data, //省市县数据
 
-      checkProtocol:true
+      checkProtocol: true
     };
   },
-  components: { HeaderTop, CertModal },
+  components: {
+    HeaderTop,
+    CertModal,
+    Group,
+    XTextarea,
+    XAddress
+  },
   mixins: [validateSettle],
   computed: {
     ...mapState(["account", "certificateStatus"]),
@@ -177,14 +171,6 @@ export default {
         this.$router.go(-1);
       }
     },
-    result1(res) {
-      this.storeCityName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
-      this.storeCitys = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
-    },
-    result2(res) {
-      this.businessLicenceAddressName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
-      this.businessLicenceAddress = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
-    },
     showModal() {
       this.$store.commit("SHOW_CERTIFICATE", true);
     },
@@ -207,6 +193,8 @@ export default {
     },
     applicate() {
       let vm = this;
+      let a1 = this.storeCitys[2]=='--'?'0':this.storeCitys[2];
+      let a2 = this.businessLicenceAddress[2]=='--'?'0':this.businessLicenceAddress[2];
       let params = {
         storePro: "0",
         storeType: "0", //入驻类型-个体入驻
@@ -214,10 +202,10 @@ export default {
         sellerName: this.sellerName,
         sellerMobile: this.sellerMobile,
         sellerEmail: this.sellerEmail,
-        storeCitys: this.storeCitys,
+        storeCitys: `${this.storeCitys[0]},${this.storeCitys[1]},${a1}`,
         addressDetail: this.addressDetail,
         businessLicenceNumber: this.businessLicenceNumber,
-        businessLicenceAddress: this.businessLicenceAddress,
+        businessLicenceAddress: `${this.businessLicenceAddress[0]},${this.businessLicenceAddress[1]},${a2}`,
         businessSphere: this.businessSphere,
         businessLicenceStart: "20160901",
         businessLicenceEnd: "20700901",

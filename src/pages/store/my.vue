@@ -1,8 +1,8 @@
 <template>
   <div>
     <header-top title="我的店铺"></header-top>
-    <main class='scroll-content-2'>
-      <section class="store-banner px-1" :style="{backgroundImage:'url('+info.storeBanner+')'}">
+    <main class='scroll-content-2' v-if="info">
+      <section class="store-banner px-1" v-lazy:background-image="getImgPath(info.storeBanner)">
         <div class="upload-box">
           更换封面
         </div>
@@ -51,39 +51,33 @@
     <yd-popup v-model="showPopup" position="center" width="90%">
       <div class="edit-container">
         <div class="blue-header"></div>
-        <yd-cell-group title="编辑店铺信息">
-          <yd-cell-item>
-            <span slot="left">联系电话：</span>
-            <input type="tel" slot="right" placeholder="请输入手机号码" style="text-align:right;padding-right:5px;" v-model="newMobile">
-          </yd-cell-item>
-          <yd-cell-item arrow>
-            <span slot="left">省份城市：</span>
-            <input type="text" slot="right" placeholder="请选择" style="text-align:right;" readonly @click.stop="show1=true" v-model="newStoreCityName">
-          </yd-cell-item>
-          <yd-cell-item>
-            <span slot="left">详细地址：</span>
-            <yd-textarea slot="right" placeholder="街道、楼牌号码等" v-model="newAddressDetail"></yd-textarea>
-          </yd-cell-item>
-        </yd-cell-group>
+        <group title="编辑店铺信息">
+          <x-input title="联系电话" v-model="newMobile" placeholder="请输入手机号码" type="tel"></x-input>
+          <x-address title="省市区" v-model="newAddress" :list="addressData" placeholder="请选择地址" :show.sync="show1" :popup-style="popupStyle"></x-address>
+          <x-textarea title="详细地址：" v-model="newAddressDetail" placeholder="街道、楼牌号码等"></x-textarea>
+        </group>
         <button class="save-btn" @click="saveInfo" :disabled="!valid">保存</button>
       </div>
     </yd-popup>
-    <yd-cityselect v-model="show1" :done="result1" :items="district" ref="cityselectDemo"></yd-cityselect>
-    <!-- <yd-cityselect v-model="show1" :done="result1" :items="district" :provance="info.provinceId.province" :city="info.cityId.city" :area="info.areaId.area" ref="cityselectDemo"></yd-cityselect> -->
   </div>
 </template>
 <script>
 import HeaderTop from "components/header/index";
-import { getStore, setStore } from "components/common/mixin";
+import { getStore, setStore, mixin } from "components/common/mixin";
 import {
   myStore,
   updateBanner,
   updateIntro,
   updateAddressInfo
 } from "../../api/index";
-import District from "ydui-district/dist/gov_province_city_area_id";
 import "lrz/dist/lrz.bundle.js";
-
+import {
+  Group,
+  XInput,
+  XTextarea,
+  XAddress,
+  ChinaAddressV4Data
+} from "vux";
 export default {
   name: "MyStore",
   data() {
@@ -94,12 +88,14 @@ export default {
       showPopup: false,
       intro: "", //简介
       tag: false, //简介是否可编辑
-      district: District, //省市县数据
       show1: false, //所在地标志
+      addressData: ChinaAddressV4Data,
       newMobile: "",
-      newStoreCity: "", //所在地id
-      newStoreCityName: "", //所在地名称
+      newAddress: [],
       newAddressDetail: "",
+      popupStyle: {
+        "z-index": 5000
+      },
       menu: [
         {
           icon: "self-shangpinguanli",
@@ -128,7 +124,13 @@ export default {
       ]
     };
   },
-  components: { HeaderTop },
+  components: {
+    HeaderTop,
+    Group,
+    XInput,
+    XTextarea,
+    XAddress
+  },
   computed: {
     valid() {
       return (
@@ -145,6 +147,7 @@ export default {
     mui.back = this.oldBack;
     next();
   },
+  mixins: [mixin],
   created() {},
   activated() {
     this.getMyStore();
@@ -229,26 +232,18 @@ export default {
     },
     showEdit() {
       this.newMobile = this.info.sellerMobile;
-      this.newStoreCityName = this.info.areaId
-        ? `${this.info.provinceId.province},${this.info.cityId.city},${this.info
-            .areaId.area}`
-        : `${this.info.provinceId.province},${this.info.cityId.city}`;
+      let area = this.info.areaId ? this.info.areaId.areaId + "" : "--";
+      this.newAddress = [
+        this.info.provinceId.provinceId + "",
+        this.info.cityId.cityId + "",
+        area
+      ];
       this.newAddressDetail = this.info.addressDetail;
       this.showPopup = true;
     },
-    result1(res) {
-      if (res.itemValue3) {
-        // this.areaId = res.itemValue3;
-        this.newStoreCityName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
-        this.newStoreCity = `${res.itemValue1},${res.itemValue2},${res.itemValue3}`;
-      } else {
-        // this.areaId='';
-        this.newStoreCityName = `${res.itemName1},${res.itemName2}`;
-        this.newStoreCity = `${res.itemValue1},${res.itemValue2},0`;
-      }
-    },
     saveInfo() {
       let vm = this;
+      let area = this.newAddress[2]=='--'?'0':this.newAddress[2];
       mui.ajax({
         url: updateAddressInfo,
         type: "post",
@@ -256,7 +251,7 @@ export default {
         data: {
           storeId: this.info.id,
           sellerMobile: this.newMobile,
-          cityValue: this.newStoreCity,
+          cityValue:`${this.newAddress[0]},${this.newAddress[1]},${area}`,
           addressDetail: this.newAddressDetail,
           token: md5(`updateAddressInfo${this.info.id}`)
         },

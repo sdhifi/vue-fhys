@@ -62,7 +62,6 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      
       mui.back = vm.goBack;
     });
   },
@@ -79,8 +78,8 @@ export default {
   },
   methods: {
     goBack() {
-      if (this.show1) {
-        this.show1 = false;
+      if (this.showAddress) {
+        this.showAddress = false;
       } else {
         this.$router.go(-1);
       }
