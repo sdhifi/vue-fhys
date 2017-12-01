@@ -25,10 +25,10 @@
           <yd-cell-item v-if="info.isCanUserCou">
             <span slot="left">剩余：{{info.productAttrStock&&info.productAttrStock.repertory}}</span>
           </yd-cell-item>
-          <yd-cell-item v-else>
+          <!-- <yd-cell-item v-else>
             <span slot="left">商品来源：京东</span>
             <span slot="right">库存：{{info.productAttrStock&&info.productAttrStock.repertory}}</span>
-          </yd-cell-item>
+          </yd-cell-item> -->
           <yd-cell-item v-if="info.isCanUserCou=='1'">
             <span slot="left">积分使用说明:{{info.productAttrStock&&info.productAttrStock.price}}积分 +
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
@@ -49,9 +49,9 @@
         <div v-html="info.content" class="pd-content"></div>
       </section>
     </main>
-    <footer class="fix-footer flex align-center" v-show="!info.isCanUserCou">
+    <!-- <footer class="fix-footer flex align-center" v-show="!info.isCanUserCou">
       <button @click="buynow" class="flex-1 btn-2">[京东]立即购买</button>
-    </footer>
+    </footer> -->
     <footer class="fix-footer flex align-center" v-show="info.isCanUserCou" style="border-top:1px solid #dfdfdf;">
       <div class="shopping-cart flex just-center align-center" @click="goShoppingCart">
         <span class="iconfont-large self-shopcart"></span>

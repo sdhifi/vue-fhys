@@ -33,7 +33,7 @@
           <yd-textarea slot="right" placeholder="街道、楼牌号码等" v-model="addressDetail"></yd-textarea>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cityselect v-model="show1" :done="result1" :items="district" ref="cityselectDemo"></yd-cityselect>
+      <yd-cityselect v-model="show1" :callback="result1" :items="district" ref="cityselectDemo"></yd-cityselect>
       <div style="padding:0 .2rem;">
         <yd-button :type="valid?'primary':'disabled'" @click.native="addAddress" size="large" v-if="/new/.test($route.path)">保存</yd-button>
         <yd-button :type="valid?'warning':'disabled'" @click.native="editAddress" size="large" v-else>保存</yd-button>

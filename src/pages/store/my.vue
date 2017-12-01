@@ -6,7 +6,7 @@
         <div class="upload-box">
           更换封面
         </div>
-        <input type="file" name="upload-img" id="" capture="camera" accept="image/*" @change="previewImg($event)">
+        <input type="file" name="upload-img" id="" accept="image/*" @change="previewImg($event)">
       </section>
       <section class="store-info">
         <h2 class="store-title px-1">{{info.storeName}}</h2>

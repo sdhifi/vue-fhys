@@ -7,7 +7,7 @@
           <span class="iconfont self-upload"></span>
           <p>选择商品图片</p>
         </div>
-        <input type="file" capture="camera" accept="image/*" name="upload-img" id="" @change="previewImg($event)">
+        <input type="file"  accept="image/*" name="upload-img" id="" @change="previewImg($event)">
       </section>
       <section class="info">
         <group title="商品名称">
@@ -37,7 +37,7 @@
     <header-top title="编辑商品"></header-top>
     <main class='scroll-content-2'>
       <section class="cover" :style="{'background-image':'url('+pd.imgUrl+')'}">
-        <input type="file" capture="camera" accept="image/*" name="upload-img" id="" @change="previewImg($event)">
+        <input type="file"  accept="image/*" name="upload-img" id="" @change="previewImg($event)">
       </section>
       <section class="info">
         <group title="商品名称">
@@ -116,11 +116,6 @@ export default {
     }
   },
   mounted() {
-    [...document.querySelectorAll("input[type='text'],input[type='tel'],input[type='number'],textarea")].forEach((item, index) => {
-      item.addEventListener('focus', function() {
-        item.scrollIntoView();
-      })
-    })
   },
   methods: {
     reset() {

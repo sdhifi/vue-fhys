@@ -5,7 +5,8 @@
       <yd-accordion accordion>
         <yd-accordion-item :title="item.title" v-for="(item,index) in info" :key="index" :open="true">
           <div class="download-item flex align-center just-center">
-            <a :href="item.link" class="iconfont self-download" download>点击下载</a>
+            <!-- <a :href="item.link" class="iconfont self-download" download>点击下载</a> -->
+            <span class="iconfont self-download" @click="download(item.link)">点击下载</span>
           </div>
         </yd-accordion-item>
       </yd-accordion>
@@ -32,7 +33,12 @@ export default {
       ]
     };
   },
-  components: { HeaderTop }
+  components: { HeaderTop },
+  methods:{
+    download(url){
+      console.log(encodeURI(url))
+    }
+  }
 };
 </script>
 <style lang='less' scoped>
@@ -40,7 +46,7 @@ export default {
 .download-item {
   padding-left: @pd;
   .mg-v;
-  a {
+  span {
     color: @blue;
   }
 }
