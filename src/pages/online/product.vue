@@ -10,32 +10,32 @@
         </swiper>
         <p>{{info.proName}}</p>
         <p class="danger-color fs-16 flex just-between align-center">
-          <span v-if="info.isCanUserCou=='1'">{{info.productAttrStock.price}}
+          <span v-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}
             <span class="fs-12" style="margin-left:.1rem;">积分</span>
           </span>
-          <span v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock.price}}
+          <span v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}
             <span class="fs-12" style="margin-left:.1rem;">责任金额</span>
           </span>
-          <span v-else>￥{{info.productAttrStock.price}}</span>
+          <span v-else>￥{{info.productAttrStock&&info.productAttrStock.price}}</span>
           <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
       </section>
       <section class="info-2">
         <yd-cell-group>
           <yd-cell-item v-if="info.isCanUserCou">
-            <span slot="left">剩余：{{info.productAttrStock.repertory}}</span>
+            <span slot="left">剩余：{{info.productAttrStock&&info.productAttrStock.repertory}}</span>
           </yd-cell-item>
           <yd-cell-item v-else>
             <span slot="left">商品来源：京东</span>
-            <span slot="right">库存：{{info.productAttrStock.repertory}}</span>
+            <span slot="right">库存：{{info.productAttrStock&&info.productAttrStock.repertory}}</span>
           </yd-cell-item>
           <yd-cell-item v-if="info.isCanUserCou=='1'">
-            <span slot="left">积分使用说明:{{info.productAttrStock.price}}积分 +
+            <span slot="left">积分使用说明:{{info.productAttrStock&&info.productAttrStock.price}}积分 +
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
             </span>
           </yd-cell-item>
           <yd-cell-item v-else-if="info.isCanUserCou=='2'">
-            <span slot="left">责任金额使用说明:{{info.productAttrStock.price}}责任金额 +
+            <span slot="left">责任金额使用说明:{{info.productAttrStock&&info.productAttrStock.price}}责任金额 +
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
             </span>
           </yd-cell-item>
@@ -71,9 +71,9 @@
           </div>
           <div class="info flex flex-1">
             <p>{{info.proName}}</p>
-            <p class="danger-color fs-14" v-if="info.isCanUserCou=='0'">￥{{info.productAttrStock.price}}</p>
-            <p class="danger-color fs-14" v-if="info.isCanUserCou=='1'">{{info.productAttrStock.price}}积分+￥{{info.pointNeedMoney}}</p>
-            <p class="danger-color fs-14" v-if="info.isCanUserCou=='2'">{{info.productAttrStock.price}}责任金额+￥{{info.pointNeedMoney}}</p>
+            <p class="danger-color fs-14" v-if="info.isCanUserCou=='0'">￥{{info.productAttrStock&&info.productAttrStock.price}}</p>
+            <p class="danger-color fs-14" v-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}积分+￥{{info.pointNeedMoney}}</p>
+            <p class="danger-color fs-14" v-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}责任金额+￥{{info.pointNeedMoney}}</p>
           </div>
           <div class="close" @click="show=false">
             <span class="iconfont-large self-guanbi"></span>
@@ -94,11 +94,11 @@
             <div class="flex align-center">
               <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="info.isCanUserCou=='1' || info.isCanUserCou=='2'" readonly></yd-spinner>
               <div v-else>
-                <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock.repertory" v-if="info.productAttrStock.repertory"></yd-spinner>
+                <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock&&info.productAttrStock.repertory" v-if="info.productAttrStock&&info.productAttrStock.repertory"></yd-spinner>
                 <yd-spinner :min="0" :max="0" readonly v-else></yd-spinner>
               </div>
               <p style="margin-left:.2rem;">库存
-                <span class="danger-color">{{info.productAttrStock.repertory}}</span>件(商品限购
+                <span class="danger-color">{{info.productAttrStock&&info.productAttrStock.repertory}}</span>件(商品限购
                 <span v-if="info.isCanUserCou=='1' || info.isCanUserCou=='2'">1</span>
                 <span v-else>{{info.purchasNum}}</span>件)
               </p>

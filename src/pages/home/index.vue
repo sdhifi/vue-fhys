@@ -148,7 +148,6 @@ export default {
       let vm = this;
       plus.geolocation.getCurrentPosition(
         function(p) {
-          console.log(p);
           let latitude = p.coords.latitude;
           let longitude = p.coords.longitude;
           let city = p.address.city;

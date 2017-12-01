@@ -4,7 +4,7 @@
     <div class="search-form" autocomplete="off">
       <div class="input-group  flex align-center">
         <span class="iconfont-large self-search"></span>
-        <input type="search" name="search" class="search-input" placeholder="搜索商家或商品" v-model="searchValue" autofocus @keyup.enter="search(searchValue)">
+        <input type="text" name="search" class="search-input" placeholder="搜索商家或商品" v-model="searchValue" autofocus @keyup.enter="search(searchValue)">
         <button type="button" name="submit" class="search-submit" @click="search(searchValue)">搜索</button>
       </div>
     </div>

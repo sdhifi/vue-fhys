@@ -7,7 +7,7 @@
         <div>{{member.lineOfCrade}}</div>
       </section>
       <yd-cell-group>
-        <yd-cell-item arrow type="link" :href="item.link" v-for="(item,index) in menu" :key="index">
+        <yd-cell-item arrow  v-for="(item,index) in menu" :key="index" type="label" @click.native="navigate(item.link)">
           <span slot="icon" :class="['iconfont-large',item.icon]" :style="{'color':item.color}"></span>
           <span slot="left">{{item.text}}</span>
         </yd-cell-item>
@@ -62,7 +62,9 @@ export default {
 
   },
   methods: {
-
+    navigate(link){
+      this.$router.push(link)
+    }
   }
 }
 </script>

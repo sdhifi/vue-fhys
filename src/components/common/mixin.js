@@ -2,7 +2,7 @@ export const mixin = {
   methods: {
     plusReady() {
       mui.init({
-        swipeBack: false
+        swipeBack: true
       });
       let first = null;
       mui.back = function () {

@@ -1,6 +1,6 @@
 <template>
   <yd-navbar class="position:fixed;">
-    <section slot="left" @click="$router.go(-1)" v-if="back">
+    <section slot="left" @click="$router.go(-1)" v-if="back" style="height:1rem;line-height:1rem;">
       <yd-navbar-back-icon>返回</yd-navbar-back-icon>
     </section>
     <div slot="center" @click="goTop" class="title">

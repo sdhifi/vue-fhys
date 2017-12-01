@@ -5,7 +5,7 @@
       <yd-accordion accordion>
         <yd-accordion-item :title="item.title" v-for="(item,index) in info" :key="index" :open="true">
           <div class="download-item flex align-center just-center">
-            <a :href="item.link" class="iconfont self-download">点击下载</a>
+            <a :href="item.link" class="iconfont self-download" download>点击下载</a>
           </div>
         </yd-accordion-item>
       </yd-accordion>

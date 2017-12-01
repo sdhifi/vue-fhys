@@ -65,7 +65,7 @@ export default {
       payMoney: "",
       baseUrl: "",
       payType:"1",
-      qrUrl:'ali_pay.png'
+      qrUrl:'ali_pay.jpg'
     };
   },
   components: { HeaderTop },
@@ -118,13 +118,13 @@ export default {
     changeQr(){
       switch (this.payType){
         case "1":
-         this.qrUrl = "ali_pay.png";
+         this.qrUrl = "ali_pay.jpg";
          break;
         case "2":
          this.qrUrl = "weixin_pay.jpg";
          break;
         default:
-         this.qrUrl = "ali_pay.png";
+         this.qrUrl = "ali_pay.jpg";
          break;
       }
     },
