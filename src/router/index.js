@@ -135,14 +135,14 @@ const router = new Router({
     name: 'AddressEdit',
     component: require('../pages/address/edit'),
     meta: {
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/address/new',
     name: 'AddressNew',
-    component: require('../pages/address/edit'),
+    component: require('../pages/address/new'),
     meta: {
-      keepAlive: true
+      keepAlive: false
     }
   }, {
     path: '/me/index',

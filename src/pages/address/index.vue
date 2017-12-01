@@ -97,7 +97,7 @@ export default {
       this.$nextTick(() => {
         this.$refs.aaa[index].close()
       });
-      this.$router.push({ name: 'AddressEdit', params: { address: item } })
+      this.$router.push({ name: 'AddressEdit', params: { item } })
     },
     deleteAddress(item) {
       this.$dialog.confirm({
@@ -129,6 +129,7 @@ export default {
     },
     newAddress() {
       this.$router.push({ name: 'AddressNew' })
+      // this.$router.push({ name: 'NewAddress' })
     }
   }
 }

@@ -1,91 +1,68 @@
 <template>
   <div>
-    <header-top :title="addressTitle"></header-top>
+    <header-top title="地址修改"></header-top>
     <main class='scroll-content-2'>
-      <yd-cell-group>
-        <yd-cell-item>
-          <span slot="left">收货人：</span>
-          <yd-input slot="right" v-model="consigneeName" placeholder="请输入收货人姓名"></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">手机号码：</span>
-          <yd-input slot="right" v-model="mobile" placeholder="请输入收货人手机号码" regex="mobile"></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">性别：</span>
-          <div slot="right">
-            <label for="male" class="self-radio">
-              <input type="radio" value="1" id="male" v-model="consigneeSex">
-              <span>男</span>
-            </label>
-            <label for="female" class="self-radio">
-              <input type="radio" value="2" id="female" v-model="consigneeSex">
-              <span>女</span>
-            </label>
-          </div>
-        </yd-cell-item>
-        <yd-cell-item arrow>
-          <span slot="left">省市区：</span>
-          <input type="text" slot="right" placeholder="请选择" style="text-align:right;" readonly @click.stop="show1=true" v-model="adddressName">
-          <!-- <input type="text" slot="right" placeholder="请选择" style="text-align:right;" readonly @click.stop="show1=true" v-model="value"> -->
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">详细地址：</span>
-          <yd-textarea slot="right" placeholder="街道、楼牌号码等" v-model="addressDetail"></yd-textarea>
-        </yd-cell-item>
-      </yd-cell-group>
-      <yd-cityselect v-model="show1" :callback="result1" :items="district" ref="cityselectDemo"></yd-cityselect>
-      <!-- <x-address style="display:none;" title="所在地区" v-model="value" :list="addressData" placeholder="请选择地址" :show.sync="show1"></x-address> -->
+      <group>
+        <x-input title="收货人" v-model="info.consigneeName" placeholder="请输入收货人姓名"></x-input>
+        <x-input title="手机号码" v-model="info.mobile" placeholder="请输入收货人手机号码" type="tel"></x-input>
+        <x-switch title="性别" :value-map="['男', '女']" :inline-desc="sex?'男':'女'" v-model="sex"></x-switch>
+        <x-address title="省市区" v-model="address" :list="addressData" placeholder="请选择地址" :show.sync="showAddress"></x-address>
+        <x-textarea title="详细地址：" v-model="info.addressDetail" placeholder="街道、楼牌号码等"></x-textarea>
+      </group>
       <div style="padding:0 .2rem;">
-        <yd-button :type="valid?'primary':'disabled'" @click.native="addAddress" size="large" v-if="/new/.test($route.path)">保存</yd-button>
-        <yd-button :type="valid?'warning':'disabled'" @click.native="editAddress" size="large" v-else>保存</yd-button>
+        <yd-button :type="valid?'warning':'disabled'" @click.native="editAddress" size="large">保存</yd-button>
       </div>
     </main>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { updateAddressInIos, newsAddressInIos } from "../../api/index";
-import { getStore } from "components/common/mixin";
-import District from "ydui-district/dist/gov_province_city_area_id";
-import {  XAddress, ChinaAddressV4Data, Value2nameFilter as value2name } from 'vux'
+import { updateAddressInIos } from "../../api/index";
+import {
+  Group,
+  Cell,
+  XInput,
+  XTextarea,
+  XSwitch,
+  XAddress,
+  ChinaAddressV4Data
+} from "vux";
 export default {
-  name: "EditOrNew",
+  name: "AddressEdit",
   data() {
     return {
       oldBack: mui.back,
-      district: District,
-      show1: false,
-      addressTitle: "",
-      addressId: "",
-      consigneeName: "",
-      consigneeSex: "",
-      mobile: "",
-      proviceId: "",
-      proviceName: "",
-      cityId: "",
-      cityName: "",
-      areaId: "",
-      areaName: "",
-      adddressName: "",
-      addressDetail: "",
+      showAddress: false,
+      info:{},
       addressData: ChinaAddressV4Data,
-      value:[]
+      address: [],
+      sex:false
     };
   },
-  components: { HeaderTop,XAddress },
+  components: {
+    HeaderTop,
+    Group,
+    Cell,
+    XInput,
+    XTextarea,
+    XSwitch,
+    XAddress
+  },
   computed: {
+    ...mapState(["account"]),
     valid() {
       return (
-        !!this.consigneeName &&
-        /^[1][3578][0-9]{9}$/.test(this.mobile) &&
-        !!this.adddressName &&
-        !!this.addressDetail
+        !!this.info.consigneeName &&
+        /^[1][3578][0-9]{9}$/.test(this.info.mobile) &&
+        this.address.length &&
+        !!this.info.addressDetail
       );
     }
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
+      
       mui.back = vm.goBack;
     });
   },
@@ -93,41 +70,11 @@ export default {
     mui.back = this.oldBack;
     next();
   },
-  created() {},
-  activated() {
-    if (/edit/.test(this.$route.path)) {
-      this.addressTitle = "地址修改";
-      let address = this.$route.params.address;
-      this.addressId = address.id;
-      this.consigneeName = address.consigneeName;
-      this.consigneeSex = address.consigneeSex;
-      this.mobile = address.mobile;
-      this.proviceId = address.proviceId.provinceId;
-      this.cityId = address.cityId.cityId;
-      this.addressDetail = address.addressDetail;
-      if (address.areaId) {
-        this.areaId = address.areaId.areaId;
-        this.adddressName = `${address.proviceId.province},${address.cityId.city},${address.areaId.area}`;
-      } else {
-        this.areaId = "0";
-        this.adddressName = `${address.proviceId.province},${address.cityId.city}`;
-      }
-    } else {
-      this.addressTitle = "地址添加";
-      this.addressId = "";
-      this.consigneeName = "";
-      this.consigneeSex = "";
-      this.mobile = "";
-      this.proviceId = "";
-      this.proviceName = "";
-      this.cityId = "";
-      this.cityName = "";
-      this.areaId = "";
-      this.areaName = "";
-      this.addressDetail = "";
-      this.adddressName = "";
-      // this.$refs.cityselectDemo.$emit("ydui.cityselect.reset");
-    }
+
+  created() {
+      this.info = this.$route.params.item;
+      this.address = [this.info.proviceId.provinceId+"",this.info.cityId.cityId+"",(this.info.areaId&&this.info.areaId.areaId)+""]
+      this.sex = this.info.consigneeSex=='1'?true:false
   },
   methods: {
     goBack() {
@@ -137,50 +84,6 @@ export default {
         this.$router.go(-1);
       }
     },
-    result1(res) {
-      this.proviceId = res.itemValue1;
-      this.cityId = res.itemValue2;
-      if (res.itemValue3) {
-        this.areaId = res.itemValue3;
-        this.adddressName = `${res.itemName1},${res.itemName2},${res.itemName3}`;
-      } else {
-        this.areaId='0';
-        this.adddressName = `${res.itemName1},${res.itemName2}`;
-      }
-    },
-    addAddress() {
-      let vm = this;
-      mui.ajax({
-        url: newsAddressInIos,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          account: getStore("account"),
-          consigneeName: this.consigneeName,
-          consigneeSex: this.consigneeSex,
-          mobile: this.mobile,
-          proviceId: this.proviceId,
-          cityId: this.cityId,
-          areaId: this.areaId,
-          addressDetail: this.addressDetail,
-          token: md5(`newsAddress${getStore("account")}`)
-        },
-        success(res) {
-          if (res.code == 200) {
-            vm.$dialog.toast({
-              mes: "添加成功",
-              callback: () => {
-                vm.$router.go(-1);
-              }
-            });
-          } else {
-            vm.$dialog.toast({
-              mes: res.msg
-            });
-          }
-        }
-      });
-    },
     editAddress() {
       let vm = this;
       mui.ajax({
@@ -188,17 +91,17 @@ export default {
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          id: this.addressId,
-          account: getStore("account"),
-          consigneeName: this.consigneeName,
-          consigneeSex: this.consigneeSex,
-          mobile: this.mobile,
-          proviceId: this.proviceId,
-          cityId: this.cityId,
-          areaId: this.areaId,
-          addressDetail: this.addressDetail,
+          id: this.info.id,
+          account: this.account,
+          consigneeName: this.info.consigneeName,
+          consigneeSex: this.sex?'1':'2',
+          mobile: this.info.mobile,
+          proviceId: this.address[0],
+          cityId: this.address[1],
+          areaId: this.address[2]=='--'?'0':this.address[2],
+          addressDetail: this.info.addressDetail,
           token: md5(
-            `updateAddressInIos${this.addressId}${getStore("account")}`
+            `updateAddressInIos${this.info.id}${this.account}`
           )
         },
         success(res) {
@@ -220,57 +123,3 @@ export default {
   }
 };
 </script>
-<style lang='less' scoped>
-.self-radio {
-  position: relative;
-  display: inline-block;
-  padding-right: 10px;
-  padding-left: 25px;
-  font-size: 14px;
-  > input[type="radio"] {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    z-index: 15;
-    &:checked + span::before {
-      border-color: rgb(76, 216, 100);
-    }
-    &:checked + span::after {
-      color: rgb(76, 216, 100);
-      opacity: 1;
-      transform: scale(1);
-      transition: all 0.2s ease-in-out;
-    }
-  }
-  span {
-    &::before {
-      position: absolute;
-      content: "";
-      left: 0;
-      top: 0;
-      width: 20px;
-      height: 20px;
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      display: inline-block;
-      z-index: 10;
-      vertical-align: middle;
-    }
-    &::after {
-      position: absolute;
-      content: "";
-      left: 5px;
-      top: 5px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background-color: currentColor;
-      opacity: 0;
-      transform: scale(0);
-    }
-  }
-}
-</style>
