@@ -7,7 +7,7 @@
           <span slot="left">头像</span>
           <div slot="right">
             <div id="head-img" :style="{'background-image':'url('+info.imgHeadUrl+')'}"></div>
-            <input type="file" capture="camera" accept="image/*" class="head-img" name="head-img" @change="previewImg($event)">
+            <input type="file" accept="image/*" class="head-img" name="head-img" @change="previewImg($event)">
           </div>
         </yd-cell-item>
         <yd-cell-item :arrow="!certificateStatus">

@@ -32,7 +32,7 @@
           <div class="upload-icon flex just-center align-center">
             <span class="iconfont-large self-upload"></span>
           </div>
-          <input type="file" name="" id="upload-img" capture="camera" accept="image/*" @change="chooseImg($event,item)">
+          <input type="file" name="" id="upload-img" accept="image/*" @change="chooseImg($event,item)">
         </div>
         <div class="img-box" v-else>
           <yd-button type="warning" @click.native="item.toggle = true">我还要上传图片</yd-button>

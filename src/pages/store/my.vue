@@ -11,7 +11,7 @@
       <section class="store-info">
         <h2 class="store-title px-1">{{info.storeName}}</h2>
         <div class="flex align-center">
-          <div class="flex-1 fs-15 flex">
+          <div class="flex-1 fs-15 flex align-center">
             <span class="iconfont-large self-location danger-color"></span>
             <span class="flex-1">{{info.provinceId.province}}{{info.cityId.city}}
               <span v-if="info.areaId">{{info.areaId.area}}</span>{{info.addressDetail}}</span>

@@ -27,6 +27,7 @@
         <yd-cell-item arrow>
           <span slot="left">省市区：</span>
           <input type="text" slot="right" placeholder="请选择" style="text-align:right;" readonly @click.stop="show1=true" v-model="adddressName">
+          <!-- <input type="text" slot="right" placeholder="请选择" style="text-align:right;" readonly @click.stop="show1=true" v-model="value"> -->
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">详细地址：</span>
@@ -34,6 +35,7 @@
         </yd-cell-item>
       </yd-cell-group>
       <yd-cityselect v-model="show1" :callback="result1" :items="district" ref="cityselectDemo"></yd-cityselect>
+      <!-- <x-address style="display:none;" title="所在地区" v-model="value" :list="addressData" placeholder="请选择地址" :show.sync="show1"></x-address> -->
       <div style="padding:0 .2rem;">
         <yd-button :type="valid?'primary':'disabled'" @click.native="addAddress" size="large" v-if="/new/.test($route.path)">保存</yd-button>
         <yd-button :type="valid?'warning':'disabled'" @click.native="editAddress" size="large" v-else>保存</yd-button>
@@ -46,6 +48,7 @@ import HeaderTop from "components/header/index";
 import { updateAddressInIos, newsAddressInIos } from "../../api/index";
 import { getStore } from "components/common/mixin";
 import District from "ydui-district/dist/gov_province_city_area_id";
+import {  XAddress, ChinaAddressV4Data, Value2nameFilter as value2name } from 'vux'
 export default {
   name: "EditOrNew",
   data() {
@@ -65,10 +68,12 @@ export default {
       areaId: "",
       areaName: "",
       adddressName: "",
-      addressDetail: ""
+      addressDetail: "",
+      addressData: ChinaAddressV4Data,
+      value:[]
     };
   },
-  components: { HeaderTop },
+  components: { HeaderTop,XAddress },
   computed: {
     valid() {
       return (

@@ -22,7 +22,7 @@
         <img :src="baseUrl" alt="" class="upload-preview">
         <div class="upload-icon">
           <span class="iconfont self-upload"></span>
-          <input type="file" name="upload-box" id="" capture="camera" accept="image/*" @change="previewImg($event)">
+          <input type="file" name="upload-box" id="" accept="image/*" @change="previewImg($event)">
         </div>
       </div>
       <div style="padding:.4rem;">

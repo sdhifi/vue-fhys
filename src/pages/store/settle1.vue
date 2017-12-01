@@ -60,7 +60,7 @@
           <img src="" alt="" class="licence-picture">
           <div class="upload-icon">
             <span class="iconfont self-upload"></span>
-            <input type="file" accept="image/*" capture="camera" name="licence-upload" id="licence-upload" @change="choosePicture($event)">
+            <input type="file" accept="image/*" name="licence-upload" id="licence-upload" @change="choosePicture($event)">
           </div>
         </div>
       </yd-cell-group>

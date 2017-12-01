@@ -5,8 +5,8 @@
       <yd-accordion accordion>
         <yd-accordion-item :title="item.title" v-for="(item,index) in info" :key="index" :open="true">
           <div class="download-item flex align-center just-center">
-            <!-- <a :href="item.link" class="iconfont self-download" download>点击下载</a> -->
-            <span class="iconfont self-download" @click="download(item.link)">点击下载</span>
+            <span class="iconfont self-download" @click="download(item)" v-if="ios">点击下载</span>
+            <a :href="item.link" class="iconfont self-download" download v-else>点击下载</a>
           </div>
         </yd-accordion-item>
       </yd-accordion>
@@ -30,13 +30,33 @@ export default {
           link:
             "http://jfh.jfeimao.com/gjfeng-web-client/upload/file/广东凤凰网络科技股份有限公司商家入驻合同.doc"
         }
-      ]
+      ],
+      ios: true
     };
   },
   components: { HeaderTop },
-  methods:{
-    download(url){
-      console.log(encodeURI(url))
+  created() {
+    let u = navigator.userAgent;
+    this.ios = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+  },
+  methods: {
+    download(item) {
+      var codeUrl = encodeURI(item.link);
+      var dtask = plus.downloader.createDownload(
+        codeUrl,
+        {
+          filename: `_documents/fhys/${decodeURI(item.title)}`
+        },
+        function(d, status) {
+          // 下载完成
+          if (status == 200) {
+            alert(`下载成功：_documents/fhys/${decodeURI(item.title)}`);
+          } else {
+            alert("下载失败: " + status);
+          }
+        }
+      );
+      dtask.start();
     }
   }
 };
@@ -46,7 +66,7 @@ export default {
 .download-item {
   padding-left: @pd;
   .mg-v;
-  span {
+  span,a {
     color: @blue;
   }
 }

@@ -8,7 +8,6 @@
       </yd-cell-item>
     </yd-cell-group>
     <main class='scroll-content-1'>
-
       <yd-infinitescroll :callback="getComment" ref="cmlist">
         <ul slot="list">
           <li v-for="(item,index) in info" class="item" :key="index">
