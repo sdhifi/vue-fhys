@@ -23,22 +23,14 @@
           <yd-input slot="right" v-model="sellerEmail" type="email" regex="email" placeholder="请填写联系人的邮箱" required></yd-input>
         </yd-cell-item>
       </yd-cell-group>
-      <group title="店铺地址">
+      <group title="店铺信息">
         <x-address title="省份城市：" v-model="storeCitys" :list="addressData" placeholder="请选择地址" :show.sync="show1"></x-address>
-        <x-textarea title="详细地址：" v-model="addressDetail" placeholder="街道、楼牌号码等"></x-textarea>
+        <x-textarea title="详细地址：" v-model="addressDetail" placeholder="街道、楼牌号码等" :max="200"></x-textarea>
+        <x-input title="营业执照号：" v-model="businessLicenceNumber" placeholder="请填写营业执照号" type="tel"></x-input>
         <x-address title="营业执照" inline-desc="所在地" v-model="businessLicenceAddress" :list="addressData" placeholder="营业执照所在地" :show.sync="show2"></x-address>
+        <x-textarea title="经营范围：" inline-desc="(选填)" v-model="businessSphere" placeholder="填写您的经营范围" :max="400"></x-textarea>
       </group>
       <yd-cell-group title="信息完善">
-        <yd-cell-item>
-          <span slot="left">营业执照号：</span>
-          <yd-input slot="right" v-model="businessLicenceNumber" placeholder="请填写营业执照号" required></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">经营范围
-            <small class="danger-color">(选填)</small>：
-          </span>
-          <yd-textarea slot="right" v-model="businessSphere" placeholder="填写您的经营范围" maxlength="400"></yd-textarea>
-        </yd-cell-item>
         <div class="upload-container">
           <p class="tips">营业执照图片大小请控制在1M之内，请确保图片清晰，文字可辨并有清晰的红色公章。</p>
           <img src="" alt="" class="licence-picture">
@@ -80,7 +72,7 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import CertModal from "components/common/CertModal";
-import { Group, XTextarea, XAddress, ChinaAddressV4Data } from "vux";
+import { Group, XInput,XTextarea, XAddress, ChinaAddressV4Data } from "vux";
 import { addStore } from "../../api/index";
 import { validateSettle } from "components/common/mixin";
 import "lrz/dist/lrz.bundle.js";
@@ -118,6 +110,7 @@ export default {
     HeaderTop,
     CertModal,
     Group,
+    XInput,
     XTextarea,
     XAddress
   },
