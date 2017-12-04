@@ -3,7 +3,7 @@
     <header-top title="商品管理"></header-top>
     <section v-show="pdlist.length">
       <main class='scroll-content'>
-        <yd-checklist v-model="checkList" ref="pdlist" :label="false" :callback="change">
+        <yd-checklist v-model="checkList" ref="pdlist" :label="true" :callback="change">
           <yd-checklist-item :val="item.id" v-for="item in pdlist" :key="item.id">
             <div class="pd-item flex align-center">
               <div class="pd-cover">

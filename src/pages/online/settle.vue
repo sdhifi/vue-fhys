@@ -44,7 +44,7 @@
               <p>{{item.goodsAttr}}</p>
               <div class="flex just-between">
                 <span class="danger-color fs-16" v-if="settleList.isCanUseCou==1">{{item.goodsAmount}}积分</span>
-                <span class="danger-color fs-16" v-else-if="settleList.isCanUseCou==2">{{item.goodsAmount}}责任金额</span>
+                <span class="danger-color fs-16" v-else-if="settleList.isCanUseCou==2">{{item.goodsAmount}}责任金</span>
                 <span class="danger-color fs-16" v-else>￥{{item.goodsAmount}}</span>
                 <span class="fs-14">x{{item.goodsNum}}</span>
               </div>

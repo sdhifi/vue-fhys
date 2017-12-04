@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-top title="栏目"></header-top>
-    <main class="scroll-content-2">
+    <main class="scroll-content-2" id="scroll-box">
       <section class="search-container">
         <router-link to="/home/search" class="search-input">
           <span class="iconfont-large self-search"></span>
@@ -23,7 +23,7 @@
           </router-link>
         </ul>
       </section>
-      <product-list :column-id="$route.params.id" :stick-tag="stickTag"></product-list>
+      <product-list :column-id="$route.params.id"></product-list>
     </main>
   </div>
 </template>
@@ -33,14 +33,13 @@ import HeaderTop from "components/header/index";
 import ProductList from "components/common/ProductList";
 import { subColumn } from "../../api/index";
 import { mixin } from "components/common/mixin";
-import { throttle } from "vux";
 export default {
   name: "SubColumn",
   data() {
     return {
       banner: [],
       subcolumns: [],
-      stickTag: false
+      top: 0
     };
   },
   components: { HeaderTop, ProductList },
@@ -52,7 +51,7 @@ export default {
   activated() {
     this.init();
 
-    this.stickTag = false;
+    this.stickTag = 0;
   },
   methods: {
     init() {
@@ -73,14 +72,6 @@ export default {
         success(res) {
           vm.banner = res.result.subAds;
           vm.subcolumns = res.result.subColumns;
-          vm.$nextTick(() => {
-            main.addEventListener(
-              "scroll",
-              throttle(e => {
-                vm.stickTag = e.target.scrollTop > list.offsetTop;
-              }, 300)
-            );
-          });
         }
       });
     }

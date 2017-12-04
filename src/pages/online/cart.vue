@@ -4,8 +4,7 @@
     <main class='scroll-content'>
       <ul class="cart-list" v-show="cartList.length">
         <li v-for="(item,index) in cartList" :key="index" class="cart-item flex align-center">
-          <label :for="'cart-item'+index" class="cart-check flex align-center just-center">
-            <input type="checkbox" :checked="item.checked" name="cart-item" :id="'cart-item'+index" @change="countChange($event,item,index)">
+          <label class="cart-check flex align-center just-center" @click="countChange($event,item,index)" :class="{'checked':item.checked}">
           </label>
           <div class="flex-1">
             <yd-flexbox style="margin-bottom:5px;">
@@ -14,13 +13,14 @@
                 <h3>{{item.goodsId.name}}</h3>
                 <p class="attrs">{{item.goodsAttr}}</p>
                 <div class="flex just-between align-center">
-                  <!-- <span class="fs-16 danger-color">￥{{item.goodsAttrStockId.price}}</span> -->
                   <p v-if="item.goodsId.isCanUserCou=='1'" class="fs-16 danger-color">
-                    <yd-badge type="primary" style="vertical-align: text-bottom;"><span>{{item.goodsAttrStockId.price}}</span>积分</yd-badge>
+                    <yd-badge type="primary" style="vertical-align: text-bottom;">
+                      <span>{{item.goodsAttrStockId.price}}</span>积分</yd-badge>
                     <span v-if="item.goodsId.pointNicePrice">+￥{{item.goodsId.pointNicePrice}}</span>
                   </p>
                   <p v-else-if="item.goodsId.isCanUserCou=='2'" class="fs-16 danger-color">
-                    <yd-badge type="warning" style="vertical-align: text-bottom;"><span>{{item.goodsAttrStockId.price}}</span>责任金额</yd-badge>
+                    <yd-badge type="warning" style="vertical-align: text-bottom;">
+                      <span>{{item.goodsAttrStockId.price}}</span>责任金</yd-badge>
                     <span v-if="item.goodsId.pointNicePric">+￥{{item.goodsId.pointNicePrice}}</span>
                   </p>
                   <p v-else class="fs-16 danger-color">
@@ -53,9 +53,10 @@
       </section>
     </main>
     <footer class="fix-footer flex align-center" style="border-top: 1px solid #dfdfdf;" v-show="cartList.length">
-      <label for="check-all" class="cart-check flex align-center just-center fs-15">
-        <input type="checkbox" :checked="isCheckAll" id="check-all" @change="checkAll"> 全选
-      </label>
+      <p @click="checkAll" class="flex align-center just-center fs-14">
+        <label class="cart-check" :class="{'checked':isCheckAll}" ></label>
+        全选
+      </p>
       <div class="flex-1 total-price">
         <p class="fs-16">合计：
           <span class="danger-color">{{formatPrice(totalPrice)}}</span>
@@ -186,7 +187,8 @@ export default {
         let a = 0;
         for (let i = 0; i < this.checkList.length; i++) {
           a +=
-            (this.checkList[i].goodsAttrStockId.price + this.checkList[i].goodsId.pointNicePrice) *
+            (this.checkList[i].goodsAttrStockId.price +
+              this.checkList[i].goodsId.pointNicePrice) *
             this.checkList[i].goodsNum;
         }
         this.totalPrice = a;
@@ -265,7 +267,7 @@ export default {
   }
   .attrs {
     color: @lightgray;
-    margin-bottom: .1rem;
+    margin-bottom: 0.1rem;
   }
   input[type="number"] {
     border: none;
@@ -319,19 +321,14 @@ export default {
 
 .cart-check {
   padding: @pd;
-  position: relative;
+  .mg-h;
   z-index: 5;
-  input[type="checkbox"] {
-    display: inline-block;
-    .wh(25px, 25px);
-    background-image: url(../../assets/1.png);
-    background-size: contain;
-    border: none;
-    outline: none;
-    appearance: none;
-    &:checked {
-      background-image: url(../../assets/2.png);
-    }
+  display: inline-block;
+  .wh(25px, 25px);
+  background-image: url(../../assets/1.png);
+  background-size: contain;
+  &.checked {
+    background-image: url(../../assets/2.png);
   }
 }
 </style>
