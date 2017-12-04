@@ -25,9 +25,9 @@
                   <span class="market-price">门市价：￥{{formatPrice(item.marketPrice)}}</span>
                 </div>
               </div>
-              <div class="pd-edit" @click="editpd(item)">
+              <!-- <div class="pd-edit" @click="editpd(item)">
                 <span class="iconfont self-bianji"></span>
-              </div>
+              </div> -->
             </div>
           </yd-checklist-item>
         </yd-checklist>
@@ -36,7 +36,8 @@
         <div style="padding-left:12px;" v-show="pdlist.length">
           <yd-checkbox v-model="isCheckAll" shape="circle" :change="checkAll">{{isCheckAll?'取消':'全选'}}</yd-checkbox>
         </div>
-        <button class=" flex-1 delete-btn" @click="delpd" v-show="checkList.length">下架选中商品</button>
+        <button class="flex-1 delete-btn" @click="delpd" v-show="checkList.length">下架选中商品</button>
+        <button class="flex-1 save-btn" @click="editpd" v-show="checkList.length==1">编辑选中商品</button>
       </footer>
     </section>
     <section v-show="!pdlist.length" class="hv-cen text-center">
@@ -139,7 +140,15 @@ export default {
         }
       });
     },
-    editpd(pd) {
+    editpd() {
+      let id = this.checkList[0];
+      let pd = null;
+      this.pdlist.forEach(item=>{
+        if(id==item.id) {
+          pd = item;
+        }
+      })
+    
       this.$router.push({ name: "UpdateProduct", params: { pd } });
     }
   }
