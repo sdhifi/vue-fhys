@@ -126,10 +126,7 @@ export default {
     getPosition() {
       if (!this.city) {
         if (process.env.NODE_ENV == "development") {
-          axios
-            .get(
-              "https://api.map.baidu.com/location/ip?ak=xVyOYxDsYKpFBx8zdICSlWxsqltd8QoC&coor=gcj02"
-            )
+          axios.get("https://api.map.baidu.com/location/ip?ak=xVyOYxDsYKpFBx8zdICSlWxsqltd8QoC&coor=gcj02")
             .then(res => {
               let data = res.data.content;
               let city = data.address_detail.city,

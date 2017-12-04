@@ -126,7 +126,7 @@ export const validateSettle = {
       return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(this.sellerEmail)
     },
     validStoreCitys() {
-      return !!this.storeCitys
+      return !!this.storeCitys.length;
     },
     validAddressDetail() {
       return !!this.addressDetail
@@ -135,7 +135,7 @@ export const validateSettle = {
       return !!this.businessLicenceNumber
     },
     validLicenseAddress() {
-      return !!this.businessLicenceAddress
+      return !!this.businessLicenceAddress.length
     },
     validFileContent() {
       return !!this.fileContent

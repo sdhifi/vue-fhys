@@ -2,35 +2,20 @@
   <div>
     <header-top title="个体入驻"></header-top>
     <main class='scroll-content-2'>
-      <yd-cell-group title="店铺信息">
-        <yd-cell-item>
-          <div slot="left">
-            <p>店铺名称：</p>
-            <small class="danger-color">(不可更改)</small>
-          </div>
-          <yd-input slot="right" v-model="storeName" placeholder="请填写店铺名称" required></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">联系人：</span>
-          <yd-input slot="right" v-model="sellerName" placeholder="请填写企业联系人" required></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">联系电话：</span>
-          <yd-input slot="right" v-model="sellerMobile" type="tel" regex="mobile" placeholder="请填写联系人的手机号码" required></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">电子邮箱：</span>
-          <yd-input slot="right" v-model="sellerEmail" type="email" regex="email" placeholder="请填写联系人的邮箱" required></yd-input>
-        </yd-cell-item>
-      </yd-cell-group>
+      <group title="基本信息">
+        <x-textarea  title="店铺名称：" v-model="storeName" placeholder="请填写店铺名称" :rows="2" inline-desc="(不可更改)"></x-textarea >
+        <x-input title="联系人：" v-model="sellerName" placeholder="请填写企业联系人" :required="true"></x-input>
+        <x-input title="联系电话：" v-model="sellerMobile" placeholder="请填写联系人的手机号码" type="tel" is-type="china-mobile" :required="true"></x-input>
+        <x-input title="电子邮箱：" v-model="sellerEmail" placeholder="请填写联系人的邮箱" type="email" is-type="email" :required="true"></x-input>
+      </group>
       <group title="店铺信息">
         <x-address title="省份城市：" v-model="storeCitys" :list="addressData" placeholder="请选择地址" :show.sync="show1"></x-address>
         <x-textarea title="详细地址：" v-model="addressDetail" placeholder="街道、楼牌号码等" :max="200"></x-textarea>
-        <x-input title="营业执照号：" v-model="businessLicenceNumber" placeholder="请填写营业执照号" type="tel"></x-input>
+        <x-input title="营业执照号：" v-model="businessLicenceNumber" placeholder="请填写营业执照号" :required="true" type="tel"></x-input>
         <x-address title="营业执照" inline-desc="所在地" v-model="businessLicenceAddress" :list="addressData" placeholder="营业执照所在地" :show.sync="show2"></x-address>
         <x-textarea title="经营范围：" inline-desc="(选填)" v-model="businessSphere" placeholder="填写您的经营范围" :max="400"></x-textarea>
       </group>
-      <yd-cell-group title="信息完善">
+      <group title="信息完善">
         <div class="upload-container">
           <p class="tips">营业执照图片大小请控制在1M之内，请确保图片清晰，文字可辨并有清晰的红色公章。</p>
           <img src="" alt="" class="licence-picture">
@@ -39,7 +24,7 @@
             <input type="file" accept="image/*" name="licence-upload" id="licence-upload" @change="choosePicture($event)">
           </div>
         </div>
-      </yd-cell-group>
+      </group>
       <yd-cell-group>
         <yd-cell-item :arrow="!certificateStatus">
           <span slot="left">身份认证</span>
@@ -47,21 +32,13 @@
           <span slot="right" v-else>已认证</span>
         </yd-cell-item>
       </yd-cell-group>
-      <yd-cell-group title="结算账号">
-        <yd-cell-item>
-          <span slot="left">银行开户名：</span>
-          <yd-input slot="right" v-model="bankAccountName" placeholder="请填写银行开户名" required></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">银行账号：</span>
-          <yd-input slot="right" v-model="bankAccountNumber" regex="bankcard" placeholder="请填写银行账号" required></yd-input>
-        </yd-cell-item>
-      </yd-cell-group>
-      <div style="padding:0 .2rem;">
+      <group title="结算账号">
+        <x-input title="银行开户名：" v-model="bankAccountName" placeholder="请填写银行开户名" :required="true"></x-input>
+        <x-input title="银行账号：" v-model="bankAccountNumber" placeholder="请填写银行账号" :required="true" type="tel"></x-input>
+      </group>
+      <div style="padding:.2rem;">
         <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
         <router-link to="/store/service" class="protocol">《凤凰云商o2o店铺入驻协议》</router-link>
-      </div>
-      <div style="padding:0 .2rem .2rem;">
         <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="applicate">提交申请</yd-button>
       </div>
     </main>
@@ -94,7 +71,6 @@ export default {
 
       businessLicenceNumber: "", //营业执照号
       businessLicenceAddress: [], //营业执照地id
-      businessLicenceAddressName: "", //营业执照地
       businessSphere: "", //经营范围
 
       bankAccountName: "", //银行开户名
@@ -144,15 +120,7 @@ export default {
   },
   activated() {},
   mounted() {
-    [
-      ...document.querySelectorAll(
-        "input[type='text'],input[type='tel'],input[type='number'],textarea"
-      )
-    ].forEach((item, index) => {
-      item.addEventListener("focus", function() {
-        item.scrollIntoView();
-      });
-    });
+   
   },
   methods: {
     goBack() {
