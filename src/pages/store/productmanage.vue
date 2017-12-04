@@ -211,11 +211,11 @@ export default {
     }
   }
   .pd-edit {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    .wh(100%, 100%);
+    // position: absolute;
+    // right: 0;
+    // top: 0;
+    // bottom: 0;
+    // .wh(100%, 100%);
     span {
       position: absolute;
       right: 0;
