@@ -45,7 +45,7 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          if (_result) {
+          if (_result.version) {
             if (vm.curVersion == _result.version) {
               vm.$dialog.toast({
                 mes: "当前版本已是最新！"
@@ -56,13 +56,62 @@ export default {
                 title: `检测到新版本：${_result.version}，是否升级？`,
                 mes: `${_result.describe}`,
                 opts: () => {
-                  window.open(_result.jumpUrl);
+                  let wgtUrl = _result.jumpUrl;
+                  vm.downloadWgt(wgtUrl);
                 }
               });
             }
           }
+          else{
+             vm.$dialog.toast({
+                mes: "没有版本发布！ "
+              });
+          }
         }
       });
+    },
+    downloadWgt(url) {
+      let vm = this;
+      this.$dialog.loading.open("下载更新...");
+      plus.downloader
+        .createDownload(url, { filename: "_doc/update/" }, function(d, status) {
+          if (status == 200) {
+            console.log("下载更新成功：" + d.filename);
+            vm.installWgt(d.filename); // 安装更新包
+          } else {
+            console.log("下载更新失败！");
+            vm.$dialog.alert({
+              mes: "下载更新失败！"
+            });
+          }
+          vm.$dialog.loading.close();
+        })
+        .start();
+    },
+    installWgt(path) {
+      let vm = this;
+      this.$dialog.loading.open("安装更新...");
+      plus.runtime.install(
+        path,
+        {},
+        function() {
+          vm.$dialog.loading.close();
+          console.log("安装更新成功！");
+          vm.$dialog.alert({
+            mes: "应用资源更新完成！",
+            callback: () => {
+              plus.runtime.restart();
+            }
+          });
+        },
+        function(e) {
+          vm.$dialog.loading.close();
+          console.log("安装更新失败[" + e.code + "]：" + e.message);
+          vm.$dialog.alert({
+            mes: "安装更新失败[" + e.code + "]：" + e.message
+          });
+        }
+      );
     }
   }
 };

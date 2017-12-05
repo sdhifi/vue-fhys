@@ -42,12 +42,14 @@ export default {
   methods: {
     download(item) {
       var codeUrl = encodeURI(item.link);
+      this.$dialog.loading.open();
       var dtask = plus.downloader.createDownload(
         codeUrl,
         {
           filename: `_documents/fhys/${decodeURI(item.title)}`
         },
         function(d, status) {
+          vm.$dialog.loading.close();
           // 下载完成
           if (status == 200) {
             alert(`下载成功：_documents/fhys/${decodeURI(item.title)}`);
