@@ -263,7 +263,7 @@ export default {
         });
         return;
       }
-      //TODO:判断是否设置过支付密码，没有就跳转密码设置
+      //判断是否设置过支付密码，没有就跳转密码设置
       if ((this.payType == "0" || this.payType == "8") && !this.paypwd) {
         this.$router.push({ name: "PwdManage" });
         return;
@@ -429,17 +429,7 @@ export default {
           vm.pays["alipay"],
           payParams,
           function(result) {
-            // plus.nativeUI.alert(
-            //   "支付成功",
-            //   function() {
-            //     //vm.goBack(true);
-            //     vm.$router.replace({
-            //       name: "MyOrder",
-            //       query: { id: 0 }
-            //     });
-            //   },
-            //   "支付"
-            // );
+          
             vm.$dialog.confirm({
               mes: "支付成功！",
               opts: [
@@ -466,7 +456,6 @@ export default {
             });
           },
           function(e) {
-            // plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
             vm.$dialog.alert({
               mes: "支付失败:" + e.message
             });

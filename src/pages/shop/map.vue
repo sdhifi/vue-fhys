@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top title="地图"></header-top>
+    <header-top title="商家地址"></header-top>
     <main id="map-container">
 
     </main>
@@ -12,7 +12,8 @@ export default {
   name: 'Map',
   data() {
     return {
-
+      address:"",
+      map:null
     }
   },
   components: { HeaderTop },
@@ -20,13 +21,24 @@ export default {
 
   },
   created() {
-
+    this.address = this.$route.params.address;
+    // document.addEventListener("plusready",this.drawMap,false)
+    this.drawMap();
   },
-  activated() {
 
-  },
   methods: {
-
+    drawMap(){
+      plus.maps.Map.geocode(this.address,{},(event)=>{
+        let point = event.coord;
+        console.log(point)
+      this.map = new plus.maps.Map("map-container");
+      this.centerAndZoom(new plus.maps.Point(point.longitude,point.latitude),12)
+      },(error)=>{
+        this.$dialog.alert({
+          mes:error
+        })
+      })
+    }
   }
 }
 </script>

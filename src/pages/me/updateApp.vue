@@ -24,6 +24,11 @@ export default {
   computed: {},
   created() {
     this.init();
+    
+    this.getVersion();
+  },
+  mounted(){
+    document.addEventListener('plusready',this.getVersion,false)
   },
   methods: {
     init() {
@@ -32,10 +37,13 @@ export default {
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
       this.type = isiOS ? "1" : "0";
       //this.curVersion = plus.runtime.version;
-      plus.runtime.getProperty(plus.runtime.appid,(inf)=>{
-        this.curVersion =inf.version;
-        console.log("当前应用版本："+inf.version);
-    });
+    },
+    getVersion(){
+      let vm = this;
+       plus.runtime.getProperty(plus.runtime.appid, function(inf){
+        vm.curVersion = inf.version;
+        console.log("当前应用版本：" + inf.version);
+      });
     },
     getInfo() {
       let vm = this;
@@ -65,11 +73,10 @@ export default {
                 }
               });
             }
-          }
-          else{
-             vm.$dialog.toast({
-                mes: "没有版本发布！ "
-              });
+          } else {
+            vm.$dialog.toast({
+              mes: "没有版本发布！ "
+            });
           }
         }
       });

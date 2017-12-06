@@ -97,7 +97,6 @@ export default {
   mounted() {
     this.getPosition();
     this.getColumns();
-    alert("测试版本：1.1")
   },
   activated() {
     if (getStore("account") && getStore("account").length > 0) {
