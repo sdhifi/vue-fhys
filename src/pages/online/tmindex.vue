@@ -8,7 +8,7 @@
     <div class="search-form" autocomplete="off">
       <div class="input-group  flex align-center">
         <span class="iconfont-large self-search"></span>
-        <input type="search" name="search" class="search-input" placeholder="输入搜索的商品关键词" v-model="searchValue" @keyup.enter="searchProduct">
+        <input type="text" name="search" class="search-input" placeholder="输入搜索的商品关键词" v-model="searchValue" @keyup.enter="searchProduct">
         <button type="button" class="search-submit" @click="searchProduct">搜索</button>
       </div>
     </div>
@@ -130,10 +130,12 @@ export default {
     },
     getCatalog() {
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: findProdutCat,
         type: "get",
         success(res) {
+          vm.$dialog.loading.close();
           vm.tabList = res;
           vm.getProduct();
         }
@@ -141,7 +143,6 @@ export default {
     },
     getProduct() {
       let vm = this;
-      this.$dialog.loading.open();
       mui.ajax({
         url: findProductList,
         type: "get",
@@ -150,7 +151,6 @@ export default {
           page: this.pageNo
         },
         success(res) {
-          vm.$dialog.loading.close();
           vm.productList = [...vm.productList, ...res];
           if (res.length < 30) {
             vm.noData = true;
@@ -229,7 +229,10 @@ export default {
     border: 1px solid #f7f5f0;
     color: #333;
     .product-img {
+      position: relative;
+      padding: 50%;
       img {
+        .hv-cen;
         width: 100%;
       }
     }
