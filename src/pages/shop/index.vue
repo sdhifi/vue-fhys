@@ -22,10 +22,10 @@
               <span class="iconfont self-seller danger-color"></span>
               {{pdDetail.storeName}}
             </div>
-            <div class="seller-address fs-13 flex">
-              <span class="iconfont self-near danger-color"></span>
+            <div class="seller-address fs-13 flex" @click="navigate">
+              <span class="iconfont self-daohang danger-color"></span>
               <div class="flex-1">
-                <p class="fs-16">{{pdDetail.storeAddress}}</p>
+                <p class="fs-16 primary-color">{{pdDetail.storeAddress}}</p>
                 <p class="fs-12">距离我最近{{formatDis(pdDetail.distance)}}</p>
               </div>
             </div>
@@ -199,7 +199,10 @@ export default {
           }
         }
       });
-    }
+    },
+     navigate(){
+    this.$router.push({name:"ShopMap",params:{address:this.pdDetail.storeAddress}})
+  }
   },
   watch: {
     $route(to, from) {
@@ -273,11 +276,8 @@ section {
       margin-right: 0.1rem;
     }
     .seller-address {
-      p {
+      p:last-of-type {
         color: @lightgray;
-        &:first-of-type{
-          color: #333;
-        }
       }
     }
   }
@@ -303,5 +303,8 @@ section {
   div {
     color: @lightgray;
   }
+}
+.primary-color{
+  color: @blue;
 }
 </style>

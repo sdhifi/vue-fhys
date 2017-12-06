@@ -257,7 +257,14 @@ const router = new Router({
     meta: {
       keepAlive: true
     }
-  }, {
+  },{
+    path: '/shop/map',
+    name: 'ShopMap',
+    component: require('../pages/shop/map'),
+    meta: {
+      keepAlive: false
+    }
+  },  {
     path: '/store/settle',
     name: 'Settle',
     component: require('../pages/store/settle'),

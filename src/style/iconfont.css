@@ -154,6 +154,8 @@
 
 .self-search:before { content: "\e613"; }
 
+.self-daohang:before { content: "\e634"; }
+
 .self-tel:before { content: "\e652"; }
 
 .self-shangpinguanli:before { content: "\e611"; }

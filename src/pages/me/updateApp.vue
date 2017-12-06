@@ -31,7 +31,11 @@ export default {
       let isAndroid = u.indexOf("Android") > -1; //android终端
       let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
       this.type = isiOS ? "1" : "0";
-      this.curVersion = plus.runtime.version;
+      //this.curVersion = plus.runtime.version;
+      plus.runtime.getProperty(plus.runtime.appid,(inf)=>{
+        this.curVersion =inf.version;
+        console.log("当前应用版本："+inf.version);
+    });
     },
     getInfo() {
       let vm = this;

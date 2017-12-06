@@ -15,7 +15,7 @@
             <span class="iconfont self-male" :style="{'color':'#57A9FF'}" v-if="member.sex=='1'"></span>
             <span class="iconfont self-female" :style="{'color':'#f860ef'}" v-if="member.sex=='2'"></span>
           </div>
-          <p class="desc">{{member.remark||'备注信息'}}</p>
+          <p class="desc">{{member.remark||'-介绍信息-'}}</p>
         </div>
       </section>
       <section class="order-container">
