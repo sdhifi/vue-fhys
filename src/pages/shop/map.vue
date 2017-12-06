@@ -2,48 +2,46 @@
   <div>
     <header-top title="商家地址"></header-top>
     <main id="map-container">
-
     </main>
   </div>
 </template>
 <script>
-import HeaderTop from 'components/header/index'
+import HeaderTop from "components/header/index";
 export default {
-  name: 'Map',
+  name: "Map",
   data() {
     return {
-      address:"",
-      map:null
-    }
+      address: "",
+      city:"",
+      map: null
+    };
   },
   components: { HeaderTop },
-  computed: {
-
-  },
+  computed: {},
   created() {
     this.address = this.$route.params.address;
-    // document.addEventListener("plusready",this.drawMap,false)
+    this.city = this.$route.params.city;
+  },
+  mounted(){
     this.drawMap();
   },
-
   methods: {
-    drawMap(){
-      plus.maps.Map.geocode(this.address,{},(event)=>{
-        let point = event.coord;
-        console.log(point)
-      this.map = new plus.maps.Map("map-container");
-      this.centerAndZoom(new plus.maps.Point(point.longitude,point.latitude),12)
-      },(error)=>{
-        this.$dialog.alert({
-          mes:error
-        })
-      })
+    drawMap() {
+      let vm = this;
+      this.map = new BMap.Map("map-container");
+      let geo = new BMap.Geocoder();
+      geo.getPoint(this.address,function(point){
+        if(point){
+          vm.map.centerAndZoom(point,16);
+          vm.map.addOverlay(new BMap.Marker(point))
+        }
+      },this.city)
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-#map-container{
+#map-container {
   position: absolute;
   left: 0;
   width: 100%;

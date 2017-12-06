@@ -25,10 +25,10 @@ export default {
   created() {
     this.init();
     
-    this.getVersion();
   },
   mounted(){
-    document.addEventListener('plusready',this.getVersion,false)
+    //document.addEventListener('plusready',this.getVersion,false)
+    this.getVersion();
   },
   methods: {
     init() {

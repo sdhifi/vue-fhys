@@ -64,7 +64,7 @@ import { Swiper, SwiperItem } from "vux";
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
 import ProductItem from "components/common/ProductItem";
-import { o2o, like } from "../../api/index";
+import { o2o, like, findAppUpgredeByType } from "../../api/index";
 import { mixin, getStore, setStore } from "components/common/mixin";
 export default {
   name: "Home",
@@ -77,7 +77,9 @@ export default {
       banner: [],
       productList: [],
       loginAccount: false,
-      refreshTag: false
+      refreshTag: false,
+      type: "",
+      curVersion: "" //app版本
     };
   },
   components: { Swiper, SwiperItem, HeaderTop, FooterBar, ProductItem },
@@ -94,9 +96,13 @@ export default {
     mui.back = this.oldBack;
     next();
   },
+  created() {
+    this.init();
+  },
   mounted() {
-    this.getPosition();
+    this.posAndVer();
     this.getColumns();
+    
   },
   activated() {
     if (getStore("account") && getStore("account").length > 0) {
@@ -123,10 +129,19 @@ export default {
     }
   },
   methods: {
-    getPosition() {
+    init() {
+      let u = navigator.userAgent;
+      let isAndroid = u.indexOf("Android") > -1; //android终端
+      let isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+      this.type = isiOS ? "1" : "0";
+    },
+    posAndVer() {
       if (!this.city) {
         if (process.env.NODE_ENV == "development") {
-          axios.get("https://api.map.baidu.com/location/ip?ak=xVyOYxDsYKpFBx8zdICSlWxsqltd8QoC&coor=gcj02")
+          axios
+            .get(
+              "https://api.map.baidu.com/location/ip?ak=xVyOYxDsYKpFBx8zdICSlWxsqltd8QoC&coor=gcj02"
+            )
             .then(res => {
               let data = res.data.content;
               let city = data.address_detail.city,
@@ -135,13 +150,16 @@ export default {
               this.$store.commit("RECORD_ADDRESS", { latitude, longitude });
               this.$store.commit("RECORD_CITY", city);
             });
-        }
-        else{
+        } else {
           document.addEventListener("plusready", this.onPlusReady, false);
         }
       } else this.getYourlike();
     },
     onPlusReady() {
+      this.getPosition();
+      this.getVersion();
+    },
+    getPosition(){
       let vm = this;
       plus.geolocation.getCurrentPosition(
         function(p) {
@@ -234,6 +252,90 @@ export default {
           vm.$refs.refreshcontainer.$emit("ydui.pullrefresh.finishLoad");
         }
       });
+    },
+    getVersion() {
+      let vm = this;
+      plus.runtime.getProperty(plus.runtime.appid, function(inf) {
+        vm.curVersion = inf.version;
+        console.log("当前应用版本：" + inf.version);
+        if (vm.type == "0") {
+          vm.getInfo();
+        }
+      });
+    },
+    getInfo() {
+      let vm = this;
+      mui.ajax({
+        url: findAppUpgredeByType,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: {
+          type: this.type,
+          token: md5("findAppUpgredeByType")
+        },
+        success(res) {
+          let _result = res.result;
+          if (_result.version) {
+            if (vm.curVersion != _result.version) {
+              vm.$dialog.confirm({
+                title: `检测到新版本：${_result.version}，是否升级？`,
+                mes: `${_result.describe}`,
+                opts: () => {
+                  let wgtUrl = _result.jumpUrl;
+                  vm.downloadWgt(wgtUrl);
+                }
+              });
+            } 
+          } else {
+            vm.$dialog.toast({
+              mes: "没有版本发布！ "
+            });
+          }
+        }
+      });
+    },
+    downloadWgt(url) {
+      let vm = this;
+      this.$dialog.loading.open("下载更新...");
+      plus.downloader
+        .createDownload(url, { filename: "_doc/update/" }, function(d, status) {
+          if (status == 200) {
+            console.log("下载更新成功：" + d.filename);
+            vm.installWgt(d.filename); // 安装更新包
+          } else {
+            console.log("下载更新失败！");
+            vm.$dialog.alert({
+              mes: "下载更新失败！"
+            });
+          }
+          vm.$dialog.loading.close();
+        })
+        .start();
+    },
+    installWgt(path) {
+      let vm = this;
+      this.$dialog.loading.open("安装更新...");
+      plus.runtime.install(
+        path,
+        {},
+        function() {
+          vm.$dialog.loading.close();
+          console.log("安装更新成功！");
+          vm.$dialog.alert({
+            mes: "应用资源更新完成！",
+            callback: () => {
+              plus.runtime.restart();
+            }
+          });
+        },
+        function(e) {
+          vm.$dialog.loading.close();
+          console.log("安装更新失败[" + e.code + "]：" + e.message);
+          vm.$dialog.alert({
+            mes: "安装更新失败[" + e.code + "]：" + e.message
+          });
+        }
+      );
     }
   },
   watch: {

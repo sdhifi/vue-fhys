@@ -83,7 +83,7 @@ import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import Crown from "components/common/Crown";
 import ProductItem from "components/common/ProductItem";
-import { product, hotProduct, addMyCollect } from "../../api/index";
+import { product, myStore, hotProduct, addMyCollect } from "../../api/index";
 import { mixin } from "components/common/mixin";
 
 export default {
@@ -200,9 +200,26 @@ export default {
         }
       });
     },
-     navigate(){
-    this.$router.push({name:"ShopMap",params:{address:this.pdDetail.storeAddress}})
-  }
+    navigate() {
+      let vm = this;
+      mui.ajax({
+        url: myStore,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: {
+          account: this.pdDetail.storeMobile,
+          token: md5(`myStore${this.pdDetail.storeMobile}`)
+        },
+        success(res) {
+          let _result = res.result;
+          let address = _result.areaId.area?`${_result.provinceId.province}${_result.cityId.city}${_result.areaId.area}${_result.addressDetail}`:`${_result.provinceId.province}${_result.cityId.city}${_result.addressDetail}`
+          vm.$router.push({
+            name: "ShopMap",
+            params: { address,city: _result.cityId.city}
+          });
+        }
+      });
+    }
   },
   watch: {
     $route(to, from) {
@@ -304,7 +321,7 @@ section {
     color: @lightgray;
   }
 }
-.primary-color{
+.primary-color {
   color: @blue;
 }
 </style>
