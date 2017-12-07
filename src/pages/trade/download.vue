@@ -6,7 +6,7 @@
         <yd-accordion-item :title="item.title" v-for="(item,index) in info" :key="index" :open="true">
           <div class="download-item flex align-center just-center">
             <span class="iconfont self-download" @click="download(item)" v-if="ios">点击下载</span>
-            <a :href="item.link" class="iconfont self-download" download v-else>点击下载</a>
+            <a :href="item.link" class="iconfont self-download" :download="item.title" v-else>点击下载</a>
           </div>
         </yd-accordion-item>
       </yd-accordion>
@@ -41,23 +41,20 @@ export default {
   },
   methods: {
     download(item) {
-      var codeUrl = encodeURI(item.link);
-      this.$dialog.loading.open();
-      var dtask = plus.downloader.createDownload(
-        codeUrl,
-        {
-          filename: `_documents/fhys/${decodeURI(item.title)}`
-        },
-        function(d, status) {
-          vm.$dialog.loading.close();
-          // 下载完成
-          if (status == 200) {
-            alert(`下载成功：_documents/fhys/${decodeURI(item.title)}`);
-          } else {
-            alert("下载失败: " + status);
-          }
+      var codeUrl = item.link;
+      // plus.nativeUI.showWaiting( "加载中..." );
+      var dtask = plus.downloader.createDownload(codeUrl, {}, function(
+        d,
+        status
+      ) {
+        // plus.nativeUI.closeWaiting();
+        // 下载完成
+        if (status == 200) {
+          alert(`下载成功：${item.title}`);
+        } else {
+          alert("下载失败: " + status);
         }
-      );
+      });
       dtask.start();
     }
   }
@@ -68,7 +65,8 @@ export default {
 .download-item {
   padding-left: @pd;
   .mg-v;
-  span,a {
+  span,
+  a {
     color: @blue;
   }
 }

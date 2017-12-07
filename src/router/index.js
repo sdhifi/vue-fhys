@@ -346,7 +346,7 @@ const router = new Router({
     name: 'NewBank',
     component: require('../pages/trade/newbank'),
     meta: {
-      keepAlive: false
+      keepAlive: true
     }
   }, {
     path: '/trade/service',

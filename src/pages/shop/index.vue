@@ -212,7 +212,7 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          let address = _result.areaId.area?`${_result.provinceId.province}${_result.cityId.city}${_result.areaId.area}${_result.addressDetail}`:`${_result.provinceId.province}${_result.cityId.city}${_result.addressDetail}`
+          let address = _result.areaId?`${_result.provinceId.province}${_result.cityId.city}${_result.areaId.area}${_result.addressDetail}`:`${_result.provinceId.province}${_result.cityId.city}${_result.addressDetail}`
           vm.$router.push({
             name: "ShopMap",
             params: { address,city: _result.cityId.city}

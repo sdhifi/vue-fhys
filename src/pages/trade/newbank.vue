@@ -2,32 +2,20 @@
   <div>
     <header-top title="添加银行卡"></header-top>
     <main class='scroll-content-2'>
+
       <group style="margin-bottom:.2rem;">
+        <!-- <popup-picker title="开户银行" :data="bankNameList" v-model="bankId" placeholder="请选择开户银行" 
+        @on-change="chooseBank" :show.sync="showBank" @on-hide="hidePopup"></popup-picker> -->
+        <!-- <cell title="开户银行:"></cell> -->
         <selector title="开户银行" v-model="bankId" placeholder="请选择开户银行" :options="bankNameList" direction="rtl"></selector>
+        <x-input title="支行名称" v-model="bankSub" placeholder="请输入支行名称" text-align="right"></x-input>
+        <x-address title="省份城市" v-model="cityValue" :list="addressData" placeholder="请选择开户银行省市" :show.sync="showAddress" :hide-district="true"></x-address>
+        <x-input title="开户人" :value="member.name" :show-clear="false" :readonly="true"  text-align="right"></x-input>
+        <x-input title="卡号" v-model="bankCard" placeholder="请输入卡号" type="tel"  text-align="right"></x-input>
       </group>
-      <yd-cell-group>
-        <yd-cell-item>
-          <span slot="left">支行名称：</span>
-          <yd-input slot="right" v-model="bankSub" type="text" placeholder="请输入支行名称"></yd-input>
-        </yd-cell-item>
-        <yd-cell-item arrow>
-          <span slot="left">省份城市：</span>
-          <input slot="right" v-model="cityName" type="text" placeholder="请选择" readonly @click.stop="show1=true">
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">开户人&emsp;：</span>
-          <yd-input slot="right" v-model="holder" type="text" placeholder="请输入开户人名称" v-if="!certificateStatus"></yd-input>
-          <yd-input slot="right" v-model="member.name" readonly :show-clear-icon="false" v-else></yd-input>
-        </yd-cell-item>
-        <yd-cell-item>
-          <span slot="left">卡&emsp;&emsp;号：</span>
-          <yd-input slot="right" v-model="bankCard" type="tel" placeholder="请输入卡号" regex="bankcard"></yd-input>
-        </yd-cell-item>
-      </yd-cell-group>
       <div style="padding:0 .2rem;">
         <yd-button size="large" :type="valid?'primary':'disabled'" @click.native="addBankCard">同意协议并绑定</yd-button>
       </div>
-      <yd-cityselect v-model="show1" :done="result1" :items="district"></yd-cityselect>
       <router-link to="/trade/service" class="tips">《凤凰云商O2O服务协议》</router-link>
     </main>
   </div>
@@ -35,7 +23,15 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { Group, Selector } from "vux";
+import {
+  Group,
+  Cell,
+  Selector,
+  XInput,
+  XAddress,
+  ChinaAddressV4Data,
+  PopupPicker
+} from "vux";
 import { getStore } from "components/common/mixin";
 import { bindBank } from "../../api/index";
 import District from "ydui-district/dist/gov_province_city_id";
@@ -44,6 +40,31 @@ export default {
   data() {
     return {
       oldBack: mui.back,
+      showBank: false,
+      // bankId: [],
+      // bankNameList: [[
+      //   { name: "中国工商银行", value: "390" },
+      //   { name: "华夏银行", value: "391" },
+      //   { name: "中国民生银行", value: "402" },
+      //   { name: "上海银行", value: "413" },
+      //   { name: "北京银行", value: "424" },
+      //   { name: "浦东发展银行", value: "468" },
+      //   { name: "广发银行", value: "479" },
+      //   { name: "平安银行", value: "490" },
+      //   { name: "中国建设银行", value: "501" },
+      //   { name: "中国农业银行", value: "529" },
+      //   { name: "中国银行", value: "540" },
+      //   { name: "中国人民银行", value: "549" },
+      //   { name: "汇丰银行 ", value: "603" },
+      //   { name: "花旗银行", value: "610" },
+      //   { name: "交通银行", value: "618" },
+      //   { name: "渣打银行", value: "688" },
+      //   { name: "招商银行", value: "696" },
+      //   { name: "广州银行", value: "704" },
+      //   { name: "中国邮政储蓄银行", value: "707" },
+      //   { name: "中信银行", value: "718" },
+      //   { name: "中国光大银行", value: "729" }
+      // ]],
       bankId: "",
       bankNameList: [
         { key: 390, value: "中国工商银行" },
@@ -69,15 +90,22 @@ export default {
         { key: 729, value: "中国光大银行" }
       ],
       bankSub: "",
-      cityValue: "",
-      cityName: "",
-      district: District,
-      show1: false,
+      cityValue: [],
+      addressData: ChinaAddressV4Data,
+      showAddress: false,
       holder: "",
       bankCard: ""
     };
   },
-  components: { HeaderTop, Group, Selector },
+  components: {
+    HeaderTop,
+    Group,
+    Cell,
+    Selector,
+    XInput,
+    XAddress,
+    PopupPicker
+  },
   computed: {
     ...mapState(["account", "certificateStatus", "member"]),
     validBankCard() {
@@ -105,15 +133,19 @@ export default {
   activated() {},
   methods: {
     goBack() {
-      if (this.show1) {
-        this.show1 = false;
+      if (this.showAddress) {
+        this.showAddress = false;
+      } else if (this.showBank) {
+        this.showBank = false;
       } else {
         this.$router.go(-1);
       }
     },
-    result1(res) {
-      this.cityName = `${res.itemName1},${res.itemName2}`;
-      this.cityValue = `${res.itemValue1},${res.itemValue2}`;
+    chooseBank(val) {
+      this.bankId = [val];
+    },
+    hidePopup(type) {
+      console.log(type);
     },
     addBankCard() {
       let vm = this;
@@ -132,7 +164,7 @@ export default {
           bankSub: this.bankSub,
           bankCard: this.bankCard,
           holder: this.certificateStatus ? this.member.name : this.holder,
-          cityValue: this.cityValue,
+          cityValue: this.cityValue.join(","),
           account: this.account,
           token: md5(`bindBank${this.account}`)
         },
