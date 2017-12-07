@@ -4,7 +4,8 @@
     <yd-cell-group>
       <yd-cell-item>
         <span slot="left">全部评价
-          <span class="danger-color">({{commentCount}})</span></span>
+          <span class="danger-color">({{commentCount}})</span>
+        </span>
       </yd-cell-item>
     </yd-cell-group>
     <main class='scroll-content-1'>
@@ -25,7 +26,6 @@
                 <img :src="item.comImg" alt="">
               </div>
             </div>
-
           </li>
         </ul>
       </yd-infinitescroll>
@@ -56,8 +56,7 @@ export default {
   created() {
     this.getComment();
   },
-  activated() {
-  },
+  activated() {},
   methods: {
     getComment() {
       if (!this.noData) {

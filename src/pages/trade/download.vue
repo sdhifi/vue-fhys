@@ -72,7 +72,7 @@ export default {
     color: @blue;
   }
 }
-.tips{
+.tips {
   .pd;
   color: @red;
 }
