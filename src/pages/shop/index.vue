@@ -23,7 +23,7 @@
               {{pdDetail.storeName}}
             </div>
             <div class="seller-address fs-13 flex" @click="navigate">
-              <span class="iconfont self-daohang danger-color"></span>
+              <span class="iconfont self-daohang primary-color"></span>
               <div class="flex-1">
                 <p class="fs-16 primary-color">{{pdDetail.storeAddress}}</p>
                 <p class="fs-12">距离我最近{{formatDis(pdDetail.distance)}}</p>
@@ -321,7 +321,5 @@ section {
     color: @lightgray;
   }
 }
-.primary-color {
-  color: @blue;
-}
+
 </style>

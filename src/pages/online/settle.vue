@@ -59,8 +59,8 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">支付明细</span>
-          <span slot="right" class="fs-14" v-if="settleList.isCanUseCou==1">{{settleList.totalAmount}}积分+￥{{formatPrice(settleList.pointNiceAmount)}}</span>
-          <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==2">{{settleList.totalAmount}}责任金额+￥{{formatPrice(settleList.pointNiceAmount)}}</span>
+          <span slot="right" class="fs-14" v-if="settleList.isCanUseCou==1">{{settleList.totalAmount}}积分+￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
+          <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==2">{{settleList.totalAmount}}责任金+￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
           <span slot="right" class="fs-14" v-else>￥{{settleList.totalAmount}}</span>
         </yd-cell-item>
         <yd-cell-item>
@@ -70,21 +70,21 @@
         <yd-cell-item v-if="orderType=='1'">
           <span slot="left" class="fs-12">当前积分:{{member.consumptionMoney}}</span>
           <span slot="right">
-            <span class="iconfont self-dui fs-12" v-if="member.consumptionMoney>settleList.totalAmount">支付:{{settleList.totalAmount}}</span>
-            <span class="iconfont self-x fs-12" v-else><span class="danger-color">积分不足</span></span>
+            <span class="iconfont self-dui fs-12 primary-color" v-if="member.consumptionMoney>settleList.totalAmount">支付:{{settleList.totalAmount}}</span>
+            <span class="iconfont self-x fs-12 danger-color" v-else>积分不足</span>
           </span>
         </yd-cell-item>
         <yd-cell-item v-if="orderType=='2'">
           <span slot="left" class="fs-12">当前责任金:{{member.insuranceMoney}}</span>
           <span slot="right">
             <span class="iconfont self-dui fs-12" v-if="member.insuranceMoney>settleList.totalAmount">支付:{{settleList.totalAmount}}</span>
-            <span class="iconfont self-x fs-12" v-else><span class="danger-color">责任金不足</span></span>
+            <span class="iconfont self-x fs-12 danger-color" v-else>责任金不足</span>
           </span>
         </yd-cell-item>
         <yd-cell-item>
           <p slot="right" class="fs-16">
             支付：
-            <span class="danger-color" v-if="orderType=='1'||orderType=='2'">￥{{formatPrice(settleList.pointNiceAmount)}}</span>
+            <span class="danger-color" v-if="orderType=='1'||orderType=='2'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
             <span class="danger-color" v-else>￥{{formatPrice(total)}}</span>
           </p>
         </yd-cell-item>

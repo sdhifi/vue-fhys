@@ -32,12 +32,12 @@
         </div>
       </yd-infinitescroll>
     </main>
-    <router-link :to="{path:'/online/shoppingcart'}" class="shopping-container" v-show="account">
+    <div class="shopping-container" v-show="account" @click="goShoppingCart">
       <div class="shopping-cart">
         <span class="iconfont-large self-shopcart"></span>
       </div>
       <yd-badge type="danger" class="shopping-num" v-show="cartNum>0">{{cartNum}}</yd-badge>
-    </router-link>
+    </div>
   </div>
 </template>
 <script>
@@ -205,6 +205,17 @@ export default {
           });
         }
       });
+    },
+    goShoppingCart() {
+      this.$store.commit("SAVE_LIST_WITH_PAGE", {
+        name: this.$route.path,
+        cacheInfo: {
+          noData: this.noData,
+          page: this.pageNo,
+          list: this.productList
+        }
+      });
+      this.$router.push({ name: "ShoppingCart" });
     }
   }
 };

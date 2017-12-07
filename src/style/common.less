@@ -44,13 +44,13 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  animation:end 1.5s ease;
+  animation:end 1.5s ease-in-out;
 }
 
 @keyframes end {
   100% {
-      left:.4rem;
-      bottom:.5rem;
+      left:.5rem;
+      bottom:.6rem;
       width: 10px;
       height: 10px;
   }
@@ -68,7 +68,10 @@ input[type='button'],button{
   background-color: @red;
   color: #fff;
 }
-
+@blue:#57A9FF;
+.primary-color {
+  color: @blue;
+}
 .flex{
   display: flex;
   flex-wrap: wrap;
