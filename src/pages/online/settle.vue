@@ -464,7 +464,7 @@ export default {
       });
     },
     payPos(payParams, successTips) {
-      if (this.settleList.pointNiceAmount) {
+      if (this.settleList.pointNiceAmount || this.settleList.pos) {
         this.$dialog.alert({
           mes: "下单成功，去支付现金部分",
           callback: () => {

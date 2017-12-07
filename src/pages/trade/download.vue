@@ -2,10 +2,12 @@
   <div>
     <header-top title="资料下载"></header-top>
     <main class='scroll-content-2'>
+      <div class="tips" v-if="ios">iOS系统请自行复制链接，然后粘贴到safari浏览器地址栏打开</div>
       <yd-accordion accordion>
         <yd-accordion-item :title="item.title" v-for="(item,index) in info" :key="index" :open="true">
           <div class="download-item flex align-center just-center">
-            <span class="iconfont self-download" @click="download(item)" v-if="ios">点击下载</span>
+            <!-- <span class="iconfont self-download" @click="download(item)" v-if="ios">点击下载</span> -->
+            <p v-if="ios">{{item.link}}</p>
             <a :href="item.link" class="iconfont self-download" :download="item.title" v-else>点击下载</a>
           </div>
         </yd-accordion-item>
@@ -69,5 +71,9 @@ export default {
   a {
     color: @blue;
   }
+}
+.tips{
+  .pd;
+  color: @red;
 }
 </style>

@@ -3,8 +3,8 @@
     <header-top title="商品评价"></header-top>
     <yd-cell-group>
       <yd-cell-item>
-        <span slot="left">全部评价（
-          <span class="danger-color">{{commentCount}}</span>）</span>
+        <span slot="left">全部评价
+          <span class="danger-color">({{commentCount}})</span></span>
       </yd-cell-item>
     </yd-cell-group>
     <main class='scroll-content-1'>
