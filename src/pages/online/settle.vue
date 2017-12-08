@@ -68,16 +68,16 @@
           <yd-input slot="right" v-model="remark" placeholder="选填-可告诉卖家您的特殊要求"></yd-input>
         </yd-cell-item>
         <yd-cell-item v-if="orderType=='1'">
-          <span slot="left" class="fs-12">当前积分:{{member.consumptionMoney}}</span>
+          <span slot="left">当前积分:{{member.consumptionMoney}}</span>
           <span slot="right">
             <span class="iconfont self-dui fs-12 primary-color" v-if="member.consumptionMoney>settleList.totalAmount">支付:{{settleList.totalAmount}}</span>
             <span class="iconfont self-x fs-12 danger-color" v-else>积分不足</span>
           </span>
         </yd-cell-item>
         <yd-cell-item v-if="orderType=='2'">
-          <span slot="left" class="fs-12">当前责任金:{{member.insuranceMoney}}</span>
+          <span slot="left">当前责任金:{{member.insuranceMoney}}</span>
           <span slot="right">
-            <span class="iconfont self-dui fs-12" v-if="member.insuranceMoney>settleList.totalAmount">支付:{{settleList.totalAmount}}</span>
+            <span class="iconfont self-dui fs-12 primary-color" v-if="member.insuranceMoney>settleList.totalAmount">支付:{{settleList.totalAmount}}</span>
             <span class="iconfont self-x fs-12 danger-color" v-else>责任金不足</span>
           </span>
         </yd-cell-item>

@@ -5,7 +5,7 @@
       <yd-infinitescroll :callback="getList" ref="historylist">
         <ul slot="list">
           <li v-for="(item,index) in list" :key="index" class="item">
-
+            
           </li>
         </ul>
       </yd-infinitescroll>
