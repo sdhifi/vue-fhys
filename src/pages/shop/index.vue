@@ -202,11 +202,11 @@ export default {
     },
     navigate() {
       let vm = this;
-      if(!/^((1[3-8][0-9])+\d{8})$/.test(this.pdDetail.storeMobile)){
+      if (!/^((1[3-8][0-9])+\d{8})$/.test(this.pdDetail.storeMobile)) {
         this.$dialog.alert({
-          mes:"手机格式不正确，无法查找店铺信息"
-        })
-        return
+          mes: "手机格式不正确，无法查找店铺信息"
+        });
+        return;
       }
       mui.ajax({
         url: myStore,
@@ -218,10 +218,20 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          let address = _result.areaId?`${_result.provinceId.province}${_result.cityId.city}${_result.areaId.area}${_result.addressDetail}`:`${_result.provinceId.province}${_result.cityId.city}${_result.addressDetail}`
+          if (!_result) {
+            vm.$dialog.alert({
+              mes: "未找到相关店铺信息"
+            });
+            return;
+          }
+          let address = _result.areaId
+            ? `${_result.provinceId.province}${_result.cityId.city}${_result
+                .areaId.area}${_result.addressDetail}`
+            : `${_result.provinceId.province}${_result.cityId
+                .city}${_result.addressDetail}`;
           vm.$router.push({
             name: "ShopMap",
-            params: { address,city: _result.cityId.city}
+            params: { address, city: _result.cityId.city }
           });
         }
       });
@@ -327,5 +337,4 @@ section {
     color: @lightgray;
   }
 }
-
 </style>

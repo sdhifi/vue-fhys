@@ -328,6 +328,11 @@ export default {
     
   },
   activated() {
+    if (this.$store.state.positions[this.$route.path]) {
+      document.querySelector("main").scrollTop = this.$store.state.positions[
+        this.$route.path
+      ];
+    }
     this.type = 0;
     this.getInfo();
     this.getWallet();

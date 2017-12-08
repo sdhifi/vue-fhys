@@ -43,6 +43,7 @@ export default {
   methods: {
     getInfo() {
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: diviHis,
         type: 'post',
@@ -52,6 +53,7 @@ export default {
           token: md5('diviHis')
         },
         success(res) {
+          vm.$dialog.loading.close();
           vm.info = res.result;
         }
       })
