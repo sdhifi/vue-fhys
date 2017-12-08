@@ -4,8 +4,12 @@
     <main class='scroll-content-2'>
       <yd-infinitescroll :callback="getList" ref="historylist">
         <ul slot="list">
-          <li v-for="(item,index) in list" :key="index" class="item">
-            
+          <li v-for="(item,index) in list" :key="index" class="item flex just-between align-center">
+            <div>
+              <p>代理收入</p>
+              <p>{{formatTime(item.addTime,true)}}</p>
+            </div>
+            <div>{{item.money}}</div>
           </li>
         </ul>
       </yd-infinitescroll>
@@ -16,6 +20,7 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { agentHistory } from "../../api/index";
+import { mixin } from "components/common/mixin";
 export default {
   name: "AgentHistory",
   data() {
@@ -29,6 +34,7 @@ export default {
   computed: {
     ...mapState(["account"])
   },
+   mixins: [mixin],
   created() {
     this.getList();
   },

@@ -67,7 +67,6 @@ export default {
   },
   components: { HeaderTop },
   computed: {...mapState(['account'])},
-
   mixins: [mixin],
   created() {
     this.getInfo();
