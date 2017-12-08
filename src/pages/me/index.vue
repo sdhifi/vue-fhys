@@ -2,6 +2,7 @@
   <div>
     <header-top :back="false" title="个人中心"></header-top>
     <main class="scroll-content">
+      <!-- 头部 -->
       <section class="head-container">
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
           <router-link :to="{name:'Update'}">
@@ -18,6 +19,7 @@
           <p class="desc">{{member.remark||'-介绍信息-'}}</p>
         </div>
       </section>
+      <!-- 订单 -->
       <section class="order-container">
         <yd-cell-group>
           <yd-cell-item arrow type="label" @click.native="goOrder(0)">
@@ -33,16 +35,64 @@
           </li>
         </ul>
       </section>
-      <section v-for="(item,index) in menu" :key="index">
-        <yd-cell-group>
-          <yd-cell-item v-for="(cell,i) in item" :key="i" arrow :type="cell.type" @click.native="navigate(cell)">
-            <span class="iconfont-large" :class="cell.icon" slot="icon"></span>
-            <span slot="left">{{cell.name}}</span>
-            <a slot="right" v-if="cell.tel" style="color:gold;">{{cell.tel}}</a>
-            <yd-badge slot="right" v-if="cell.badge&&cartNum>0" type="danger">{{cartNum}}</yd-badge>
-          </yd-cell-item>
-        </yd-cell-group>
-      </section>
+      <!-- 菜单 -->
+      <yd-cell-group>
+        <yd-cell-item arrow type="link" href="/me/qrcode">
+          <span class="iconfont-large self-qrcode c1" slot="icon"></span>
+          <span slot="left">我的二维码</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="link" href="/me/mywallet">
+          <span class="iconfont-large self-wallet c2" slot="icon"></span>
+          <span slot="left">我的钱包</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="link" href="/online/shoppingcart">
+          <span class="iconfont-large self-shopcart c1" slot="icon"></span>
+          <span slot="left">购物车</span>
+          <yd-badge slot="right" v-if="cartNum>0" type="danger">{{cartNum}}</yd-badge>
+        </yd-cell-item>
+        <yd-cell-item arrow type="link" href="/me/pwdmanage">
+          <span class="iconfont-large self-setting c1" slot="icon"></span>
+          <span slot="left">设置密码</span>
+        </yd-cell-item>
+      </yd-cell-group>
+      <yd-cell-group>
+        <yd-cell-item arrow type="label" @click.native="goStore">
+          <span class="iconfont-large self-seller c1" slot="icon"></span>
+          <span slot="left">我是商家</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="link" href="/agent/index" v-if="member.identity=='1'">
+          <span class="iconfont-large self-daili c2" slot="icon"></span>
+          <span slot="left">我是代理</span>
+        </yd-cell-item>
+        <yd-cell-item arrow @click.native="goRecommend">
+          <span class="iconfont-large self-group c1" slot="icon"></span>
+          <span slot="left">我推荐的人</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="link" href="/address/index">
+          <span class="iconfont-large self-address c2" slot="icon"></span>
+          <span slot="left">地址管理</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="link" href="/me/collect">
+          <span class="iconfont-large self-heart c1" slot="icon"></span>
+          <span slot="left">我的收藏</span>
+        </yd-cell-item>
+      </yd-cell-group>
+      <yd-cell-group>
+        <yd-cell-item arrow type="label" @click.native="showDialog = true">
+          <span class="iconfont-large self-service c1" slot="icon"></span>
+          <span slot="left">联系客服</span>
+          <span slot="right" style="color:gold;">020-29030366</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="link" href="/me/about">
+          <span class="iconfont-large self-fenghuang c2" slot="icon"></span>
+          <span slot="left">关于凤凰云商O2O</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="link" href="/me/updateApp">
+          <span class="iconfont-large self-gengxin c2" slot="icon"></span>
+          <span slot="left">APP更新</span>
+        </yd-cell-item>
+      </yd-cell-group>
+      <!-- 退出按钮 -->
       <section class="btn-container">
         <button type="button" class="sign-btn" @click="signOut">退出登录</button>
       </section>
@@ -123,80 +173,6 @@ export default {
           icon: "self-success"
         }
       ],
-      menu: [
-        [
-          {
-            name: "我的二维码",
-            icon: "self-qrcode c1",
-            link: "/me/qrcode",
-            type: "label"
-          },
-          {
-            name: "我的钱包",
-            icon: "self-wallet c2",
-            link: "/me/mywallet",
-            type: "label"
-          },
-          {
-            name: "购物车",
-            icon: "self-shopcart c1",
-            link: "/online/shoppingcart",
-            type: "label",
-            badge: true
-          },
-          {
-            name: "设置密码",
-            icon: "self-setting c1",
-            link: "/me/pwdmanage",
-            type: "label"
-          }
-        ],
-        [
-          {
-            name: "我是商家",
-            icon: "self-seller c1",
-            link: "/store/my",
-            type: "label"
-          },
-          {
-            name: "我推荐的人",
-            icon: "self-group c1",
-            link: "/me/recommend",
-            type: "label"
-          },
-          {
-            name: "地址管理",
-            icon: "self-address c2",
-            link: "/address/index",
-            type: "label"
-          },
-          {
-            name: "我的收藏",
-            icon: "self-heart c1",
-            link: "/me/collect",
-            type: "label"
-          }
-        ],
-        [
-          {
-            name: "联系客服",
-            icon: "self-service c1",
-            tel: "020-29030366"
-          },
-          {
-            name: "关于凤凰云商O2O",
-            icon: "self-fenghuang c2",
-            link: "/me/about",
-            type: "label"
-          },
-          {
-            name: "APP更新",
-            icon: "self-gengxin c2",
-            link: "/me/updateApp",
-            type: "label"
-          }
-        ]
-      ],
       showDialog: false
     };
   },
@@ -231,33 +207,31 @@ export default {
     }
   },
   methods: {
-    goOrder(index){
-      this.$router.push({name:"MyOrder",params:{update:true},query:{id:index}});
+    goOrder(index) {
+      this.$router.push({
+        name: "MyOrder",
+        params: { update: true },
+        query: { id: index }
+      });
     },
-    navigate(item) {
-      if (/store/.test(item.link)) {
-        //身份认证
-        if (!this.certificateStatus) {
-          this.$store.commit("SHOW_CERTIFICATE", true);
-          return;
-        }
+    goStore() {
+      if (!this.certificateStatus) {
+        this.$store.commit("SHOW_CERTIFICATE", true);
+        return;
+      }
 
-        //入驻弹窗
-        if (this.member.type == "0") {
-          this.showPopup = true;
-          return;
-        }
+      //入驻弹窗
+      if (this.member.type == "0") {
+        this.showPopup = true;
+        return;
       }
-      if (/recommend/.test(item.link)) {
-        this.$router.push({
-          name: "Recommend",
-          params: { id: this.member.id }
-        });
-      }
-      if (item.tel) {
-        this.showDialog = true;
-      }
-      item.link && this.$router.push(item.link);
+      this.$router.push("/store/my");
+    },
+    goRecommend() {
+      this.$router.push({
+        name: "Recommend",
+        params: { id: this.member.id }
+      });
     },
     settle() {
       if (this.settleWay == "") {

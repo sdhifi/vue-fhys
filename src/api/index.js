@@ -58,6 +58,7 @@ let updataLoginPassword = baseUrl + `/app/${VERSION}/updataLoginPassword` //忘�
 let service = `${rule}/service` //服务协议
 let aboutGjf = `${rule}/aboutGjf` //关于凤凰云商O2O
 let consumptionInH5 = `${rule}/consumptionInH5` //消费规则
+let agentRule = `${rule}/agent` //代理规则
 let toStoreServiceRules = `${rule}/toStoreServiceRules` //店铺入驻协议
 
 let sendcode = baseUrl + `/sms/send` //获取验证码
@@ -112,6 +113,9 @@ let benefits = `${trade}/benefits` //让利记录
 let transferPage = `${trade}/transferPage` //积分转移|合并税费
 let memberPointTransfer = `${trade}/memberPointTransfer` //积分转移|合并
 let findTransferHistory = `${trade}/findTransferHistory` //转移|合并记录
+let agent = `${trade}/agent` //代理页
+let findNextAgent = `${trade}/findNextAgent` //商家列表
+let agentHistory = `${trade}/agentHistory` //收入历史
 
 let findAppUpgredeByType =`${baseUrl}/app/upgrede/${VERSION}/findAppUpgredeByType` //APP版本信息
 export {
@@ -162,6 +166,7 @@ export {
   service,
   aboutGjf,
   consumptionInH5,
+  agentRule,
   toStoreServiceRules,
 
   sendcode,
@@ -216,6 +221,9 @@ export {
   transferPage,
   memberPointTransfer,
   findTransferHistory,
-
+  agent,
+  findNextAgent,
+  agentHistory,
+  
   findAppUpgredeByType,
 }
