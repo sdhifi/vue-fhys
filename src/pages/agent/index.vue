@@ -13,7 +13,7 @@
         </div>
       </section>
       <section class="agent-middle flex text-center">
-        <div class="flex-1">
+        <div class="flex-1 bd-right-2">
           <p>今天商家让利</p>
           <p class="danger-color">{{info.noStoreTotalBenefit}}</p>
         </div>
@@ -111,9 +111,13 @@ export default {
   margin-bottom: @pd;
   p:last-of-type{
     margin-top: @pd;
+    font-size: .28rem;
   }
 }
 .bd-right{
   border-right: 1px solid #f7f5f5;
+}
+.bd-right-2{
+  border-right: 1px solid #ccc;
 }
 </style>

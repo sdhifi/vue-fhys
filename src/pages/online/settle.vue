@@ -405,6 +405,7 @@ export default {
             callback: () => {
               this.$router.replace({
                 name: "MyOrder",
+                params:{update:true},
                 query: { id: 0 }
               });
             }
