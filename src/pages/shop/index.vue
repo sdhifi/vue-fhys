@@ -202,6 +202,12 @@ export default {
     },
     navigate() {
       let vm = this;
+      if(!/^((1[3-8][0-9])+\d{8})$/.test(this.pdDetail.storeMobile)){
+        this.$dialog.alert({
+          mes:"手机格式不正确，无法查找店铺信息"
+        })
+        return
+      }
       mui.ajax({
         url: myStore,
         type: "post",

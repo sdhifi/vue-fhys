@@ -4,7 +4,7 @@
     <main class='scroll-content-2'>
       <section class="agent-top flex text-center align-center" :style="{'background-image':formatBg('agent-bg.png')}">
         <div class="flex-1 bd-right">
-          <p>代理收入</p>
+          <p>代理总收入</p>
           <p>{{info.agentTotalMoney}}</p>
         </div>
         <div class="flex-1">

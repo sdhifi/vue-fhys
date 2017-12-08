@@ -11,15 +11,15 @@
       <yd-infinitescroll :callback="getList" ref="shoplist">
         <ul slot="list">
           <li v-for="(item,index) in list" :key="index" class="item">
-            <div class="top-box flex just-between">
+            <div class="top-box flex just-between align-center">
               <div class="title">
-                <span class="iconfont self-renzheng danger-color"></span>
+                <span class="iconfont-large self-renzheng danger-color"></span>
                 {{format(item.storeName)}}
               </div>
               <div class="tel">{{format(item.sellerMobile,4)}}</div>
             </div>
             <div class="middle-box flex align-center text-center">
-              <div class="flex-1">
+              <div class="flex-1 bd-right-2">
                 <p>{{formatPrice(item.storeSaleTotalMoney)}}</p>
                 <p>总营业额</p>
               </div>
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import {mapState} from "vuex"
+import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { findNextAgent } from "../../api/index";
 export default {
@@ -93,18 +93,33 @@ export default {
 <style lang='less' scoped>
 @import "../../style/mixin.less";
 .item {
-  margin-bottom: @pd;
+  width: 90%;
+  margin: @pd auto;
+  .pd;
   background-color: @white;
   border-radius: @pd;
-  .title {
-    font-size: 0.28rem;
+  .top-box {
+    padding-bottom: @pd;
     border-bottom: 1px solid #f7f5f5;
   }
-  p:first-of-type{
-    font-size: .32rem;
+  .title {
+    font-size: 0.32rem;
   }
-  p:last-of-type{
+  .tel{
+    font-size: .28rem;
+  }
+  p:first-of-type {
+    font-size: 0.32rem;
+    margin-bottom: 0.1rem;
+  }
+  p:last-of-type {
     color: @lightgray;
+  }
+  .bd-right-2 {
+    border-right: 1px solid #ccc;
+  }
+  .middle-box {
+    .pd-v;
   }
 }
 </style>

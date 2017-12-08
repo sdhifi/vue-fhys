@@ -43,12 +43,10 @@ export default {
   },
   mixins: [mixin],
   created() {
+    this.getInfo();
   },
   activated() {
-    this.noData = false;
-    this.info = [];
-    this.pageNo = 1;
-    this.getInfo();
+ 
   },
   methods: {
     getInfo() {

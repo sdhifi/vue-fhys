@@ -86,7 +86,7 @@
         </yd-cell-item>
         <yd-cell-item arrow type="link" href="/me/about">
           <span class="iconfont-large self-fenghuang c2" slot="icon"></span>
-          <span slot="left">关于凤凰云商O2O</span>
+          <span slot="left">关于凤凰云商</span>
         </yd-cell-item>
         <yd-cell-item arrow type="link" href="/me/updateApp">
           <span class="iconfont-large self-gengxin c2" slot="icon"></span>

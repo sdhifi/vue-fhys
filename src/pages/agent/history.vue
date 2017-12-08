@@ -7,9 +7,9 @@
           <li v-for="(item,index) in list" :key="index" class="item flex just-between align-center">
             <div>
               <p>代理收入</p>
-              <p>{{formatTime(item.addTime,true)}}</p>
+              <p class="time">{{formatTime(item.addTime,true)}}</p>
             </div>
-            <div>{{item.money}}</div>
+            <div class="danger-color">+{{formatPrice(item.tradeMoney)}}</div>
           </li>
         </ul>
       </yd-infinitescroll>
@@ -43,6 +43,7 @@ export default {
     getList() {
       if (!this.noData) {
         let vm = this;
+        this.$dialog.loading.open();
         mui.ajax({
           url: agentHistory,
           type: "post",
@@ -54,6 +55,7 @@ export default {
             token: md5(`agentHistory${this.account}`)
           },
           success(res) {
+            vm.$dialog.loading.close();
             let _result = res.result.resultList;
             vm.list = [...vm.list, ..._result];
             if (_result.length < 10) {
@@ -72,4 +74,15 @@ export default {
 </script>
 <style lang='less' scoped>
 @import "../../style/mixin.less";
+.item{
+  .pd;
+  margin-bottom: @pd;
+  background-color: @white;
+  font-size: .32rem;
+  .time{
+    color: @lightgray;
+    font-size: .24rem;
+    margin-top: .1rem;
+  }
+}
 </style>
