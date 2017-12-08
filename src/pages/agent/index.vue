@@ -23,7 +23,7 @@
         </div>
       </section>
       <section class="agent-bottom">
-        <yd-grids-group :rows="3" v-if="member.type=='1'">
+        <yd-grids-group :rows="3">
         <yd-grids-item v-for="(item,index) in menu" :key="index" :link="item.link">
           <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
           <span slot="text">{{item.text}}</span>
@@ -48,7 +48,7 @@ export default {
           icon: "self-seller",
           text: "商家列表",
           link: "/agent/shoplist",
-          color: "#e7d489"
+          color: "#ff5350"
         },
         {
           icon: "self-xiaofeijilu",
@@ -108,6 +108,7 @@ export default {
 .agent-middle{
   background-color: @white;
   .pd-v;
+  margin-bottom: @pd;
   p:last-of-type{
     margin-top: @pd;
   }

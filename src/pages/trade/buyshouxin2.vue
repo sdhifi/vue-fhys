@@ -32,17 +32,17 @@
          <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea;"></span>
           <span slot="left">支付宝</span>
-          <input slot="right" type="radio" value="1" v-model="payType" @change="changeQr" />
+          <input slot="right" type="radio" value="1" v-model="payType" />
         </yd-cell-item>
          <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-weixin" style="color:#25d025;"></span>
           <span slot="left">微信</span>
-          <input slot="right" type="radio" value="2" v-model="payType" @change="changeQr" />
+          <input slot="right" type="radio" value="2" v-model="payType" />
         </yd-cell-item>
          <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">其他方式</span>
-          <input slot="right" type="radio" value="3" v-model="payType" @change="changeQr" />
+          <input slot="right" type="radio" value="3" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
       <div class="pay-box">
@@ -64,8 +64,7 @@ export default {
       money: "",
       payMoney: "",
       baseUrl: "",
-      payType:"1",
-      qrUrl:'ali_pay.jpg'
+      payType:"1"
     };
   },
   components: { HeaderTop },
@@ -73,6 +72,19 @@ export default {
     ...mapState(["member", "account"]),
     valid() {
       return /^\+?[1-9][0-9]*$/.test(this.money) && !!this.baseUrl;
+    },
+    qrUrl(){
+      switch (this.payType){
+        case "1":
+         return "ali_pay.jpg";
+         break;
+        case "2":
+         return "weixin_pay.jpg";
+         break;
+        default:
+         return "ali_pay.jpg";
+         break;
+      }
     }
   },
   mixins: [localImg],
@@ -115,19 +127,7 @@ export default {
         });
       });
     },
-    changeQr(){
-      switch (this.payType){
-        case "1":
-         this.qrUrl = "ali_pay.jpg";
-         break;
-        case "2":
-         this.qrUrl = "weixin_pay.jpg";
-         break;
-        default:
-         this.qrUrl = "ali_pay.jpg";
-         break;
-      }
-    },
+
     buy() {
       let vm = this;
       mui.ajax({

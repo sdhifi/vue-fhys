@@ -60,7 +60,8 @@
           <span class="iconfont-large self-seller c1" slot="icon"></span>
           <span slot="left">我是商家</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/agent/index" v-if="member.identity=='1'">
+        <yd-cell-item arrow type="link" href="/agent/index" v-if="member.identity!='0'">
+        <!-- <yd-cell-item arrow type="link" href="/agent/index"> -->
           <span class="iconfont-large self-daili c2" slot="icon"></span>
           <span slot="left">我是代理</span>
         </yd-cell-item>
