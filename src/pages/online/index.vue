@@ -43,7 +43,7 @@
             </div>
             <div class="price" v-if="pd.isCanUserCou=='1'">
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+
-              <span>{{pd.price}}积分</span>
+              <span>{{pd.price-pd.pointNicePrice}}积分</span>
             </div>
             <div class="price" v-else-if="pd.isCanUserCou=='2'">
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+

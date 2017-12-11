@@ -17,7 +17,7 @@
           <input slot="right" v-model="payMoney" type="text" readonly style="text-align:right;color:#ff5350;">
         </yd-cell-item>
       </yd-cell-group>
-        <p class="tips">请确保截图清晰，文字可辨。</p>
+      <p class="tips">请确保截图清晰，文字可辨。</p>
       <div class="upload-container">
         <img :src="baseUrl" alt="" class="upload-preview">
         <div class="upload-icon">
@@ -29,24 +29,26 @@
         <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="buy">确认购买</yd-button>
       </div>
       <yd-cell-group>
-         <yd-cell-item type="radio">
+        <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea;"></span>
           <span slot="left">支付宝</span>
           <input slot="right" type="radio" value="1" v-model="payType" />
         </yd-cell-item>
-         <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-weixin" style="color:#25d025;"></span>
           <span slot="left">微信</span>
           <input slot="right" type="radio" value="2" v-model="payType" />
-        </yd-cell-item>
-         <yd-cell-item type="radio">
+        </yd-cell-item> -->
+        <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">其他方式</span>
           <input slot="right" type="radio" value="3" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
       <div class="pay-box">
-        <img :src="getLocalImg(qrUrl)" alt="">
+        <a :href="getLocalImg(qrUrl)" :download="qrUrl">
+          <img :src="getLocalImg(qrUrl)" alt="">
+        </a>
       </div>
     </main>
   </div>
@@ -54,7 +56,7 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { addShouXin, imageUploadBStore} from "../../api/index";
+import { addShouXin, imageUploadBStore } from "../../api/index";
 import { localImg } from "components/common/mixin";
 import "lrz/dist/lrz.bundle.js";
 export default {
@@ -64,7 +66,7 @@ export default {
       money: "",
       payMoney: "",
       baseUrl: "",
-      payType:"1"
+      payType: "1"
     };
   },
   components: { HeaderTop },
@@ -73,17 +75,17 @@ export default {
     valid() {
       return /^\+?[1-9][0-9]*$/.test(this.money) && !!this.baseUrl;
     },
-    qrUrl(){
-      switch (this.payType){
+    qrUrl() {
+      switch (this.payType) {
         case "1":
-         return "ali_pay.jpg";
-         break;
+          return "ali_pay.png";
+          break;
         case "2":
-         return "weixin_pay.jpg";
-         break;
+          return "weixin_pay.jpg";
+          break;
         default:
-         return "ali_pay.jpg";
-         break;
+          return "ali_pay.png";
+          break;
       }
     }
   },
@@ -112,7 +114,7 @@ export default {
       let vm = this;
       this.$dialog.loading.open("上传中...");
       lrz(file, { width: 800 }).then(rst => {
-         mui.ajax({
+        mui.ajax({
           url: imageUploadBStore,
           type: "post",
           headers: { "app-version": "v1.0" },
@@ -136,7 +138,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           tradeMoney: this.money,
-          type:"6",
+          type: "6",
           shouType: 1,
           account: this.account,
           token: md5(`addShouXin${this.account}`),
@@ -167,12 +169,12 @@ export default {
     margin: @pd auto;
     .wh(3rem,3rem);
   }
-} 
- .tips {
-    font-size: 12px;
-    color: #999;
-    margin:0 0 @pd @pd;
-  }
+}
+.tips {
+  font-size: 12px;
+  color: #999;
+  margin: 0 0 @pd @pd;
+}
 .upload-container {
   position: relative;
   .pd-h;
