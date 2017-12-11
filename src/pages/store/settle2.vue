@@ -119,17 +119,16 @@ export default {
     ...mapState(["account"]),
     valid() {
       return (
-        this.validStoreName &&
-        this.validSellerName &&
-        this.validSellerMobile &&
-        this.validEmail &&
-        this.validStoreCitys &&
-        this.validAddressDetail &&
-        this.validLicenseNumber &&
-        this.validLicenseAddress &&
-        this.validFileContent &&
-        this.validBankAccount &&
-        this.checkProtocol
+        // this.validStoreName &&
+        // this.validSellerName &&
+        // this.validSellerMobile &&
+        // this.validEmail &&
+        // this.validStoreCitys &&
+        // this.validAddressDetail &&
+        // this.validLicenseNumber &&
+        // this.validLicenseAddress &&
+        // this.validFileContent &&
+        this.validBankAccount && this.checkProtocol
       );
     }
   },
@@ -155,8 +154,30 @@ export default {
         this.$router.go(-1);
       }
     },
-    nextStep(){
-      this.step1 ++;
+    nextStep() {
+      switch (this.step1) {
+        case 1:
+          this.validStoreName &&
+          this.validSellerName &&
+          this.validSellerMobile &&
+          this.validEmail
+            ? this.step1++
+            : this.$dialog.alert({ mes: "请完善信息" });
+          break;
+        case 2:
+          this.validStoreCitys && this.validAddressDetail
+            ? this.step1++
+            : this.$dialog.alert({ mes: "请完善信息" });
+          break;
+        case 3:
+          this.validLicenseNumber &&
+          this.validLicenseAddress &&
+          this.validFileContent
+            ? this.step1++
+            : this.$dialog.alert({ mes: "请完善信息" });
+          break;
+      }
+      // this.step1 ++;
     },
     choosePicture(event) {
       let p = document.querySelector(".licence-picture"),
@@ -258,14 +279,14 @@ export default {
     }
   }
 }
-.btn-groups{
+.btn-groups {
   margin-top: 1rem;
   margin-bottom: @pd;
-  button{
-    &:first-of-type{
+  button {
+    &:first-of-type {
       .mg-h;
     }
-    &:last-of-type{
+    &:last-of-type {
       .mg-h;
     }
   }
