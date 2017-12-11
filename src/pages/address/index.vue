@@ -19,6 +19,7 @@
                   <span>默认地址</span>
                 </div>
                 <div class="address-info">
+                  <span :class="['iconfont',item.consigneeSex=='1'?'self-male primary-color':'self-female danger-color']"></span>
                   <span class="address-name">{{item.consigneeName}}</span>
                   <span>{{item.mobile}}</span>
                 </div>

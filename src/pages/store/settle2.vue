@@ -57,7 +57,7 @@
       <div class="flex just-center btn-groups">
         <yd-button size="large" type="danger" @click.native="step1--" v-if="step1>1&&step1<=4" class="flex-1">上一步</yd-button>
         <yd-button size="large" v-if="step1>=1&&step1<4" class="flex-1" @click.native="nextStep">下一步</yd-button>
-        <yd-button size="large" :type="valid?'warning':'disabled'" v-if="step1==4" class="flex-1" @click.native="applicate">确定</yd-button>
+        <yd-button size="large" :type="valid?'warning':'disabled'" v-if="step1==4" class="flex-1" @click.native="applicate">提交申请</yd-button>
       </div>
 
     </main>
@@ -204,17 +204,17 @@ export default {
         token: md5("addStore"),
         fileContent: this.fileContent
       };
-
+      this.$dialog.loading.open();
       mui.ajax({
         url: addStore,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: params,
         success(res) {
+          vm.$dialog.loading.close();
           if (res.code != 200) {
-            vm.$dialog.toast({
-              mes: res.msg,
-              timeout: 1500
+            vm.$dialog.alert({
+              mes: res.msg
             });
             return;
           }
@@ -260,6 +260,7 @@ export default {
 }
 .btn-groups{
   margin-top: 1rem;
+  margin-bottom: @pd;
   button{
     &:first-of-type{
       .mg-h;

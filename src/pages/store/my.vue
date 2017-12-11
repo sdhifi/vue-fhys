@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-top title="我的店铺"></header-top>
-    <main class='scroll-content-2' v-if="info">
+    <main class='scroll-content-2'>
       <section class="store-banner px-1" v-lazy:background-image="getImgPath(info.storeBanner)">
         <div class="upload-box">
           更换封面

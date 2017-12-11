@@ -177,13 +177,14 @@ export default {
         token: md5("addStore"),
         fileContent: this.fileContent
       };
-
+      this.$dialog.loading.open();
       mui.ajax({
         url: addStore,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: params,
         success(res) {
+          vm.$dialog.loading.close();
           if (res.code != 200) {
             vm.$dialog.toast({
               mes: res.msg,
