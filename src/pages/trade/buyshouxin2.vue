@@ -46,9 +46,9 @@
         </yd-cell-item>
       </yd-cell-group>
       <div class="pay-box">
-        <a :href="getLocalImg(qrUrl)" :download="qrUrl">
+        <!-- <a :href="getLocalImg(qrUrl)" :download="qrUrl"> -->
           <img :src="getLocalImg(qrUrl)" alt="">
-        </a>
+        <!-- </a> -->
       </div>
     </main>
   </div>

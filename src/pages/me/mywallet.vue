@@ -366,7 +366,7 @@ export default {
     },
     getInfo() {
       let vm = this;
-      process.env.NODE_ENV == "development"?this.$dialog.loading.open('您的福利正在赶来...'):plus.nativeUI.showWaiting("您的福利正在赶来...",{back:"close",modal:false});
+      this.$dialog.loading.open('您的福利正在赶来...');
       mui.ajax({
         url: countMemberInfo,
         type: "post",
@@ -377,7 +377,7 @@ export default {
           token: md5(`countMemberInfo${getStore("account")}${this.type}`)
         },
         success(res) {
-          process.env.NODE_ENV == "development"?vm.$dialog.loading.close():plus.nativeUI.closeWaiting();
+          vm.$dialog.loading.close();
           vm[`info${vm.type}`] = res.result;
         }
       });

@@ -32,6 +32,8 @@
 
 .self-sex:before { content: "\e62e"; }
 
+.self-fire:before { content: "\e635"; }
+
 .self-delete:before { content: "\e677"; }
 
 .self-pengyouquan:before { content: "\e630"; }
@@ -103,6 +105,8 @@
 .self-female:before { content: "\e67e"; }
 
 .self-KTV:before { content: "\e620"; }
+
+.self-flower:before { content: "\e801"; }
 
 .self-heart:before { content: "\e822"; }
 
