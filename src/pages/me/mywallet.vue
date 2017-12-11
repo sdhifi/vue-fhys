@@ -24,7 +24,7 @@
           <li v-for="(item,index) in tabs3" :key="index" class="tab-item">
             <a :href="item.link">
               <p>{{item.text}}</p>
-              <p  class="danger-color" v-if="item.param=='diviTotalMoney'">{{info[item.param] *100}}
+              <p class="danger-color" v-if="item.param=='diviTotalMoney'">{{info[item.param] *100}}
                 <span>%</span>
               </p>
               <p v-else class="danger-color">{{info[item.param]}}</p>
@@ -65,6 +65,7 @@
         </yd-grids-item>
       </yd-grids-group>
     </main>
+    <cert-modal></cert-modal>
     <yd-popup v-model="showPopup" position="center" width="90%">
       <div class="ruzhu-container">
         <h3 class="ruzhu-title">您还未入驻凤凰云商O2O</h3>
@@ -93,15 +94,17 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { countMemberInfo,myWallet } from "../../api/index";
+import CertModal from "components/common/CertModal";
+import { countMemberInfo, myWallet } from "../../api/index";
 import { mixin, getStore } from "components/common/mixin";
 export default {
   name: "MyWallet",
   data() {
     return {
+      oldBack: mui.back,
       info0: {},
       info1: {},
-      info:{},
+      info: {},
       type: 0,
       showPopup: false,
       settleWay: "",
@@ -164,7 +167,7 @@ export default {
           link: "javascript:"
         }
       ],
-      tabs3:[
+      tabs3: [
         {
           text: "储备池",
           param: "dedecutDiviNum",
@@ -180,13 +183,13 @@ export default {
           param: "orCount",
           link: "javascript:"
         },
-         {
+        {
           text: "线下消费笔数",
           param: "beCount",
           link: "javascript:"
         }
       ],
-      tabs4:[
+      tabs4: [
         {
           text: "储备池",
           param: "storeDedecut",
@@ -319,14 +322,21 @@ export default {
       ]
     };
   },
-  components: { HeaderTop },
+  components: { HeaderTop, CertModal },
   computed: {
-    ...mapState(["member"])
+    ...mapState(["member", "certificateStatus", "showCertificate"])
   },
   mixins: [mixin],
-  created() {
-    
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      mui.back = vm.goBack;
+    });
   },
+  beforeRouteLeave(to, from, next) {
+    mui.back = this.oldBack;
+    next();
+  },
+  created() {},
   activated() {
     if (this.$store.state.positions[this.$route.path]) {
       document.querySelector("main").scrollTop = this.$store.state.positions[
@@ -338,35 +348,50 @@ export default {
     this.getWallet();
   },
   methods: {
+    goBack() {
+      if (this.showPopup) {
+        this.showPopup = false;
+      } else if (this.showCertificate) {
+        this.$store.commit("SHOW_CERTIFICATE", false);
+      } else if (document.querySelector(".yd-dialog-white-mask")) {
+        this.$dialog.loading.close();
+      } else {
+        this.$router.go(-1);
+      }
+    },
     changeTab(tag) {
-      if (this.member.type == "0" && tag==1) {
+      if (tag == 1 && !this.certificateStatus) {
+        this.$store.commit("SHOW_CERTIFICATE", true);
+        return;
+      }
+      if (tag == 1 && this.member.type == "0") {
         this.showPopup = true;
         return;
       }
-      if(this.type==tag){
+      if (this.type == tag) {
         return;
       }
-      this.type =tag;
+      this.type = tag;
       this.getInfo();
     },
-    getWallet(){
+    getWallet() {
       let vm = this;
       mui.ajax({
         url: myWallet,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          account:getStore("account"),
+          account: getStore("account"),
           token: md5(`myWallet${getStore("account")}`)
         },
-        success(res){
+        success(res) {
           vm.info = res.result;
         }
-      })
+      });
     },
     getInfo() {
       let vm = this;
-      this.$dialog.loading.open('您的福利正在赶来...');
+      this.$dialog.loading.open("您的福利正在赶来...");
       mui.ajax({
         url: countMemberInfo,
         type: "post",

@@ -279,6 +279,13 @@ const router = new Router({
       keepAlive: true
     }
   }, {
+    path: '/store/settle-2',
+    name: 'Settle2',
+    component: require('../pages/store/settle2'),
+    meta: {
+      keepAlive: true
+    }
+  }, {
     path: '/store/my',
     name: 'MyStore',
     component: require('../pages/store/my'),

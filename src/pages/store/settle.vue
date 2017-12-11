@@ -17,7 +17,7 @@
       </group>
       <group title="信息完善">
         <div class="upload-container">
-          <p class="tips">营业执照图片大小请控制在1M之内，请确保图片清晰，文字可辨并有清晰的红色公章。</p>
+          <p class="tips">请确保营业执照图片清晰，文字可辨并有清晰的红色公章。</p>
           <img src="" alt="" class="licence-picture">
           <div class="upload-icon">
             <span class="iconfont self-upload"></span>

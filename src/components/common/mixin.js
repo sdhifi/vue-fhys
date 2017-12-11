@@ -114,10 +114,10 @@ export const removeStore = name => {
 export const validateSettle = {
   computed: {
     validStoreName() {
-      return this.storeName && /^([A-Za-z]|[\u4E00-\u9FA5])+$/.test(this.storeName)
+      return !!this.storeName 
     },
     validSellerName() {
-      return this.sellerName && /^([A-Za-z]|[\u4E00-\u9FA5])+$/.test(this.sellerName)
+      return !!this.sellerName
     },
     validSellerMobile() {
       return /^(86)?1[3,4,5,7,8]\d{9}$/.test(this.sellerMobile)
