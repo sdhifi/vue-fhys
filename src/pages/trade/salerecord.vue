@@ -86,7 +86,7 @@ export default {
     valid() {
       return (
         /^(([1-9]\d*)|([0-9]+\.[0-9]{1,2}))$/.test(this.money) &&
-        /0?(13|14|15|18)[0-9]{9}/.test(this.mobile) &&
+        /0?(1[3,4,5,7,8])[0-9]{9}/.test(this.mobile) &&
         !!this.payType
       );
     },

@@ -13,6 +13,7 @@
           <p v-else>+{{info1.benefitYesterdayMoney}}</p>
         </div>
       </section>
+      <!-- 个人福利 -->
       <section class="wallet-tab" v-show="!type">
         <ul class="flex text-center">
           <li v-for="(item,index) in tabs0" :key="index" class="tab-item">
@@ -32,6 +33,7 @@
           </li>
         </ul>
       </section>
+      <!-- 商户福利 -->
       <section class="wallet-tab" v-show="type">
         <ul class="flex text-center">
           <li v-for="(item,index) in tabs1" :key="index" class="tab-item" :class="{'tab-item2':index<2}">

@@ -44,7 +44,7 @@
         <x-input title="银行账号：" v-model="bankAccountNumber" placeholder="请填写银行账号" :required="true" type="tel"></x-input>
       </group>
       <div style="padding:.2rem;" v-show="step1==4">
-        <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
+        <check-icon :value.sync="checkProtocol" type="plain">{{checkProtocol?'同意':'不同意'}}</check-icon>
         <router-link to="/store/service" class="protocol">《凤凰云商o2o店铺入驻协议》</router-link>
       </div>
       <div class="flex just-center btn-groups">
@@ -66,6 +66,7 @@ import {
   XTextarea,
   XAddress,
   XButton,
+  CheckIcon ,
   ChinaAddressV4Data
 } from "vux";
 import { addStore } from "../../api/index";
@@ -108,7 +109,8 @@ export default {
     XInput,
     XTextarea,
     XAddress,
-    XButton
+    XButton,
+    CheckIcon 
   },
   computed: {
     ...mapState(["account"]),

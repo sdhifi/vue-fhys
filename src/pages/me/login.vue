@@ -18,7 +18,7 @@
         </yd-cell-item>
       </yd-cell-group>
       <div v-if="loginWay">
-        <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
+        <check-icon :value.sync="checkProtocol" type="plain">{{checkProtocol?'同意':'不同意'}}</check-icon>
         <router-link to="/me/regpro" class="protocol">《凤凰云商o2o用户注册协议》</router-link>
         <yd-button size="large" type="warning" :disabled="!validRegister" @click.native="register">注册</yd-button>
         <div class="tips text-center">
@@ -41,6 +41,7 @@
 <script>
 import HeaderTop from "components/header/index";
 import { sendcode, register, login } from "../../api/index";
+import { CheckIcon } from "vux";
 import { setStore } from "components/common/mixin";
 export default {
   name: "Login",
@@ -55,7 +56,7 @@ export default {
       checkProtocol: true
     };
   },
-  components: { HeaderTop },
+  components: { HeaderTop, CheckIcon },
   computed: {
     rightMobile() {
       return /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$/gi.test(
