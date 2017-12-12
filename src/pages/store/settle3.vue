@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top title="个体入驻"></header-top>
+    <header-top title="企业入驻"></header-top>
     <main class='scroll-content-2'>
       <yd-step :current="step1" current-color="#04be02">
         <yd-step-item>
@@ -21,12 +21,15 @@
         <x-input title="联系人：" v-model="sellerName" placeholder="请填写企业联系人" :required="true"></x-input>
         <x-input title="联系电话：" v-model="sellerMobile" placeholder="请填写联系人的手机号码" type="tel" is-type="china-mobile" :required="true"></x-input>
         <x-input title="电子邮箱：" v-model="sellerEmail" placeholder="请填写联系人的邮箱" type="email" is-type="email" :required="true"></x-input>
+        <x-textarea title="注册资金：" inline-desc="(万元)" v-model="companyRegisteredCapital" placeholder="请填写金额" :rows="1"></x-textarea>
       </group>
       <group v-show="step1==2">
         <x-address title="省份城市：" v-model="storeCitys" :list="addressData" placeholder="请选择地址" :show.sync="show1"></x-address>
         <x-textarea title="详细地址：" v-model="addressDetail" placeholder="街道、楼牌号码等" :max="200"></x-textarea>
       </group>
       <group v-show="step1==3">
+        <x-input title="组织机构代码：" v-model="organizationCode" placeholder="企业组织机构代码" :required="true"></x-input>
+        <x-input title="税务登记：" v-model="taxRegistrationCertificate" placeholder="税务登记证号" :required="true"></x-input>
         <x-input title="营业执照号：" v-model="businessLicenceNumber" placeholder="请填写营业执照号" :required="true" type="tel"></x-input>
         <x-address title="营业执照" inline-desc="所在地" v-model="businessLicenceAddress" :list="addressData" placeholder="营业执照所在地" :show.sync="show2"></x-address>
         <x-textarea title="经营范围：" inline-desc="(选填)" v-model="businessSphere" placeholder="填写您的经营范围" :max="400"></x-textarea>
@@ -43,8 +46,17 @@
         <cell title="身份认证" value="已认证"></cell>
       </group> -->
       <group v-show="step1==4">
-        <x-input title="银行开户名：" v-model="bankAccountName" placeholder="请填写银行开户名" :required="true"></x-input>
-        <x-input title="银行账号：" v-model="bankAccountNumber" placeholder="请填写银行账号" :required="true" type="tel"></x-input>
+        <x-switch title="同时设置为结算账号" v-model="isSettlementAccount"></x-switch>
+        <x-input title="银行开户名：" v-model="bankAccountName" placeholder="请填写开户银行名" :required="true"></x-input>
+        <x-input title="公司银行账号：" v-model="bankAccountNumber" placeholder="请填写开户银行账号" type="tel" :required="true"></x-input>
+        <x-input title="开户银行支行名称：" v-model="bankName" placeholder="请填写开户银行支行名称" :required="true"></x-input>
+        <x-address title="开户银行所在地：" v-model="bankAddress" :list="addressData" placeholder="请选择地址" :show.sync="show3"></x-address>
+      </group>
+      <group title="结算账号信息" v-if="step1==4&&!isSettlementAccount">
+        <x-input title="银行开户名：" v-model="settlementBankAccountName" placeholder="请填写开户银行名" :required="true"></x-input>
+        <x-input title="公司银行账号：" v-model="settlementBankAccountNumber" placeholder="请填写开户银行账号" type="tel" :required="true"></x-input>
+        <x-input title="开户银行支行名称：" v-model="settlementBankName" placeholder="请填写开户银行支行名称" :required="true"></x-input>
+        <x-address title="开户银行所在地：" v-model="settlementBankAddress" :list="addressData" placeholder="请选择地址" :show.sync="show4"></x-address>
       </group>
       <div style="padding:.2rem;" v-show="step1==4">
         <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
@@ -69,24 +81,28 @@ import {
   XTextarea,
   XAddress,
   XButton,
+  XSwitch,
   ChinaAddressV4Data
 } from "vux";
 import { addStore } from "../../api/index";
 import { validateSettle } from "components/common/mixin";
 import "lrz/dist/lrz.bundle.js";
 export default {
-  name: "IndividualSettle",
+  name: "EnterpriseSettle",
   data() {
     return {
       oldBack: mui.back,
       step1: 1,
       show1: false, //店铺地址判断标志
       show2: false, //营业执照所在地判断标志
+      show3: false, //开户银行所在地判断标志
+      show4: false, //结算银行所在地判断标志
 
       storeName: "", //店铺名称
       sellerName: "", //联系人
       sellerMobile: "", //联系电话
       sellerEmail: "", //联系邮箱
+      companyRegisteredCapital: "", //注册资金
 
       storeCitys: [], //店铺地址id
       addressDetail: "", //街道
@@ -94,9 +110,18 @@ export default {
       businessLicenceNumber: "", //营业执照号
       businessLicenceAddress: [], //营业执照地id
       businessSphere: "", //经营范围
+      organizationCode: "", //组织机构代码
+      taxRegistrationCertificate: "", //税务登记
 
+      isSettlementAccount: true, //开户账户是否结算账号
       bankAccountName: "", //银行开户名
       bankAccountNumber: "", //银行账号
+      bankName: "", //银行名称
+      bankAddress: [], //银行所在地id
+      settlementBankAccountName: "", //结算开户名
+      settlementBankAccountNumber: "", //结算账号
+      settlementBankName: "", //结算银行名称
+      settlementBankAddress: [], //结算银行地址id
 
       fileContent: "", //营业执照base64
       addressData: ChinaAddressV4Data, //省市县数据
@@ -111,12 +136,57 @@ export default {
     XInput,
     XTextarea,
     XAddress,
-    XButton
+    XButton,
+    XSwitch
   },
   computed: {
     ...mapState(["account"]),
+    validCapital() {
+      return /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/.test(
+        this.companyRegisteredCapital
+      );
+    },
+    validBankAddress() {
+      return !!this.bankAddress.length;
+    },
+    validBankAccountName() {
+      return !!this.bankAccountName;
+    },
+    validSettleBankAccount() {
+      return !this.isSettlementAccount
+        ? !!this.settlementBankAccountName
+        : true;
+    },
+    validSettleBankNumber() {
+      return !this.isSettlementAccount
+        ? /^\d{15,19}$/.test(this.settlementBankAccountNumber)
+        : true;
+    },
+    validSettleBankName() {
+      return !this.isSettlementAccount ? !!this.settlementBankName : true;
+    },
+    validSettleBankAddress() {
+      return !this.isSettlementAccount
+        ? !!this.settlementBankAddress.length
+        : true;
+    },
+    validOrganization() {
+      return !!this.organizationCode;
+    },
+    validTax() {
+      return !!this.taxRegistrationCertificate;
+    },
     valid() {
-      return this.validBankAccount && this.checkProtocol;
+      return (
+        this.validBankAccount &&
+        this.validBankAddress &&
+        this.validBankAccountName &&
+        this.validSettleBankAccount &&
+        this.validSettleBankNumber &&
+        this.validSettleBankName &&
+        this.validSettleBankAddress &&
+        this.checkProtocol
+      );
     }
   },
   mixins: [validateSettle],
@@ -147,7 +217,8 @@ export default {
           this.validStoreName &&
           this.validSellerName &&
           this.validSellerMobile &&
-          this.validEmail
+          this.validEmail &&
+          this.validCapital
             ? this.step1++
             : this.$dialog.alert({ mes: "请完善基本信息" });
           break;
@@ -157,6 +228,8 @@ export default {
             : this.$dialog.alert({ mes: "请完善地址信息" });
           break;
         case 3:
+          this.validOrganization &&
+          this.validTax &&
           this.validLicenseNumber &&
           this.validLicenseAddress &&
           this.validFileContent

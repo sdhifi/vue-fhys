@@ -117,7 +117,7 @@ export default {
   computed: {
     ...mapState(["account"]),
     validCapital() {
-      return /^\d{1,}$/.test(this.companyRegisteredCapital);
+      return /^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$/.test(this.companyRegisteredCapital);
     },
     validBankAddress() {
       return !!this.bankAddress.length;
@@ -154,8 +154,8 @@ export default {
         this.validLicenseNumber &&
         this.validLicenseAddress &&
         this.validFileContent &&
-        this.validBankAccount &&
         this.validCapital &&
+        this.validBankAccount &&
         this.validBankAddress &&
         this.validBankAccountName &&
         this.validSettleBankAccount &&

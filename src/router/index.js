@@ -280,12 +280,19 @@ const router = new Router({
     }
   }, {
     path: '/store/settle-2',
-    name: 'Settle2',
+    name: 'IndividualSettle',
     component: require('../pages/store/settle2'),
     meta: {
       keepAlive: true
     }
-  }, {
+  },  {
+    path: '/store/settle-3',
+    name: 'EnterpriseSettle',
+    component: require('../pages/store/settle3'),
+    meta: {
+      keepAlive: true
+    }
+  },{
     path: '/store/my',
     name: 'MyStore',
     component: require('../pages/store/my'),
