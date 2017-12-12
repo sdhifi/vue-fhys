@@ -5,7 +5,18 @@
       <group>
         <x-input title="收货人" v-model="consigneeName" placeholder="请输入收货人姓名"></x-input>
         <x-input title="手机号码" v-model="mobile" placeholder="请输入收货人手机号码" type="tel"></x-input>
-        <x-switch title="性别" :value-map="['男', '女']" :inline-desc="consigneeSex?'男':'女'" v-model="consigneeSex"></x-switch>
+        <cell title="性别">
+          <div slot="default">
+            <label for="male" class="self-radio">
+              <input type="radio" value="1" id="male" v-model="consigneeSex">
+              <span>男</span>
+            </label>
+            <label for="female" class="self-radio">
+              <input type="radio" value="2" id="female" v-model="consigneeSex">
+              <span>女</span>
+            </label>
+          </div>
+        </cell>
         <x-address title="省市区" v-model="address" :list="addressData" placeholder="请选择地址" :show.sync="showAddress"></x-address>
         <x-textarea title="详细地址：" v-model="addressDetail" placeholder="街道、楼牌号码等"></x-textarea>
       </group>
@@ -23,7 +34,6 @@ import {
   Cell,
   XInput,
   XTextarea,
-  XSwitch,
   XAddress,
   ChinaAddressV4Data
 } from "vux";
@@ -37,19 +47,19 @@ export default {
       addressData: ChinaAddressV4Data,
       address: [],
       consigneeName: "",
-      consigneeSex: true,
+      consigneeSex: "1",
       mobile: "",
       addressDetail: ""
     };
   },
-  components: { HeaderTop, Group, Cell, XInput, XAddress, XTextarea,XSwitch },
+  components: { HeaderTop, Group, Cell, XInput, XAddress, XTextarea },
   computed: {
     ...mapState(["account"]),
     valid() {
       return (
         !!this.consigneeName &&
         /^[1][3578][0-9]{9}$/.test(this.mobile) &&
-        !!this.address &&
+        !!this.address.length &&
         !!this.addressDetail
       );
     }
@@ -82,7 +92,7 @@ export default {
         data: {
           account: this.account,
           consigneeName: this.consigneeName,
-          consigneeSex: this.consigneeSex?'1':'2',
+          consigneeSex: this.consigneeSex,
           mobile: this.mobile,
           proviceId: this.address[0],
           cityId: this.address[1],
@@ -109,6 +119,3 @@ export default {
   }
 };
 </script>
-<style lang='less' scoped>
-@import "../../style/mixin.less";
-</style>

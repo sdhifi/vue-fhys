@@ -24,10 +24,10 @@
           <li v-for="(item,index) in tabs3" :key="index" class="tab-item">
             <a :href="item.link">
               <p>{{item.text}}</p>
-              <p class="danger-color" v-if="item.param=='diviTotalMoney'">{{info[item.param] *100}}
+              <p class="danger-color" v-if="item.param=='diviTotalMoney'">{{info[item.param] *100 ||0}}
                 <span>%</span>
               </p>
-              <p v-else class="danger-color">{{info[item.param]}}</p>
+              <p v-else class="danger-color">{{info[item.param] || 0}}</p>
             </a>
           </li>
         </ul>
@@ -37,7 +37,7 @@
           <li v-for="(item,index) in tabs1" :key="index" class="tab-item" :class="{'tab-item2':index<2}">
             <a :href="item.link" :class="{'danger-bg':index<2}">
               <p>{{item.text}}</p>
-              <p :class="{'danger-color':index>1}" v-if="item.param=='canMoney'">{{info1[item.param] *100}}
+              <p :class="{'danger-color':index>1}" v-if="item.param=='canMoney'">{{info1[item.param] *100 ||0}}
                 <span>%</span>
               </p>
               <p v-else :class="{'danger-color':index>1}">{{info1[item.param]}}</p>
@@ -417,9 +417,9 @@ export default {
       }
       this.showPopup = false;
       if (this.settleWay == "0") {
-        this.$router.push({ path: "/store/settle" });
+        this.$router.push({ path: "/store/settle-2" });
       } else {
-        this.$router.push({ path: "/store/settle-1" });
+        this.$router.push({ path: "/store/settle-3" });
       }
     }
   }

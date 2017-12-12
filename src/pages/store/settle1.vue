@@ -195,7 +195,6 @@ export default {
         this.$router.go(-1);
       }
     },
-
     choosePicture(event) {
       let p = document.querySelector(".licence-picture"),
         file = event.target.files[0];

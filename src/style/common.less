@@ -290,3 +290,55 @@ input[type='button'],button{
 .protocol {
   color: #10aeff;
 }
+.self-radio {
+  position: relative;
+  display: inline-block;
+  padding-right: 10px;
+  padding-left: 25px;
+  font-size: 14px;
+  > input[type="radio"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 15;
+    &:checked + span::before {
+      border-color: rgb(76, 216, 100);
+    }
+    &:checked + span::after {
+      color: rgb(76, 216, 100);
+      opacity: 1;
+      transform: scale(1);
+      transition: all 0.2s ease-in-out;
+    }
+  }
+  span {
+    &::before {
+      position: absolute;
+      content: "";
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      display: inline-block;
+      z-index: 10;
+      vertical-align: middle;
+    }
+    &::after {
+      position: absolute;
+      content: "";
+      left: 5px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: currentColor;
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
+}

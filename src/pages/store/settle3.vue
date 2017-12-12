@@ -42,9 +42,6 @@
           </div>
         </div>
       </group>
-      <!-- <group v-show="step1==4">
-        <cell title="身份认证" value="已认证"></cell>
-      </group> -->
       <group v-show="step1==4">
         <x-switch title="同时设置为结算账号" v-model="isSettlementAccount"></x-switch>
         <x-input title="银行开户名：" v-model="bankAccountName" placeholder="请填写开户银行名" :required="true"></x-input>
@@ -207,6 +204,10 @@ export default {
         this.show1 = false;
       } else if (this.show2) {
         this.show2 = false;
+      } else if (this.show3) {
+        this.show3 = false;
+      } else if (this.show4) {
+        this.show4 = false;
       } else {
         this.$router.go(-1);
       }
@@ -256,43 +257,55 @@ export default {
         vm.fileContent = rst.base64;
       });
     },
-    applicate() {
+   applicate() {
       let vm = this;
-      let a1 = this.storeCitys[2] == "--" ? "0" : this.storeCitys[2];
-      let a2 =
-        this.businessLicenceAddress[2] == "--"
-          ? "0"
-          : this.businessLicenceAddress[2];
+      let a1 = this.storeCitys[2]=='--'?'0':this.storeCitys[2];
+      let a2 = this.businessLicenceAddress[2]=='--'?'0':this.businessLicenceAddress[2];
+      let a3 = this.bankAddress[2]=='--'?'0':this.bankAddress[2];
+      let a4 = this.settlementBankAddress[2]=='--'?'0':this.settlementBankAddress[2];
       let params = {
-        storePro: "0",
-        storeType: "0", //入驻类型-个体入驻
         storeName: this.storeName,
         sellerName: this.sellerName,
         sellerMobile: this.sellerMobile,
         sellerEmail: this.sellerEmail,
+        companyRegisteredCapital: this.companyRegisteredCapital,
         storeCitys: `${this.storeCitys[0]},${this.storeCitys[1]},${a1}`,
         addressDetail: this.addressDetail,
+        organizationCode: this.organizationCode,
+        taxRegistrationCertificate: this.taxRegistrationCertificate,
         businessLicenceNumber: this.businessLicenceNumber,
-        businessLicenceAddress: `${this.businessLicenceAddress[0]},${this
-          .businessLicenceAddress[1]},${a2}`,
+        businessLicenceAddress: `${this.businessLicenceAddress[0]},${this.businessLicenceAddress[1]},${a2}`,
         businessSphere: this.businessSphere,
         businessLicenceStart: "20160901",
         businessLicenceEnd: "20700901",
+        isSettlementAccount: this.isSettlementAccount ? "1" : "0",
         bankAccountName: this.bankAccountName,
         bankAccountNumber: this.bankAccountNumber,
+        bankName: this.bankName,
+        bankAddress: `${this.bankAddress[0]},${this.bankAddress[1]},${a3}`,
+        fileContent: this.fileContent,
         fileName: "123.png",
         account: this.account,
-        token: md5("addStore"),
-        fileContent: this.fileContent
+        token: md5("addStore")
       };
-      this.$dialog.loading.open();
+      if (this.isSettlementAccount) {
+        params.settlementBankAccountName = params.bankAccountName;
+        params.settlementBankAccountNumber = params.bankAccountNumber;
+        params.settlementBankName = params.bankName;
+        params.settlementBankAddress = params.bankAddress;
+      }
+      else{
+        params.settlementBankAccountName =this.settlementBankAccountName;
+        params.settlementBankAccountNumber = this.settlementBankAccountNumber;
+        params.settlementBankName = this.settlementBankName;
+        params.settlementBankAddress = `${this.settlementBankAddress[0]},${this.settlementBankAddress[1]},${a43}`;
+      }
       mui.ajax({
         url: addStore,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: params,
         success(res) {
-          vm.$dialog.loading.close();
           if (res.code != 200) {
             vm.$dialog.alert({
               mes: res.msg

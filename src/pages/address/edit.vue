@@ -5,7 +5,19 @@
       <group>
         <x-input title="收货人" v-model="info.consigneeName" placeholder="请输入收货人姓名"></x-input>
         <x-input title="手机号码" v-model="info.mobile" placeholder="请输入收货人手机号码" type="tel"></x-input>
-        <x-switch title="性别" :value-map="['男', '女']" :inline-desc="sex?'男':'女'" v-model="sex"></x-switch>
+        <!-- <x-switch title="性别" :value-map="['男', '女']" :inline-desc="sex?'男':'女'" v-model="sex"></x-switch> -->
+        <cell title="性别">
+          <div slot="default">
+            <label for="male" class="self-radio">
+              <input type="radio" value="1" id="male" v-model="info.consigneeSex">
+              <span>男</span>
+            </label>
+            <label for="female" class="self-radio">
+              <input type="radio" value="2" id="female" v-model="info.consigneeSex">
+              <span>女</span>
+            </label>
+          </div>
+        </cell>
         <x-address title="省市区" v-model="address" :list="addressData" placeholder="请选择地址" :show.sync="showAddress"></x-address>
         <x-textarea title="详细地址：" v-model="info.addressDetail" placeholder="街道、楼牌号码等"></x-textarea>
       </group>
@@ -37,7 +49,6 @@ export default {
       info:{},
       addressData: ChinaAddressV4Data,
       address: [],
-      sex:false
     };
   },
   components: {
@@ -74,7 +85,6 @@ export default {
       this.info = this.$route.params.item;
       let area = this.info.areaId?this.info.areaId.areaId+"":'--';
       this.address = [this.info.proviceId.provinceId+"",this.info.cityId.cityId+"",area]
-      this.sex = this.info.consigneeSex=='1'?true:false
   },
   methods: {
     goBack() {
@@ -94,7 +104,7 @@ export default {
           id: this.info.id,
           account: this.account,
           consigneeName: this.info.consigneeName,
-          consigneeSex: this.sex?'1':'2',
+          consigneeSex: this.info.consigneeSex,
           mobile: this.info.mobile,
           proviceId: this.address[0],
           cityId: this.address[1],

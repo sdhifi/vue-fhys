@@ -39,9 +39,6 @@
           </div>
         </div>
       </group>
-      <!-- <group v-show="step1==4">
-        <cell title="身份认证" value="已认证"></cell>
-      </group> -->
       <group v-show="step1==4">
         <x-input title="银行开户名：" v-model="bankAccountName" placeholder="请填写银行开户名" :required="true"></x-input>
         <x-input title="银行账号：" v-model="bankAccountNumber" placeholder="请填写银行账号" :required="true" type="tel"></x-input>

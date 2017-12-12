@@ -11,7 +11,7 @@
         </div>
         <div class="head-info">
           <div class="name">
-            <span>{{member.name||member.nickName||member.mobile}}</span>
+            <span>{{member.name||member.mobile}}</span>
             <span class="iconfont self-sex" :style="{'color':'#4cd864'}" v-if="member.sex=='3'"></span>
             <span class="iconfont self-male" :style="{'color':'#57A9FF'}" v-if="member.sex=='1'"></span>
             <span class="iconfont self-female" :style="{'color':'#f860ef'}" v-if="member.sex=='2'"></span>
@@ -244,9 +244,9 @@ export default {
       }
       this.showPopup = false;
       if (this.settleWay == "0") {
-        this.$router.push({ path: "/store/settle" });
+        this.$router.push({ path: "/store/settle-2" });
       } else {
-        this.$router.push({ path: "/store/settle-1" });
+        this.$router.push({ path: "/store/settle-3" });
       }
     },
     signOut() {

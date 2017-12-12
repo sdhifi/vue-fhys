@@ -25,13 +25,13 @@
           </div>
         </div>
       </group>
-      <yd-cell-group>
+      <!-- <yd-cell-group>
         <yd-cell-item :arrow="!certificateStatus">
           <span slot="left">身份认证</span>
           <span slot="right" @click="showModal" v-if="!certificateStatus">去认证</span>
           <span slot="right" v-else>已认证</span>
         </yd-cell-item>
-      </yd-cell-group>
+      </yd-cell-group> -->
       <group title="结算账号">
         <x-input title="银行开户名：" v-model="bankAccountName" placeholder="请填写银行开户名" :required="true"></x-input>
         <x-input title="银行账号：" v-model="bankAccountNumber" placeholder="请填写银行账号" :required="true" type="tel"></x-input>

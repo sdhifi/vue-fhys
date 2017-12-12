@@ -20,16 +20,18 @@
       <div v-if="loginWay">
         <yd-checkbox v-model="checkProtocol" :size="18">{{checkProtocol?'同意':'不同意'}}</yd-checkbox>
         <router-link to="/me/regpro" class="protocol">《凤凰云商o2o用户注册协议》</router-link>
-      <yd-button size="large" type="warning" :disabled="!validRegister" @click.native="register">注册</yd-button>
-      <div class="tips text-center">
-          已有账号？<span style="color:#10aeff;" @click="loginWay=false">直接登录</span>
+        <yd-button size="large" type="warning" :disabled="!validRegister" @click.native="register">注册</yd-button>
+        <div class="tips text-center">
+          已有账号？
+          <span style="color:#10aeff;" @click="loginWay=false">直接登录</span>
         </div>
       </div>
       <div class="flex just-between" v-else>
         <yd-button type="primary" size="large" :disabled="!validLogin" @click.native="login">登 录</yd-button>
         <yd-button type="danger" size="large" @click.native="forget">忘记密码</yd-button>
         <div class="tips text-center">
-          没有账号？<span style="color:#10aeff;" @click="loginWay=true">注册账户</span>
+          没有账号？
+          <span style="color:#10aeff;" @click="loginWay=true">注册账户</span>
         </div>
       </div>
     </div>
@@ -113,9 +115,9 @@ export default {
             vm.startSend = false;
           }
         },
-        error(e){
+        error(e) {
           vm.correctCode = "";
-            vm.startSend = false;
+          vm.startSend = false;
         }
       });
     },
@@ -179,7 +181,7 @@ export default {
               callback: () => {
                 vm.$store.commit("SET_ACCOUNT", vm.mobile);
                 localStorage.setItem("account", vm.mobile);
-                vm.$store.dispatch('getInfo');
+                vm.$store.dispatch("getInfo");
                 vm.$router.go(-1);
               }
             });
@@ -193,8 +195,8 @@ export default {
         }
       });
     },
-    forget(){
-      this.$router.push({name:"Forgetpwd"});
+    forget() {
+      this.$router.push({ name: "Forgetpwd" });
     }
   }
 };
@@ -219,8 +221,8 @@ export default {
   }
 }
 
-.tips{
+.tips {
   margin: 1rem auto 0;
-  font-size: .32rem;
+  font-size: 0.32rem;
 }
 </style>
