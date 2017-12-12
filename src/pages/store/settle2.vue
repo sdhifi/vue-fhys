@@ -27,7 +27,7 @@
         <x-textarea title="详细地址：" v-model="addressDetail" placeholder="街道、楼牌号码等" :max="200"></x-textarea>
       </group>
       <group v-show="step1==3">
-        <x-input title="营业执照号：" v-model="businessLicenceNumber" placeholder="请填写营业执照号" :required="true" type="tel"></x-input>
+        <x-input title="营业执照号：" v-model="businessLicenceNumber" placeholder="请填写营业执照号" :required="true"></x-input>
         <x-address title="营业执照" inline-desc="所在地" v-model="businessLicenceAddress" :list="addressData" placeholder="营业执照所在地" :show.sync="show2"></x-address>
         <x-textarea title="经营范围：" inline-desc="(选填)" v-model="businessSphere" placeholder="填写您的经营范围" :max="400"></x-textarea>
         <div class="upload-container">

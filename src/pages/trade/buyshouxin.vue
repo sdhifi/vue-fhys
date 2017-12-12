@@ -8,8 +8,9 @@
           <span slot="right" class="danger-color fs-16">{{member.lineOfCrade}}</span>
         </yd-cell-item>
         <yd-cell-item>
-          <span slot="left">充值额度</span>
-          <input slot="right" v-model="money" style="text-align:right;" placeholder="请输入您要充值的授信额度" type="tel" @input="checkMoney" />
+          <span slot="left">充值额度：</span>
+          <!-- <input slot="right" v-model="money" style="text-align:right;" placeholder="请输入您要充值的授信额度"  @input="checkMoney" /> -->
+          <yd-input slot="right" v-model="money" placeholder="请输入您要充值的授信额度"  @input.native="checkMoney"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group>

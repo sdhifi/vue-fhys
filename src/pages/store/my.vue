@@ -71,13 +71,7 @@ import {
   updateAddressInfo
 } from "../../api/index";
 import "lrz/dist/lrz.bundle.js";
-import {
-  Group,
-  XInput,
-  XTextarea,
-  XAddress,
-  ChinaAddressV4Data
-} from "vux";
+import { Group, XInput, XTextarea, XAddress, ChinaAddressV4Data } from "vux";
 export default {
   name: "MyStore",
   data() {
@@ -114,13 +108,25 @@ export default {
           text: "发布管理",
           link: "/store/publishmanage",
           color: "#fab652"
-        }
+        },
         // {
         //   icon: "self-shoukuan",
         //   text: "付款",
         //   link: "/store/receipt",
         //   color: "#fc9557"
-        // }
+        // },
+        {
+          icon: "self-dingdanguanli",
+          text: "个体入驻",
+          link: "/store/settle-2",
+          color: "#fab652"
+        },
+        {
+          icon: "self-dingdanguanli",
+          text: "企业入驻",
+          link: "/store/settle-3",
+          color: "#fab652"
+        }
       ]
     };
   },
@@ -183,6 +189,7 @@ export default {
     },
     getMyStore() {
       let vm = this;
+      //this.$dialog.loading.open();
       mui.ajax({
         url: myStore,
         type: "post",
@@ -192,6 +199,7 @@ export default {
           token: md5(`myStore${getStore("account")}`)
         },
         success(res) {
+          //vm.$dialog.loading.close();
           vm.info = res.result;
           vm.$store.commit("RECORD_STORE_INFO", vm.info);
           setStore("storeId", vm.info.id);
@@ -243,7 +251,7 @@ export default {
     },
     saveInfo() {
       let vm = this;
-      let area = this.newAddress[2]=='--'?'0':this.newAddress[2];
+      let area = this.newAddress[2] == "--" ? "0" : this.newAddress[2];
       mui.ajax({
         url: updateAddressInfo,
         type: "post",
@@ -251,7 +259,7 @@ export default {
         data: {
           storeId: this.info.id,
           sellerMobile: this.newMobile,
-          cityValue:`${this.newAddress[0]},${this.newAddress[1]},${area}`,
+          cityValue: `${this.newAddress[0]},${this.newAddress[1]},${area}`,
           addressDetail: this.newAddressDetail,
           token: md5(`updateAddressInfo${this.info.id}`)
         },

@@ -25,7 +25,7 @@
         <yd-cell-group>
           <yd-cell-item>
             <span slot="left">提现金额：</span>
-            <yd-input slot="right" v-model="money" placeholder="请输入提现金额(200~50000)" type="tel"></yd-input>
+            <yd-input slot="right" v-model="money" placeholder="请输入提现金额(200~50000)"></yd-input>
           </yd-cell-item>
           <yd-cell-item>
             <yd-textarea slot="right" v-model="remark" placeholder="如有备注，请输入" maxlength="20"></yd-textarea>
@@ -75,6 +75,7 @@ export default {
   methods: {
     drawCash() {
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: addDrawCash,
         type: "post",
@@ -87,6 +88,7 @@ export default {
           token: md5(`addDrawCash${this.account}${this.money}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           if (res.code == 200) {
             vm.$dialog.toast({
               mes: res.msg

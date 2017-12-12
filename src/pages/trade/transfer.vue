@@ -5,7 +5,7 @@
       <yd-cell-group title="转移信息">
         <yd-cell-item>
           <span slot="left">转移数额：</span>
-          <yd-input slot="right" v-model="money" type="tel" placeholder="输入转移数额"></yd-input>
+          <yd-input slot="right" v-model="money" placeholder="输入转移数额"></yd-input>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">转移会员：</span>

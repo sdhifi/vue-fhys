@@ -21,7 +21,9 @@
         <x-input title="联系人：" v-model="sellerName" placeholder="请填写企业联系人" :required="true"></x-input>
         <x-input title="联系电话：" v-model="sellerMobile" placeholder="请填写联系人的手机号码" type="tel" is-type="china-mobile" :required="true"></x-input>
         <x-input title="电子邮箱：" v-model="sellerEmail" placeholder="请填写联系人的邮箱" type="email" is-type="email" :required="true"></x-input>
-        <x-textarea title="注册资金：" inline-desc="(万元)" v-model="companyRegisteredCapital" placeholder="请填写金额" :rows="1"></x-textarea>
+        <x-input title="注册资金：" v-model="companyRegisteredCapital" placeholder="请填写金额" :required="true">
+          <span class="danger-color" slot="right">(万元)</span>
+        </x-input>
       </group>
       <group v-show="step1==2">
         <x-address title="省份城市：" v-model="storeCitys" :list="addressData" placeholder="请选择地址" :show.sync="show1"></x-address>
@@ -30,7 +32,7 @@
       <group v-show="step1==3">
         <x-input title="组织机构代码：" v-model="organizationCode" placeholder="企业组织机构代码" :required="true"></x-input>
         <x-input title="税务登记：" v-model="taxRegistrationCertificate" placeholder="税务登记证号" :required="true"></x-input>
-        <x-input title="营业执照号：" v-model="businessLicenceNumber" placeholder="请填写营业执照号" :required="true" type="tel"></x-input>
+        <x-input title="营业执照号：" v-model="businessLicenceNumber" placeholder="请填写营业执照号" :required="true"></x-input>
         <x-address title="营业执照" inline-desc="所在地" v-model="businessLicenceAddress" :list="addressData" placeholder="营业执照所在地" :show.sync="show2"></x-address>
         <x-textarea title="经营范围：" inline-desc="(选填)" v-model="businessSphere" placeholder="填写您的经营范围" :max="400"></x-textarea>
         <div class="upload-container">
