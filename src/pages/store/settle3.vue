@@ -247,7 +247,6 @@ export default {
     choosePicture(event) {
       let p = document.querySelector(".licence-picture"),
         file = event.target.files[0];
-      let vm = this;
       if (!/image\/\w+/.test(file.type)) {
         this.$dialog.toast({
           mes: "请上传图片",
@@ -256,9 +255,11 @@ export default {
         });
         return;
       }
+      this.$dialog.loading.open("上传中...");
       lrz(file, { width: 800 }).then(rst => {
+        this.$dialog.loading.close();
         p.src = rst.base64;
-        vm.fileContent = rst.base64;
+        this.fileContent = rst.base64;
       });
     },
    applicate() {

@@ -9,7 +9,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">消费会员：</span>
-          <!-- <yd-input slot="right" v-model="mobile" placeholder="请输入会员手机号" type="tel" regex="mobile" @input.native="aa"></yd-input> -->
+          <!-- <yd-input slot="right" v-model="mobile" placeholder="请输入会员手机号" type="tel" regex="mobile" @input.native="findMember"></yd-input> -->
           <input type="tel" slot="right" v-model="mobile" placeholder="请输入会员手机号" @input="findMember">
         </yd-cell-item>
         <yd-cell-item v-if="mobileName">
@@ -99,9 +99,6 @@ export default {
   created() {},
   mixins: [findMemberByMobile,payMixin],
   methods: {
-    aa(){
-      console.log(this.mobile.length)
-    },
     save() {
       if(this.account == this.mobile){
          this.$dialog.alert({
