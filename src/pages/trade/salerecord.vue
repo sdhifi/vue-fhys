@@ -119,7 +119,7 @@ export default {
         return;
       }
       let vm = this;
-      this.$dialog.loading.open();
+      this.$dialog.loading.open("录入中...");
       mui.ajax({
         url: addBenefit,
         type: "post",
