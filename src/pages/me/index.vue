@@ -310,15 +310,9 @@ section {
     }
    .vip-tag {
       position: absolute;
-      // right: -.5rem;
-      // bottom: .5rem;
-      // top: -.5rem;
-      // right: 0;
-      // bottom: 0;
       left: 28%;
       bottom: 0;
       color: #f5ca3a;
-      // color:#fff;
       font-size: .8rem;
       font-weight: bold;
       transform: rotate(-45deg);
@@ -340,7 +334,16 @@ section {
     }
   }
 }
- 
+ @media  (min-width: 768px) and (max-width: 1024px){
+   .vip-tag{
+     left: 38% !important;
+   }
+ }
+ @media  (min-width: 1024px){
+   .vip-tag{
+     left:41% !important;
+   }
+ }
 .order-container {
   .order-item {
     .pd-v;
