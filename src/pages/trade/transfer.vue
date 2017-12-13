@@ -9,7 +9,8 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">转移会员：</span>
-          <yd-input slot="right" v-model="mobile" required placeholder="请输入会员手机号" type="tel" regex="mobile" @input.native="findMember"></yd-input>
+          <!-- <yd-input slot="right" v-model="mobile" required placeholder="请输入会员手机号" type="tel" regex="mobile" @input.native="findMember"></yd-input> -->
+          <input type="tel" slot="right" v-model="mobile" placeholder="请输入会员手机号" @input="findMember">
         </yd-cell-item>
         <yd-cell-item v-if="mobileName">
           <span slot="left">会员名称：</span>
@@ -83,7 +84,7 @@ export default {
       return (
         /^(([1-9]\d*)|([0-9]+\.[0-9]{1,6}))$/.test(this.money) &&
         /0?(13|14|15|18)[0-9]{9}/.test(this.mobile) &&
-        !!this.payType
+        !!this.payType  && this.mobile != this.account
       );
     }
   },

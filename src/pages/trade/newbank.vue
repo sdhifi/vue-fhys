@@ -4,9 +4,6 @@
     <main class='scroll-content-2'>
 
       <group style="margin-bottom:.2rem;">
-        <!-- <popup-picker title="开户银行" :data="bankNameList" v-model="bankId" placeholder="请选择开户银行" 
-        @on-change="chooseBank" :show.sync="showBank" @on-hide="hidePopup"></popup-picker> -->
-        <!-- <cell title="开户银行:"></cell> -->
         <selector title="开户银行" v-model="bankId" placeholder="请选择开户银行" :options="bankNameList" direction="rtl"></selector>
         <x-input title="支行名称" v-model="bankSub" placeholder="请输入支行名称" text-align="right"></x-input>
         <x-address title="省份城市" v-model="cityValue" :list="addressData" placeholder="请选择开户银行省市" :show.sync="showAddress" :hide-district="true"></x-address>
@@ -40,7 +37,6 @@ export default {
   data() {
     return {
       oldBack: mui.back,
-      showBank: false,
       // bankId: [],
       // bankNameList: [[
       //   { name: "中国工商银行", value: "390" },
@@ -135,17 +131,9 @@ export default {
     goBack() {
       if (this.showAddress) {
         this.showAddress = false;
-      } else if (this.showBank) {
-        this.showBank = false;
-      } else {
+      }  else {
         this.$router.go(-1);
       }
-    },
-    chooseBank(val) {
-      this.bankId = [val];
-    },
-    hidePopup(type) {
-      console.log(type);
     },
     addBankCard() {
       let vm = this;

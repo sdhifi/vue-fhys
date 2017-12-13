@@ -191,6 +191,7 @@ import {findMemberByMoblie} from "../../api/index"
 export const findMemberByMobile={
   methods:{
     findMember() {
+     
       if(!this.mobile || this.mobile.length<11){
         return;
       }

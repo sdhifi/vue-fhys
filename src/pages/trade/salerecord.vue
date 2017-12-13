@@ -9,7 +9,8 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">消费会员：</span>
-          <yd-input slot="right" v-model="mobile" placeholder="请输入会员手机号" type="tel" regex="mobile" @input.native="findMember"></yd-input>
+          <!-- <yd-input slot="right" v-model="mobile" placeholder="请输入会员手机号" type="tel" regex="mobile" @input.native="aa"></yd-input> -->
+          <input type="tel" slot="right" v-model="mobile" placeholder="请输入会员手机号" @input="findMember">
         </yd-cell-item>
         <yd-cell-item v-if="mobileName">
           <span slot="left">会员名称：</span>
@@ -19,7 +20,6 @@
       <yd-cell-group v-if="payMoney">
         <yd-cell-item>
           <span slot="left">应付金额</span>
-          <!-- <input slot="right" type="text" readonly style="text-align:right;color:#ff5350;" v-model="payMoney"> -->
           <span slot="right" style="font-size:0.3rem;color:#ff5350;">{{payMoney}}</span>
         </yd-cell-item>
         <yd-cell-item v-show="payType=='4'">
@@ -99,6 +99,9 @@ export default {
   created() {},
   mixins: [findMemberByMobile,payMixin],
   methods: {
+    aa(){
+      console.log(this.mobile.length)
+    },
     save() {
       if(this.account == this.mobile){
          this.$dialog.alert({
