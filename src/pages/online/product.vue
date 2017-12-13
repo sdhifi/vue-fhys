@@ -55,7 +55,8 @@
     <footer class="fix-footer flex align-center" v-show="info.isCanUserCou" style="border-top:1px solid #dfdfdf;">
       <div class="shopping-cart flex just-center align-center" @click="goShoppingCart">
         <span class="iconfont-large self-shopcart"></span>
-        <span class="shopping-num" type="danger" v-show="account&&cartNum>0">{{cartNum}}</span>
+        <!-- <span class="shopping-num" v-show="account&&cartNum>0">{{cartNum}}</span> -->
+        <yd-badge type="danger" class="shopping-num" v-show="account&&cartNum>0">{{cartNum}}</yd-badge>
       </div>
       <button @click="buynow" class="flex-1 btn-2">立即购买</button>
       <button @click="add2cart" class="flex-1 btn-1">加入购物车</button>
@@ -433,10 +434,6 @@ footer {
       left: 0.7rem;
       top: 0.4rem;
       transform: translate(-50%, -50%);
-      color: @white;
-      background-color: @red;
-      border-radius: 10px;
-      padding: 2px 5px;
       text-align: center;
     }
   }
