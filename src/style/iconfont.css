@@ -24,6 +24,8 @@
 
 .self-jifen:before { content: "\e70a"; }
 
+.self-vip:before { content: "\e636"; }
+
 .self-bianji:before { content: "\e83f"; }
 
 .self-rmb:before { content: "\e62f"; }
@@ -189,3 +191,4 @@
 .self-gengxin:before { content: "\e62b"; }
 
 .self-huazhuangpin:before { content: "\e622"; }
+

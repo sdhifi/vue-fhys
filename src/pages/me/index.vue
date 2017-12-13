@@ -7,6 +7,7 @@
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
           <router-link :to="{name:'Update'}">
             <div class="head-img" v-lazy:background-image="getImgPath(member.imgHeadUrl)"></div>
+            <span class="iconfont self-vip vip-tag"></span>
           </router-link>
         </div>
         <div class="head-info">
@@ -293,6 +294,7 @@ section {
     padding: @pd 0;
     a {
       display: block;
+      // position: relative;
       .wh(1.7rem,1.7rem);
       margin: 0 auto;
       z-index: 10;
@@ -306,10 +308,20 @@ section {
       z-index: 5;
       border: 3px solid rgba(228, 187, 145, 0.6);
     }
-    .sex-tag {
+   .vip-tag {
       position: absolute;
-      left: 2.5rem;
+      // right: -.5rem;
+      // bottom: .5rem;
+      // top: -.5rem;
+      // right: 0;
+      // bottom: 0;
+      left: 28%;
       bottom: 0;
+      color: #f5ca3a;
+      // color:#fff;
+      font-size: .8rem;
+      font-weight: bold;
+      transform: rotate(-45deg);
     }
   }
   .head-info {
@@ -328,7 +340,7 @@ section {
     }
   }
 }
-
+ 
 .order-container {
   .order-item {
     .pd-v;

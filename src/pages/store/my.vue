@@ -9,8 +9,11 @@
         <input type="file" name="upload-img" id="" accept="image/*" @change="previewImg($event)">
       </section>
       <section class="store-info">
-        <h2 class="store-title px-1">{{info.storeName}}</h2>
-        <div class="flex align-center"  @click="showEdit">
+        <h2 class="store-title flex align-center">
+          <span class="flex-1">{{info.storeName}}</span>
+          <span class="iconfont-large self-vip" style="color: #f5ca3a;"></span>
+        </h2>
+        <div class="flex align-center" @click="showEdit">
           <div class="flex-1 fs-15 flex align-center">
             <span class="iconfont-large self-location danger-color"></span>
             <span class="flex-1">{{info.provinceId.province}}{{info.cityId.city}}
@@ -108,7 +111,7 @@ export default {
           text: "发布管理",
           link: "/store/publishmanage",
           color: "#fab652"
-        },
+        }
         // {
         //   icon: "self-shoukuan",
         //   text: "付款",
@@ -335,7 +338,7 @@ export default {
   .store-title {
     font-size: 0.35rem;
     .pd-v;
-    margin-bottom: 0.1rem;
+    border-bottom: 1px solid #f7f5f5;
   }
   > div {
     margin: 0.1rem 0;

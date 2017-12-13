@@ -11,13 +11,13 @@
                 <span class="iconfont-large self-maichu  danger-color" v-if="item.tradeType=='1'"></span>
                 <span class="time">{{formatTime(item.addTime)}}</span>
               </p>
-              <span class="status status-0" v-if="item.tradeType=='0'">{{member.name}}</span>
-              <span class="status status-1" v-if="item.tradeType=='1'">{{storeInfo.storeName}}</span>
-            </div>
-            <div class="item-bottom flex just-between align-center">
               <span class="money">{{item.tradeMoney}}
                 <span class="fs-14">元</span>
               </span>
+            </div>
+            <div class="item-bottom flex just-between align-center">
+              <span class="status status-0" v-if="item.tradeType=='0'">{{member.name}}</span>
+              <span class="status status-1" v-if="item.tradeType=='1'">{{storeInfo.storeName}}</span>
             </div>
           </li>
         </ul>
