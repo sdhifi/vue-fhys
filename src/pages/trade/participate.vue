@@ -9,7 +9,7 @@
             <p>{{item.diviNum}}</p>
           </div>
           <div class="item-bottom flex just-between">
-            <p>{{formatTime(item.addTime)}}</p>
+            <p>{{formatTime(item.addTime,true)}}</p>
           </div>
         </li>
       </ul>
