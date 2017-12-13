@@ -115,18 +115,18 @@ export default {
         //   link: "/store/receipt",
         //   color: "#fc9557"
         // },
-        {
-          icon: "self-dingdanguanli",
-          text: "个体入驻",
-          link: "/store/settle-2",
-          color: "#fab652"
-        },
-        {
-          icon: "self-dingdanguanli",
-          text: "企业入驻",
-          link: "/store/settle-3",
-          color: "#fab652"
-        }
+        // {
+        //   icon: "self-dingdanguanli",
+        //   text: "个体入驻",
+        //   link: "/store/settle-2",
+        //   color: "#fab652"
+        // },
+        // {
+        //   icon: "self-dingdanguanli",
+        //   text: "企业入驻",
+        //   link: "/store/settle-3",
+        //   color: "#fab652"
+        // }
       ]
     };
   },
