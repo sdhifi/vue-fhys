@@ -212,7 +212,7 @@ export default {
         token: md5("addStore"),
         fileContent: this.fileContent
       };
-      this.$dialog.loading.open();
+      this.$dialog.loading.open("申请中...");
       mui.ajax({
         url: addStore,
         type: "post",

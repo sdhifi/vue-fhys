@@ -20,7 +20,8 @@ import {
   SET_PAY_PASSWORD,
   RECORD_PAY_INFO,
   SAVE_POSITION,
-  SAVE_LIST_WITH_PAGE
+  SAVE_LIST_WITH_PAGE,
+  RECORD_UPDATE
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -96,5 +97,8 @@ export default {
   },
   [SAVE_LIST_WITH_PAGE](state, payload) {
     state.cacheList[payload.name]= payload.cacheInfo;
+  },
+  [RECORD_UPDATE](state, tag) {
+    state.update = tag;
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-top title="我的店铺"></header-top>
-    <main class='scroll-content-2'>
+    <main class='scroll-content-2' v-if="info">
       <section class="store-banner px-1" v-lazy:background-image="getImgPath(info.storeBanner)">
         <div class="upload-box">
           更换封面
@@ -10,13 +10,13 @@
       </section>
       <section class="store-info">
         <h2 class="store-title px-1">{{info.storeName}}</h2>
-        <div class="flex align-center">
+        <div class="flex align-center"  @click="showEdit">
           <div class="flex-1 fs-15 flex align-center">
             <span class="iconfont-large self-location danger-color"></span>
             <span class="flex-1">{{info.provinceId.province}}{{info.cityId.city}}
               <span v-if="info.areaId">{{info.areaId.area}}</span>{{info.addressDetail}}</span>
           </div>
-          <span class="iconfont self-bianji danger-color" @click="showEdit"></span>
+          <span class="iconfont self-bianji danger-color"></span>
         </div>
         <div class="flex align-center">
           <span class="iconfont-large self-tel"></span>

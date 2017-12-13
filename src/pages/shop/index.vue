@@ -208,6 +208,7 @@ export default {
         });
         return;
       }
+      this.$dialog.loading.open("开始导航...")
       mui.ajax({
         url: myStore,
         type: "post",
@@ -217,6 +218,7 @@ export default {
           token: md5(`myStore${this.pdDetail.storeMobile}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           let _result = res.result;
           if (!_result) {
             vm.$dialog.alert({

@@ -165,6 +165,7 @@ export default {
     },
     login() {
       let vm = this;
+      this.$dialog.loading.open("登录中...")
       mui.ajax({
         url: login,
         type: "post",
@@ -175,6 +176,7 @@ export default {
           token: md5("login")
         },
         success(res) {
+          vm.$dialog.loading.close();
           if (res.code == "200") {
             vm.$dialog.toast({
               mes: "登录成功",

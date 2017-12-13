@@ -74,15 +74,21 @@ export default {
             token: md5(`findNextAgent${this.account}`)
           },
           success(res) {
-            let _result = res.result.agentList;
-            vm.list = [...vm.list, ..._result];
-            if (_result.length < 10) {
-              vm.noData = true;
-              vm.$refs.shoplist.$emit("ydui.infinitescroll.loadedDone");
-              return;
+            if (res.code == 200) {
+              let _result = res.result.agentList;
+              vm.list = [...vm.list, ..._result];
+              if (_result.length < 10) {
+                vm.noData = true;
+                vm.$refs.shoplist.$emit("ydui.infinitescroll.loadedDone");
+                return;
+              }
+              vm.$refs.shoplist.$emit("ydui.infinitescroll.finishLoad");
+              vm.pageNo++;
+            } else {
+              vm.$dialog.toast({
+                mes: res.msg
+              });
             }
-            vm.$refs.shoplist.$emit("ydui.infinitescroll.finishLoad");
-            vm.pageNo++;
           }
         });
       }
@@ -105,8 +111,8 @@ export default {
   .title {
     font-size: 0.32rem;
   }
-  .tel{
-    font-size: .28rem;
+  .tel {
+    font-size: 0.28rem;
   }
   p:first-of-type {
     font-size: 0.32rem;

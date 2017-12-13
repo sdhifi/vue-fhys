@@ -305,12 +305,14 @@ export default {
         params.settlementBankName = this.settlementBankName;
         params.settlementBankAddress = `${this.settlementBankAddress[0]},${this.settlementBankAddress[1]},${a43}`;
       }
+      this.$dialog.loading.open("申请中...");
       mui.ajax({
         url: addStore,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: params,
         success(res) {
+          vm.$dialog.loading.close();
           if (res.code != 200) {
             vm.$dialog.alert({
               mes: res.msg

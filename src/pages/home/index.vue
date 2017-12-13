@@ -102,7 +102,6 @@ export default {
   mounted() {
     this.posAndVer();
     this.getColumns();
-    
   },
   activated() {
     if (getStore("account") && getStore("account").length > 0) {
@@ -159,7 +158,7 @@ export default {
       this.getPosition();
       this.getVersion();
     },
-    getPosition(){
+    getPosition() {
       let vm = this;
       plus.geolocation.getCurrentPosition(
         function(p) {
@@ -257,7 +256,6 @@ export default {
       let vm = this;
       plus.runtime.getProperty(plus.runtime.appid, function(inf) {
         vm.curVersion = inf.version;
-        //console.log("当前应用版本：" + inf.version);
         if (vm.type == "0") {
           vm.getInfo();
         }
@@ -275,20 +273,15 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          if (_result.version) {
-            if (vm.curVersion != _result.version) {
-              vm.$dialog.confirm({
-                title: `检测到新版本：${_result.version}，是否升级？`,
-                mes: `${_result.describe}`,
-                opts: () => {
-                  let wgtUrl = _result.jumpUrl;
-                  vm.downloadWgt(wgtUrl);
-                }
-              });
-            } 
-          } else {
-            vm.$dialog.toast({
-              mes: "没有版本发布！ "
+          if (_result.version && vm.curVersion != _result.version) {
+            vm.$store.commit("RECORD_UPDATE", true);
+            vm.$dialog.confirm({
+              title: `检测到新版本：${_result.version}，是否升级？`,
+              mes: `${_result.describe}`,
+              opts: () => {
+                let wgtUrl = _result.jumpUrl;
+                vm.downloadWgt(wgtUrl);
+              }
             });
           }
         }
@@ -300,10 +293,8 @@ export default {
       plus.downloader
         .createDownload(url, { filename: "_doc/update/" }, function(d, status) {
           if (status == 200) {
-            console.log("下载更新成功：" + d.filename);
             vm.installWgt(d.filename); // 安装更新包
           } else {
-            console.log("下载更新失败！");
             vm.$dialog.alert({
               mes: "下载更新失败！"
             });
@@ -320,7 +311,6 @@ export default {
         {},
         function() {
           vm.$dialog.loading.close();
-          console.log("安装更新成功！");
           vm.$dialog.alert({
             mes: "应用资源更新完成！",
             callback: () => {
@@ -330,7 +320,6 @@ export default {
         },
         function(e) {
           vm.$dialog.loading.close();
-          console.log("安装更新失败[" + e.code + "]：" + e.message);
           vm.$dialog.alert({
             mes: "安装更新失败[" + e.code + "]：" + e.message
           });

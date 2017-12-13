@@ -90,6 +90,7 @@
         <yd-cell-item arrow type="link" href="/me/updateApp">
           <span class="iconfont-large self-gengxin c2" slot="icon"></span>
           <span slot="left">APP更新</span>
+          <yd-badge slot="right" type="danger" v-if="update">新版本</yd-badge>
         </yd-cell-item>
       </yd-cell-group>
       <!-- 退出按钮 -->
@@ -179,7 +180,7 @@ export default {
   components: { HeaderTop, FooterBar, CertModal },
   created() {},
   computed: {
-    ...mapState(["certificateStatus", "showCertificate", "account", "member"]),
+    ...mapState(["certificateStatus", "showCertificate", "account", "member","update"]),
     ...mapGetters(["cartNum"])
   },
   mixins: [mixin],

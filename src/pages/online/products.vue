@@ -153,6 +153,7 @@ export default {
       var src = img.src;
       var bottom = window.innerHeight - ct.getBoundingClientRect().bottom;
       var left = ct.getBoundingClientRect().left;
+      this.$dialog.loading.open("库存检测中...")
       mui.ajax({
         url: onlineProductsDetailInfoInH5,
         type: "post",
@@ -162,6 +163,7 @@ export default {
           token: md5(`onlineProductsDetailInfoInH5${id}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           let _result = res.result;
           if (!_result.productAttrStock.repertory) {
             vm.$dialog.toast({
@@ -188,6 +190,7 @@ export default {
                 mes: response.msg,
                 timeout: 1000
               });
+              vm.$store.dispatch("getCartList");
               // 商品加入购物车动画
 
               var m = document.createElement("img");
@@ -200,7 +203,7 @@ export default {
               setTimeout(() => {
                 m.remove();
               }, 1500);
-              vm.$store.dispatch("getCartList");
+              
             }
           });
         }
