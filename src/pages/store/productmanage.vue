@@ -112,6 +112,7 @@ export default {
         title: "下架商品",
         mes: "请确认是否下架所选商品",
         opts: () => {
+          this.$dialog.loading.open("下架中...");
           mui.ajax({
             url: delStorePro,
             type: "post",
@@ -122,6 +123,7 @@ export default {
               token: md5(`delStorePro${getStore("account")}`)
             },
             success(res) {
+              vm.$dialog.loading.close();
               if (res.code == 200) {
                 vm.$dialog.toast({
                   mes: "下架成功",
