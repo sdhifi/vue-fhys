@@ -202,7 +202,7 @@ export default {
     }
     if (getStore("account") && getStore("account").length > 0) {
       this.$store.commit("SET_ACCOUNT", getStore("account"));
-      //this.$store.dispatch("getInfo");
+      this.$store.dispatch("getInfo");
       this.$store.dispatch("getCartList");
     } else {
       this.$router.push("/me/login");

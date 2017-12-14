@@ -127,6 +127,7 @@ export default {
     },
     submitInfo() {
       let vm = this;
+      this.$dialog.loading.open("更新中...");
       mui.ajax({
         url: update,
         type: "post",
@@ -142,6 +143,7 @@ export default {
           fileContent: this.base64Url
         },
         success(res) {
+          vm.$dialog.loading.close();
           vm.$dialog.toast({
             mes: "修改成功",
             timeout: 1000,
