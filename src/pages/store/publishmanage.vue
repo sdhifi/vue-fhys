@@ -16,7 +16,7 @@
         <group>
           <x-input title="商品价格：" placeholder="输入售卖的商品价格" v-model="pdPrice" required></x-input>
           <x-input title="门市价格：" placeholder="输入商品在店的价格" v-model="mtPrice" required></x-input>
-          <x-textarea title="有效期限：" placeholder="例:2017.07.18至2017.12.17(周末、法定节假日通用)" v-model="date1"></x-textarea>
+          <x-textarea title="有效期限：" placeholder="例:2017.7.8至2017.9.1(周末、法定节假日通用)" v-model="date1"></x-textarea>
           <!-- <cell title="开始日期：" is-link>
             <yd-datetime v-model="date1" type="date" placeholder="选择商品起始日期" slot="child" class="time-picker"></yd-datetime>
           </cell>
@@ -48,7 +48,7 @@
         <group>
           <x-input title="商品价格：" placeholder="输入售卖的商品价格" v-model="pd.price" required></x-input>
           <x-input title="门市价格：" placeholder="输入商品在店的价格" v-model="pd.marketPrice" required></x-input>
-          <x-textarea title="有效期限：" placeholder="例:2017.07.18至2017.12.17(周末、法定节假日通用)" v-model="pd.indate"></x-textarea>
+          <x-textarea title="有效期限：" placeholder="例:2017.7.8至2017.9.1(周末、法定节假日通用)" v-model="pd.indate"></x-textarea>
           <!-- <cell title="开始日期：" is-link>
             <yd-datetime v-model="pd.dateStart" type="date" placeholder="选择商品起始日期" slot="child" class="time-picker"></yd-datetime>
           </cell>
@@ -190,6 +190,7 @@ export default {
     changeSubColumn() {
       let vm = this;
       let columnId = this.column1 || "1347";
+      this.$dialog.loading.open("获取分类中...");
       mui.ajax({
         url: subColumn + columnId,
         type: "post",
@@ -199,6 +200,7 @@ export default {
           token: md5(`subColumn${columnId}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           let result = res.result.subColumns;
           let _result = [];
           result.forEach((item, index) => {
