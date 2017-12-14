@@ -2,6 +2,7 @@
   <div>
     <header-top title="我的钱包"></header-top>
     <main class='scroll-content-2'>
+      <yd-pullrefresh :callback="refreshInfo" ref="wallet">
       <section class="wallet-top text-center" :style="{'background-image':formatBg('banner-wallet.png')}">
         <nav class="tab-list">
           <div class="tab-item" :class="{'tab-active':!type}" @click="changeTab(0)">个人福利</div>
@@ -54,6 +55,7 @@
           </li>
         </ul>
       </section>
+    </yd-pullrefresh>
       <yd-grids-group :rows="3" v-if="member.type=='0'">
         <yd-grids-item v-for="(item,index) in menu0" :key="index" :link="item.link">
           <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
@@ -345,9 +347,12 @@ export default {
         this.$route.path
       ];
     }
-    this.type = 0;
-    this.getInfo();
-    this.getWallet();
+    if(this.$route.params.update){
+      this.type = 0;
+      this.getInfo();
+      this.getWallet();
+    }
+    
   },
   methods: {
     goBack() {
@@ -408,6 +413,11 @@ export default {
           vm[`info${vm.type}`] = res.result;
         }
       });
+    },
+    refreshInfo(){
+      this.getInfo();
+      this.getWallet();
+      this.$refs.wallet.$emit("ydui.pullrefresh.finishLoad");
     },
     settle() {
       if (this.settleWay == "") {

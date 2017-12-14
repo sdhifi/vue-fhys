@@ -38,20 +38,20 @@
       </section>
       <!-- 菜单 -->
       <yd-cell-group>
-        <yd-cell-item arrow type="link" href="/me/qrcode">
+        <yd-cell-item arrow type="label" @click.native="navigate('/me/qrcode')">
           <span class="iconfont-large self-qrcode c1" slot="icon"></span>
           <span slot="left">我的二维码</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/me/mywallet">
+        <yd-cell-item arrow type="label" @click.native="goWallet">
           <span class="iconfont-large self-wallet c2" slot="icon"></span>
           <span slot="left">我的钱包</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/online/shoppingcart">
+        <yd-cell-item arrow type="label" @click.native="navigate('/online/shoppingcart')">
           <span class="iconfont-large self-shopcart c1" slot="icon"></span>
           <span slot="left">购物车</span>
           <yd-badge slot="right" v-if="cartNum>0" type="danger">{{cartNum}}</yd-badge>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/me/pwdmanage">
+        <yd-cell-item arrow type="label" @click.native="navigate('/me/pwdmanage')">
           <span class="iconfont-large self-setting c1" slot="icon"></span>
           <span slot="left">设置密码</span>
         </yd-cell-item>
@@ -61,7 +61,7 @@
           <span class="iconfont-large self-seller c1" slot="icon"></span>
           <span slot="left">我是商家</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/agent/index" v-if="member.identity!='0'">
+        <yd-cell-item arrow type="label" @click.native="navigate('/agent/index')" v-if="member.identity!='0'">
           <span class="iconfont-large self-daili c2" slot="icon"></span>
           <span slot="left">我是代理</span>
         </yd-cell-item>
@@ -69,11 +69,11 @@
           <span class="iconfont-large self-group c1" slot="icon"></span>
           <span slot="left">我推荐的人</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/address/index">
+        <yd-cell-item arrow type="label" @click.native="navigate('/address/index')">
           <span class="iconfont-large self-address c2" slot="icon"></span>
           <span slot="left">地址管理</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/me/collect">
+        <yd-cell-item arrow type="label" @click.native="navigate('/me/collect')">
           <span class="iconfont-large self-heart c1" slot="icon"></span>
           <span slot="left">我的收藏</span>
         </yd-cell-item>
@@ -84,11 +84,11 @@
           <span slot="left">联系客服</span>
           <span slot="right" style="color:gold;">020-29030366</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/me/about">
+        <yd-cell-item arrow type="label" @click.native="navigate('/me/about')">
           <span class="iconfont-large self-fenghuang c2" slot="icon"></span>
           <span slot="left">关于凤凰云商</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="link" href="/me/updateApp">
+        <yd-cell-item arrow type="label" @click.native="navigate('/me/updateApp')">
           <span class="iconfont-large self-gengxin c2" slot="icon"></span>
           <span slot="left">APP更新</span>
           <yd-badge slot="right" type="danger" v-if="update">新版本</yd-badge>
@@ -202,19 +202,25 @@ export default {
     }
     if (getStore("account") && getStore("account").length > 0) {
       this.$store.commit("SET_ACCOUNT", getStore("account"));
-      this.$store.dispatch("getInfo");
+      //this.$store.dispatch("getInfo");
       this.$store.dispatch("getCartList");
     } else {
       this.$router.push("/me/login");
     }
   },
   methods: {
+    navigate(url){
+      this.$router.push({path:url});
+    },
     goOrder(index) {
       this.$router.push({
         name: "MyOrder",
         params: { update: true },
         query: { id: index }
       });
+    },
+    goWallet(){
+      this.$router.push({name: "MyWallet",params:{update: true}});
     },
     goStore() {
       if (!this.certificateStatus) {

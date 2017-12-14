@@ -5,7 +5,7 @@
 
       <group style="margin-bottom:.2rem;">
         <selector title="开户银行" v-model="bankId" placeholder="请选择开户银行" :options="bankNameList" direction="rtl"></selector>
-        <x-input title="支行名称" v-model="bankSub" placeholder="请输入支行名称" text-align="right"></x-input>
+        <x-input title="支行名称" v-model="bankSub" placeholder="如：广州珠江新城支行" text-align="right"></x-input>
         <x-address title="省份城市" v-model="cityValue" :list="addressData" placeholder="请选择开户银行省市" :show.sync="showAddress" :hide-district="true"></x-address>
         <x-input title="开户人" :value="member.name" :show-clear="false" :readonly="true"  text-align="right"></x-input>
         <x-input title="卡号" v-model="bankCard" placeholder="请输入卡号" type="tel"  text-align="right"></x-input>

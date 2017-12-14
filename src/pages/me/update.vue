@@ -147,6 +147,7 @@ export default {
             timeout: 1000,
             icon: "success",
             callback: () => {
+              vm.$store.dispatch("getInfo");  
               vm.$router.go(-1);
             }
           });
