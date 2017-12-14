@@ -3,7 +3,7 @@
     <header-top title="地址管理"></header-top>
     <main class='scroll-content' style="background-color:#fff;">
       <section class="address-list" v-show="addressList.length">
-        <group-title>左滑地址更多操作</group-title>
+        <group-title>点击更换默认地址，左滑地址更多操作</group-title>
         <swipeout>
           <swipeout-item transition-mode="reveal" v-for="(item,index) in addressList" :key="item.id" ref="aaa">
             <div slot="right-menu">
