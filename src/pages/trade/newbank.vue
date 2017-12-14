@@ -143,6 +143,7 @@ export default {
         });
         return;
       }
+      this.$dialog.loading.open("申请中...");
       mui.ajax({
         url: bindBank,
         type: "post",
@@ -157,6 +158,7 @@ export default {
           token: md5(`bindBank${this.account}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           if (res.code == 200) {
             vm.$dialog.toast({
               mes: res.msg,

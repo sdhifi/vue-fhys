@@ -7,7 +7,7 @@
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
           <router-link :to="{name:'Update'}">
             <div class="head-img" v-lazy:background-image="getImgPath(member.imgHeadUrl)"></div>
-            <span class="iconfont self-vip2 vip-tag"></span>
+            <span class="iconfont self-vip2 vip-tag bounce"></span>
           </router-link>
         </div>
         <div class="head-info">
@@ -418,6 +418,20 @@ section {
   }
   button {
     margin-top: @pd * 2;
+  }
+}
+.bounce{
+  animation: bounce 2s ease infinite;
+}
+@keyframes bounce {
+  0%{
+    transform: scale(.7);
+  }
+  50%{
+    transform: scale(1.1);
+  }
+  100%{
+    transform: scale(.9);
   }
 }
 </style>

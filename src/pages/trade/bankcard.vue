@@ -70,6 +70,7 @@ export default {
     },
     deleteBank(b) {
       let vm = this;
+      this.$dialog.loading.open("删除中...");
       mui.ajax({
         url: deleteMemBank,
         type: 'post',
@@ -80,6 +81,7 @@ export default {
           token: md5(`deleteMemBank${getStore('account')}${b.id}`)
         },
         success(res) {
+          vm.$dialog.loading.close();
           if (res.code !== 200) {
             vm.$dialog.toast({
               mes: res.msg,
