@@ -323,12 +323,14 @@ export default {
         account: this.account,
         token: md5(`addOrder${this.payType}${this.account}`)
       };
+      // this.$dialog.loading.open("下单中...");
       mui.ajax({
         url: addOrder,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: cmParams,
         success(res) {
+          // vm.$dialog.loading.close();
           let _result = res.result;
           //品牌商城
           if (vm.orderType == 0) {

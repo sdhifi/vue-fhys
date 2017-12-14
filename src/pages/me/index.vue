@@ -7,7 +7,7 @@
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
           <router-link :to="{name:'Update'}">
             <div class="head-img" v-lazy:background-image="getImgPath(member.imgHeadUrl)"></div>
-            <span class="iconfont self-vip1 vip-tag"></span>
+            <span class="iconfont self-vip2 vip-tag"></span>
           </router-link>
         </div>
         <div class="head-info">

@@ -327,6 +327,7 @@ export default {
         return;
       }
       if (this.buyType == 0) {
+        this.$dialog.loading.open("加入中...");
         mui.ajax({
           url: addCart,
           type: "post",
@@ -341,6 +342,7 @@ export default {
             token: md5(`addCart${this.account}`)
           },
           success(res) {
+            vm.$dialog.loading.close();
             vm.show = false;
             vm.$dialog.toast({
               mes: res.msg,
@@ -361,6 +363,7 @@ export default {
           });
         });
         let attrIds = this.info.productAttrStock.productAttrIds;
+        this.$dialog.loading.open("正在发起订单...");
         mui.ajax({
           url: toAdd,
           type: "post",
@@ -375,6 +378,7 @@ export default {
             token: md5(`toAdd${this.account}`)
           },
           success(res) {
+            vm.$dialog.loading.close();
             let _result = res.result;
             _result.orderAddVos[0].goodsAttr = attrValueStr.join(" ");
             _result.orderAddVos[0].goodsAttrIds = attrIds.slice(

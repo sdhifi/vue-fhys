@@ -130,6 +130,8 @@
 
 .self-nodata:before { content: "\e637"; }
 
+.self-vip2:before { content: "\e638"; }
+
 .self-geti:before { content: "\e62c"; }
 
 .self-seller:before { content: "\e60a"; }
@@ -191,4 +193,3 @@
 .self-gengxin:before { content: "\e62b"; }
 
 .self-huazhuangpin:before { content: "\e622"; }
-
