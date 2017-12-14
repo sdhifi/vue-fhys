@@ -47,6 +47,7 @@ export default {
     },
     getInfo() {
       let vm = this;
+      this.$dialog.loading.open("检测中...");
       mui.ajax({
         url: findAppUpgredeByType,
         type: "post",
@@ -56,6 +57,7 @@ export default {
           token: md5("findAppUpgredeByType")
         },
         success(res) {
+          vm.$dialog.loading.close();
           let _result = res.result;
           if (_result.version) {
             if (vm.curVersion == _result.version) {

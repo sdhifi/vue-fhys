@@ -34,8 +34,6 @@
 
 .self-sex:before { content: "\e62e"; }
 
-.self-fire:before { content: "\e635"; }
-
 .self-delete:before { content: "\e677"; }
 
 .self-pengyouquan:before { content: "\e630"; }
@@ -159,6 +157,8 @@
 .self-zhifubao:before { content: "\e62a"; }
 
 .self-daili:before { content: "\e643"; }
+
+.self-vip1:before { content: "\e635"; }
 
 .self-search:before { content: "\e613"; }
 

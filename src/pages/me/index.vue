@@ -7,15 +7,15 @@
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
           <router-link :to="{name:'Update'}">
             <div class="head-img" v-lazy:background-image="getImgPath(member.imgHeadUrl)"></div>
-            <span class="iconfont self-vip vip-tag"></span>
+            <span class="iconfont self-vip1 vip-tag"></span>
           </router-link>
         </div>
         <div class="head-info">
           <div class="name">
-            <span>{{member.name||member.mobile}}</span>
-            <span class="iconfont self-sex" :style="{'color':'#4cd864'}" v-if="member.sex=='3'"></span>
+            <span>{{member.nickName||member.mobile}}</span>
             <span class="iconfont self-male" :style="{'color':'#57A9FF'}" v-if="member.sex=='1'"></span>
-            <span class="iconfont self-female" :style="{'color':'#f860ef'}" v-if="member.sex=='2'"></span>
+            <span class="iconfont self-female" :style="{'color':'#f860ef'}" v-else-if="member.sex=='2'"></span>
+            <span class="iconfont self-sex" :style="{'color':'#4cd864'}" v-else></span>
           </div>
           <p class="desc">{{member.remark||'-介绍信息-'}}</p>
         </div>
@@ -310,12 +310,11 @@ section {
     }
    .vip-tag {
       position: absolute;
-      left: 28%;
+      left: 31%;
       bottom: 0;
       color: #f5ca3a;
-      font-size: .8rem;
+      font-size: .5rem;
       font-weight: bold;
-      transform: rotate(-45deg);
     }
   }
   .head-info {
@@ -336,12 +335,12 @@ section {
 }
  @media  (min-width: 768px) and (max-width: 1024px){
    .vip-tag{
-     left: 38% !important;
+     left: 40% !important;
    }
  }
  @media  (min-width: 1024px){
    .vip-tag{
-     left:41% !important;
+     left:42% !important;
    }
  }
 .order-container {
