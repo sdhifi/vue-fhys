@@ -90,6 +90,8 @@
 
 .self-download:before { content: "\e626"; }
 
+.self-chongzhi:before { content: "\e67a"; }
+
 .self-tiqufuli:before { content: "\e610"; }
 
 .self-down:before { content: "\e617"; }
