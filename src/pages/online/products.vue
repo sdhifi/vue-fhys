@@ -17,7 +17,7 @@
               <h3>{{pd.name}}</h3>
               <div class="flex just-between align-center">
                 <span class="fs-14 price1" v-if="pd.isCanUserCou=='1'">￥{{pd.pointNicePrice}}
-                  <span class="price2">+{{pd.price}}积分</span>
+                  <span class="price2">+{{pd.price-pd.pointNicePrice}}积分</span>
                 </span>
                 <span class="fs-14 price1" v-else-if="pd.isCanUserCou=='2'">￥{{pd.pointNicePrice}}
                   <span class="price2">+{{pd.price}}责任金额</span>

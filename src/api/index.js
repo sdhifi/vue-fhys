@@ -1,6 +1,7 @@
 let baseUrl = "http://gz.gjfeng.net/gjfeng-web-client";//测试域名
 // let baseUrl = "http://jfh.jfeimao.com/gjfeng-web-client";//广州域名
 // let baseUrl = "http://yn.gzfzsw.top/gjfeng-web-client";//云南域名
+// let baseUrl = "http://www.gjfeng.com/gjfeng-web-client";//湛江域名
 const VERSION = 'v1_0';
 let index = `${baseUrl}/app/index/${VERSION}`,
   pd = `${baseUrl}/app/product/${VERSION}`,
