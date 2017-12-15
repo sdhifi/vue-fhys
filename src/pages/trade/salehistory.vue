@@ -8,6 +8,7 @@
             <div class="item-top flex just-between align-center">
               <p>
                 <span class="iconfont-large self-weixinzhifu" style="color:#25d025;" v-if="item.payType=='0'"></span>
+                <span class="iconfont-large self-zhifubao" style="color:#00a0ea;" v-if="item.payType=='1'"></span>
                 <span class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;" v-if="item.payType=='2'"></span>
                 <span class="iconfont-large self-edu" style="color:#f9a340;" v-if="item.payType=='4'"></span>
                 <span class="iconfont-large self-wallet danger-color" v-if="item.payType=='5'"></span>
