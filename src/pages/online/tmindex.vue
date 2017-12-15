@@ -51,7 +51,7 @@ export default {
     return {
       oldBack: mui.back,
       searchValue: "",
-      noData:false,
+      noData: false,
       pageNo: 1,
       curIndex: 0,
       tabList: [],
@@ -82,12 +82,11 @@ export default {
         this.$route.path
       ];
     }
-    if(this.cacheList[this.$route.path]){
+    if (this.cacheList[this.$route.path]) {
       this.noData = this.cacheList[this.$route.path].noData;
       this.pageNo = this.cacheList[this.$route.path].page;
       this.productList = this.cacheList[this.$route.path].list;
     }
-    
   },
   methods: {
     goBack() {
@@ -142,6 +141,12 @@ export default {
           vm.$dialog.loading.close();
           vm.tabList = res;
           vm.getProduct();
+        },
+        error(e) {
+          vm.$dialog.loading.close();
+          vm.$dialog.alert({
+            mes: "加载异常！"
+          });
         }
       });
     },
@@ -181,9 +186,9 @@ export default {
       });
       let pdId = pd.id;
       let userId = `1004${this.member.id}`; //广州：1004，O2O：1003，云南：1002，湛江：1001
-      let url = `http://aihua.likecs.com/index.php?mod=aihua&act=fenghuang&param=detail&id=${pdId}&userid=${userId}&phone=${this
-        .member
-        .mobile}&email=102286545@qq.com&kh=fenghuang&tbnum=4654646465465`;
+      let url = `http://aihua.likecs.com/index.php?mod=aihua&act=fenghuang&param=detail&id=${pdId}&userid=${userId}&phone=${
+        this.member.mobile
+      }&email=102286545@qq.com&kh=fenghuang&tbnum=4654646465465`;
       this.$router.push({ name: "TMDetail", params: { url } });
     }
   }
