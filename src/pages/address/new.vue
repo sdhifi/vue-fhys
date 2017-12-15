@@ -3,8 +3,8 @@
     <header-top title="地址添加"></header-top>
     <main class='scroll-content-2'>
       <group>
-        <x-input title="收货人" v-model="consigneeName" placeholder="请输入收货人姓名"></x-input>
-        <x-input title="手机号码" v-model="mobile" placeholder="请输入收货人手机号码" type="tel"></x-input>
+        <x-input title="收货人" v-model="consigneeName" placeholder="请输入收货人姓名" required></x-input>
+        <x-input title="手机号码" v-model="mobile" placeholder="请输入收货人手机号码" type="tel" is-type="china-mobile" required></x-input>
         <cell title="性别">
           <div slot="default">
             <label for="male" class="self-radio">

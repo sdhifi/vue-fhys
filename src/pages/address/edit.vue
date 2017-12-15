@@ -3,8 +3,8 @@
     <header-top title="地址修改"></header-top>
     <main class='scroll-content-2'>
       <group>
-        <x-input title="收货人" v-model="info.consigneeName" placeholder="请输入收货人姓名"></x-input>
-        <x-input title="手机号码" v-model="info.mobile" placeholder="请输入收货人手机号码" type="tel"></x-input>
+        <x-input title="收货人" v-model="info.consigneeName" placeholder="请输入收货人姓名" required></x-input>
+        <x-input title="手机号码" v-model="info.mobile" placeholder="请输入收货人手机号码" type="tel" required is-type="china-mobile"></x-input>
         <!-- <x-switch title="性别" :value-map="['男', '女']" :inline-desc="sex?'男':'女'" v-model="sex"></x-switch> -->
         <cell title="性别">
           <div slot="default">

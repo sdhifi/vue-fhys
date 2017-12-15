@@ -84,7 +84,9 @@
         <yd-cell-item>
           <p slot="right" class="fs-16">
             支付：
-            <span class="danger-color" v-if="orderType=='1'||orderType=='2'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
+            <span class="danger-color" v-if="orderType=='1'&&!$route.query.buynow">￥{{formatPrice(settleList.pointNiceAmount+settleList.pos)}}</span>
+            <span class="danger-color" v-else-if="orderType=='1'&&$route.query.buynow">￥{{formatPrice(settleList.pointNiceAmount)}}</span>
+            <span class="danger-color" v-else-if="orderType=='2'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
             <span class="danger-color" v-else>￥{{formatPrice(total)}}</span>
           </p>
         </yd-cell-item>
@@ -95,7 +97,6 @@
           <span slot="left">支付宝</span>
           <input slot="right" type="radio" value="7" v-model="payType" />
         </yd-cell-item>
-
       </yd-cell-group>
       <yd-cell-group v-else-if="orderType=='2'">
         <yd-cell-item type="radio">
@@ -507,6 +508,7 @@ export default {
     border-top: 1px solid #f9f9f9;
     img {
       .wh(1.5rem,1.5rem);
+      overflow: hidden;
     }
     .order-info {
       margin-left: @pd;
