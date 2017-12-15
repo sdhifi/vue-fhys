@@ -18,7 +18,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <span class="iconfont self-lock" slot="icon"></span>
-          <yd-input slot="right" type='password' v-model="password" required :max='16' :min='6' placeholder='请再次输入密码' regex="^[0-9a-zA-Z]{6,16}$"></yd-input>
+          <yd-input slot="right" type='password' v-model="confirmPwd" required :max='16' :min='6' placeholder='请再次输入密码' regex="^[0-9a-zA-Z]{6,16}$"></yd-input>
         </yd-cell-item>
       </yd-cell-group>
       <yd-button :type="valid?'primary':'disabled'" size="large" @click.native="submit">确定</yd-button>
@@ -34,6 +34,7 @@ export default {
     return {
       mobile: "",
       password: "",
+      confirmPwd:"",
       startSend: false,
       code: "",
       correctCode: ""
@@ -42,7 +43,7 @@ export default {
   components: { HeaderTop },
   computed: {
     rightMobile() {
-      return /^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\d{8}$/gi.test(
+      return /^1[3,4,5,7,8]\d{9}$/gi.test(
         this.mobile
       );
     },
@@ -52,8 +53,11 @@ export default {
     rightPwd() {
       return /[0-9a-zA-Z]{6,16}/.test(this.password);
     },
+    equalPwd(){
+      return this.password == this.confirmPwd;
+    },
     valid() {
-      return this.rightMobile && this.rightCode && this.rightPwd;
+      return this.rightMobile && this.rightCode && this.rightPwd && this.equalPwd;
     }
   },
   methods: {
@@ -93,7 +97,7 @@ export default {
         data: {
           mobile: this.mobile,
           newPassword: this.password,
-          reNewPassword: this.password,
+          reNewPassword: this.confirmPwd,
           token: md5("forgetPassWord")
         },
         success(res) {
@@ -103,7 +107,7 @@ export default {
               timeout: 1500,
               icon: "success",
               callback: () => {
-                vm.$router.go(-1);
+                vm.$router.go(-2);
               }
             });
           } else {
@@ -120,6 +124,3 @@ export default {
   }
 };
 </script>
-<style lang='less' scoped>
-
-</style>
