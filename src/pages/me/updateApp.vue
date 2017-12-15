@@ -24,9 +24,8 @@ export default {
   computed: {},
   created() {
     this.init();
-    
   },
-  mounted(){
+  mounted() {
     //document.addEventListener('plusready',this.getVersion,false)
     this.getVersion();
   },
@@ -38,9 +37,9 @@ export default {
       this.type = isiOS ? "1" : "0";
       //this.curVersion = plus.runtime.version;
     },
-    getVersion(){
+    getVersion() {
       let vm = this;
-       plus.runtime.getProperty(plus.runtime.appid, function(inf){
+      plus.runtime.getProperty(plus.runtime.appid, function(inf) {
         vm.curVersion = inf.version;
         console.log("当前应用版本：" + inf.version);
       });
@@ -60,12 +59,7 @@ export default {
           vm.$dialog.loading.close();
           let _result = res.result;
           if (_result.version) {
-            if (vm.curVersion == _result.version) {
-              vm.$dialog.toast({
-                mes: "当前版本已是最新！"
-              });
-              return;
-            } else if(vm.curVersion < +_result.version){
+            if (vm.curVersion < +_result.version) {
               vm.$dialog.confirm({
                 title: `检测到新版本：${_result.version}，是否升级？`,
                 mes: `${_result.describe}`,
@@ -73,6 +67,10 @@ export default {
                   let wgtUrl = _result.jumpUrl;
                   vm.downloadWgt(wgtUrl);
                 }
+              });
+            } else {
+              vm.$dialog.toast({
+                mes: "当前版本已是最新！"
               });
             }
           } else {
