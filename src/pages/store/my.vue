@@ -11,7 +11,7 @@
       <section class="store-info">
         <h2 class="store-title flex align-center">
           <span class="flex-1">{{info.storeName}}</span>
-          <span class="iconfont-large self-vip" style="color: #f5ca3a;"></span>
+          <!-- <span class="iconfont-large self-vip" style="color: #f5ca3a;"></span> -->
         </h2>
         <div class="flex align-center" @click="showEdit">
           <div class="flex-1 fs-15 flex align-center">
