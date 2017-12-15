@@ -142,6 +142,12 @@ export default {
           vm.$dialog.loading.close();
           vm.tabList = res;
           vm.getProduct();
+        },
+        error(e) {
+          vm.$dialog.loading.close();
+          vm.$dialog.alert({
+            mes: "加载异常！"
+          });
         }
       });
     },
