@@ -51,7 +51,7 @@ export default {
     return {
       oldBack: mui.back,
       searchValue: "",
-      noData:false,
+      noData: false,
       pageNo: 1,
       curIndex: 0,
       tabList: [],
@@ -82,12 +82,11 @@ export default {
         this.$route.path
       ];
     }
-    if(this.cacheList[this.$route.path]){
+    if (this.cacheList[this.$route.path]) {
       this.noData = this.cacheList[this.$route.path].noData;
       this.pageNo = this.cacheList[this.$route.path].page;
       this.productList = this.cacheList[this.$route.path].list;
     }
-    
   },
   methods: {
     goBack() {
@@ -142,6 +141,12 @@ export default {
           vm.$dialog.loading.close();
           vm.tabList = res;
           vm.getProduct();
+        },
+        error(e) {
+          vm.$dialog.loading.close();
+          vm.$dialog.alert({
+            mes: "加载异常！"
+          });
         }
       });
     },
