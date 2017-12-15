@@ -1,21 +1,24 @@
 <template>
   <div>
-    <header-top title="附近" :back="false"></header-top>
-      <section class="search-container">
-        <router-link to="/home/search" class="search-input">
-          <span class="iconfont-large self-search"></span>
-          <span>搜索商家或商品</span>
-        </router-link>
-      </section>
-      <div class="sub-list" ref="swipeList">
-        <div class="sub-item" v-for="(sub,i) in column" :key="sub.id" :data-id="sub.id" :class="{'sub-active':columnId==sub.id}" 
-          @click="changeSubColumn(sub)">{{sub.names}}</div>
-      </div>
+    <!-- <header-top title="附近" :back="false"></header-top> -->
+    <section class="search-container">
+      <router-link to="/home/search" class="search-input">
+        <span class="iconfont-large self-search"></span>
+        <span>搜索商家或商品</span>
+      </router-link>
+    </section>
+    <tab :line-width="2" active-color='#ff5350' v-model="index" custom-bar-width="40px">
+      <tab-item v-for="(item, index) in column" :key="index" @on-item-click="toggleItem(index)">{{item.columnName}}</tab-item>
+    </tab>
+    <div class="sub-list">
+      <div class="sub-item" v-for="(sub,i) in column[index].subColumn" :key="sub.id" :data-id="sub.id" 
+      :class="{'sub-active':sub.selected}" @click="changeSubColumn(sub,i)">{{sub.names}}</div>
+    </div>
     <main class='scroll-content-3' style="background-color:#fff;">
       <section class="pd-list">
         <yd-infinitescroll :callback="getProduct" ref="pdlist">
           <div slot="list">
-            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price" :price2="item.marketPrice"></product-item>
+            <product-item v-for="item in productList" :key="item.id" :id="item.id" :img-url="item.imgUrl" :title="item.storeName" :score="item.score" :distance="item.distance" :content="item.name" :price1="item.price"></product-item>
           </div>
           <p slot="doneTip">
             <span class="iconfont self-nodata danger-color" style="margin-right:5px;"></span>没有数据啦</p>
@@ -30,6 +33,7 @@ import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
 import ProductItem from "components/common/ProductItem";
+import { Tab, TabItem } from "vux";
 import { findNearColum, products } from "../../api/index";
 import { mixin } from "components/common/mixin";
 
@@ -39,15 +43,15 @@ export default {
     return {
       oldBack: mui.back,
       noData: false,
+      index: 0, //控制tab
       column: [],
-      subColumn: [],
       pageNo: 1,
       columnId: "",
       productList: [],
-      scrollLeft:0//记录tab滚动值
+      scrollLeft: 0 //记录tab滚动值
     };
   },
-  components: { HeaderTop, FooterBar, ProductItem },
+  components: { HeaderTop, FooterBar, ProductItem, Tab, TabItem },
   computed: {
     ...mapState(["longitude", "latitude"])
   },
@@ -58,7 +62,7 @@ export default {
     });
   },
   beforeRouteLeave(to, from, next) {
-    this.scrollLeft = this.$refs.swipeList.scrollLeft;
+    //this.scrollLeft = this.$refs.swipeList.scrollLeft;
     mui.back = this.oldBack;
     next();
   },
@@ -66,11 +70,14 @@ export default {
     this.getNear();
   },
   activated() {
-    this.$nextTick(()=>{
-      this.$refs.swipeList.scrollLeft=this.scrollLeft;
-    })
+    this.$nextTick(() => {
+      //this.$refs.swipeList.scrollLeft=this.scrollLeft;
+    });
   },
   methods: {
+    toggleItem(i) {
+      this.changeSubColumn(this.column[i].subColumn[0],0)
+    },
     getNear() {
       let vm = this;
       mui.ajax({
@@ -81,8 +88,14 @@ export default {
           token: md5("findNearColum")
         },
         success(res) {
-          vm.column = res.result;
-          vm.columnId = vm.column[0].id;
+          let _result = res.result;
+          _result.forEach((item,index)=>{
+            item.subColumn.forEach((i,j)=>{
+             item.subColumn[j].selected= j==0?true:false
+            })
+          })
+          vm.column =_result;
+          vm.columnId = vm.column[0].subColumn[0].id;
           vm.getProduct();
         }
       });
@@ -94,8 +107,16 @@ export default {
       this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
       this.getProduct();
     },
-    changeSubColumn(item) {
-      this.columnId = item.id;
+    changeSubColumn(sub,subIndex) {
+      this.column[this.index].subColumn.forEach((i,j)=>{
+        if(subIndex == j){
+          sub.selected = true;
+        }
+        else{
+          i.selected = false;
+        }
+      })
+      this.columnId = sub.id;
       this.reset();
     },
     getProduct() {
@@ -133,7 +154,7 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-@import "../../style/mixin.less";
+  @import "../../style/mixin.less";
 .sub-list {
   padding: 0 2%;
   overflow: auto;

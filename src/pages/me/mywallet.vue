@@ -219,18 +219,18 @@ export default {
           link: "/trade/bankcard",
           color: "#e7d489"
         },
-        {
-          icon: "self-zhuanyi",
-          text: "积分转移",
-          link: "/trade/transfer",
-          color: "#ee3355"
-        },
-        {
-          icon: "self-hebing",
-          text: "合并用户信息",
-          link: "/trade/merge",
-          color: "#e7d489"
-        },
+        // {
+        //   icon: "self-zhuanyi",
+        //   text: "积分转移",
+        //   link: "/trade/transfer",
+        //   color: "#ee3355"
+        // },
+        // {
+        //   icon: "self-hebing",
+        //   text: "合并用户信息",
+        //   link: "/trade/merge",
+        //   color: "#e7d489"
+        // },
         {
           icon: "self-fulijilu",
           text: "福利记录",
@@ -275,18 +275,18 @@ export default {
           link: "/trade/bankcard",
           color: "#e7d489"
         },
-        {
-          icon: "self-zhuanyi",
-          text: "积分转移",
-          link: "/trade/transfer",
-          color: "#ee3355"
-        },
-        {
-          icon: "self-hebing",
-          text: "合并用户信息",
-          link: "/trade/merge",
-          color: "#e7d489"
-        },
+        // {
+        //   icon: "self-zhuanyi",
+        //   text: "积分转移",
+        //   link: "/trade/transfer",
+        //   color: "#ee3355"
+        // },
+        // {
+        //   icon: "self-hebing",
+        //   text: "合并用户信息",
+        //   link: "/trade/merge",
+        //   color: "#e7d489"
+        // },
         {
           icon: "self-hongbao",
           text: "销售录入",
