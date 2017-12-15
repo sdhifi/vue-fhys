@@ -51,6 +51,7 @@ export default {
     return {
       oldBack: mui.back,
       searchValue: "",
+      noData:false,
       pageNo: 1,
       curIndex: 0,
       tabList: [],
@@ -81,9 +82,12 @@ export default {
         this.$route.path
       ];
     }
-    this.noData = this.cacheList[this.$route.path].noData;
-    this.pageNo = this.cacheList[this.$route.path].page;
-    this.productList = this.cacheList[this.$route.path].list;
+    if(this.cacheList[this.$route.path]){
+      this.noData = this.cacheList[this.$route.path].noData;
+      this.pageNo = this.cacheList[this.$route.path].page;
+      this.productList = this.cacheList[this.$route.path].list;
+    }
+    
   },
   methods: {
     goBack() {
