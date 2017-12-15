@@ -273,7 +273,7 @@ export default {
         },
         success(res) {
           let _result = res.result;
-          if (_result.version && vm.curVersion != _result.version) {
+          if (_result.version && vm.curVersion < +_result.version) {
             vm.$store.commit("RECORD_UPDATE", true);
             vm.$dialog.confirm({
               title: `检测到新版本：${_result.version}，是否升级？`,

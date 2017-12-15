@@ -65,7 +65,7 @@ export default {
                 mes: "当前版本已是最新！"
               });
               return;
-            } else {
+            } else if(vm.curVersion < +_result.version){
               vm.$dialog.confirm({
                 title: `检测到新版本：${_result.version}，是否升级？`,
                 mes: `${_result.describe}`,
