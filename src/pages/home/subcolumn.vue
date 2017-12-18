@@ -50,8 +50,6 @@ export default {
   },
   activated() {
     this.init();
-
-    this.stickTag = 0;
   },
   methods: {
     init() {
@@ -59,8 +57,6 @@ export default {
     },
     getColumn() {
       let vm = this;
-      let main = document.querySelector("main"),
-        list = document.querySelector(".nav-tab");
       mui.ajax({
         url: subColumn + this.$route.params.id,
         type: "post",
