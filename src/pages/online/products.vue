@@ -62,7 +62,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account", "cacheList", "positions"]),
+    ...mapState(["account", "cacheList", "positions","latitude","longitude"]),
     ...mapGetters(["cartNum"])
   },
   created() {},
@@ -102,12 +102,10 @@ export default {
           data: {
             pageNo: this.pageNo,
             pageSize: 10,
-            logitude: "",
-            latitude: "",
-            columnId: this.columnId,
-            type: this.type,
+            longitude: this.longitude,
+            latitude: this.latitude,
             likeValue: this.searchValue,
-            token: md5(`gjfengonlineProductsByAllColumn`)
+            token: md5(`gjfengonlineProductsByAllColumn${this.longitude}${this.latitude}`)
           },
           success(res) {
             let _list = res.result;
