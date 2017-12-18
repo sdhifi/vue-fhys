@@ -71,7 +71,7 @@ export default {
   },
   activated() {
     this.$nextTick(() => {
-      this.$refs.swipeList.scrollLeft=this.scrollLeft;
+      this.scrollLeft&&(this.$refs.swipeList.scrollLeft=this.scrollLeft);
     });
   },
   methods: {
