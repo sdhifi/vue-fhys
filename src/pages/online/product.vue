@@ -49,10 +49,10 @@
         <div v-html="info.content" class="pd-content"></div>
       </section>
     </main>
-    <!-- <footer class="fix-footer flex align-center" v-show="!info.isCanUserCou">
+    <!-- <footer class="fix-footer flex align-center" v-show="info.goodSoure=='2'">
       <button @click="buynow" class="flex-1 btn-2">[京东]立即购买</button>
     </footer> -->
-    <footer class="fix-footer flex align-center" v-show="info.isCanUserCou" style="border-top:1px solid #dfdfdf;">
+    <footer class="fix-footer flex align-center" v-show="info.goodSoure!='2'" style="border-top:1px solid #dfdfdf;">
       <div class="shopping-cart flex just-center align-center" @click="goShoppingCart">
         <span class="iconfont-large self-shopcart"></span>
         <!-- <span class="shopping-num" v-show="account&&cartNum>0">{{cartNum}}</span> -->
@@ -205,7 +205,7 @@ export default {
             /\/userfiles/g,
             "http://yn.gzfzsw.top/userfiles"
           );
-          if (_result.isCanUserCou) {
+          if (_result.goodSoure!='2') {
             _result.attrs.forEach((item, index) => {
               //排序：防止数据错乱
               item.attrValues.sort(function(a, b) {
