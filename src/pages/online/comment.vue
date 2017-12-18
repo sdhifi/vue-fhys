@@ -63,7 +63,7 @@ export default {
         let vm = this;
         mui.ajax({
           url: getAllProCommetByPage,
-          type: "get",
+          type: "post",
           headers: { "app-version": "v1.0" },
           data: {
             pageNo: this.pageNo,
