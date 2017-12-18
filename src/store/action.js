@@ -30,7 +30,7 @@ export default {
       },
       data: {
         account: getStore('account'),
-        token: md5(`gjfengmy${getStore('account')}`)
+        token: md5(`gjfengmy`)
       },
       success(res) {
         let _result = res.result
