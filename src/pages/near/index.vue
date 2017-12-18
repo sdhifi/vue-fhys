@@ -10,7 +10,7 @@
     <tab :line-width="2" active-color='#ff5350' v-model="index" custom-bar-width="40px">
       <tab-item v-for="(item, index) in column" :key="index" @on-item-click="toggleItem(index)">{{item.columnName}}</tab-item>
     </tab>
-    <div class="sub-list">
+    <div class="sub-list" ref="swipeList">
       <div class="sub-item" v-for="(sub,i) in column[index].subColumn" :key="sub.id" :data-id="sub.id" 
       :class="{'sub-active':sub.selected}" @click="changeSubColumn(sub,i)">{{sub.names}}</div>
     </div>
@@ -62,7 +62,7 @@ export default {
     });
   },
   beforeRouteLeave(to, from, next) {
-    //this.scrollLeft = this.$refs.swipeList.scrollLeft;
+    this.scrollLeft = this.$refs.swipeList.scrollLeft;
     mui.back = this.oldBack;
     next();
   },
@@ -71,7 +71,7 @@ export default {
   },
   activated() {
     this.$nextTick(() => {
-      //this.$refs.swipeList.scrollLeft=this.scrollLeft;
+      this.$refs.swipeList.scrollLeft=this.scrollLeft;
     });
   },
   methods: {
@@ -133,7 +133,7 @@ export default {
             latitude: this.latitude,
             columnId: this.columnId,
             orderType: 1,
-            columnType: 1,
+            columnType: 2,
             token: md5(`products${this.longitude}${this.latitude}`)
           },
           success(res) {
