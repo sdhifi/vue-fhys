@@ -12,8 +12,8 @@
         </yd-slider>
       </section>
       <section class="column-list flex text-center align-center" v-show="info.indexColumns">
-        <router-link :to="{name:'Products',params:{update:true},query:{type:0,id:item.id}}" class="column-item" v-for="item in info.indexColumns" :key="item.id">
-          <img :src="getImgPath(item.pic2)" alt="" class="column-img">
+        <router-link :to="{name:'Products',params:{update:true},query:{type:0,id:item.id}}" class="column-item" v-for="(item,index) in info.indexColumns" :key="item.id">
+          <img :src="getImgPath(item.pic2)" :alt="item.names" class="column-img">
           <p>{{item.names}}</p>
         </router-link>
         <router-link class="column-item" to="/online/allcolumn">
@@ -124,6 +124,7 @@ export default {
             item.list = value[1];
             _pds.push(item);
           });
+          res.result.indexColumns = res.result.indexColumns.slice(0,7);
           vm.info = res.result;
           vm.pds = _pds;
         },
