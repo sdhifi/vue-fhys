@@ -16,7 +16,7 @@
           <span class="iconfont self-right"></span>
         </router-link>
         <yd-cell-group v-else>
-          <yd-cell-item arrow href="/trade/newbank" type="link">
+          <yd-cell-item arrow href="/trade/bankcard" type="link">
             <span slot="icon" class="iconfont-large self-yinhangka"></span>
             <span slot="left">银行卡</span>
             <span slot="right">去添加</span>
