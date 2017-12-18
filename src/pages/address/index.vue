@@ -70,7 +70,7 @@ export default {
           data: {
             id: address.id,
             account: this.account,
-            token: md5(`gjfenggjfengdefault${address.id}${this.account}`)
+            token: md5(`gjfengdefault${address.id}${this.account}`)
           },
           success(res) {
             if (res.code == 200) {
