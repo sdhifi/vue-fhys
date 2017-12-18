@@ -129,7 +129,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           colId: id,
-          token: md5("gjfengdelectMyCollect")
+          token: md5(`gjfengdelectMyCollect${id}`)
         },
         success(res) {
           if (res.code == 200) {
