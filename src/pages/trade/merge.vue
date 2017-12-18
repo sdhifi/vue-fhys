@@ -93,7 +93,7 @@ export default {
           payPassword: val,
           type: 3,
           account: this.account,
-          token: md5(`gjfengmemberPointTransfer`)
+          token: md5(`gjfengmemberPointTransfer3${this.account}`)
         },
         success(res) {
           vm.$dialog.loading.close();

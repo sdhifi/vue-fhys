@@ -75,7 +75,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           account: this.member.mobile,
-          token: md5("gjfenggetSalesWelfare")
+          token: md5(`gjfenggetSalesWelfare${this.member.mobile}`)
         },
         success(res) {
           vm.$dialog.loading.close();

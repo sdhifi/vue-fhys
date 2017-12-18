@@ -131,7 +131,7 @@ export default {
           payPassword: val,
           type: this.payType,
           account: this.account,
-          token: md5(`gjfengmemberPointTransfer`)
+          token: md5(`gjfengmemberPointTransfer${this.payType}${this.account}`)
         },
         success(res) {
           vm.$dialog.loading.close();
