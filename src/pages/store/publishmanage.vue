@@ -197,7 +197,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           columnId: this.column1,
-          token: md5(`gjfengsubColumn${columnId}`)
+          token: md5(`gjfengsubColumn`)
         },
         success(res) {
           vm.$dialog.loading.close();
