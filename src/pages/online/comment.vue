@@ -70,7 +70,7 @@ export default {
             pageSize: 10,
             proId: this.$route.query.id,
             state: 2,
-            token: md5(`getAllProCommetByPage${this.$route.query.id}`)
+            token: md5(`gjfenggetAllProCommetByPage${this.$route.query.id}`)
           },
           success(res) {
             let _list = res.result.comm;

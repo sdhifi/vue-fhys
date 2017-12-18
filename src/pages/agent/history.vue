@@ -52,7 +52,7 @@ export default {
             account: this.account,
             pageNo: this.pageNo,
             pageSize: 10,
-            token: md5(`agentHistory${this.account}`)
+            token: md5(`gjfengagentHistory${this.account}`)
           },
           success(res) {
             vm.$dialog.loading.close();

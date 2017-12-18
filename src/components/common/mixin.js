@@ -203,7 +203,7 @@ export const findMemberByMobile={
         data: {
           account: this.account,
           mobile: this.mobile,
-          token: md5(`findMemberByMoblie${this.mobile}`)
+          token: md5(`gjfengfindMemberByMoblie${this.mobile}`)
         },
         success(res) {
           if(res.code==200){

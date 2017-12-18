@@ -59,7 +59,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           account: this.member.mobile,
-          token: md5(`myStore${this.member.mobile}`)
+          token: md5(`gjfengmyStore${this.member.mobile}`)
         },
         success(res) {
           vm.$store.commit("RECORD_STORE_INFO", res.result);
@@ -75,7 +75,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           account: this.member.mobile,
-          token: md5("getSalesWelfare")
+          token: md5("gjfenggetSalesWelfare")
         },
         success(res) {
           vm.$dialog.loading.close();

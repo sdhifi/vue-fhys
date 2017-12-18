@@ -81,7 +81,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           account: this.account,
-          token: md5(`agent${this.account}`)
+          token: md5(`gjfengagent${this.account}`)
         },
         success(res) {
           vm.info = res.result;

@@ -30,7 +30,7 @@ export default {
       },
       data: {
         account: getStore('account'),
-        token: md5(`my${getStore('account')}`)
+        token: md5(`gjfengmy${getStore('account')}`)
       },
       success(res) {
         let _result = res.result
@@ -52,7 +52,7 @@ export default {
       },
       data: {
         account: state.account,
-        token: md5(`myBanks${state.account}`)
+        token: md5(`gjfengmyBanks${state.account}`)
       },
       success(res) {
         let bankList = res.result;
@@ -79,7 +79,7 @@ export default {
       },
       data: {
         account: state.account,
-        token: md5('getMyAddress')
+        token: md5('gjfenggetMyAddress')
       },
       success(res) {
         let _result = res.result;
@@ -109,7 +109,7 @@ export default {
       },
       data: {
         account: state.account,
-        token: md5(`myCart${state.account}`)
+        token: md5(`gjfengmyCart${state.account}`)
       },
       success(res) {
         let _result = res.result;

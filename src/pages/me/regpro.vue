@@ -24,7 +24,7 @@ export default {
       type: 'post',
       headers: {'app-version': 'v1.0'},
       data: {
-        token: md5('service')
+        token: md5('gjfengservice')
       },
       success(res){
         vm.url= res.result;

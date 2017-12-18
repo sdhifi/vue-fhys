@@ -81,7 +81,7 @@ export default {
         data: {
           bankId: b.id,
           account: getStore('account'),
-          token: md5(`deleteMemBank${getStore('account')}${b.id}`)
+          token: md5(`gjfengdeleteMemBank${getStore('account')}${b.id}`)
         },
         success(res) {
           vm.$dialog.loading.close();

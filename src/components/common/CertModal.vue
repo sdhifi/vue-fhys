@@ -80,7 +80,7 @@ export default {
           idCardNo: this.certNum.replace(/x/gi, 'X'),
           idCardName: this.realName,
           account:this.account,
-          token: md5(`realNameByAly${this.account}`)
+          token: md5(`gjfengrealNameByAly${this.account}`)
         },
         success(res) {
           if (res.code == 200) {

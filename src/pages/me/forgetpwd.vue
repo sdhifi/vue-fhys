@@ -72,7 +72,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           mobile: this.mobile,
-          token: md5(`send${this.mobile}`)
+          token: md5(`gjfengsend${this.mobile}`)
         },
         success(res) {
           vm.$dialog.loading.close();
@@ -98,7 +98,7 @@ export default {
           mobile: this.mobile,
           newPassword: this.password,
           reNewPassword: this.confirmPwd,
-          token: md5("forgetPassWord")
+          token: md5("gjfengforgetPassWord")
         },
         success(res) {
           if (res.code == "200") {

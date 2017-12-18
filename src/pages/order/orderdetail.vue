@@ -181,7 +181,7 @@ export default {
         data: {
           account: this.account,
           orderSn: this.$route.query.sn,
-          token: md5(`detail${this.account}${this.$route.query.sn}`)
+          token: md5(`gjfengdetail${this.account}${this.$route.query.sn}`)
         },
         success(res) {
           if(res.code==200){

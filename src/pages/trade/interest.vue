@@ -55,7 +55,7 @@ export default {
         data: {
           account:getStore('account'),
           type:this.$route.query.type,
-          token:md5(`getInterests`)
+          token:md5(`gjfenggetInterests`)
         },
         success(res){
           vm.$dialog.loading.close();

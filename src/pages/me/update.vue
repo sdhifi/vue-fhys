@@ -139,7 +139,7 @@ export default {
           remark: this.info.remark,
           sex: this.info.sex,
           account: this.account,
-          token: md5(`update${this.info.id}`),
+          token: md5(`gjfengupdate${this.info.id}`),
           fileContent: this.base64Url
         },
         success(res) {

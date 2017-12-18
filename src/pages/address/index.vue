@@ -70,7 +70,7 @@ export default {
           data: {
             id: address.id,
             account: this.account,
-            token: md5(`default${address.id}${this.account}`)
+            token: md5(`gjfenggjfengdefault${address.id}${this.account}`)
           },
           success(res) {
             if (res.code == 200) {
@@ -112,7 +112,7 @@ export default {
             data: {
               id: item.id,
               account: getStore('account'),
-              token: md5(`delAdress${item.id}${getStore('account')}`)
+              token: md5(`gjfengdelAdress${item.id}${getStore('account')}`)
             },
             success(res) {
               if (res.code !== 200) {

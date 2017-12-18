@@ -141,7 +141,7 @@ export default {
           type: "6",
           shouType: 1,
           account: this.account,
-          token: md5(`addShouXin${this.account}`),
+          token: md5(`gjfengaddShouXin${this.account}`),
           fileImage: this.baseUrl
         },
         success(res) {

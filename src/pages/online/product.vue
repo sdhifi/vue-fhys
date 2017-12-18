@@ -190,7 +190,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           id: this.$route.query.id,
-          token: md5(`onlineProductsDetailInfoInH5${this.$route.query.id}`)
+          token: md5(`gjfengonlineProductsDetailInfoInH5${this.$route.query.id}`)
         },
         success(res) {
           let _result = res.result;
@@ -247,7 +247,7 @@ export default {
           account: this.account,
           collectType: 2,
           id: this.info.proId,
-          token: md5(`addMyCollect${this.account}2`)
+          token: md5(`gjfengaddMyCollect${this.account}2`)
         },
         success(res) {
           vm.$dialog.toast({
@@ -280,7 +280,7 @@ export default {
         data: {
           proId: this.$route.query.id,
           attrIds: attrIdStr,
-          token: md5(`stockAndPrice${this.$route.query.id}${attrIdStr}`)
+          token: md5(`gjfengstockAndPrice${this.$route.query.id}${attrIdStr}`)
         },
         success(res) {
           let _result = res.result;
@@ -339,7 +339,7 @@ export default {
             goodsAttr: this.info.productAttrStock.productAttrIds,
             goodsNum: this.pdnum,
             account: this.account,
-            token: md5(`addCart${this.account}`)
+            token: md5(`gjfengaddCart${this.account}`)
           },
           success(res) {
             vm.$dialog.loading.close();
@@ -375,7 +375,7 @@ export default {
             goodSource: this.info.goodSoure,
             orderAddressId: "",
             account: this.account,
-            token: md5(`toAdd${this.account}`)
+            token: md5(`gjfengtoAdd${this.account}`)
           },
           success(res) {
             vm.$dialog.loading.close();

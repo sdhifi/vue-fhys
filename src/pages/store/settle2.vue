@@ -209,7 +209,7 @@ export default {
         bankAccountNumber: this.bankAccountNumber,
         fileName: "123.png",
         account: this.account,
-        token: md5("addStore"),
+        token: md5("gjfengaddStore"),
         fileContent: this.fileContent
       };
       this.$dialog.loading.open("申请中...");

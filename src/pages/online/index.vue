@@ -110,7 +110,7 @@ export default {
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          token: md5(`onlineInH5`)
+          token: md5(`gjfengonlineInH5`)
         },
         success(res) {
           vm.$dialog.loading.close();

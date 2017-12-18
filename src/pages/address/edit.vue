@@ -111,7 +111,7 @@ export default {
           areaId: this.address[2]=='--'?'0':this.address[2],
           addressDetail: this.info.addressDetail,
           token: md5(
-            `updateAddressInIos${this.info.id}${this.account}`
+            `gjfengupdateAddressInIos${this.info.id}${this.account}`
           )
         },
         success(res) {

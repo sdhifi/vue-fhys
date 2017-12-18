@@ -53,7 +53,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           type: this.type,
-          token: md5("findAppUpgredeByType")
+          token: md5("gjfengfindAppUpgredeByType")
         },
         success(res) {
           vm.$dialog.loading.close();

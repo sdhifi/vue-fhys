@@ -50,7 +50,7 @@ export default {
             superId: this.$route.params.id,
             pageNo: this.pageNo,
             pageSize: 10,
-            token: md5(`getMemberLowerLevel${this.$route.params.id}`)
+            token: md5(`gjfenggetMemberLowerLevel${this.$route.params.id}`)
 
           },
           success(res) {

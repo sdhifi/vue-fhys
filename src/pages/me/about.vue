@@ -34,7 +34,7 @@ export default {
         type: 'post',
         headers: {'app-version': 'v1.0'},
         data: {
-          token:md5('aboutGjf')
+          token:md5('gjfengaboutGjf')
         },
         success(res){
           if(res.code==200){

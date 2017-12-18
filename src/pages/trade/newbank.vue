@@ -155,7 +155,7 @@ export default {
           holder: this.certificateStatus ? this.member.name : this.holder,
           cityValue: this.cityValue.join(","),
           account: this.account,
-          token: md5(`bindBank${this.account}`)
+          token: md5(`gjfengbindBank${this.account}`)
         },
         success(res) {
           vm.$dialog.loading.close();

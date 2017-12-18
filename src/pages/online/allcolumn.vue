@@ -40,7 +40,7 @@ export default {
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          token: md5(`allColumn`)
+          token: md5(`gjfengallColumn`)
         },
         success(res) {
           let _result = res.result;

@@ -98,7 +98,7 @@ export default {
           cityId: this.address[1],
           areaId: this.address[2]=='--'?'0':this.address[2],
           addressDetail: this.addressDetail,
-          token: md5(`newsAddressInIos${this.account}`)
+          token: md5(`gjfengnewsAddressInIos${this.account}`)
         },
         success(res) {
           if (res.code == 200) {

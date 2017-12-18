@@ -128,7 +128,7 @@ export default {
           fileContent: pictures.join(","),
           fileName: "123.png",
           orderSn: this.info.orderSn,
-          token: md5(`newProCommet${this.member.id}${this.info.orderSn}`)
+          token: md5(`gjfengnewProCommet${this.member.id}${this.info.orderSn}`)
         },
         success(res) {
           if (res.code !== 200) {

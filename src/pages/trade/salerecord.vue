@@ -140,7 +140,7 @@ export default {
           mobile: this.mobile,
           payType: this.payType,
           account: this.account,
-          token: md5(`addBenefit${this.account}${this.mobile}`)
+          token: md5(`gjfengaddBenefit${this.account}${this.mobile}`)
         },
         success(res) {
           vm.$dialog.loading.close();

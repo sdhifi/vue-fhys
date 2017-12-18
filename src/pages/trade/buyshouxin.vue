@@ -92,7 +92,7 @@ export default {
           shouType:0,
           fileImage:"",
           account: this.account,
-          token: md5(`addShouXin${this.account}`)
+          token: md5(`gjfengaddShouXin${this.account}`)
         },
         success(res) {
           //银联

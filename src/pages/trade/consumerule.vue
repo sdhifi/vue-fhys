@@ -28,7 +28,7 @@ export default {
         type: 'post',
         headers: {'app-version': 'v1.0'},
         data: {
-          token: md5(`consumptionInH5`)
+          token: md5(`gjfengconsumptionInH5`)
         },
         success(res){
           vm.info = res.result;
