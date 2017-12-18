@@ -163,7 +163,7 @@ export default {
             pageNo: this.pageNo,
             pageSize: 10,
             id: this.$route.params.id,
-            token: md5(`hotProduct${this.$route.params.id}`)
+            token: md5(`gjfenghotProduct${this.$route.params.id}`)
           },
           success(res) {
             let _list = res.result;
