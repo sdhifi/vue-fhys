@@ -102,7 +102,7 @@ export default {
           data: {
             pageNo: this.pageNo,
             pageSize: 10,
-            logitude: "",
+            longitude: "",
             latitude: "",
             columnId: this.columnId,
             type: this.type,
