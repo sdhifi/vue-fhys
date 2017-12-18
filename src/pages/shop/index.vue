@@ -189,7 +189,7 @@ export default {
           account: this.account,
           collectType: type,
           id: id,
-          token: md5(`addMyCollect${this.account}${type}`)
+          token: md5(`gjfengaddMyCollect${this.account}${type}`)
         },
         success(res) {
           if (res.code == 200) {
