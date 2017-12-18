@@ -116,7 +116,7 @@ export default {
           data: {
             letter: letters[i],
             type: 2,
-            token: md5('getProvinceByLetter')
+            token: md5('gjfenggetProvinceByLetter')
           },
           headers: { "app-version": "v1.0" },
           success(res) {

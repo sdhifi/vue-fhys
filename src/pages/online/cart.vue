@@ -130,7 +130,7 @@ export default {
           id: item.id,
           goodsNum: item.goodsNum,
           account: this.account,
-          token: md5(`updateCartNum`)
+          token: md5(`gjfengupdateCartNum`)
         },
         success(res) {
           vm.$store.commit("UPDATE_CART_ITEM", { item, index });
@@ -163,7 +163,7 @@ export default {
             data: {
               id: item.id,
               account: this.account,
-              token: md5(`delCart`)
+              token: md5(`gjfengdelCart`)
             },
             success(res) {
               vm.$store.commit("DELETE_CART_ITEM", index);
@@ -234,7 +234,7 @@ export default {
         data: {
           cartIds: settleList.join(","),
           account: this.account,
-          token: md5(`actCartInH5${settleList.join(",")}`)
+          token: md5(`gjfengactCartInH5${settleList.join(",")}`)
         },
         success(res) {
           vm.$dialog.loading.close();

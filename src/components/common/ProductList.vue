@@ -105,7 +105,7 @@ export default {
             columnType: this.columnType,
             orderType: this.filterIndex,
             likeValue: this.likeValue,
-            token: md5(`products${this.longitude}${this.latitude}`)
+            token: md5(`gjfengproducts${this.longitude}${this.latitude}`)
           },
           success(res) {
             if (vm.tabType == "line") {

@@ -50,7 +50,7 @@ export default {
         data: {
           account: getStore('account'),
           type: this.$route.query.type,
-          token: md5('getParticipate')
+          token: md5('gjfenggetParticipate')
         },
         success(res) {
           vm.$dialog.loading.close();

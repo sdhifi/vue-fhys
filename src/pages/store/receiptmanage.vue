@@ -78,7 +78,7 @@ export default {
         data: {
           account: this.account,
           mobile: this.mobile,
-          token: md5(`findMemberByMoblie${this.mobile}`)
+          token: md5(`gjfengfindMemberByMoblie${this.mobile}`)
         },
         success(res) {
           vm.mobileName = res.result.name || res.result.nickName
@@ -93,7 +93,7 @@ export default {
         headers: {'app-version': 'v1.0'},
         data: {
           storeId:this.storeInfo.id,
-          token: md5(`goMoneyPage${this.storeInfo.id}`)
+          token: md5(`gjfenggoMoneyPage${this.storeInfo.id}`)
         },
         success(res){
           

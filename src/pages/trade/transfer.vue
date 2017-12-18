@@ -101,7 +101,7 @@ export default {
         type: 'post',
         headers: {'app-version': 'v1.0'},
         data: {
-          token: md5(`transferPage`)
+          token: md5(`gjfengtransferPage`)
         },
         success(res){
           let pos = +res.result.value * 100;
@@ -131,7 +131,7 @@ export default {
           payPassword: val,
           type: this.payType,
           account: this.account,
-          token: md5(`memberPointTransfer`)
+          token: md5(`gjfengmemberPointTransfer`)
         },
         success(res) {
           vm.$dialog.loading.close();

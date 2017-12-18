@@ -50,7 +50,7 @@ export default {
         headers: { 'app-version': 'v1.0' },
         data: {
           account: getStore('account'),
-          token: md5('diviHis')
+          token: md5('gjfengdiviHis')
         },
         success(res) {
           vm.$dialog.loading.close();

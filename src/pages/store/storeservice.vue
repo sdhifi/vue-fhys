@@ -28,7 +28,7 @@ export default {
         type: 'post',
         headers: {'app-version': 'v1.0'},
         data: {
-          token: md5(`toStoreServiceRules`)
+          token: md5(`gjfengtoStoreServiceRules`)
         },
         success(res){
           vm.info = res.result;

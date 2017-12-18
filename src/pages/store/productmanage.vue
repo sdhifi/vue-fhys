@@ -84,7 +84,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           account: getStore("account"),
-          token: md5(`myStorePro${getStore("account")}`)
+          token: md5(`gjfengmyStorePro${getStore("account")}`)
         },
         success(res) {
           // vm.$dialog.loading.close();
@@ -120,7 +120,7 @@ export default {
             data: {
               id: this.checkList.join(","),
               account: getStore("account"),
-              token: md5(`delStorePro${getStore("account")}`)
+              token: md5(`gjfengdelStorePro${getStore("account")}`)
             },
             success(res) {
               vm.$dialog.loading.close();

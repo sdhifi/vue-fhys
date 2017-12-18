@@ -85,7 +85,7 @@ export default {
           myBankId: this.defaultBankCard.id,
           money: this.money,
           remark: this.remark,
-          token: md5(`addDrawCash${this.account}${this.money}`)
+          token: md5(`gjfengaddDrawCash${this.account}${this.money}`)
         },
         success(res) {
           vm.$dialog.loading.close();

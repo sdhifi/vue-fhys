@@ -95,7 +95,7 @@ export default {
           pageSize: 10,
           collectType: this.collectType,
           account: this.account,
-          token: md5(`myCollect`)
+          token: md5(`gjfengmyCollect`)
         },
         success(res) {
           if (res.code == 200) {
@@ -129,7 +129,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           colId: id,
-          token: md5("delectMyCollect")
+          token: md5("gjfengdelectMyCollect")
         },
         success(res) {
           if (res.code == 200) {

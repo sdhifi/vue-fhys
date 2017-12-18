@@ -60,7 +60,7 @@ export default {
             account: getStore('account'),
             pageNo: this.pageNo,
             pageSize: 10,
-            token: md5(`getDrawHistory${getStore('account')}`)
+            token: md5(`gjfenggetDrawHistory${getStore('account')}`)
           },
           success(res) {
             let _list = res.result;

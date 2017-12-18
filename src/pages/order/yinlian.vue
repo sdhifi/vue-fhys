@@ -95,7 +95,7 @@ export default {
           accNo: this.defaultBankCard.bankCard,
           mobile: this.payInfo.mobile,
           account: this.account,
-          token: md5(`yinLPay`)
+          token: md5(`gjfengyinLPay`)
         },
         success(res) {
           vm.$dialog.loading.close();

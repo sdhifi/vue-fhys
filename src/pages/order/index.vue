@@ -148,7 +148,7 @@ export default {
           pageSize: 10,
           account: this.account,
           status: this.orderType,
-          token: md5(`getOrder${this.account}${this.orderType}`)
+          token: md5(`gjfenggetOrder${this.account}${this.orderType}`)
         },
         success(res) {
           if (res.code == 200) {
@@ -199,7 +199,7 @@ export default {
         data: {
           orderSn: item.orderSn,
           account: this.account,
-          token: md5(`payOrderSign${item.orderSn}${this.account}`)
+          token: md5(`gjfengpayOrderSign${item.orderSn}${this.account}`)
         },
         success(res) {
           let _result = res.result;
@@ -312,7 +312,7 @@ export default {
               status: 3,
               orderSn: item.orderSn,
               account: this.account,
-              token: md5(`updateOrderStatus${this.account}${item.orderSn}`)
+              token: md5(`gjfengupdateOrderStatus${this.account}${item.orderSn}`)
             },
             success(res) {
               vm.$dialog.loading.close();

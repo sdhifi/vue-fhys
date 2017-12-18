@@ -121,7 +121,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           mobile: this.account,
-          token: md5(`send${this.account}`)
+          token: md5(`gjfengsend${this.account}`)
         },
         success(res) {
           vm.$dialog.loading.close();
@@ -155,7 +155,7 @@ export default {
           mobile: this.account,
           pwd1: this.password,
           pwd2: this.password,
-          token: md5(`setPay${this.account}`)
+          token: md5(`gjfengsetPay${this.account}`)
         },
         success(res) {
           if (res.code == 200) {
@@ -191,7 +191,7 @@ export default {
           oldPassword: this.oldPwd,
           newPassword: this.newPwd,
           rePassword: this.newPwd,
-          token: md5(`updataLoginPassword${this.account}`)
+          token: md5(`gjfengupdataLoginPassword${this.account}`)
         },
         success(res) {
           if (res.code == 200) {

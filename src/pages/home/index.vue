@@ -180,7 +180,7 @@ export default {
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          token: md5("o2o")
+          token: md5("gjfengo2o")
         },
         success(res) {
           let result = res.result;
@@ -205,7 +205,7 @@ export default {
             latitude,
             pageNo: this.pageNo,
             pageSize: 10,
-            token: md5(`like${longitude}${latitude}`)
+            token: md5(`gjfenglike${longitude}${latitude}`)
           },
           headers: { "app-version": "v1.0" },
           success(res) {
@@ -234,7 +234,7 @@ export default {
           latitude: this.latitude,
           pageNo: 1,
           pageSize: 10,
-          token: md5(`like${this.longitude}${this.latitude}`)
+          token: md5(`gjfenglike${this.longitude}${this.latitude}`)
         },
         headers: { "app-version": "v1.0" },
         success(res) {
@@ -269,7 +269,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           type: this.type,
-          token: md5("findAppUpgredeByType")
+          token: md5("gjfengfindAppUpgredeByType")
         },
         success(res) {
           let _result = res.result;

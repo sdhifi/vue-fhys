@@ -24,7 +24,7 @@ export default {
       type: "post",
       headers: { "app-version": "v1.0" },
       data: {
-        token: md5("agent")
+        token: md5("gjfengagent")
       },
       success(res) {
         vm.url = res.result;

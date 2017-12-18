@@ -122,7 +122,7 @@ export default {
           type: this.$route.query.type,
           pageNo: this.pageNo,
           pageSize: 10,
-          token: md5(`findTransferHistory`)
+          token: md5(`gjfengfindTransferHistory`)
         },
         success(res) {
           let _result = res.result;

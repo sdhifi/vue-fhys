@@ -389,7 +389,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           account: getStore("account"),
-          token: md5(`myWallet${getStore("account")}`)
+          token: md5(`gjfengmyWallet${getStore("account")}`)
         },
         success(res) {
           vm.info = res.result;
@@ -406,7 +406,7 @@ export default {
         data: {
           account: getStore("account"),
           type: this.type,
-          token: md5(`countMemberInfo${getStore("account")}${this.type}`)
+          token: md5(`gjfengcountMemberInfo${getStore("account")}${this.type}`)
         },
         success(res) {
           vm.$dialog.loading.close();

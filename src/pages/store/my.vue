@@ -199,7 +199,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           account: getStore("account"),
-          token: md5(`myStore${getStore("account")}`)
+          token: md5(`gjfengmyStore${getStore("account")}`)
         },
         success(res) {
           //vm.$dialog.loading.close();
@@ -230,7 +230,7 @@ export default {
           data: {
             fileName: "123.png",
             storeId: vm.info.id,
-            token: md5("updateBanner"),
+            token: md5("gjfengupdateBanner"),
             fileContent: rst.base64
           },
           success(res) {
@@ -264,7 +264,7 @@ export default {
           sellerMobile: this.newMobile,
           cityValue: `${this.newAddress[0]},${this.newAddress[1]},${area}`,
           addressDetail: this.newAddressDetail,
-          token: md5(`updateAddressInfo${this.info.id}`)
+          token: md5(`gjfengupdateAddressInfo${this.info.id}`)
         },
         success(res) {
           vm.$dialog.toast({
@@ -292,7 +292,7 @@ export default {
         data: {
           description: this.info.storeDescription,
           storeId: this.info.id,
-          token: md5(`updateIntro${this.info.id}`)
+          token: md5(`gjfengupdateIntro${this.info.id}`)
         },
         success(res) {
           vm.$dialog.toast({

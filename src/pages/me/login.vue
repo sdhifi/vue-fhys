@@ -99,7 +99,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           mobile: this.mobile,
-          token: md5(`send${this.mobile}`)
+          token: md5(`gjfengsend${this.mobile}`)
         },
         success(res) {
           vm.$dialog.loading.close();
@@ -133,7 +133,7 @@ export default {
           account: this.mobile,
           password: this.password,
           nickname: "",
-          token: md5("register")
+          token: md5("gjfengregister")
         },
         success(res) {
           if (res.code == "200") {
@@ -173,7 +173,7 @@ export default {
         data: {
           account: this.mobile,
           password: this.password,
-          token: md5("login")
+          token: md5("gjfenglogin")
         },
         success(res) {
           vm.$dialog.loading.close();

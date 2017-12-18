@@ -107,7 +107,7 @@ export default {
             columnId: this.columnId,
             type: this.type,
             likeValue: this.searchValue,
-            token: md5(`onlineProductsByAllColumn`)
+            token: md5(`gjfengonlineProductsByAllColumn`)
           },
           success(res) {
             let _list = res.result;
@@ -160,7 +160,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           id,
-          token: md5(`onlineProductsDetailInfoInH5${id}`)
+          token: md5(`gjfengonlineProductsDetailInfoInH5${id}`)
         },
         success(res) {
           vm.$dialog.loading.close();
@@ -183,7 +183,7 @@ export default {
               goodsAttr: _result.productAttrStock.productAttrIds,
               goodsNum: 1,
               account: vm.account,
-              token: md5(`addCart${vm.account}`)
+              token: md5(`gjfengaddCart${vm.account}`)
             },
             success(response) {
               vm.$dialog.toast({

@@ -85,7 +85,7 @@ export default {
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          token: md5("findNearColum")
+          token: md5("gjfengfindNearColum")
         },
         success(res) {
           let _result = res.result;
@@ -134,7 +134,7 @@ export default {
             columnId: this.columnId,
             orderType: 1,
             columnType: 2,
-            token: md5(`products${this.longitude}${this.latitude}`)
+            token: md5(`gjfengproducts${this.longitude}${this.latitude}`)
           },
           success(res) {
             let _list = res.result;

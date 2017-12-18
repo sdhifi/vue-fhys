@@ -291,7 +291,7 @@ export default {
         fileContent: this.fileContent,
         fileName: "123.png",
         account: this.account,
-        token: md5("addStore")
+        token: md5("gjfengaddStore")
       };
       if (this.isSettlementAccount) {
         params.settlementBankAccountName = params.bankAccountName;

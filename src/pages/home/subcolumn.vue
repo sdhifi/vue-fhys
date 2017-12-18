@@ -67,7 +67,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           columnId: this.$route.params.id,
-          token: md5(`subColumn${this.$route.params.id}`)
+          token: md5(`gjfengsubColumn${this.$route.params.id}`)
         },
         success(res) {
           vm.banner = res.result.subAds;

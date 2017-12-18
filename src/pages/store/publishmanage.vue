@@ -175,7 +175,7 @@ export default {
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          token: md5("o2o")
+          token: md5("gjfengo2o")
         },
         success(res) {
           let result = res.result.indexColumn;
@@ -197,7 +197,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           columnId: this.column1,
-          token: md5(`subColumn${columnId}`)
+          token: md5(`gjfengsubColumn${columnId}`)
         },
         success(res) {
           vm.$dialog.loading.close();
@@ -226,7 +226,7 @@ export default {
           notice: this.notice,
           columnId: this.column2,
           account: getStore("account"),
-          token: md5(`addProduct`),
+          token: md5(`gjfengaddProduct`),
           fileName: "123.png",
           fileContent: this.base64Url
         },
@@ -256,7 +256,7 @@ export default {
         notice: this.pd.notice,
         account: getStore("account"),
         columnId: this.column2,
-        token: md5(`updatePro`),
+        token: md5(`gjfengupdatePro`),
         fileName: "123.png",
         fileContent: this.base64Url
       };

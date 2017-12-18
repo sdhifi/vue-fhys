@@ -322,7 +322,7 @@ export default {
           this.addressList[0].id,
         payPassword: pwd,
         account: this.account,
-        token: md5(`addOrder${this.payType}${this.account}`)
+        token: md5(`gjfengaddOrder${this.payType}${this.account}`)
       };
       // this.$dialog.loading.open("下单中...");
       mui.ajax({

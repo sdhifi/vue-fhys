@@ -71,7 +71,7 @@ export default {
             account: this.account,
             pageNo: this.pageNo,
             pageSize: 10,
-            token: md5(`findNextAgent${this.account}`)
+            token: md5(`gjfengfindNextAgent${this.account}`)
           },
           success(res) {
             if (res.code == 200) {

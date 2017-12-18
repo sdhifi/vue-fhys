@@ -127,7 +127,7 @@ export default {
           longitude: this.longitude,
           latitude: this.latitude,
           id: this.$route.params.id,
-          token: md5(`productDetail${this.longitude}${this.latitude}`)
+          token: md5(`gjfengproductDetail${this.longitude}${this.latitude}`)
         },
         success(res) {
           vm.$dialog.loading.close();
@@ -215,7 +215,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           account: this.pdDetail.storeMobile,
-          token: md5(`myStore${this.pdDetail.storeMobile}`)
+          token: md5(`gjfengmyStore${this.pdDetail.storeMobile}`)
         },
         success(res) {
           vm.$dialog.loading.close();
