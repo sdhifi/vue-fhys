@@ -20,5 +20,6 @@ export default {
   positions: {}, //保存滚动条位置
   payInfo: null, //银联支付信息
   cacheList: {}, //缓存列表
-  update:false
+  update: false, //升级
+  fhbMoney: 0, // 凤凰宝余额
 }

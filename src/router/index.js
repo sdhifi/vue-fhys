@@ -518,7 +518,7 @@ const router = new Router({
     }
   }, {
     path: '/treasure/index',
-    name: 'Treasure',
+    name: 'TreasureIndex',
     component: require('../pages/treasure/index'),
     meta: {
       keepAlive: true
