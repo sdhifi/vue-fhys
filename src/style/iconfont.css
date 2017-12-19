@@ -94,8 +94,6 @@
 
 .self-tiqufuli:before { content: "\e610"; }
 
-.self-tixian:before { content: "\e685"; }
-
 .self-down:before { content: "\e617"; }
 
 .self-service:before { content: "\e607"; }
@@ -181,10 +179,6 @@
 .self-qrcode:before { content: "\e6e8"; }
 
 .self-tiqulishi:before { content: "\e627"; }
-
-.self-zhuanchu:before { content: "\e639"; }
-
-.self-zhuanru:before { content: "\e63a"; }
 
 .self-weixinzhifu:before { content: "\e61c"; }
 
