@@ -7,7 +7,7 @@
           <img :src="getImgPath(member.imgHeadUrl)" alt="头像">
         </div>
         <div class="qr-box">
-          <img :src="member.imgAppQrUrl || member.imgQrUrl" alt="二维码">
+          <img :src="info.imgAppQrUrl" alt="二维码">
         </div>
         <div class="qr-img img-1" :style="{'background-image':formatBg('qr-1.png')}"></div>
         <div class="qr-img img-2" :style="{'background-image':formatBg('qr-2.png')}"></div>
@@ -40,21 +40,42 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { mixin } from "components/common/mixin";
+import {myQr} from "../../api/index";
 export default {
   name: "QrCode",
   data() {
     return {
-      shares: {}
+      shares: {},
+      info:{}
     };
   },
   components: { HeaderTop },
   computed: { ...mapState(["member"]) },
   mixins: [mixin],
-  created() {},
+  created() {
+    this.getInfo();
+  },
   activated() {
    // this.updateServices();
   },
   methods: {
+    getInfo(){
+      let vm = this;
+      // this.dialog.loading.open();
+      mui.ajax({
+        url: myQr,
+        type: 'post',
+        headers: {'app-version': 'v1.0'},
+        data: {
+          account:this.member.mobile,
+          token: md5(`gjfengmyQr`)
+        },
+        success(res){
+          // vm.dialog.loading.close();
+          vm.info = res.result;
+        }
+      })
+    },
     updateServices() {
       plus.share.getServices(s => {
         for (var i in s) {
