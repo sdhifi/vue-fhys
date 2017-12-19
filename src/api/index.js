@@ -119,6 +119,14 @@ let findTransferHistory = `${trade}/findTransferHistory` //转移|合并记录
 let agent = `${trade}/agent` //代理页
 let findNextAgent = `${trade}/findNextAgent` //商家列表
 let agentHistory = `${trade}/agentHistory` //收入历史
+let toFhTreasurePage = `${trade}/toFhTreasurePage` //跳转到凤凰宝页面
+let toBalanceTransferPage = `${trade}/toBalanceTransferPage` //跳转到转移余额到凤凰宝页面
+let transderBalanceToTreasure = `${trade}/transderBalanceToTreasure` //把余额转移到凤凰宝
+let transferFhTreasurePage = `${trade}/transferFhTreasurePage` //转移凤凰宝金额给用
+let toFhTreasureDrawCash = `${trade}/toFhTreasureDrawCash` //跳转到凤凰宝提现页面
+let addFhTreasureDrawCash = `${trade}/addFhTreasureDrawCash` //凤凰宝提现
+
+
 
 let findAppUpgredeByType =`${baseUrl}/app/upgrede/${VERSION}/findAppUpgredeByType` //APP版本信息
 export {
