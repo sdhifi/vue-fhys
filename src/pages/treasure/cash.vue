@@ -45,7 +45,7 @@ import HeaderTop from "components/header/index";
 import { addDrawCash } from "../../api/index";
 import { mixin, getStore } from "components/common/mixin";
 export default {
-  name: "WithDrawals",
+  name: "TreasureCash",
   data() {
     return {
       money: "",
