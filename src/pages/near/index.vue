@@ -112,7 +112,7 @@ export default {
             latitude: this.latitude,
             columnId: this.columnId,
             orderType: 1,
-            columnType: 2,
+            columnType: 1,
             token: md5(`gjfengproducts${this.longitude}${this.latitude}`)
           },
           success(res) {

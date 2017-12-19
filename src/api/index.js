@@ -39,6 +39,7 @@ let findJdProdutCat = `${baseUrl}/wx/product/findJdProdutCat` //京东目录
 let findProductList = `${baseUrl}/wx/product/findProductList` //商品
 let findProductListBySerch = `${baseUrl}/wx/product/findProductListBySerch` //搜索商品列表
 let imageUploadBStore = `${baseUrl}/wx/store/imageUploadBStore` //上传图片
+let appMyQr = `${baseUrl}/wx/member/appMyQr` //二维码
 
 let myCart = `${cart}/myCart` //我的购物车
 let updateCartNum = `${cart}/updateCartNum` //修改购物车数量
@@ -155,7 +156,8 @@ export {
   findProductList,
   findProductListBySerch,
   imageUploadBStore,
-
+  appMyQr,
+  
   myCart,
   updateCartNum,
   delCart,
