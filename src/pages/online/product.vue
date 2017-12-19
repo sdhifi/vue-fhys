@@ -272,6 +272,7 @@ export default {
           }
         });
       });
+      // attrIdStr = attrIdStr.slice(0,attrIdStr.length-1);
       let vm = this;
       mui.ajax({
         url: stockAndPrice,
