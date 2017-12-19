@@ -60,7 +60,7 @@ export default {
             account: this.account,
             pageNo: this.pageNo,
             pageSize: 10,
-            token: md5(`goAllShouXin}`)
+            token: md5(`goAllShouXin`)
           },
           success(res) {
             let _list = res.result.resultList;

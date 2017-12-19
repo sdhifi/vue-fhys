@@ -21,7 +21,8 @@ import {
   RECORD_PAY_INFO,
   SAVE_POSITION,
   SAVE_LIST_WITH_PAGE,
-  RECORD_UPDATE
+  RECORD_UPDATE,
+  RECORD_FHB_MONEY
 } from './mutation-types'
 export default {
   [RECORD_ADDRESS](state, {
@@ -96,9 +97,12 @@ export default {
     state.payInfo = payInfo;
   },
   [SAVE_LIST_WITH_PAGE](state, payload) {
-    state.cacheList[payload.name]= payload.cacheInfo;
+    state.cacheList[payload.name] = payload.cacheInfo;
   },
   [RECORD_UPDATE](state, tag) {
     state.update = tag;
-  }
+  },
+  [RECORD_FHB_MONEY](state, m) {
+    state.fhbMoney = m;
+  },
 }

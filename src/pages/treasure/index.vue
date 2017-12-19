@@ -4,7 +4,7 @@
     <main class='scroll-content-2'>
       <section class="container">
         <p>凤凰宝余额</p>
-        <div>{{account}}</div>
+        <div>{{info.fhTreasureMoney}}</div>
       </section>
       <yd-cell-group>
         <yd-cell-item arrow v-for="(item,index) in menu" :key="index" type="label" @click.native="navigate(item.link)">
@@ -19,8 +19,9 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { toFhTreasurePage } from "../../api/index";
+import {getStore} from "components/common/mixin"
 export default {
-  name: "Shouxin",
+  name: "TreasureIndex",
   data() {
     return {
       menu: [
@@ -68,11 +69,13 @@ export default {
         type: 'post',
         headers: {'app-version': 'v1.0'},
         data: {
-          account:this.account,
-          token: md5(`toFhTreasurePage`)
+          // account:this.account,
+          account:getStore('account'),
+          token: md5(`gjfengtoFhTreasurePage${this.account}`)
         },
         success(res){
-          vm.info = res.result;
+          vm.info = res.result.fhTreasureInfo;
+          vm.$store.commit("RECORD_FHB_MONEY",res.result.fhTreasureInfo.fhTreasureMoney);
         }
       })
     },

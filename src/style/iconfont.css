@@ -28,6 +28,8 @@
 
 .self-bianji:before { content: "\e83f"; }
 
+.self-yuanbao:before { content: "\e63b"; }
+
 .self-rmb:before { content: "\e62f"; }
 
 .self-yinhangka:before { content: "\e6e9"; }
