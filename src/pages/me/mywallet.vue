@@ -203,8 +203,8 @@ export default {
       menu0: [
         {
           icon: "self-tiqufuli",
-          text: "提取福利",
-          link: "/trade/withdrawals",
+          text: "凤凰宝",
+          link: "/treasure/index",
           color: "#e7d489"
         },
         {
@@ -259,8 +259,8 @@ export default {
       menu1: [
         {
           icon: "self-tiqufuli",
-          text: "提取福利",
-          link: "/trade/withdrawals",
+          text: "凤凰宝",
+          link: "/treasure/index",
           color: "#e7d489"
         },
         {

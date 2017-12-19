@@ -285,14 +285,14 @@ const router = new Router({
     meta: {
       keepAlive: true
     }
-  },  {
+  }, {
     path: '/store/settle-3',
     name: 'EnterpriseSettle',
     component: require('../pages/store/settle3'),
     meta: {
       keepAlive: true
     }
-  },{
+  }, {
     path: '/store/my',
     name: 'MyStore',
     component: require('../pages/store/my'),
@@ -426,13 +426,6 @@ const router = new Router({
       keepAlive: false
     }
   }, {
-    path: '/trade/withdrawals',
-    name: 'WithDrawals',
-    component: require('../pages/trade/withdrawals'),
-    meta: {
-      keepAlive: true
-    }
-  }, {
     path: '/trade/shouxin',
     name: 'Shouxin',
     component: require('../pages/trade/shouxin'),
@@ -509,21 +502,56 @@ const router = new Router({
     meta: {
       keepAlive: false
     }
-  },{
+  }, {
     path: '/agent/history',
     name: 'AgentHistory',
     component: require('../pages/agent/history'),
     meta: {
       keepAlive: false
     }
-  },{
+  }, {
     path: '/agent/rule',
     name: 'AgentRule',
     component: require('../pages/agent/rule'),
     meta: {
       keepAlive: false
     }
-  },{
+  }, {
+    path: '/treasure/index',
+    name: 'Treasure',
+    component: require('../pages/treasure/index'),
+    meta: {
+      keepAlive: true
+    }
+  }, {
+    path: '/treasure/in',
+    name: 'TreasureIn',
+    component: require('../pages/treasure/in'),
+    meta: {
+      keepAlive: false
+    }
+  }, {
+    path: '/treasure/out',
+    name: 'TreasureOut',
+    component: require('../pages/treasure/out'),
+    meta: {
+      keepAlive: false
+    }
+  }, {
+    path: '/treasure/list',
+    name: 'TreasureList',
+    component: require('../pages/treasure/list'),
+    meta: {
+      keepAlive: false
+    }
+  }, {
+    path: '/treasure/cash',
+    name: 'TreasureCash',
+    component: require('../pages/treasure/cash'),
+    meta: {
+      keepAlive: true
+    }
+  }, {
     path: '*',
     redirect: '/home/index'
   }]
