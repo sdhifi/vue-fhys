@@ -4,8 +4,7 @@
     <main class='scroll-content-2'>
       <section>
         <p class="tips">可提取福利
-          <span class="danger-color">{{balanceMoney}}</span> 元
-          <span class="danger-color">(提取福利扣10%手续费，另将10%转入会员义务消费，用于商城购物)</span>
+          <span class="danger-color">{{fhbMoney}}</span>
         </p>
         <router-link :to="{path: '/trade/bankcard?type=choose'}" class="bank-card flex align-center" v-if="defaultBankCard">
           <div class="icon" :style="{'background-image':formatBg(defaultBankCard.bankPic)}"></div>
@@ -25,7 +24,7 @@
         <yd-cell-group>
           <yd-cell-item>
             <span slot="left">提现金额：</span>
-            <yd-input slot="right" v-model="money" placeholder="请输入提现金额(200~50000)"></yd-input>
+            <yd-input slot="right" v-model="money" placeholder="请输入提现金额(160~50000)"></yd-input>
           </yd-cell-item>
           <yd-cell-item>
             <yd-textarea slot="right" v-model="remark" placeholder="如有备注，请输入" maxlength="20"></yd-textarea>
@@ -42,7 +41,7 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import { addDrawCash } from "../../api/index";
+import { toFhTreasureDrawCash,addFhTreasureDrawCash } from "../../api/index";
 import { mixin, getStore } from "components/common/mixin";
 export default {
   name: "TreasureCash",
@@ -55,15 +54,15 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["balanceMoney", "account", "defaultBankCard"]),
+    ...mapState(["fhbMoney", "account", "defaultBankCard"]),
     validMoney() {
-      return !isNaN(this.money) && this.money >= 200 && this.money <= 50000;
+      return !isNaN(this.money) && this.money >= 160 && this.money <= 50000;
     },
     valid() {
       return (
         this.defaultBankCard &&
         this.validMoney &&
-        this.money < this.balanceMoney
+        this.money < this.fhbMoney
       );
     }
   },
@@ -77,7 +76,7 @@ export default {
       let vm = this;
       this.$dialog.loading.open();
       mui.ajax({
-        url: addDrawCash,
+        url: addFhTreasureDrawCash,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
@@ -85,7 +84,7 @@ export default {
           myBankId: this.defaultBankCard.id,
           money: this.money,
           remark: this.remark,
-          token: md5(`addDrawCash${this.account}${this.money}`)
+          token: md5(`gjfengaddFhTreasureDrawCash${this.account}${this.money}`)
         },
         success(res) {
           vm.$dialog.loading.close();
