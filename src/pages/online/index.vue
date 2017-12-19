@@ -139,13 +139,13 @@ export default {
       this.$router.push({name:"Products",params:{update:true},query:{type:1,id}})
     },
     navigate(link){
-      if(index>1){
+      if(!link){
         this.$dialog.toast({
           mes:"数据对接中，敬请期待！"
         })
         return;
       }
-      this.$router.push({name:"TianMao"})
+      this.$router.push({path:link})
     }
   }
 };
