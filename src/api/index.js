@@ -34,8 +34,9 @@ let onlineProductsDetailInfoInH5 = `${pd}/online/onlineProductsDetailInfoInH5` /
 let stockAndPrice = `${pd}/online/product/stockAndPrice` //商品价格和库存
 let allColumn = `${pd}/online/allColumn` //商城所有分类
 
-let findProdutCat = `${baseUrl}/wx/product/findProdutCat` //目录
-let findProductList = `${baseUrl}/wx/product/findProductList`//商品
+let findProdutCat = `${baseUrl}/wx/product/findProdutCat` //天猫|淘宝目录
+let findJdProdutCat = `${baseUrl}/wx/product/findJdProdutCat` //京东目录
+let findProductList = `${baseUrl}/wx/product/findProductList` //商品
 let findProductListBySerch = `${baseUrl}/wx/product/findProductListBySerch` //搜索商品列表
 let imageUploadBStore = `${baseUrl}/wx/store/imageUploadBStore` //上传图片
 let appMyQr = `${baseUrl}/wx/member/appMyQr` //二维码
@@ -122,13 +123,12 @@ let agentHistory = `${trade}/agentHistory` //收入历史
 let toFhTreasurePage = `${trade}/toFhTreasurePage` //跳转到凤凰宝页面
 let toBalanceTransferPage = `${trade}/toBalanceTransferPage` //跳转到转移余额到凤凰宝页面
 let transderBalanceToTreasure = `${trade}/transderBalanceToTreasure` //把余额转移到凤凰宝
-let transferFhTreasurePage = `${trade}/transferFhTreasurePage` //转移凤凰宝金额给用
+let transferFhTreasurePage = `${trade}/transferFhTreasurePage` //转移凤凰宝金额给用户
 let toFhTreasureDrawCash = `${trade}/toFhTreasureDrawCash` //跳转到凤凰宝提现页面
 let addFhTreasureDrawCash = `${trade}/addFhTreasureDrawCash` //凤凰宝提现
+let toFhTreasureTradeHistory = `${trade}/toFhTreasureTradeHistory` //凤凰宝交易记录
 
-
-
-let findAppUpgredeByType =`${baseUrl}/app/upgrede/${VERSION}/findAppUpgredeByType` //APP版本信息
+let findAppUpgredeByType = `${baseUrl}/app/upgrede/${VERSION}/findAppUpgredeByType` //APP版本信息
 export {
   o2o,
   like,
@@ -210,7 +210,7 @@ export {
 
   newProCommet,
   getAllProCommetByPage,
-  
+
   addStore,
   myStore,
   updateBanner,
@@ -236,6 +236,13 @@ export {
   agent,
   findNextAgent,
   agentHistory,
-  
+  toFhTreasurePage,
+  toBalanceTransferPage,
+  transderBalanceToTreasure,
+  transferFhTreasurePage,
+  toFhTreasureDrawCash,
+  addFhTreasureDrawCash,
+  toFhTreasureTradeHistory,
+
   findAppUpgredeByType,
 }
