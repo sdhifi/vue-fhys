@@ -34,7 +34,8 @@ let onlineProductsDetailInfoInH5 = `${pd}/online/onlineProductsDetailInfoInH5` /
 let stockAndPrice = `${pd}/online/product/stockAndPrice` //商品价格和库存
 let allColumn = `${pd}/online/allColumn` //商城所有分类
 
-let findProdutCat = `${baseUrl}/wx/product/findProdutCat` //目录
+let findProdutCat = `${baseUrl}/wx/product/findProdutCat` //天猫|淘宝目录
+let findJdProdutCat = `${baseUrl}/wx/product/findJdProdutCat` //京东目录
 let findProductList = `${baseUrl}/wx/product/findProductList`//商品
 let findProductListBySerch = `${baseUrl}/wx/product/findProductListBySerch` //搜索商品列表
 let imageUploadBStore = `${baseUrl}/wx/store/imageUploadBStore` //上传图片
@@ -143,6 +144,7 @@ export {
   allColumn,
 
   findProdutCat,
+  findJdProdutCat,
   findProductList,
   findProductListBySerch,
   imageUploadBStore,
