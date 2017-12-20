@@ -35,7 +35,7 @@ export default {
   computed: {
     ...mapState(["balanceMoney", "account"]),
     valid() {
-      return !isNaN(this.money) && this.money >= 200 && this.money <= 50000;
+      return !isNaN(this.money) && this.money < this.balanceMoney && this.money >= 200 && this.money <= 50000;
     }
   },
   created() {},

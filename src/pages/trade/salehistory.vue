@@ -63,7 +63,7 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           account: this.account,
-          token: md5(`gjfengbenefits`)
+          token: md5(`gjfengbenefits${this.account}`)
         },
         success(res) {
           if (res.code !== 200) {
