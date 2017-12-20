@@ -30,6 +30,10 @@
           <span slot="left">当前账户余额</span>
           <input slot="right" type="text" readonly style="text-align:right;color:#04be02;" v-model="member.balanceMoney">
         </yd-cell-item>
+        <yd-cell-item v-show="payType=='6'">
+          <span slot="left">当前凤凰宝余额</span>
+          <input slot="right" type="text" readonly style="text-align:right;color:#04be02;" v-model="fhbMoney">
+        </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group title="支付方式" v-show="money>0">
         <yd-cell-item type="radio">
@@ -41,6 +45,11 @@
           <span slot="icon" class="iconfont-large self-edu" style="color:#f9a340;"></span>
           <span slot="left">授信额度</span>
           <input slot="right" type="radio" value="4" v-model="payType" />
+        </yd-cell-item>
+        <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-yuanbao danger-color"></span>
+          <span slot="left">凤凰宝</span>
+          <input slot="right" type="radio" value="6" v-model="payType" />
         </yd-cell-item>
         <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
@@ -67,8 +76,8 @@
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import {addBenefit } from "../../api/index";
-import { findMemberByMobile ,payMixin} from "components/common/mixin";
+import { addBenefit } from "../../api/index";
+import { findMemberByMobile, payMixin } from "components/common/mixin";
 export default {
   name: "SaleRecord",
   data() {
@@ -77,12 +86,12 @@ export default {
       mobile: "",
       mobileName: "",
       payType: "",
-      pays:{}
+      pays: {}
     };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account", "member"]),
+    ...mapState(["account", "member","fhbMoney"]),
     valid() {
       return (
         /^(([1-9]\d*)|([0-9]+\.[0-9]{1,2}))$/.test(this.money) &&
@@ -96,12 +105,14 @@ export default {
         : (+this.money * 0.12).toFixed(2);
     }
   },
-  created() {},
-  mixins: [findMemberByMobile,payMixin],
+  created() {
+    this.$store.dispatch("getFHB");
+  },
+  mixins: [findMemberByMobile, payMixin],
   methods: {
     save() {
-      if(this.account == this.mobile){
-         this.$dialog.alert({
+      if (this.account == this.mobile) {
+        this.$dialog.alert({
           mes: "消费会员不能是自己"
         });
         return;
@@ -133,12 +144,17 @@ export default {
         },
         success(res) {
           vm.$dialog.loading.close();
-          //授信额度直接录入
-          if (vm.payType == "4" || vm.payType == "5") {
+          //授信额度|凤凰宝直接录入
+          if (vm.payType == "4" ) {
             vm.$dialog.toast({
               mes: res.msg
             });
             vm.$store.dispatch("getInfo");
+          } else if (vm.payType == "6") {
+            vm.$dialog.toast({
+              mes: res.msg
+            });
+            vm.$store.dispatch("getFHB");
           } else if (vm.payType == "2") {
             //银联支付
             vm.$store.commit("RECORD_PAY_INFO", res.result);
@@ -159,20 +175,26 @@ export default {
                   //   "支付"
                   // );
                   vm.$dialog.alert({
-                    mes:"支付成功！"
-                  })
+                    mes: "支付成功！"
+                  });
                 },
                 function(e) {
                   //plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
                   vm.$dialog.alert({
-                    mes:"支付失败:" + e.message
-                  })
+                    mes: "支付失败:" + e.message
+                  });
                 }
               );
             });
           } else {
             //微信支付
           }
+        },
+        error() {
+          vm.$dialog.loading.close();
+          vm.$dialog.alert({
+            mes: "端口异常，请稍后重试"
+          });
         }
       });
     },

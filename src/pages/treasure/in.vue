@@ -2,8 +2,8 @@
   <div>
     <header-top title="余额转入"></header-top>
     <main class='scroll-content-2'>
-      <div class="tips" style="padding:.2rem;">可转入余额：
-        <span class="danger-color">{{balanceMoney}}</span>，转入收取10%手续费
+      <div class="tips" style="padding:.2rem;">当前余额：
+        <span class="danger-color">{{balanceMoney}}</span>（转入收取10%手续费,另将10%转入会员义务消费，用于商城购物）
       </div>
       <yd-cell-group>
         <yd-cell-item>

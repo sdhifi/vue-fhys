@@ -4,7 +4,7 @@
     <main class='scroll-content-2'>
       <section class="container">
         <p>凤凰宝余额</p>
-        <div>{{info.fhTreasureMoney}}</div>
+        <div>{{fhbMoney}}</div>
       </section>
       <yd-cell-group>
         <yd-cell-item arrow v-for="(item,index) in menu" :key="index" type="label" @click.native="navigate(item.link)">
@@ -55,30 +55,13 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account"])
+    ...mapState(["account","fhbMoney"])
   },
   created() {},
   activated() {
-    this.getInfo();
+    this.$store.dispatch("getFHB");
   },
   methods: {
-    getInfo(){
-      let vm = this;
-      mui.ajax({
-        url: toFhTreasurePage,
-        type: 'post',
-        headers: {'app-version': 'v1.0'},
-        data: {
-          // account:this.account,
-          account:getStore('account'),
-          token: md5(`gjfengtoFhTreasurePage${this.account}`)
-        },
-        success(res){
-          vm.info = res.result.fhTreasureInfo;
-          vm.$store.commit("RECORD_FHB_MONEY",res.result.fhTreasureInfo.fhTreasureMoney);
-        }
-      })
-    },
     navigate(link) {
       this.$router.push(link);
     }

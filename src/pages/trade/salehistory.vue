@@ -12,6 +12,7 @@
                 <span class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;" v-if="item.payType=='2'"></span>
                 <span class="iconfont-large self-edu" style="color:#f9a340;" v-if="item.payType=='4'"></span>
                 <span class="iconfont-large self-wallet danger-color" v-if="item.payType=='5'"></span>
+                <span class="iconfont-large self-yuanbao danger-color" v-if="item.payType=='6'"></span>
                 <span class="time">{{formatTime(item.addTime)}}</span>
                 </p>
               <span class="status status-0" v-if="item.tradeStatus==0">待支付</span>
