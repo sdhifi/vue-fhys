@@ -7,29 +7,59 @@
           <li class="item" v-for="(item,index) in info" :key="index">
             <div class="flex just-between">
               <span>{{formatTime(item.addTime,true)}}</span>
-              <span v-if="item.tradeType=='3'" class="status-1">转入</span>
-              <span v-else-if="item.tradeType=='2'" class="status-1">提现</span>
-              <span v-else class="status-0">转出</span>
+              <span v-if="item.tradeType=='0'" class="status-1">储值</span>
+              <span v-if="item.tradeType=='1'&&account!=item.memebrMobile" class="status-1">转账收入</span>
+              <span v-if="item.tradeType=='1'&&account==item.memebrMobile" class="status-0">转账支出</span>
+              <span v-if="item.tradeType=='2'" class="status-0">让利支付</span>
+              <span v-if="item.tradeType=='3'" class="status-1">余额转入</span>
+              <span v-if="item.tradeType=='4'" class="status-2">提现</span>
+              <span v-if="item.tradeType=='5'" class="status-0">订单支付</span>
+              <span v-if="item.tradeType=='6'" class="danger-color">提现退回</span>
             </div>
-            <div class="flex just-between" v-if="item.tradeType!='3'">
-              <span>转移对象</span>
-              <p>
-                <span>{{item.transferMemberName}}</span>
-                <span>{{item.transferMemberMobile}}</span>
-              </p>
-            </div>
-            <div class="flex just-between">
-              <span>转移数额</span>
-              <span>{{item.memberTreasureTradeMoney}}</span>
-            </div>
-            <div class="flex just-between">
-              <span>转移前</span>
-              <span>{{item.memberTreasureMoneyBf}}</span>
-            </div>
-            <div class="flex just-between">
-              <span>转移后</span>
-              <span class="danger-color">{{item.memberTreasureMoneyAf}}</span>
-            </div>
+            <!-- 转出 -->
+            <section v-if="account!=item.transferMemberMobile">
+              <div class="flex just-between" v-if="item.tradeType!='3'&&item.tradeType!='4'&&item.tradeType!='5'&&item.tradeType!='6'">
+                <span>交易对象</span>
+                <p>
+                  <span>{{item.transferMemberName}}</span>
+                  <span>{{item.transferMemberMobile}}</span>
+                </p>
+              </div>
+              <div class="flex just-between">
+                <span>交易数额</span>
+                <span><span v-if="item.tradeType=='1'">-</span>{{item.memberTreasureTradeMoney}}</span>
+              </div>
+              <div class="flex just-between" v-if="item.tradeType!='6'">
+                <span>交易前</span>
+                <span>{{item.memberTreasureMoneyBf}}</span>
+              </div>
+              <div class="flex just-between" v-if="item.tradeType!='6'">
+                <span>交易后</span>
+                <span class="danger-color">{{item.memberTreasureMoneyAf}}</span>
+              </div>
+            </section>
+            <!-- 被转入 -->
+            <section v-else>
+              <div class="flex just-between" v-if="item.tradeType!='3'&&item.tradeType!='4'&&item.tradeType!='5'&&item.tradeType!='6'">
+                <span>交易对象</span>
+                <p>
+                  <span>{{item.memberName}}</span>
+                  <span>{{item.memebrMobile}}</span>
+                </p>
+              </div>
+              <div class="flex just-between">
+                <span>交易数额</span>
+                <span><span v-if="item.tradeType=='1'">+</span>{{item.memberTreasureTradeMoney}}</span>
+              </div>
+              <div class="flex just-between" v-if="item.tradeType!='6'">
+                <span>交易前</span>
+                <span>{{item.transferMemberMoneyBf}}</span>
+              </div>
+              <div class="flex just-between" v-if="item.tradeType!='6'">
+                <span>交易后</span>
+                <span class="danger-color">{{item.transferMemberMoneyAf}}</span>
+              </div>
+            </section>
           </li>
         </ul>
       </yd-infinitescroll>
@@ -101,6 +131,9 @@ export default {
   }
   .status-1 {
     color: @green;
+  }
+  .status-2 {
+    color: @gold;
   }
 }
 </style>

@@ -135,6 +135,9 @@ export default {
         case "8":
           return "责任消费金额";
           break;
+        case "9":
+          return "凤凰宝余额";
+          break;
       }
     },
     orderType() {

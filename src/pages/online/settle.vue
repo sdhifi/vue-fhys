@@ -126,6 +126,11 @@
           <input slot="right" type="radio" value="3" v-model="payType" />
         </yd-cell-item> -->
         <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-yuanbao" style="color:#f9a340;"></span>
+          <span slot="left">凤凰宝</span>
+          <input slot="right" type="radio" value="9" v-model="payType" />
+        </yd-cell-item>
+        <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea"></span>
           <span slot="left">支付宝支付</span>
           <input slot="right" type="radio" value="2" v-model="payType" />
@@ -137,7 +142,7 @@
     </main>
     <div v-show="showPassword" class="text-center pay-box">
       <h3 class="fs-18 pay-title" style="background-color:#9ED97C">待支付金额</h3>
-      <div v-if="orderType=='0'">
+      <div v-if="orderType=='0'&&payType=='0'">
         <p class="pay-price fs-14">
           {{total}}×(1+10%)=
           <span class="fs-20 danger-color">￥{{formatPrice(total * 1.1)}}</span>
@@ -146,6 +151,16 @@
           <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
           余额：
           <span>{{member.balanceMoney}}</span>元
+        </P>
+      </div>
+      <div v-if="orderType=='0'&&payType=='9'">
+        <p class="pay-price fs-14">
+          <span class="fs-20 danger-color">{{formatPrice(settleList.totalAmount)}}</span>
+        </p>
+        <P class="balance-price">
+          <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
+          当前凤凰宝余额：
+          <span>{{fhbMoney}}</span>
         </P>
       </div>
       <div v-if="orderType=='2'">
@@ -185,7 +200,8 @@ export default {
       "addressList",
       "settleList",
       "paypwd",
-      "member"
+      "member",
+      "fhbMoney"
     ]),
     total() {
       return this.settleList.totalAmount + this.settleList.pointNiceAmount;
@@ -216,11 +232,10 @@ export default {
     next();
   },
   created() {
-    if (!this.member) {
-      this.$store.dispatch("getInfo");
-    }
   },
   activated() {
+    this.$store.dispatch("getInfo");
+    this.$store.dispatch("getFHB");
     this.orderType = this.$route.query.orderType;
     if (!this.defaultAddress) {
       this.$store.dispatch("getAddressList");
@@ -265,13 +280,14 @@ export default {
         return;
       }
       //判断是否设置过支付密码，没有就跳转密码设置
-      if ((this.payType == "0" || this.payType == "8") && !this.paypwd) {
+      if ((this.payType == "0" || this.payType == "8"|| this.payType == "9") && !this.paypwd) {
         this.$router.push({ name: "PwdManage" });
         return;
       }
-      //普通商品，余额支付 || 责任商品，责任金额
+      //普通商品，余额支付&凤凰宝 || 责任商品，责任金额
       if (
         (this.orderType == 0 && this.payType == "0") ||
+        (this.orderType == 0 && this.payType == "9") ||
         (this.orderType == 2 && this.payType == "8")
       ) {
         this.showPassword = true;
@@ -336,7 +352,7 @@ export default {
           //品牌商城
           if (vm.orderType == 0) {
             // 余额支付
-            if (vm.payType == "0") {
+            if (vm.payType == "0" || vm.payType == "9") {
               vm.$dialog.loading.close();
               if (res.code == 200) {
                 vm.showPassword = false;

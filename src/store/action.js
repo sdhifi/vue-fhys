@@ -7,12 +7,14 @@ import {
   RECORD_ADDRESS_List,
   RECORD_DEFAULT_ADDRESS,
   RECORD_CART_LIST,
+  RECORD_FHB_MONEY
 } from './mutation-types'
 import {
   my,
   myBanks,
   getMyAddress,
   myCart,
+  toFhTreasurePage
 } from '../api/index'
 import {getStore} from "../components/common/mixin"
 export default {
@@ -116,6 +118,23 @@ export default {
           item.checked = false;
         })
         commit(RECORD_CART_LIST, _result);
+      }
+    })
+  },
+  getFHB({
+    commit,
+    state
+  }){
+    mui.ajax({
+      url: toFhTreasurePage,
+      type: 'post',
+      headers: {'app-version': 'v1.0'},
+      data: {
+        account:state.account,
+        token: md5(`gjfengtoFhTreasurePage${state.account}`)
+      },
+      success(res){
+      commit(RECORD_FHB_MONEY,res.result.fhTreasureInfo.fhTreasureMoney);
       }
     })
   }
