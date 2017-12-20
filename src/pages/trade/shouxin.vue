@@ -59,7 +59,7 @@ export default {
 
   },
   activated() {
-
+    this.$store.dispatch("getInfo");
   },
   methods: {
     navigate(link){
