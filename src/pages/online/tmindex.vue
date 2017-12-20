@@ -240,6 +240,7 @@ export default {
     .product-img {
       position: relative;
       padding: 50%;
+      overflow: hidden;
       img {
         .hv-cen;
         width: 100%;
