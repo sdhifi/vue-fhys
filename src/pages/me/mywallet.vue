@@ -41,7 +41,6 @@
             <a :href="item.link" :class="{'danger-bg':index<2}">
               <p>{{item.text}}</p>
               <p :class="{'danger-color':index>1}" v-if="item.param=='canMoney'">{{info1[item.param] *100 ||0}}
-                <span>%</span>
               </p>
               <p v-else :class="{'danger-color':index>1}">{{info1[item.param]}}</p>
             </a>
