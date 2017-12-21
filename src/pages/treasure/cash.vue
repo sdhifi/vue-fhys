@@ -31,7 +31,7 @@
           </yd-cell-item>
         </yd-cell-group>
         <div style="padding:0 .2rem;">
-          <p class="danger-color">*提现说明：申请提现后会有专门的人员后台进行审核，审核不通过将自动返还到提现账户，请耐心等待。</p>
+          <p class="danger-color">*提现说明：申请提现后会有专门的人员后台进行审核，审核不通过将自动返还到提现账户。到账时间为1到5个工作日，请耐心等待。</p>
           <yd-button :type="valid?'warning':'disabled'" size="large" @click.native="drawCash">提现</yd-button>
         </div>
       </section>
