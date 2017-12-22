@@ -251,6 +251,13 @@ const router = new Router({
       keepAlive: false
     }
   }, {
+    path: '/me/help',
+    name: 'Help',
+    component: require('../pages/me/help'),
+    meta: {
+      keepAlive: false
+    }
+  }, {
     path: '/shop/index/:id',
     name: 'Shop',
     component: require('../pages/shop/index'),
