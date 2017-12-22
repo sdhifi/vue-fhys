@@ -46,9 +46,7 @@
         </yd-cell-item>
       </yd-cell-group>
       <div class="pay-box">
-        <!-- <a :href="getLocalImg(qrUrl)" :download="qrUrl"> -->
-          <img :src="getLocalImg(qrUrl)" alt="">
-        <!-- </a> -->
+        <img :src="getLocalImg(qrUrl.src)" alt="" @click="getQrCode(qrUrl.url)">
       </div>
     </main>
   </div>
@@ -78,13 +76,19 @@ export default {
     qrUrl() {
       switch (this.payType) {
         case "1":
-          return "ali_pay.png";
+          return {
+            url: "https://qr.alipay.com/aex023507fntwoqeozvcg88",
+            src: "ali_pay.png"
+          };
           break;
         case "2":
           return "weixin_pay.jpg";
           break;
         default:
-          return "ali_pay.png";
+          return {
+            url: "https://qr.alipay.com/aex023507fntwoqeozvcg88",
+            src: "ali_pay.png"
+          };
           break;
       }
     }
@@ -154,6 +158,15 @@ export default {
               mes: "提交失败，请重试！"
             });
           }
+        }
+      });
+    },
+    getQrCode(r) {
+      this.$dialog.confirm({
+        title: "提示",
+        mes: "打开相关应用去支付？",
+        opts: () => {
+          plus.runtime.openURL(r);
         }
       });
     }
