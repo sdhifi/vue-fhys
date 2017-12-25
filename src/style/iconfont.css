@@ -58,6 +58,8 @@
 
 .self-code:before { content: "\e629"; }
 
+.self-saoyisao:before { content: "\e63c"; }
+
 .self-qiye:before { content: "\e6dd"; }
 
 .self-add:before { content: "\e619"; }
@@ -203,3 +205,4 @@
 .self-gengxin:before { content: "\e62b"; }
 
 .self-huazhuangpin:before { content: "\e622"; }
+

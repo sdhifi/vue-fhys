@@ -9,6 +9,9 @@
     <router-link to="/me/login" slot="right" v-if="login" class="danger-color">
       注册|登录
     </router-link>
+    <div slot="right" class="scan-box" @click="scan">
+      <span class="iconfont-large self-saoyisao" v-if="!login && showScan"></span>
+    </div>
   </yd-navbar>
 </template>
 <script>
@@ -26,7 +29,8 @@ export default {
     title: {
       type: String,
       default: "凤凰云商"
-    }
+    },
+    showScan:false
   },
   data() {
     return {
@@ -51,6 +55,9 @@ export default {
           window.cancelAnimationFrame(timer);
         }
       })
+    },
+    scan(){
+      this.$router.push("/scan/index")
     }
   },
 }
@@ -65,5 +72,8 @@ export default {
   text-overflow: ellipsis;
   color: rgb(92, 92, 92);
   font-size: 0.4rem;
+}
+.scan-box{
+  padding: 0 5px;
 }
 </style>
