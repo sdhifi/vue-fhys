@@ -8,7 +8,7 @@
     <main class='scroll-content-1'>
       <yd-accordion accordion v-show="!selected">
         <yd-accordion-item :title="item.q" :open="true" v-for="(item,index) in qas" :key="index">
-          <div style="padding: .24rem;">
+          <div style="padding: .24rem;color:#777;">
             {{item.a}}
           </div>
         </yd-accordion-item>
