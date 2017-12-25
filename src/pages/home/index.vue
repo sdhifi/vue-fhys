@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top :back="false" :login="!loginAccount">注册|登录</header-top>
+    <header-top :back="false" :login="!loginAccount" :show-scan="loginAccount">注册|登录</header-top>
     <main class="scroll-content">
       <yd-pullrefresh :callback="refreshList" ref="refreshcontainer">
         <section class="city-search flex text-center align-center danger-bg">
