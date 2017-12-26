@@ -26,7 +26,7 @@ npm run build --report
 
 - 由于打包配置问题， 字体图标库和背景图片路径会出现错误。~~搜索mine_background，把/static修改为..[已经使用第三条解决]~~ ,手动修改app.css如下：
 ```
-搜索iconfont，把static修改为..
+搜索static/fonts，把static修改为..
 ```
 - 路由传name形式，才能使用params
 ```html
@@ -92,7 +92,7 @@ router.afterEach( (to,from) => {
 
 ```
 
-- 保存浏览位置，适合分页列表
+- 保存浏览位置，适合分页列表[是 activate状态]
 ```javascript
     activated(){
       if (this.positions[this.$route.path]) {
@@ -120,9 +120,8 @@ router.afterEach( (to,from) => {
 
 - 打包注意事项
 
-```html
-  api基路径也需要根据地区更改
-  天猫、淘宝首页跳转到优惠券，需要更改相应的参数，详见tmindex注释
-  我的钱包：湛江、云南没有积分转移和用户合并
-  APP打包名称：云南用金凤凰共创辉煌、湛江用凤凰云商共创辉煌、o2o用凤凰云商
-```
+ ~~api基路径也需要根据地区更改~~
+  ~~天猫、淘宝、京东首页跳转到优惠券，需要更改相应的参数，详见tmindex注释~~
+  ~~我的钱包：湛江、云南没有积分转移和用户合并~~ 
+  现在切换分支，打包对应版本。
+  APP打包名称：云南用金凤凰共创辉煌、湛江用凤凰云商共创辉煌、o2o用凤凰云商 
