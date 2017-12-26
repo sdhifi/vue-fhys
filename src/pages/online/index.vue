@@ -22,7 +22,7 @@
         </router-link>
       </section>
       <section class="platform-container flex">
-        <div v-for="(item,index) in platform" :key="index" class="platform-item" :style="{'background-image':formatBg(item.img)}" @click="navigate(index)">
+        <div v-for="(item,index) in platform" :key="index" class="platform-item" :style="{'background-image':formatBg(item.img)}" @click="navigate(item.link)">
         </div>
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
@@ -74,7 +74,7 @@ export default {
       platform:[
         {img:"taobao.jpg",link:"/online/tmindex"},
         {img:"tianmao.png",link:"/online/tmindex"},
-        {img:"yihaodian.png",link:"/online/hdindex"},
+        {img:"yihaodian.jpg",link:""},
         {img:"jingdong.png",link:"/online/jdindex"}
       ]
     };
@@ -110,7 +110,7 @@ export default {
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
-          token: md5(`onlineInH5`)
+          token: md5(`gjfengonlineInH5`)
         },
         success(res) {
           vm.$dialog.loading.close();
@@ -138,14 +138,14 @@ export default {
     goProducts(id){
       this.$router.push({name:"Products",params:{update:true},query:{type:1,id}})
     },
-    navigate(index){
-      if(index>1){
+    navigate(link){
+      if(!link){
         this.$dialog.toast({
           mes:"数据对接中，敬请期待！"
         })
         return;
       }
-      this.$router.push({name:"TianMao"})
+      this.$router.push({path:link})
     }
   }
 };
@@ -156,7 +156,6 @@ section {
   margin-bottom: @pd;
   background-color: @white;
 }
-
 .column-list {
   padding-bottom: @pd;
   .column-item {
@@ -186,7 +185,6 @@ section {
     background-repeat: no-repeat;
   }
 }
-
 .pd-list {
   ul {
     .pd-h;

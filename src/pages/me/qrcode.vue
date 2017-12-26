@@ -96,7 +96,7 @@ export default {
         extra: {
           scene: extraScene
         },
-        pictures: [this.member.imgAppQrUrl]
+        pictures: [this.info.imgAppQrUrl]
       };
       if (this.shares[type].authenticated) {
         this.shareMessage(msg, this.shares[type]);
