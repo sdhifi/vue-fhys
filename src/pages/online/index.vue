@@ -74,7 +74,7 @@ export default {
       platform:[
         {img:"taobao.jpg",link:"/online/tmindex"},
         {img:"tianmao.png",link:"/online/tmindex"},
-        {img:"yihaodian.png",link:""},
+        {img:"yihaodian.jpg",link:""},
         {img:"jingdong.png",link:"/online/jdindex"}
       ]
     };
