@@ -21,7 +21,7 @@
           <ul class="product-list flex" slot="list">
             <li class="product-item" v-for="(item,index) in productList" :key="index" @click="navigate(item)">
               <div class="product-img">
-                <img :src="item.smallPic" :alt="item.title">
+                <img :src="item.img" :alt="item.title">
               </div>
               <div class="product-info flex align-center">
                 <div class="product-name">{{item.title}}</div>
@@ -42,8 +42,8 @@ import { mapState } from "vuex";
 import { getStore } from "components/common/mixin";
 import {
   findJdProdutCat,
-  findProductList,
-  findProductListBySerch
+  findJdProductList,
+  findJdProductListBySerch
 } from "../../api/index";
 export default {
   name: "JingDong",
@@ -105,7 +105,7 @@ export default {
       let vm = this;
       this.$dialog.loading.open();
       mui.ajax({
-        url: findProductListBySerch,
+        url: findJdProductListBySerch,
         type: "get",
         data: {
           keyWord: this.searchValue,
@@ -153,7 +153,7 @@ export default {
     getProduct() {
       let vm = this;
       mui.ajax({
-        url: findProductList,
+        url: findJdProductList,
         type: "get",
         data: {
           type: this.tabList[this.curIndex].id,
