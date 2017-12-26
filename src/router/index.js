@@ -543,7 +543,7 @@ const router = new Router({
       name: 'Scan',
       component: require('../pages/scan/index'),
       meta: {
-        keepAlive: false
+        keepAlive: true
       }
     }, {
       path: '*',
