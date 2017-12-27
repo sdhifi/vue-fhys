@@ -10,7 +10,7 @@
       注册|登录
     </router-link>
     <div slot="right" class="scan-box" @click="scan">
-      <span class="iconfont-large self-saoyisao" v-if="!login && showScan"></span>
+      <span class="iconfont-large self-scan" v-if="!login && showScan"></span>
     </div>
   </yd-navbar>
 </template>

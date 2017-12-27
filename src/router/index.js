@@ -185,7 +185,7 @@ const router = new Router({
       name: 'Qrcode',
       component: require('../pages/me/qrcode'),
       meta: {
-        keepAlive: false
+        keepAlive: true
       }
     }, {
       path: '/me/recommend',
