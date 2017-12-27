@@ -185,10 +185,10 @@ export default {
         }
       });
       let pdId = pd.id;
-      let userId = `1004${this.member.id}`; //广州：1004，O2O：1003，云南：1002，湛江：1001
+      let userId = `1001`; //广州：1004，O2O：1003，云南：1002，湛江：1001
       let url = `http://aihua.likecs.com/index.php?mod=aihua&act=jdfh&param=detail&id=${pdId}&userid=${userId}&phone=${
         this.member.mobile
-      }&email=102286545@qq.com&kh=fenghuang&tbnum=4654646465465`;
+      }&email=&kh=fenghuang&tbnum=`;
       this.$router.push({ name: "TMDetail", params: { url } });
     }
   }
