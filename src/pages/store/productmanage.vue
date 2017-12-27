@@ -33,8 +33,9 @@
         </yd-checklist>
       </main>
       <footer class="fix-footer">
-        <div style="padding-left:12px;" v-show="pdlist.length">
-          <yd-checkbox v-model="isCheckAll" shape="circle" :change="checkAll">{{isCheckAll?'取消':'全选'}}</yd-checkbox>
+        <div style="padding:0 .1rem;font-size:14px;" v-show="pdlist.length">
+          <!-- <yd-checkbox v-model="isCheckAll" shape="circle" :change="checkAll">{{isCheckAll?'取消':'全选'}}</yd-checkbox> -->
+          <check-icon :value.sync="isCheckAll">全选</check-icon>
         </div>
         <button class="flex-1 delete-btn" @click="delpd" v-show="checkList.length">下架选中商品</button>
         <button class="flex-1 save-btn" @click="editpd" v-show="checkList.length==1">编辑选中商品</button>
@@ -49,6 +50,7 @@
 <script>
 import HeaderTop from "components/header/index";
 import Crown from "components/common/Crown";
+import { CheckIcon } from "vux";
 import { myStorePro, delStorePro, updatePro } from "../../api/index";
 import { getStore, mixin } from "components/common/mixin";
 export default {
@@ -60,7 +62,7 @@ export default {
       isCheckAll: false
     };
   },
-  components: { HeaderTop, Crown },
+  components: { HeaderTop, Crown, CheckIcon },
   computed: {},
   mixins: [mixin],
   created() {},
@@ -95,12 +97,6 @@ export default {
             return;
           }
           let _list = res.result;
-          _list.forEach((pd, index) => {
-            let dateStart = pd.indate.split("至")[0];
-            let dateEnd = pd.indate.split("至")[1];
-            pd.dateStart = dateStart ? dateStart : "";
-            pd.dateEnd = dateEnd ? dateEnd : "";
-          });
           vm.pdlist = _list;
           if (!_list.length) vm.checkList = [];
         }
@@ -145,13 +141,18 @@ export default {
     editpd() {
       let id = this.checkList[0];
       let pd = null;
-      this.pdlist.forEach(item=>{
-        if(id==item.id) {
+      this.pdlist.forEach(item => {
+        if (id == item.id) {
           pd = item;
         }
-      })
-    
+      });
       this.$router.push({ name: "UpdateProduct", params: { pd } });
+    }
+  },
+  watch: {
+    isCheckAll(newVal) {
+      //this.isCheckAll = newVal;
+      this.$refs.pdlist.$emit("ydui.checklist.checkall", newVal);
     }
   }
 };
