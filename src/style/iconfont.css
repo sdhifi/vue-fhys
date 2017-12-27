@@ -58,8 +58,6 @@
 
 .self-code:before { content: "\e629"; }
 
-.self-saoyisao:before { content: "\e63c"; }
-
 .self-qiye:before { content: "\e6dd"; }
 
 .self-add:before { content: "\e619"; }
@@ -149,6 +147,8 @@
 .self-dingdanguanli:before { content: "\e612"; }
 
 .self-shenfenzheng:before { content: "\e6fb"; }
+
+.self-scan:before { content: "\e63d"; }
 
 .self-shoukuan:before { content: "\e7bc"; }
 
