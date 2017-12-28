@@ -189,7 +189,8 @@ export default {
       let url = `http://aihua.likecs.com/index.php?mod=aihua&act=jdfh&param=detail&id=${pdId}&userid=${userId}&phone=${
         this.member.mobile
       }&email=&kh=fenghuang&tbnum=`;
-      this.$router.push({ name: "TMDetail", params: { url } });
+      //this.$router.push({ name: "TMDetail", params: { url } });
+      plus.runtime.openURL(url);
     }
   }
 };
