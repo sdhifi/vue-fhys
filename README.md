@@ -128,10 +128,12 @@ router.afterEach( (to,from) => {
 
 ### 应用截图
 
-![首页](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/home.jpg =375)
+![首页](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/home.jpg){: width="36
 
-![商城页](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/online.jpg =375)
+0px"}
 
-![我的](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/me.jpg =375)
+![商城页](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/online.jpg)
 
-![钱包](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/wallet.jpg =375)
+![我的](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/me.jpg)
+
+![钱包](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/wallet.jpg)
