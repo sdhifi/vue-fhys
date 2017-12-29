@@ -125,3 +125,13 @@ router.afterEach( (to,from) => {
   ~~我的钱包：湛江、云南没有积分转移和用户合并~~ 
   现在切换分支，打包对应版本。
   APP打包名称：云南用金凤凰共创辉煌、湛江用凤凰云商共创辉煌、o2o用凤凰云商 
+
+### 应用截图
+
+![首页](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/home.jpg)
+
+![商城页](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/online.jpg)
+
+![我的](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/me.jpg)
+
+![钱包](https://github.com/weixisheng/vue-fhys/blob/master/screenshots/wallet.jpg)
