@@ -84,6 +84,10 @@
           <span slot="left">联系客服</span>
           <span slot="right" style="color:gold;">020-29030366</span>
         </yd-cell-item>
+        <!-- <yd-cell-item arrow type="label" @click.native="navigate('/me/help')">
+          <span class="iconfont-large self-about c1" slot="icon"></span>
+          <span slot="left">帮助与反馈</span>
+        </yd-cell-item> -->
         <yd-cell-item arrow type="label" @click.native="navigate('/me/about')">
           <span class="iconfont-large self-fenghuang c2" slot="icon"></span>
           <span slot="left">关于凤凰云商</span>
