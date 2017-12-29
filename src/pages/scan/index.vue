@@ -1,11 +1,6 @@
 <template>
   <div>
-    <yd-navbar title="扫一扫" :fixed="true">
-      <section slot="left" @click="goBack">
-        <yd-navbar-back-icon>返回</yd-navbar-back-icon>
-      </section>
-    </yd-navbar>
-    <main class='scroll-content' style="background-color: #000000;">
+    <main class='scroll-content' style="top:0;background-color: #000000;">
       <div id="bcid">
         <p class="tip">...载入中...</p>
       </div>
