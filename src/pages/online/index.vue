@@ -73,7 +73,7 @@ export default {
       pds: [],
       platform:[
         {img:"taobao.jpg",link:"/online/tmindex"},
-        {img:"tianmao.png",link:"/online/tmindex"},
+        {img:"tianmao.jpg",link:"/online/tmindex"},
         {img:"yihaodian.jpg",link:""},
         {img:"jingdong.png",link:"/online/jdindex"}
       ]
