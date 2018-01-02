@@ -3,8 +3,8 @@
     <header-top title="我的二维码"></header-top>
     <main class='scroll-content-2'>
       <section class="qr-container">
-        <div class="head-box">
-          <img :src="getImgPath(member.imgHeadUrl)" alt="头像">
+        <div class="head-box" :style="{'background-image':'url('+member.imgHeadUrl+')'}">
+          <!-- <img :src="getImgPath(member.imgHeadUrl)" alt="头像"> -->
         </div>
         <div class="qr-box">
           <img :src="info.imgAppQrUrl" alt="二维码">
@@ -150,6 +150,7 @@ export default {
     border: 5px solid rgba(232, 142, 44, 0.3);
     border-radius: 50%;
     z-index: 5;
+    background-size: cover;
     img {
       .wh(100%,100%);
       border-radius: 50%;
