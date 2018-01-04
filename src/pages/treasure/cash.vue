@@ -73,10 +73,10 @@ export default {
   },
   methods: {
     drawCash() {
-      this.$dialog.alert({
-        mes:"提现通道维护中"
-      })
-      return;
+      // this.$dialog.alert({
+      //   mes:"提现通道维护中"
+      // })
+      // return;
       let vm = this;
       this.$dialog.loading.open();
       mui.ajax({
