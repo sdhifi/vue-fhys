@@ -118,16 +118,26 @@ router.afterEach( (to,from) => {
       
 ```
 
-- 打包注意事项
+### 打包应用
 
- ~~api基路径也需要根据地区更改~~
-  ~~天猫、淘宝、京东首页跳转到优惠券，需要更改相应的参数，详见tmindex注释~~
-  ~~我的钱包：湛江、云南没有积分转移和用户合并~~ 
-  现在切换分支，打包对应版本。
-  APP打包名称：云南用金凤凰共创辉煌、湛江用凤凰云商共创辉煌、o2o用凤凰云商 
+- 代码
 
+  ```html
+   api基路径也需要根据地区更改
+   天猫、淘宝、京东首页跳转到优惠券，需要更改相应的参数，详见tmindex注释
+   我的钱包：湛江、云南没有积分转移和用户合并
+   现在切换分支，打包对应版本。
+  ```
+
+- 应用
+
+  ```html
+   APP打包名称：
+  	云南：金凤凰共创辉煌、安卓包名：cn.gjfeng_yunnan、苹果包名：com.gjfeng.yunnan
+  	湛江：凤凰云商共创辉煌、安卓包名：cn.gjfeng_zhanjiang、苹果包名：cn.gjfeng-zhanjiang
+  	o2o用凤凰云商
+  ```
 ### 应用截图
-
 <img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/home.jpg" width="360px"/>
 <img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/online.jpg" width="360px"/>
 <img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/me.jpg" width="360px"/>
