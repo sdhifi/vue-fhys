@@ -49,6 +49,7 @@ let delCart = `${cart}/delCart/` //移除购物车
 let addCart = `${cart}/addCart` //添加购物车
 
 let getProvinceByLetter = `${address}/getProvinceByLetter` //根据字母获取城市
+let getCityName = `${address}/getCityName` //根据经纬度获取城市
 let getMyAddress = `${address}/getMyAddress` //我的收货地址
 let getAddressDetail = `${address}/getAddressDetail` //我的收货地址详细信息
 let updateAddressInIos = `${address}/updateAddressInIos` //修改收货地址
@@ -168,6 +169,7 @@ export {
   addCart,
 
   getProvinceByLetter,
+  getCityName,
   getMyAddress,
   getAddressDetail,
   updateAddressInIos,
