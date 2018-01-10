@@ -40,7 +40,7 @@
           <li v-for="(item,p) in tabs1" :key="'p'+p" class="tab-item" :class="{'tab-item2':p<2}">
             <a :href="item.link" :class="{'danger-bg':p<2}">
               <p>{{item.text}}</p>
-              <p :class="{'danger-color':index>1}" v-if="item.param=='canMoney'">{{info1[item.param] *100 ||0}}<span>%</span>
+              <p :class="{'danger-color':p>1}" v-if="item.param=='canMoney'">{{info1[item.param] *100 ||0}}<span>%</span>
               </p>
               <p v-else :class="{'danger-color':p>1}">{{info1[item.param]}}</p>
             </a>
