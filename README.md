@@ -24,9 +24,10 @@ npm run build --report
 
 ### 注意事项
 
-- 由于打包配置问题， 字体图标库和背景图片路径会出现错误。~~搜索mine_background，把/static修改为..[已经使用第三条解决]~~ ,手动修改app.css如下：
-```
-搜索static/fonts，把static修改为..
+- 由于打包配置问题， 字体图标库和背景图片路径会出现错误。~~搜索mine_background，把/static修改为..[已经使用第三条解决] ,手动修改app.css如下[已使用配置文件解决]~~：
+```html
+// 搜索static/fonts，把static修改为..
+在运行 npm run build 之后 npm run replace
 ```
 - 路由传name形式，才能使用params
 ```html
