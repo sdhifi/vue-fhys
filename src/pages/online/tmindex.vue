@@ -1,7 +1,7 @@
 <template>
   <div>
     <yd-navbar title="淘宝|天猫" :fixed="true">
-      <section slot="left" @click="goBack">
+      <section slot="left" @click="goBack" style="line-height:1rem;">
         <yd-navbar-back-icon>返回</yd-navbar-back-icon>
       </section>
     </yd-navbar>
