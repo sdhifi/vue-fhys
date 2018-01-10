@@ -17,13 +17,13 @@
       <!-- 个人福利 -->
       <section class="wallet-tab" v-show="!type">
         <ul class="flex text-center">
-          <li v-for="(item,index) in tabs0" :key="index" class="tab-item">
-            <a :href="item.link" :class="{'danger-bg':index<3}">
+          <li v-for="(item,m) in tabs0" :key="'m'+m" class="tab-item">
+            <a :href="item.link" :class="{'danger-bg':m<3}">
               <p>{{item.text}}</p>
-              <p :class="{'danger-color':index>2}">{{info0[item.param]}}</p>
+              <p :class="{'danger-color':m>2}">{{info0[item.param]}}</p>
             </a>
           </li>
-          <li v-for="(item,index) in tabs3" :key="index" class="tab-item">
+          <li v-for="(item,n) in tabs3" :key="'n'+n" class="tab-item">
             <a :href="item.link">
               <p>{{item.text}}</p>
               <p class="danger-color" v-if="item.param=='diviTotalMoney'">{{info[item.param] *100 ||0}}
@@ -37,15 +37,15 @@
       <!-- 商户福利 -->
       <section class="wallet-tab" v-show="type">
         <ul class="flex text-center">
-          <li v-for="(item,index) in tabs1" :key="index" class="tab-item" :class="{'tab-item2':index<2}">
-            <a :href="item.link" :class="{'danger-bg':index<2}">
+          <li v-for="(item,p) in tabs1" :key="'p'+p" class="tab-item" :class="{'tab-item2':p<2}">
+            <a :href="item.link" :class="{'danger-bg':p<2}">
               <p>{{item.text}}</p>
               <p :class="{'danger-color':p>1}" v-if="item.param=='canMoney'">{{info1[item.param] *100 ||0}}<span>%</span>
               </p>
-              <p v-else :class="{'danger-color':index>1}">{{info1[item.param]}}</p>
+              <p v-else :class="{'danger-color':p>1}">{{info1[item.param]}}</p>
             </a>
           </li>
-          <li v-for="(item,index) in tabs4" :key="index" class="tab-item">
+          <li v-for="(item,q) in tabs4" :key="'q'+q" class="tab-item">
             <a :href="item.link">
               <p>{{item.text}}</p>
               <p class="danger-color">{{info[item.param] || 0}}
@@ -56,13 +56,13 @@
       </section>
     </yd-pullrefresh>
       <yd-grids-group :rows="3" v-if="member.type=='0'">
-        <yd-grids-item v-for="(item,index) in menu0" :key="index" :link="item.link">
+        <yd-grids-item v-for="(item,i) in menu0" :key="'i'+i" :link="item.link">
           <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
           <span slot="text">{{item.text}}</span>
         </yd-grids-item>
       </yd-grids-group>
       <yd-grids-group :rows="3" v-if="member.type=='1'">
-        <yd-grids-item v-for="(item,index) in menu1" :key="index" :link="item.link">
+        <yd-grids-item v-for="(item,j) in menu1" :key="'j'+j" :link="item.link">
           <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
           <span slot="text">{{item.text}}</span>
         </yd-grids-item>
