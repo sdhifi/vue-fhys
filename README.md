@@ -6,7 +6,7 @@
 
 帮助商户销售，促进会员消费，增加粘性。
 
-## Build Setup
+## Build Setup :tada:
 
 ``` bash
 # install dependencies
@@ -22,7 +22,7 @@ npm run build
 npm run build --report
 ```
 
-### 注意事项
+### 注意事项 :sparkles:
 
 - 由于打包配置问题， 字体图标库和背景图片路径会出现错误。~~搜索mine_background，把/static修改为..[已经使用第三条解决] ,手动修改app.css如下[已使用配置文件解决]~~：
 ```html
@@ -119,7 +119,7 @@ router.afterEach( (to,from) => {
       
 ```
 
-### 打包应用
+### 打包应用 :rocket:
 
 - 代码
 
@@ -138,7 +138,7 @@ router.afterEach( (to,from) => {
   	湛江：凤凰云商共创辉煌、安卓包名：cn.gjf_zhanjiang、苹果包名：cn.gjfeng-zhanjiang
   	o2o用凤凰云商
   ```
-### 应用截图
+### 应用截图 :lipstick:
 <img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/home.jpg" width="360px"/>
 <img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/online.jpg" width="360px"/>
 <img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/me.jpg" width="360px"/>
