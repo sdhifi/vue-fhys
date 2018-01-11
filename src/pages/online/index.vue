@@ -12,7 +12,7 @@
         </yd-slider>
       </section>
       <section class="column-list flex text-center align-center" v-show="info.indexColumns">
-        <router-link :to="{name:'Products',params:{update:true},query:{type:0,id:item.id}}" class="column-item" v-for="item in info.indexColumns" :key="item.id">
+        <router-link :to="{name:'Products',params:{update:true},query:{type:0,id:item.id}}" class="column-item" v-for="item in info.indexColumns.slice(0,7)" :key="item.id">
           <img :src="getImgPath(item.pic2)" alt="" class="column-img">
           <p>{{item.names}}</p>
         </router-link>
