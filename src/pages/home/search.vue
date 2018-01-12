@@ -9,14 +9,25 @@
       </div>
     </div>
     <main class='scroll-content-1' style="background-color:#fff;">
+      <section class="search-history hot-search">
+        <div class="search-title fs-14">
+          <h3>热门搜索</h3>
+        </div>
+        <ul class="search-list">
+          <li class="search-item" v-for="(item,index) in hotSearch" :key="index" :style="{'background-color':bg[index%7]}">
+            <span @click="searchValue=item">{{item}}</span>
+          </li>
+        </ul>
+      </section>
       <section class="search-history" v-if="account&&searchHistory.length">
         <div class="search-title fs-14">
           <h3>搜索历史</h3>
           <span class="iconfont self-delete danger-color" @click="clearHistory">清空</span>
         </div>
-        <ul class="search-list flex">
-          <li class="search-item flex align-center" v-for="(item,index) in searchHistory" :key="index" @click="searchValue=item" :style="{'background-color':bg[index%7]}">
-            <span style="">{{item}}</span>
+        <ul class="search-list">
+          <li class="search-item" v-for="(item,index) in searchHistory" :key="index" :style="{'background-color':bg[index%7]}">
+            <span @click="searchValue=item">{{item}}</span>
+            <i class="iconfont self-x icon-delete" @click="deleteHistory(index)"></i>
           </li>
         </ul>
       </section>
@@ -32,6 +43,7 @@ export default {
     return {
       account: "",
       searchValue: "",
+      hotSearch: ["保健","养生","美容","美食"],
       searchHistory: [],
       bg: [
         "#178CEC",
@@ -79,6 +91,10 @@ export default {
     clearHistory() {
       this.searchHistory = [];
       removeStore(`${this.account}_search`);
+    },
+    deleteHistory(i) {
+      this.searchHistory.splice(i, 1);
+      setStore(`${this.account}_search`, this.searchHistory);
     }
   }
 };
@@ -96,13 +112,19 @@ export default {
   }
   .search-list {
     .search-item {
-      .text-center;
-      padding: 0.04rem 0.3rem;
-      margin: 0 1.5% @pd;
-      color: @white;
-      border-radius: 10px 0;
-      .ellipsis;
+      display: inline-block;
+      line-height: 24px;
+      margin: 2px 0.15rem 2px 0;
+      padding: 2px 8px;
+      border-radius: 3px;
       font-size: 0.28rem;
+      color: #fff;
+      opacity: 1;
+      overflow: hidden;
+      .icon-delete {
+        margin-left: 0.1rem;
+        font-weight: normal;
+      }
     }
   }
 }

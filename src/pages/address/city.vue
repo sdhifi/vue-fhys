@@ -32,7 +32,6 @@
           </li>
         </ul>
       </section>
-      <yd-backtop></yd-backtop>
     </main>
   </div>
 </template>
