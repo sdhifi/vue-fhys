@@ -157,7 +157,7 @@ router.afterEach( (to,from) => {
   ```html
    APP打包名称：
   	云南：金凤凰共创辉煌，安卓包名：cn.gjf_yunnan、苹果包名：com.gjfeng.yunnan
-  	湛江：凤凰云商共创辉煌，安卓包名：cn.gjf_zhanjiang、苹果包名：cn.gjfeng-zhanjiang
+  	湛江：凤凰云商共创辉煌，安卓包名：cn.gjf_zhanjiang、苹果包名：com.gjfeng.zhanjiang
   	o2o用凤凰云商
   ```
 ### 应用截图 :lipstick:
