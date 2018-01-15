@@ -173,6 +173,13 @@ const router = new Router({
       meta: {
         keepAlive: false
       }
+    },{
+      path: '/order/return',
+      name: 'Return',
+      component: require('../pages/order/return'),
+      meta: {
+        keepAlive: false
+      }
     }, {
       path: '/me/mywallet',
       name: 'MyWallet',
