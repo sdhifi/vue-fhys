@@ -1,6 +1,9 @@
 <template>
   <li class="order-item">
-    <h2>{{name}}</h2>
+    <div class="flex">
+      <h2 class="flex-1">{{name}}</h2>
+      <span class="iconfont self-delete delete-icon" @click="deleteOrder"></span>
+    </div>
     <div class="good-list" @click="navigate">
       <p class="order-id">订单编号：{{sn}}</p>
       <div class="good-item flex" v-for="good in goods" :key="good.goodsId">
@@ -15,13 +18,19 @@
       </div>
     </div>
     <div class="order-operate flex just-between align-center">
-      <p class="fs-14">合计：
+      <p class="fs-14">合计
         <span class="danger-color  fs-16">￥{{total}}</span>
         <span class="pay-tag">{{payType(paytype)}}</span>
       </p>
-      <yd-button type="warning" v-if="status=='0'" @click.native="pay">去付款</yd-button>
+      <div v-if="status=='0'">
+        <yd-button type="warning" @click.native="pay">去付款</yd-button>
+        <yd-button type="danger" @click.native="cancelOrder">取消订单</yd-button>
+      </div>
       <yd-button type="hollow" v-if="status=='1'">待发货</yd-button>
-      <yd-button type="danger" v-if="status=='2'" @click.native="update">确认收货</yd-button>
+      <div v-if="status=='2'">
+        <yd-button bgcolor="#57A9FF" color="#fff" @click.native="update">确认收货</yd-button>
+        <yd-button type="danger" @click.native="returnOrder">退货</yd-button>
+      </div>
       <yd-button type="primary" v-if="status=='3' && evaluation=='0'" @click.native="comment">去评价</yd-button>
       <yd-button type="disabled" v-if="status=='3' && evaluation=='1'" @click.native="comment">已评价</yd-button>
       <yd-button type="disabled" v-if="status=='3' && evaluation=='2'" @click.native="comment">过期未评价</yd-button>
@@ -88,6 +97,15 @@ export default {
     },
     comment() {
       this.$emit("comment");
+    },
+    deleteOrder(){
+      this.$emit("delete-order");
+    },
+    cancelOrder(){
+      this.$emit("cancel-order");
+    },
+    returnOrder(){
+      this.$emit("return-order");      
     }
   }
 };
@@ -102,6 +120,9 @@ export default {
     padding-bottom: @pd;
     font-size: 0.28rem;
     border-bottom: 1px solid #f7f5f5;
+  }
+  .delete-icon{
+    font-size: .4rem;
   }
 }
 .good-list {
@@ -137,13 +158,12 @@ export default {
   }
 }
 .pay-tag {
-  padding: 2px 5px;
+  padding: 2px;
   border: 1px solid @blue;
-  border-radius: 10px 0;
+  border-radius: 4px;
   color: @white;
   background-color: @blue;
   font-size: 0.2rem;
-
   vertical-align: 2px;
 }
 </style>
