@@ -16,8 +16,11 @@
           <span v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}
             <span class="fs-12" style="margin-left:.1rem;">责任金额</span>
           </span>
+          <span v-else-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}
+            <span class="fs-14" style="margin-left:.1rem;">代金券金额</span>
+          </span>
           <span v-else>￥{{info.productAttrStock&&info.productAttrStock.price}}</span>
-          <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
+          <span class="iconfont self-star" @click="collect" v-show="account&&info.isCanUserCou!='3'">收藏</span>
         </p>
       </section>
       <section class="info-2">
@@ -25,10 +28,6 @@
           <yd-cell-item v-if="info.isCanUserCou">
             <span slot="left">剩余：{{info.productAttrStock&&info.productAttrStock.repertory}}</span>
           </yd-cell-item>
-          <!-- <yd-cell-item v-else>
-            <span slot="left">商品来源：京东</span>
-            <span slot="right">库存：{{info.productAttrStock&&info.productAttrStock.repertory}}</span>
-          </yd-cell-item> -->
           <yd-cell-item v-if="info.isCanUserCou=='1'">
             <span slot="left">积分使用说明:{{info.productAttrStock&&info.productAttrStock.price}}积分 +
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
@@ -36,6 +35,11 @@
           </yd-cell-item>
           <yd-cell-item v-else-if="info.isCanUserCou=='2'">
             <span slot="left">责任金额使用说明:{{info.productAttrStock&&info.productAttrStock.price}}责任金额 +
+              <span class="danger-color">￥{{info.pointNeedMoney}}</span>
+            </span>
+          </yd-cell-item>
+          <yd-cell-item v-else-if="info.isCanUserCou=='3'">
+            <span slot="left">代金券使用说明:{{info.productAttrStock&&info.productAttrStock.price}}代金券金额 +
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
             </span>
           </yd-cell-item>
@@ -49,13 +53,9 @@
         <div v-html="info.content" class="pd-content"></div>
       </section>
     </main>
-    <!-- <footer class="fix-footer flex align-center" v-show="!info.isCanUserCou">
-      <button @click="buynow" class="flex-1 btn-2">[京东]立即购买</button>
-    </footer> -->
-    <footer class="fix-footer flex align-center" v-show="info.isCanUserCou" style="border-top:1px solid #dfdfdf;">
+    <footer class="fix-footer flex align-center" v-show="info.goodSoure!='2'" style="border-top:1px solid #dfdfdf;">
       <div class="shopping-cart flex just-center align-center" @click="goShoppingCart">
         <span class="iconfont-large self-shopcart"></span>
-        <!-- <span class="shopping-num" v-show="account&&cartNum>0">{{cartNum}}</span> -->
         <yd-badge type="danger" class="shopping-num" v-show="account&&cartNum>0">{{cartNum}}</yd-badge>
       </div>
       <button @click="buynow" class="flex-1 btn-2">立即购买</button>
@@ -132,7 +132,6 @@ export default {
       oldBack: mui.back,
       info: {},
       imgList: [],
-      //pdtype: -1, //产品类型--积分换购：0，品牌商城：1，京东：2，责任消费：3
       show: false,
       buyType: 0, //购买方式--加入购物车：0，立即购买：1
       pdnum: 1,
@@ -146,7 +145,11 @@ export default {
     orderType() {
       return this.info.isCanUserCou == "1"
         ? "1"
-        : this.info.isCanUserCou == "2" ? "2" : "0";
+        : this.info.isCanUserCou == "2" 
+        ? "2" 
+        : this.info.isCanUserCou == "3" 
+        ? "3"
+        : "0";
     }
   },
   mixins: [mixin],
