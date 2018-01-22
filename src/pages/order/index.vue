@@ -15,28 +15,28 @@
       <div v-show="index==1">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist0">
           <ul slot="list">
-            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item,index)"  @navigate="goDetail(item.orderSn)"></order-item>
+            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item,index)" @navigate="goDetail(item.orderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==2">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist1">
           <ul slot="list">
-            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType"  @navigate="goDetail(item.orderSn)"></order-item>
+            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @navigate="goDetail(item.orderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==3">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist2">
           <ul slot="list">
-            <order-item v-for="(item,index) in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @update="updateOrder(item,index)"  @navigate="goDetail(item.orderSn)"></order-item>
+            <order-item v-for="(item,index) in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @update="updateOrder(item,index)" @navigate="goDetail(item.orderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==4">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
           <ul slot="list">
-            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @comment="addComment(item)"  @navigate="goDetail(item.orderSn)"></order-item>
+            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @comment="addComment(item)" @navigate="goDetail(item.orderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
@@ -188,6 +188,9 @@ export default {
           list: this[`list${this.orderType}`]
         }
       });
+    },
+    goDetail(sn) {
+      this.saveCache();
       this.$router.push({ name: "OrderDetail", query: { sn } });
     },
     payOrder(item, index) {
