@@ -559,7 +559,66 @@ const router = new Router({
       meta: {
         keepAlive: true
       }
+    },  {
+      path: '/merchant/index',
+      name: 'MerchantIndex',
+      component: require('../pages/merchant/index'),
+      meta: {
+        keepAlive: true
+      }
+    },{
+      path: '/merchant/give',
+      name: 'MerchantGive',
+      component: require('../pages/merchant/give'),
+      meta: {
+        keepAlive: false
+      }
+    },
+    {
+      path: '/merchant/give2',
+      name: 'MerchantGive2',
+      component: require('../pages/merchant/give2'),
+      meta: {
+        keepAlive: false
+      }
+    },
+    {
+      path: '/merchant/givehistory',
+      name: 'GiveHistory',
+      component: require('../pages/merchant/givehistory'),
+      meta: {
+        keepAlive: false
+      }
     }, {
+      path: '/merchant/upgrade',
+      name: 'Upgrade',
+      component: require('../pages/merchant/upgrade'),
+      meta: {
+        keepAlive: false
+      }
+    },
+    {
+      path: '/merchant/coupon',
+      name: 'Coupon',
+      component: require('../pages/merchant/coupon'),
+      meta: {
+        keepAlive: true
+      }
+    },{
+      path: '/merchant/couponhistory',
+      name: 'CouponHistory',
+      component: require('../pages/merchant/couponhistory'),
+      meta: {
+        keepAlive: false
+      }
+    },{
+      path: '/merchant/protocol',
+      name: 'MerchantProtocol',
+      component: require('../pages/merchant/protocol'),
+      meta: {
+        keepAlive: false
+      }
+    },{
       path: '*',
       redirect: '/home/index'
     }

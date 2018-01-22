@@ -4,7 +4,7 @@
     <main class='scroll-content'>
       <section>
         <yd-slider>
-          <yd-slider-item v-for="(item,index) in info.indexAds" :key="item.id">
+          <yd-slider-item v-for="item in info.indexAds" :key="item.id">
             <router-link :to="'/online/product?id='+item.address.substring(item.address.lastIndexOf('/')+1)">
               <img :src="item.photo" :alt="item.names">
             </router-link>
@@ -24,6 +24,9 @@
       <section class="platform-container flex">
         <div v-for="(item,index) in platform" :key="index" class="platform-item" :style="{'background-image':formatBg(item.img)}" @click="navigate(item.link)">
         </div>
+      </section>
+      <section class="merchant-container" @click="goMerchant">
+        <div :style="{'background-image':formatBg('merchant.jpg')}"></div>
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
         <yd-cell-group>
@@ -49,6 +52,9 @@
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+
               <span>{{pd.price}}责任金额</span>
             </div>
+            <div class="price" v-else-if="pd.isCanUserCou=='3'">
+              <span>{{pd.price}}代金券</span>
+            </div>
             <div class="price" v-else>
               <span>￥{{formatPrice(pd.price)}}</span>
             </div>
@@ -60,6 +66,7 @@
   </div>
 </template>
 <script>
+import {mapState} from "vuex";
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
 import { mixin } from "components/common/mixin";
@@ -71,16 +78,16 @@ export default {
       oldBack: mui.back,
       info: {},
       pds: [],
-      platform:[
-        {img:"taobao.jpg",link:"/online/tmindex"},
-        {img:"tianmao.jpg",link:"/online/tmindex"},
-        {img:"yihaodian.jpg",link:""},
-        {img:"jingdong.png",link:"/online/jdindex"}
+      platform: [
+        { img: "taobao.jpg", link: "/online/tmindex" },
+        { img: "tianmao.jpg", link: "/online/tmindex" },
+        { img: "yihaodian.jpg", link: "" },
+        { img: "jingdong.png", link: "/online/jdindex" }
       ]
     };
   },
   components: { HeaderTop, FooterBar },
-  computed: {},
+  computed: {...mapState(['account','member'])},
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -127,25 +134,58 @@ export default {
           vm.info = res.result;
           vm.pds = _pds;
         },
-        error(e){
+        error(e) {
           vm.$dialog.loading.close();
           vm.$dialog.toast({
-            mes:"网络异常，请稍后重试！"
-          })
+            mes: "网络异常，请稍后重试！"
+          });
         }
       });
     },
-    goProducts(id){
-      this.$router.push({name:"Products",params:{update:true},query:{type:1,id}})
+    goProducts(id) {
+      this.$router.push({
+        name: "Products",
+        params: { update: true },
+        query: { type: 1, id }
+      });
     },
-    navigate(link){
-      if(!link){
+    navigate(link) {
+      if (!link) {
         this.$dialog.toast({
-          mes:"数据对接中，敬请期待！"
-        })
+          mes: "数据对接中，敬请期待！"
+        });
         return;
       }
-      this.$router.push({path:link})
+      this.$router.push({ path: link });
+    },
+    goMerchant(){
+      if(!this.account){
+        this.$dialog.alert({
+          mes: "请先登录！",
+          callback:()=>{
+            this.$router.push({name:'Login'})
+          }
+        });
+        return;
+      }
+      if(this.member.type !="1"){
+        this.$dialog.alert({
+          mes: "你不是商家,请在个人中心-我是商家里面进行商家申请后再进行相应的操作！"
+        });
+        return;
+      }
+      if(this.member.merchantType == "0"){
+        this.$dialog.confirm({
+          title:"提示",
+          mes: "你不是联盟商家，去升级?",
+          opts:()=>{
+            this.$router.push({name:'Upgrade'})
+          }
+        });
+      }
+      else{
+        this.$router.push({name:'MerchantIndex',params:{update: true}})
+      }
     }
   }
 };
@@ -175,18 +215,26 @@ section {
     }
   }
 }
-.platform-container{
+.platform-container {
   .pd-h;
-  .platform-item{
+  .platform-item {
     display: block;
-    margin: .1rem;
+    margin: 0.1rem;
     height: 1.5rem;
     width: 47%;
     background-size: contain;
     background-repeat: no-repeat;
   }
 }
-
+.merchant-container {
+  padding: .2rem 0 0 0;
+  div {
+    display: block;
+    height: 3.4rem;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
 .pd-list {
   ul {
     .pd-h;

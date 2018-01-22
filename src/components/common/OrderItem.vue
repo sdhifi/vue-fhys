@@ -40,7 +40,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import {mixin} from "./mixin"
+import { mixin } from "./mixin";
 export default {
   name: "OrderItem",
   props: {
@@ -54,7 +54,7 @@ export default {
     },
     total: Number,
     status: String,
-    evaluation:String,
+    evaluation: String,
     paytype: String
   },
   mixins: [mixin],
@@ -82,11 +82,14 @@ export default {
         case "9":
           return "凤凰宝余额";
           break;
+        case "10":
+          return "代金券";
+          break;
         default:
-          return "其他"
+          return "其他";
       }
     },
-    navigate(){
+    navigate() {
       this.$emit("navigate");
     },
     pay() {
@@ -98,14 +101,14 @@ export default {
     comment() {
       this.$emit("comment");
     },
-    deleteOrder(){
+    deleteOrder() {
       this.$emit("delete-order");
     },
-    cancelOrder(){
+    cancelOrder() {
       this.$emit("cancel-order");
     },
-    returnOrder(){
-      this.$emit("return-order");      
+    returnOrder() {
+      this.$emit("return-order");
     }
   }
 };
@@ -121,8 +124,8 @@ export default {
     font-size: 0.28rem;
     border-bottom: 1px solid #f7f5f5;
   }
-  .delete-icon{
-    font-size: .4rem;
+  .delete-icon {
+    font-size: 0.4rem;
   }
 }
 .good-list {

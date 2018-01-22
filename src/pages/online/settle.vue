@@ -45,7 +45,18 @@
               <div class="flex just-between">
                 <span class="danger-color fs-16" v-if="settleList.isCanUseCou==1">{{item.goodsAmount}}积分</span>
                 <span class="danger-color fs-16" v-else-if="settleList.isCanUseCou==2">{{item.goodsAmount}}责任金</span>
-                <span class="danger-color fs-16" v-else>￥{{item.goodsAmount}}</span>
+                <span class="danger-color fs-16" v-else-if="settleList.isCanUseCou==3">{{item.goodsAmount}}代金券</span>
+                <!-- <span class="danger-color fs-16" v-else>￥{{item.goodsAmount}}</span> -->
+                <template v-else>
+                  <template v-if="+member.merchantType==1">
+                    <span class="danger-color fs-16" v-if="item.standardPrice">￥{{item.standardPrice}}</span>
+                    <span class="danger-color fs-16" v-else>￥{{item.goodsAmount}}</span>
+                  </template>
+                  <template v-else>
+                    <span class="danger-color fs-16" v-if="item.honourPrice">￥{{item.honourPrice}}</span>
+                    <span class="danger-color fs-16" v-else>￥{{item.goodsAmount}}</span>
+                  </template>
+                </template>
                 <span class="fs-14">x{{item.goodsNum}}</span>
               </div>
             </div>
@@ -61,7 +72,12 @@
           <span slot="left">支付明细</span>
           <span slot="right" class="fs-14" v-if="settleList.isCanUseCou==1">{{settleList.totalAmount}}积分+￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
           <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==2">{{settleList.totalAmount}}责任金+￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
-          <span slot="right" class="fs-14" v-else>￥{{settleList.totalAmount}}</span>
+          <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==3">{{settleList.totalAmount}}代金券+￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
+          <!-- <span slot="right" class="fs-14" v-else>￥{{settleList.totalAmount}}</span> -->
+          <template slot="right" v-else>
+            <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice">￥{{formatPrice(total2)}}+￥{{settleList.pos}}</span>
+            <span class="danger-color fs-16" v-else>￥{{settleList.totalAmount}}</span>
+          </template>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">买家留言：</span>
@@ -81,13 +97,25 @@
             <span class="iconfont self-x fs-12 danger-color" v-else>责任金不足</span>
           </span>
         </yd-cell-item>
+        <yd-cell-item v-if="orderType=='3'">
+          <span slot="left">当前代金券:{{member.memberVoucherMoney}}</span>
+          <span slot="right">
+            <span class="iconfont self-dui fs-12 primary-color" v-if="member.memberVoucherMoney>settleList.totalAmount">支付:{{settleList.totalAmount}}</span>
+            <span class="iconfont self-x fs-12 danger-color" v-else>代金券不足</span>
+          </span>
+        </yd-cell-item>
         <yd-cell-item>
           <p slot="right" class="fs-16">
             支付：
             <span class="danger-color" v-if="orderType=='1'&&!$route.query.buynow">￥{{formatPrice(settleList.pointNiceAmount+settleList.pos)}}</span>
             <span class="danger-color" v-else-if="orderType=='1'&&$route.query.buynow">￥{{formatPrice(settleList.pointNiceAmount)}}</span>
             <span class="danger-color" v-else-if="orderType=='2'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
-            <span class="danger-color" v-else>￥{{formatPrice(total)}}</span>
+            <span class="danger-color" v-else-if="orderType=='3'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
+            <!-- <span class="danger-color" v-else>￥{{formatPrice(total)}}</span> -->
+            <template v-else>
+              <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice">￥{{formatPrice(total2+ settleList.pos)}}</span>
+              <span class="danger-color" v-else>￥{{formatPrice(total)}}</span>
+            </template>
           </p>
         </yd-cell-item>
       </yd-cell-group>
@@ -105,6 +133,13 @@
           <input slot="right" type="radio" value="8" v-model="payType" />
         </yd-cell-item>
       </yd-cell-group>
+      <yd-cell-group v-else-if="orderType=='3'">
+        <yd-cell-item type="radio">
+          <span slot="icon" class="iconfont-large self-tiqufuli" style="color:#e7d489"></span>
+          <span slot="left">代金券</span>
+          <input slot="right" type="radio" value="10" v-model="payType" />
+        </yd-cell-item>
+      </yd-cell-group>
       <yd-cell-group title="选择支付方式" v-else>
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
@@ -115,16 +150,6 @@
           </div>
           <input slot="right" type="radio" value="0" v-model="payType" />
         </yd-cell-item>
-        <!-- <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont-large self-weixinzhifu" style="color:#25d025;"></span>
-          <span slot="left">微信支付</span>
-          <input slot="right" type="radio" value="1" v-model="payType" />
-        </yd-cell-item> -->
-        <!-- <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont-large self-yinlianzhifu1" style="color:#077d8d;"></span>
-          <span slot="left">银联在线支付</span>
-          <input slot="right" type="radio" value="3" v-model="payType" />
-        </yd-cell-item> -->
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yuanbao" style="color:#f9a340;"></span>
           <span slot="left">凤凰宝</span>
@@ -143,10 +168,18 @@
     <div v-show="showPassword" class="text-center pay-box">
       <h3 class="fs-18 pay-title" style="background-color:#9ED97C">待支付金额</h3>
       <div v-if="orderType=='0'&&payType=='0'">
-        <p class="pay-price fs-14">
-          {{total}}×(1+10%)=
-          <span class="fs-20 danger-color">￥{{formatPrice(total * 1.1)}}</span>
-        </p>
+        <template v-if="settleList.goodsVos[0].honourPrice">
+          <p class="pay-price fs-14">
+            {{total2 + settleList.pos}}×(1+10%)=
+            <span class="fs-20 danger-color">￥{{formatPrice((total2+settleList.pos) * 1.1)}}</span>
+          </p>
+        </template>
+        <template v-else>
+          <p class="pay-price fs-14">
+            {{total}}×(1+10%)=
+            <span class="fs-20 danger-color">￥{{formatPrice(total * 1.1)}}</span>
+          </p>
+        </template>
         <P class="balance-price">
           <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
           余额：
@@ -154,9 +187,16 @@
         </P>
       </div>
       <div v-if="orderType=='0'&&payType=='9'">
-        <p class="pay-price fs-14">
+        <template v-if="settleList.goodsVos[0].honourPrice">
+          <p class="pay-price fs-14">
+            <span class="fs-20 danger-color">￥{{formatPrice(total2+settleList.pos)}}</span>
+          </p>
+        </template>
+        <template v-else>
+          <p class="pay-price fs-14">
           <span class="fs-20 danger-color">{{formatPrice(settleList.totalAmount)}}</span>
         </p>
+        </template>
         <P class="balance-price">
           <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
           当前凤凰宝余额：
@@ -173,6 +213,16 @@
           <span>{{member.insuranceMoney}}</span>
         </P>
       </div>
+      <div v-if="payType=='10'">
+        <p class="pay-price fs-14">
+          <span class="fs-20 danger-color">{{formatPrice(settleList.totalAmount)}}</span>
+        </p>
+        <P class="balance-price">
+          <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
+          当前代金券：
+          <span>{{member.memberVoucherMoney}}</span>
+        </P>
+      </div>
     </div>
     <yd-keyboard v-model="showPassword" :callback="checkPayPwd" ref="keyboard" title="凤凰云商安全键盘" input-text="请输入支付密码"></yd-keyboard>
   </div>
@@ -186,7 +236,7 @@ export default {
   data() {
     return {
       oldBack: mui.back,
-      orderType: '0', //0:普通商品 1：积分兑换 2责任消费
+      orderType: "0", //0:普通商品 1：积分兑换 2责任消费 3代金券
       remark: "", //备注
       payType: "", //支付方式
       showPassword: false, //安全键盘
@@ -206,17 +256,39 @@ export default {
     total() {
       return this.settleList.totalAmount + this.settleList.pointNiceAmount;
     },
+    total2() {
+      let a = 0;
+      this.settleList.goodsVos.forEach(item => {
+        a +=
+          +this.member.merchantType > 1
+            ? item.honourPrice * item.goodsNum
+            : item.standardPrice * item.goodsNum;
+      });
+      return a;
+    },
     validAddress() {
       return this.defaultAddress || !!this.addressList.length;
     },
-    valid(){
-      switch (this.orderType){
+    valid() {
+      switch (this.orderType) {
         case "1":
-          return this.validAddress && (this.member.consumptionMoney > this.settleList.totalAmount)
-        break;
-         case "2":
-          return this.validAddress && (this.member.insuranceMoney > this.settleList.totalAmount)
-        break;
+          return (
+            this.validAddress &&
+            this.member.consumptionMoney > this.settleList.totalAmount
+          );
+          break;
+        case "2":
+          return (
+            this.validAddress &&
+            this.member.insuranceMoney > this.settleList.totalAmount
+          );
+          break;
+        case "3":
+          return (
+            this.validAddress &&
+            this.member.memberVoucherMoney > this.settleList.totalAmount
+          );
+          break;
         default:
           return this.validAddress && true;
       }
@@ -231,8 +303,7 @@ export default {
     mui.back = this.oldBack;
     next();
   },
-  created() {
-  },
+  created() {},
   activated() {
     this.$store.dispatch("getInfo");
     this.$store.dispatch("getFHB");
@@ -246,6 +317,9 @@ export default {
         break;
       case "2":
         this.payType = "8";
+        break;
+      case "3":
+        this.payType = "10";
         break;
       default:
         this.payType = "0";
@@ -280,15 +354,22 @@ export default {
         return;
       }
       //判断是否设置过支付密码，没有就跳转密码设置
-      if ((this.payType == "0" || this.payType == "8"|| this.payType == "9") && !this.paypwd) {
+      if (
+        (this.payType == "0" ||
+          this.payType == "8" ||
+          this.payType == "9" ||
+          this.payType == "10") &&
+        !this.paypwd
+      ) {
         this.$router.push({ name: "PwdManage" });
         return;
       }
-      //普通商品，余额支付&凤凰宝 || 责任商品，责任金额
+      //普通商品，余额支付&凤凰宝 || 责任商品，责任金额 ||代金券商品，代金券
       if (
         (this.orderType == 0 && this.payType == "0") ||
         (this.orderType == 0 && this.payType == "9") ||
-        (this.orderType == 2 && this.payType == "8")
+        (this.orderType == 2 && this.payType == "8") ||
+        (this.orderType == 3 && this.payType == "10")
       ) {
         this.showPassword = true;
       } else if (this.orderType == 1) {
@@ -390,6 +471,17 @@ export default {
             } else {
               vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
             }
+          } else if (vm.orderType == 3) {
+            //代金券
+            vm.$dialog.loading.close();
+            if (res.code == 200) {
+              vm.showPassword = false;
+              vm.payPos(_result.payString, res.msg);
+            } else if (res.code == 401) {
+              vm.forgetpwd();
+            } else {
+              vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
+            }
           }
         },
         error(err) {
@@ -424,7 +516,7 @@ export default {
             callback: () => {
               this.$router.replace({
                 name: "MyOrder",
-                params:{update:true},
+                params: { update: true },
                 query: { id: 0 }
               });
             }
@@ -449,7 +541,6 @@ export default {
           vm.pays["alipay"],
           payParams,
           function(result) {
-          
             vm.$dialog.confirm({
               mes: "支付成功！",
               opts: [
