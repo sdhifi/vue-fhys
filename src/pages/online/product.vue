@@ -19,8 +19,11 @@
           <span v-else-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}
             <span class="fs-14" style="margin-left:.1rem;">代金券金额</span>
           </span>
-          <span v-else>￥{{info.productAttrStock&&info.productAttrStock.price}}</span>
-          <span class="iconfont self-star" @click="collect" v-show="account&&info.isCanUserCou!='3'">收藏</span>
+          <template v-else>
+            <span v-if="info.productAttrStock.honourPrice">{{info.productAttrStock.price}}</span>
+            <span v-else>￥{{info.productAttrStock&&info.productAttrStock.price}}</span>
+          </template>
+          <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
       </section>
       <section class="info-2">
@@ -42,6 +45,12 @@
             <span slot="left">代金券使用说明:{{info.productAttrStock&&info.productAttrStock.price}}代金券金额 +
               <span class="danger-color">￥{{info.pointNeedMoney}}</span>
             </span>
+          </yd-cell-item>
+          <yd-cell-item v-else-if="info.productAttrStock.standardPrice">
+            <span slot="left">商家兑换：{{info.productAttrStock.standardPrice}}</span>
+          </yd-cell-item>
+          <yd-cell-item v-else-if="info.productAttrStock.honourPrice">
+            <span slot="left">企业兑换：{{info.productAttrStock.honourPrice}}</span>
           </yd-cell-item>
           <yd-cell-item arrow type="link" :href="'/online/comment?id='+info.proId">
             <span slot="left">商品评价</span>
@@ -72,36 +81,51 @@
           </div>
           <div class="info flex flex-1">
             <p>{{info.proName}}</p>
-            <p class="danger-color fs-14" v-if="info.isCanUserCou=='0'">￥{{info.productAttrStock&&info.productAttrStock.price}}</p>
             <p class="danger-color fs-14" v-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}积分+￥{{info.pointNeedMoney}}</p>
-            <p class="danger-color fs-14" v-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}责任金额+￥{{info.pointNeedMoney}}</p>
+            <p class="danger-color fs-14" v-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}责任金</p>
+            <p class="danger-color fs-14" v-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}代金券</p>
+            <template v-else>
+              <p class="danger-color fs-14" v-if="info.productAttrStock.honourPrice">{{info.productAttrStock.price}}</p>
+              <p class="danger-color fs-14" v-else>￥{{info.productAttrStock&&info.productAttrStock.price}}</p>
+            </template>
           </div>
           <div class="close" @click="show=false">
             <span class="iconfont-large self-guanbi"></span>
           </div>
         </div>
         <div class="middle">
-          <div class="middle-1" v-show="info.isCanUserCou">
+          <div class="middle-1" v-if="!info.productAttrStock.honourPrice">
             <h3>请选择属性：</h3>
             <div class="flex align-center" v-for="(item,index) in info.attrs" :key="index">
-              <span class="attr-name fs-14">{{item.attrName}}</span>
+              <span class="attr-name fs-14" v-if="info.isCanUserCou=='2'">责任金兑换</span>
+              <span class="attr-name fs-14" v-else-if="info.isCanUserCou=='3'">代金券兑换</span>
+              <span class="attr-name fs-14" v-else>{{item.attrName}}</span>
               <ul class="attr-list flex-1">
                 <li class="attr-item" :class="{'active':attr.selected}" v-for="(attr,attrIndex) in item.attrValues" :key="attr.id" :data-id="attr.id" @click="chooseAttr(item,attr,attrIndex)">{{attr.attrValueId.attrValue}}</li>
               </ul>
             </div>
           </div>
+          <yd-cell-group v-else-if="info.productAttrStock.honourPrice&&+member.merchantType==1">
+          <!-- <yd-cell-group> -->
+            <yd-cell-item arrow type="link" href="/merchant/upgrade">
+              <p slot="left">企业版立省
+                <span class="danger-color fs-14">{{info.productAttrStock.standardPrice-info.productAttrStock.honourPrice}}</span>
+              </p>
+              <span slot="right" class="fs-14">去升级</span>
+            </yd-cell-item>
+          </yd-cell-group>
           <div class="middle-2">
             <h3>请选择数量：</h3>
             <div class="flex align-center">
-              <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="info.isCanUserCou=='1' || info.isCanUserCou=='2'" readonly></yd-spinner>
+              <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="info.purchasNum==1" readonly></yd-spinner>
               <div v-else>
                 <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock&&info.productAttrStock.repertory" v-if="info.productAttrStock&&info.productAttrStock.repertory"></yd-spinner>
                 <yd-spinner :min="0" :max="0" readonly v-else></yd-spinner>
               </div>
               <p style="margin-left:.2rem;">库存
                 <span class="danger-color">{{info.productAttrStock&&info.productAttrStock.repertory}}</span>件(商品限购
-                <span v-if="info.isCanUserCou=='1' || info.isCanUserCou=='2'">1</span>
-                <span v-else>{{info.purchasNum}}</span>件)
+                <!-- <span v-if="info.isCanUserCou=='1' || info.isCanUserCou=='2'">1</span> -->
+                <span>{{info.purchasNum}}</span>件)
               </p>
             </div>
           </div>
@@ -140,16 +164,14 @@ export default {
   },
   components: { HeaderTop, LoadMore, Swiper, SwiperItem },
   computed: {
-    ...mapState(["account", "cartList"]),
+    ...mapState(["account", "cartList", "member"]),
     ...mapGetters(["cartNum"]),
     orderType() {
       return this.info.isCanUserCou == "1"
         ? "1"
-        : this.info.isCanUserCou == "2" 
-        ? "2" 
-        : this.info.isCanUserCou == "3" 
-        ? "3"
-        : "0";
+        : this.info.isCanUserCou == "2"
+          ? "2"
+          : this.info.isCanUserCou == "3" ? "3" : "0";
     }
   },
   mixins: [mixin],
@@ -164,11 +186,11 @@ export default {
       this.$store.dispatch("getCartList");
     }
     this.getInfo();
-    if (this.$store.state.positions[this.$route.path]) {
-      document.querySelector("main").scrollTop = this.$store.state.positions[
-        this.$route.path
-      ];
-    }
+    // if (this.$store.state.positions[this.$route.path]) {
+    //   document.querySelector("main").scrollTop = this.$store.state.positions[
+    //     this.$route.path
+    //   ];
+    // }
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -182,8 +204,8 @@ export default {
   },
   mounted() {},
   methods: {
-    goBack(){
-      this.show?this.show=false:this.$router.go(-1);
+    goBack() {
+      this.show ? (this.show = false) : this.$router.go(-1);
     },
     getInfo() {
       let vm = this;
@@ -193,7 +215,9 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           id: this.$route.query.id,
-          token: md5(`gjfengonlineProductsDetailInfoInH5${this.$route.query.id}`)
+          token: md5(
+            `gjfengonlineProductsDetailInfoInH5${this.$route.query.id}`
+          )
         },
         success(res) {
           let _result = res.result;
@@ -350,7 +374,7 @@ export default {
             vm.show = false;
             vm.$dialog.toast({
               mes: res.msg,
-              timeout:1000
+              timeout: 1000
             });
             vm.$store.dispatch("getCartList");
           }
@@ -423,7 +447,7 @@ section {
 }
 
 .info-1 {
-  img{
+  img {
     .wh(100%,100%);
   }
   p {

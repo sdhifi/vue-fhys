@@ -61,6 +61,14 @@
           <span class="iconfont-large self-seller c1" slot="icon"></span>
           <span slot="left">我是商家</span>
         </yd-cell-item>
+        <yd-cell-item arrow type="label" @click.native="navigate('/merchant/upgrade')" v-if="(member.type=='1' && member.merchantType=='1')">
+          <span class="iconfont-large self-shenghuofuwu c2" slot="icon"></span>
+          <span slot="left">联盟商家升级</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="label" @click.native="navigate('/merchant/give2')" v-if="+member.merchantType==3">
+          <span class="iconfont-large self-shenghuofuwu c2" slot="icon"></span>
+          <span slot="left">赠送商家版或企业版</span>
+        </yd-cell-item>
         <yd-cell-item arrow type="label" @click.native="navigate('/agent/index')" v-if="member.identity!='0'">
           <span class="iconfont-large self-daili c2" slot="icon"></span>
           <span slot="left">我是代理</span>
