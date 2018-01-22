@@ -8,20 +8,13 @@
 </template>
 <script>
 import HeaderTop from 'components/header/index'
-import { } from '../../api/index'
 export default {
   name: 'MerchantProtocol',
   data() {
     return {
-      url: ''
+      url: 'http://gz.gjfeng.net/gjfeng-web-client/wx/rule/memberCooperationRule?key=merchant_1'
     }
   },
-  components: { HeaderTop },
-  created() {
-
-  },
-  methods: {
-
-  }
+  components: { HeaderTop }
 }
 </script>
