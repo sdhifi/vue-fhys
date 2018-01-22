@@ -138,6 +138,9 @@ export default {
         case "9":
           return "凤凰宝余额";
           break;
+        case "10":
+          return "代金券";
+          break;
       }
     },
     orderType() {

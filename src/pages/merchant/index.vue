@@ -16,18 +16,17 @@
             <div class="pd-info flex-1">
               <h3>{{pd.name}}</h3>
               <div class="flex just-between align-center">
-                <span class="fs-14 price1" v-if="pd.isCanUserCou=='1'">￥{{pd.pointNicePrice}}
-                  <span class="price2">+{{formatPrice(pd.price-pd.pointNicePrice)}}积分</span>
-                </span>
-                <span class="fs-14 price1" v-else-if="pd.isCanUserCou=='2'">￥{{pd.pointNicePrice}}
-                  <span class="price2">+{{pd.price}}责任金额</span>
-                </span>
-                <span class="fs-14 price1" v-else-if="pd.isCanUserCou=='3'">￥{{pd.pointNicePrice||0}}
-                  <span class="price2">+{{pd.price}}代金券</span>
-                </span>
-                <span class="fs-14 price1" v-else>
-                  ￥{{pd.price}}
-                </span>
+                <p>
+                  <!-- <span class="price1" v-if="member.merchantType=='1'">
+                    ￥{{pd.standardPrice}}
+                  </span>
+                  <span class="price1" v-else>
+                    ￥{{pd.honourPrice}}
+                  </span> -->
+                  <span class="fs-14 price1">
+                   {{pd.price}}
+                  </span>
+                </p>
                 <yd-button type="warning" v-if="account" @click.native="add2cart(pd.id,$event)">加入购物车</yd-button>
               </div>
             </div>
@@ -47,51 +46,44 @@
 import { mapState, mapGetters } from "vuex";
 import HeaderTop from "components/header/index";
 import {
-  onlineProductsByAllColumn,
+  findVoucherProduct,
   onlineProductsDetailInfoInH5,
   addCart
 } from "../../api/index";
-import {mixin} from "components/common/mixin"
 export default {
-  name: "Products",
+  name: "MerchantIndex",
   data() {
     return {
-      searchValue: "",
-      columnId: "",
-      type: "", //栏目级别
-      pageNo: 1,
       noData: false,
-      productList: []
+      productList: [],
+      pageNo: 1,
+      searchValue: ""
     };
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account", "cacheList", "positions"]),
+    ...mapState(["account","member", "cacheList", "positions"]),
     ...mapGetters(["cartNum"])
   },
-  mixins:[mixin],
   created() {},
   activated() {
+    this.$store.dispatch('getCartList')
     if (this.$route.params.update) {
-      this.$store.dispatch("getCartList");
       this.reset();
-      this.type = this.$route.query.type;
-      this.columnId = this.$route.query.id;
+
       this.searchValue = "";
       this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
       this.getProduct();
     } else {
-      // if (this.$store.state.positions[this.$route.path]) {
       document.querySelector("main").scrollTop = this.positions[
         this.$route.path
       ];
-      // }
+
       this.noData = this.cacheList[this.$route.path].noData;
       this.pageNo = this.cacheList[this.$route.path].page;
       this.productList = this.cacheList[this.$route.path].list;
     }
   },
-
   methods: {
     reset() {
       this.pageNo = 1;
@@ -102,21 +94,18 @@ export default {
       if (!this.noData) {
         let vm = this;
         mui.ajax({
-          url: `${onlineProductsByAllColumn}/${this.type}/${this.columnId}`,
+          url: `${findVoucherProduct}`,
           type: "post",
           headers: { "app-version": "v1.0" },
           data: {
+            account: this.account,
             pageNo: this.pageNo,
             pageSize: 10,
-            longitude: "",
-            latitude: "",
-            columnId: this.columnId,
-            type: this.type,
-            likeValue: this.searchValue,
-            token: md5(`onlineProductsByAllColumn`)
+            likeName: this.searchValue,
+            token: md5(`gjfengfindVoucherProduct${this.account}`)
           },
           success(res) {
-            let _list = res.result;
+            let _list = res.result.products.result;
             vm.productList = [...vm.productList, ..._list];
             if (_list.length < 10) {
               vm.noData = true;
@@ -159,14 +148,14 @@ export default {
       var src = img.src;
       var bottom = window.innerHeight - ct.getBoundingClientRect().bottom;
       var left = ct.getBoundingClientRect().left;
-      this.$dialog.loading.open("库存检测中...")
+      this.$dialog.loading.open("库存检测中...");
       mui.ajax({
         url: onlineProductsDetailInfoInH5,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           id,
-          token: md5(`onlineProductsDetailInfoInH5${id}`)
+          token: md5(`gjfengonlineProductsDetailInfoInH5${id}`)
         },
         success(res) {
           vm.$dialog.loading.close();
@@ -189,7 +178,7 @@ export default {
               goodsAttr: _result.productAttrStock.productAttrIds,
               goodsNum: 1,
               account: vm.account,
-              token: md5(`addCart${vm.account}`)
+              token: md5(`gjfengaddCart${vm.account}`)
             },
             success(response) {
               vm.$dialog.toast({
@@ -209,7 +198,6 @@ export default {
               setTimeout(() => {
                 m.remove();
               }, 1500);
-              
             }
           });
         }
@@ -250,9 +238,11 @@ export default {
     }
     .price1 {
       color: @red;
+      font-size: .32rem;
     }
     .price2 {
       color: @lightgray;
+      text-decoration: line-through;
     }
   }
 }

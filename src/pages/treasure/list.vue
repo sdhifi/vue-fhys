@@ -12,13 +12,15 @@
               <span v-if="item.tradeType=='1'&&account==item.memebrMobile" class="status-0">转账支出</span>
               <span v-if="item.tradeType=='2'" class="status-0">让利支付</span>
               <span v-if="item.tradeType=='3'" class="status-1">余额转入</span>
-              <span v-if="item.tradeType=='4'" class="status-2">提现</span>
+              <span v-if="item.tradeType=='4'" class="status-2">提现[{{item.tradeStatus=='0'?'待审核':'审核通过'}}]</span>
               <span v-if="item.tradeType=='5'" class="status-0">订单支付</span>
-              <span v-if="item.tradeType=='6'" class="danger-color">提现退回</span>
+              <span v-if="item.tradeType=='6'" class="danger-color">其他[提现退回、代金券付款等]</span>
+              <span v-if="item.tradeType=='8'" class="status-1">充值商家联盟</span>
+              <span v-if="item.tradeType=='9'" class="status-0">赠送商家联盟</span>
             </div>
             <!-- 转出 -->
             <section v-if="account!=item.transferMemberMobile">
-              <div class="flex just-between" v-if="item.tradeType!='3'&&item.tradeType!='4'&&item.tradeType!='5'&&item.tradeType!='6'">
+              <div class="flex just-between" v-if="item.tradeType!='3'&&item.tradeType!='4'&&item.tradeType!='5'&&item.tradeType!='6'&&item.tradeType!='8'&&item.tradeType!='9'">
                 <span>交易对象</span>
                 <p>
                   <span>{{item.transferMemberName}}</span>

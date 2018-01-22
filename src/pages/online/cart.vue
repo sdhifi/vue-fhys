@@ -2,6 +2,7 @@
   <div>
     <header-top title="购物车"></header-top>
     <main class='scroll-content'>
+      <p style="font-size:.3rem;padding: .2rem;" v-show="cartList.length">不同类型商品不能同时结算，限购商品超过限购数量会被移除购物车。</p>
       <ul class="cart-list" v-show="cartList.length">
         <li v-for="(item,index) in cartList" :key="index" class="cart-item flex align-center">
           <label class="cart-check flex align-center just-center" @click="countChange($event,item,index)" :class="{'checked':item.checked}">
@@ -13,19 +14,34 @@
                 <h3>{{item.goodsId.name}}</h3>
                 <p class="attrs">{{item.goodsAttr}}</p>
                 <div class="flex just-between align-center">
-                  <p v-if="item.goodsId.isCanUserCou=='1'" class="fs-16 danger-color">
-                    <yd-badge type="primary" style="vertical-align: text-bottom;">
-                      <span>{{item.goodsAttrStockId.price}}</span>积分</yd-badge>
-                    <span v-if="item.goodsId.pointNicePrice">+￥{{item.goodsId.pointNicePrice}}</span>
-                  </p>
-                  <p v-else-if="item.goodsId.isCanUserCou=='2'" class="fs-16 danger-color">
-                    <yd-badge type="warning" style="vertical-align: text-bottom;">
-                      <span>{{item.goodsAttrStockId.price}}</span>责任金</yd-badge>
-                    <span v-if="item.goodsId.pointNicePric">+￥{{item.goodsId.pointNicePrice}}</span>
-                  </p>
-                  <p v-else class="fs-16 danger-color">
-                    ￥{{item.goodsAttrStockId.price}}
-                  </p>
+                  <template v-if="item.goodsId.honourPrice">
+                    <p v-if="item.goodsId.isCanUserCou=='3'" class="fs-16 danger-color">
+                      <yd-badge type="danger" style="vertical-align: text-bottom;">
+                        <span>{{item.goodsAttrStockId.price}}</span>代金券</yd-badge>
+                      <span v-if="item.goodsId.pointNicePrice">+￥{{item.goodsId.pointNicePrice}}</span>
+                    </p>
+                    <p class="fs-16 danger-color" v-else-if="+member.merchantType==1">
+                      ￥{{item.goodsAttrStockId.standardPrice}}
+                    </p>
+                    <p class="fs-16 danger-color" v-else-if="+member.merchantType>1">
+                      ￥{{item.goodsAttrStockId.honourPrice}}
+                    </p>
+                  </template>
+                  <template v-else>
+                    <p v-if="item.goodsId.isCanUserCou=='0'" class="fs-16 danger-color">
+                      ￥{{item.goodsAttrStockId.price}}
+                    </p>
+                    <p v-if="item.goodsId.isCanUserCou=='1'" class="fs-16 danger-color">
+                      <yd-badge type="primary" style="vertical-align: text-bottom;">
+                        <span>{{item.goodsAttrStockId.price}}</span>积分</yd-badge>
+                      <span v-if="item.goodsId.pointNicePrice">+￥{{item.goodsId.pointNicePrice}}</span>
+                    </p>
+                    <p v-if="item.goodsId.isCanUserCou=='2'" class="fs-16 danger-color">
+                      <yd-badge type="warning" style="vertical-align: text-bottom;">
+                        <span>{{item.goodsAttrStockId.price}}</span>责任金</yd-badge>
+                      <span v-if="item.goodsId.pointNicePric">+￥{{item.goodsId.pointNicePrice}}</span>
+                    </p>
+                  </template>
                   <yd-spinner v-model="item.goodsNum" :min="1" :max="item.goodsAttrStockId.repertory" v-show="!item.close"></yd-spinner>
                   <div v-show="item.close" class="fs-14">
                     ×{{item.goodsNum}}
@@ -54,7 +70,7 @@
     </main>
     <footer class="fix-footer flex align-center" style="border-top: 1px solid #dfdfdf;" v-show="cartList.length">
       <p @click="checkAll" class="flex align-center just-center fs-14">
-        <label class="cart-check" :class="{'checked':isCheckAll}" ></label>
+        <label class="cart-check" :class="{'checked':isCheckAll}"></label>
         全选
       </p>
       <div class="flex-1 total-price">
@@ -84,7 +100,7 @@ export default {
   },
   components: { HeaderTop },
   computed: {
-    ...mapState(["account", "cartList"]),
+    ...mapState(["account", "member", "cartList", "member"]),
     checkList() {
       return this.cartList.filter((item, index) => {
         return item.checked;
@@ -185,23 +201,54 @@ export default {
         this.totalPrice = 0;
       } else {
         let a = 0;
-        for (let i = 0; i < this.checkList.length; i++) {
-          a +=
-            (this.checkList[i].goodsAttrStockId.price +
-              this.checkList[i].goodsId.pointNicePrice) *
-            this.checkList[i].goodsNum;
-        }
+        // for (let i = 0; i < this.checkList.length; i++) {
+        //   if (+this.member.merchantType == 1) {
+        //     a +=
+        //       (this.checkList[i].goodsAttrStockId.standardPrice +
+        //         this.checkList[i].goodsId.pointNicePrice) *
+        //       this.checkList[i].goodsNum;
+        //   } else if (+this.member.merchantType > 1) {
+        //     a +=
+        //       (this.checkList[i].goodsAttrStockId.honourPrice +
+        //         this.checkList[i].goodsId.pointNicePrice) *
+        //       this.checkList[i].goodsNum;
+        //   } else {
+        //     a +=
+        //       (this.checkList[i].goodsAttrStockId.price +
+        //         this.checkList[i].goodsId.pointNicePrice) *
+        //       this.checkList[i].goodsNum;
+        //   }
+        // }
+        this.checkList.forEach((item, index) => {
+          if (item.goodsId.isCanUserCou == "1") {
+            a +=
+              (item.goodsAttrStockId.price + item.goodsId.pointNicePrice) *
+              item.goodsNum;
+          } else if (item.goodsId.isCanUserCou == "0") {
+            if (item.goodsAttrStockId.honourPrice) {
+              a +=
+                +this.member.merchantType > 1
+                  ? item.goodsAttrStockId.honourPrice * item.goodsNum
+                  : item.goodsAttrStockId.standardPrice * item.goodsNum;
+            } else {
+              a += item.goodsAttrStockId.price * item.goodsNum;
+            }
+          } else {
+            a += item.goodsAttrStockId.price * item.goodsNum;
+          }
+        });
         this.totalPrice = a;
       }
     },
     settleCart() {
       let vm = this;
       let settleList = [],
-        orderType = "0"; //0普通商品 1积分换购 2责任消费
+        orderType = "0"; //0普通商品 1积分换购 2责任消费 3代金券
       var length = this.checkList.length,
         count0 = 0,
         count1 = 0,
-        count2 = 0;
+        count2 = 0,
+        count3 = 0;
       this.checkList.forEach(item => {
         settleList.push(item.id);
         if (item.goodsId.isCanUserCou == "0") {
@@ -210,13 +257,16 @@ export default {
           count1++;
         } else if (item.goodsId.isCanUserCou == "2") {
           count2++;
+        } else if (item.goodsId.isCanUserCou == "3") {
+          count3++;
         }
       });
 
       if (
         (count0 && count0 !== length) ||
         (count1 && count1 !== length) ||
-        (count2 && count2 !== length)
+        (count2 && count2 !== length) ||
+        (count3 && count3 !== length)
       ) {
         this.$dialog.alert({
           mes: "不同类型商品不能同时结算"
@@ -226,6 +276,7 @@ export default {
       if (count0) orderType = "0";
       else if (count1) orderType = "1";
       else if (count2) orderType = "2";
+      else if (count3) orderType = "3";
       this.$dialog.loading.open();
       mui.ajax({
         url: actCartInH5,
@@ -238,6 +289,13 @@ export default {
         },
         success(res) {
           vm.$dialog.loading.close();
+          if (res.code != 200) {
+            vm.$dialog.alert({
+              mes: res.msg
+            });
+            vm.$store.dispatch("getCartList");
+            return;
+          }
           let _result = res.result;
           vm.$store.commit(
             "SET_PAY_PASSWORD",

@@ -177,7 +177,7 @@ export default {
         }
       });
     },
-    goDetail(sn) {
+    saveCache() {
       this.orderType = this.menu[this.index].key;
       this.$store.commit("SAVE_LIST_WITH_PAGE", {
         name: this.$route.path,
@@ -210,10 +210,9 @@ export default {
                 vm.pays["alipay"],
                 _result.payString,
                 function(result) {
-                  plus.nativeUI.alert(
-                    "支付成功",
-                    function() {
-                      //TODO:更改状态
+                  vm.$dialog.alert({
+                    mes: "支付成功",
+                    callback: () => {
                       // 待支付->待发货
                       if (index) {
                         vm.list0.splice(index, 1);
@@ -230,12 +229,13 @@ export default {
                       vm.list1 = [];
                       vm.pageNo1 = 1;
                       vm.noData1 = false;
-                    },
-                    "支付"
-                  );
+                    }
+                  });
                 },
                 function(e) {
-                  plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  vm.$dialog.alert({
+                    mes: "支付失败:" + e.message
+                  });
                 }
               );
             });
@@ -253,7 +253,11 @@ export default {
               mes: "银联支付功能暂时无法使用，请更换其他支付方式重新下单"
             });
             //银联
-          } else if (item.payType == "7" || item.payType == "8") {
+          } else if (
+            item.payType == "7" ||
+            item.payType == "8" ||
+            item.payType == "10"
+          ) {
             //积分||责任金额
             vm.checkService(vm.pays["alipay"], function() {
               plus.payment.request(
@@ -290,7 +294,7 @@ export default {
               );
             });
           } else {
-            vm.$dialog.toast({
+            vm.$dialog.alert({
               mes: "该支付功能暂时无法使用，请更换其他支付方式重新下单"
             });
           }
@@ -312,7 +316,9 @@ export default {
               status: 3,
               orderSn: item.orderSn,
               account: this.account,
-              token: md5(`updateOrderStatus${this.account}${item.orderSn}`)
+              token: md5(
+                `gjfengupdateOrderStatus${this.account}${item.orderSn}`
+              )
             },
             success(res) {
               vm.$dialog.loading.close();

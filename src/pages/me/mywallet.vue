@@ -62,9 +62,49 @@
         </yd-grids-item>
       </yd-grids-group>
       <yd-grids-group :rows="3" v-if="member.type=='1'">
-        <yd-grids-item v-for="(item,j) in menu1" :key="'j'+j" :link="item.link">
-          <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
-          <span slot="text">{{item.text}}</span>
+        <yd-grids-item link="/treasure/index">
+          <span slot="icon" class="iconfont-large self-fenghuang" style="color: #e7d489;"></span>
+          <span slot="text">凤凰宝</span>
+        </yd-grids-item>
+        <yd-grids-item link="/trade/cashhistory">
+          <span slot="icon" class="iconfont-large self-tiqulishi" style="color: #663355;"></span>
+          <span slot="text">提取历史</span>
+        </yd-grids-item>
+        <yd-grids-item link="/trade/bankcard">
+          <span slot="icon" class="iconfont-large self-yinhangka" style="color: #e7d489;"></span>
+          <span slot="text">银行卡</span>
+        </yd-grids-item>
+        <yd-grids-item v-if="+member.merchantType>0" link="/merchant/give">
+          <span slot="icon" class="iconfont-large self-shenghuofuwu" style="color: #e7d489;"></span>
+          <span slot="text">升级赠送</span>
+        </yd-grids-item>
+        <yd-grids-item link="/trade/salerecord">
+          <span slot="icon" class="iconfont-large self-hongbao" style="color: #ee3355;"></span>
+          <span slot="text">销售录入</span>
+        </yd-grids-item>
+        <yd-grids-item v-if="+member.merchantType>0" link="/merchant/coupon">
+          <span slot="icon" class="iconfont-large self-tiqufuli" style="color: #e7d489;"></span>
+          <span slot="text">赠送代金券</span>
+        </yd-grids-item>
+        <yd-grids-item link="/trade/welfrecord">
+          <span slot="icon" class="iconfont-large self-fulijilu" style="color: #ee3355;"></span>
+          <span slot="text">福利记录</span>
+        </yd-grids-item>
+        <yd-grids-item link="/trade/interest?type=0">
+          <span slot="icon" class="iconfont-large self-xiaofeijilu" style="color: #663355;"></span>
+          <span slot="text">消费记录</span>
+        </yd-grids-item>
+        <yd-grids-item link="/trade/consumerule">
+          <span slot="icon" class="iconfont-large self-xiaofeiguize" style="color: #663355;"></span>
+          <span slot="text">消费规则</span>
+        </yd-grids-item>
+        <yd-grids-item link="/trade/shouxin">
+          <span slot="icon" class="iconfont-large self-edu" style="color: #e7d489;"></span>
+          <span slot="text">授信额度</span>
+        </yd-grids-item>
+        <yd-grids-item link="/trade/download">
+          <span slot="icon" class="iconfont-large self-download" style="color: #663355;"></span>
+          <span slot="text">协议下载</span>
         </yd-grids-item>
       </yd-grids-group>
     </main>
@@ -190,6 +230,16 @@ export default {
           text: "线下消费笔数",
           param: "beCount",
           link: "javascript:"
+        },
+        {
+          text: "商家联盟推荐奖励",
+          param: "directMemberMoney",
+          link: "javascript:"
+        },
+        {
+          text: "代金券",
+          param: "memberVoucherMoney",
+          link: "javascript:"
         }
       ],
       tabs4: [
@@ -201,7 +251,7 @@ export default {
       ],
       menu0: [
         {
-          icon: "self-tiqufuli",
+          icon: "self-fenghuang",
           text: "凤凰宝",
           link: "/treasure/index",
           color: "#e7d489"
@@ -247,74 +297,6 @@ export default {
           text: "消费规则",
           link: "/trade/consumerule",
           color: "#663355"
-        },
-        {
-          icon: "self-download",
-          text: "协议下载",
-          link: "/trade/download",
-          color: "#663355"
-        }
-      ],
-      menu1: [
-        {
-          icon: "self-tiqufuli",
-          text: "凤凰宝",
-          link: "/treasure/index",
-          color: "#e7d489"
-        },
-        {
-          icon: "self-tiqulishi",
-          text: "提取历史",
-          link: "/trade/cashhistory",
-          color: "#663355"
-        },
-        {
-          icon: "self-yinhangka",
-          text: "银行卡",
-          link: "/trade/bankcard",
-          color: "#e7d489"
-        },
-        // {
-        //   icon: "self-zhuanyi",
-        //   text: "积分转移",
-        //   link: "/trade/transfer",
-        //   color: "#ee3355"
-        // },
-        // {
-        //   icon: "self-hebing",
-        //   text: "合并用户信息",
-        //   link: "/trade/merge",
-        //   color: "#e7d489"
-        // },
-        {
-          icon: "self-hongbao",
-          text: "销售录入",
-          link: "/trade/salerecord",
-          color: "#ee3355"
-        },
-        {
-          icon: "self-fulijilu",
-          text: "福利记录",
-          link: "/trade/welfrecord",
-          color: "#ee3355"
-        },
-        {
-          icon: "self-xiaofeijilu",
-          text: "消费记录",
-          link: "/trade/interest?type=0",
-          color: "#663355"
-        },
-        {
-          icon: "self-xiaofeiguize",
-          text: "消费规则",
-          link: "/trade/consumerule",
-          color: "#663355"
-        },
-        {
-          icon: "self-edu",
-          text: "授信额度",
-          link: "/trade/shouxin",
-          color: "#e7d489"
         },
         {
           icon: "self-download",
@@ -325,7 +307,7 @@ export default {
       ]
     };
   },
-  components: { HeaderTop, CertModal },
+  components: { HeaderTop, CertModal},
   computed: {
     ...mapState(["member", "certificateStatus", "showCertificate"])
   },
