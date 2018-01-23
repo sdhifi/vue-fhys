@@ -26,7 +26,7 @@
         </yd-cell-item>
       </yd-cell-group>
       <check-icon :value.sync="checkProtocol" type="plain">{{checkProtocol?'同意':'不同意'}}</check-icon>
-      <router-link to="/merchant/protocol" class="protocol">《服务条款》和《法律声明》</router-link>
+      <router-link :to="{name:'MerchantProtocol',params: {key: type && type.key}}" class="protocol">《服务条款》和《法律声明》</router-link>
       <div class="btn-container flex just-around" style="padding:0 .2rem;">
         <yd-button :type="valid?'primary':'disabled'" @click.native="save" size="large"> 确 认 充 值
         </yd-button>
