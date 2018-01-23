@@ -267,10 +267,9 @@ export default {
                 vm.pays["alipay"],
                 _result.payString,
                 function(result) {
-                  plus.nativeUI.alert(
-                    "支付成功",
-                    function() {
-                      //TODO:更改状态
+                  vm.$dialog.alert({
+                    mes: "支付成功",
+                    callback: () => {
                       // 待支付->待发货
                       if (index) {
                         vm.list0.splice(index, 1);
@@ -287,12 +286,13 @@ export default {
                       vm.list1 = [];
                       vm.pageNo1 = 1;
                       vm.noData1 = false;
-                    },
-                    "支付"
-                  );
+                    }
+                  });
                 },
                 function(e) {
-                  plus.nativeUI.alert("支付失败:" + e.message, null, "支付");
+                  vm.$dialog.alert({
+                    mes: "支付失败:" + e.message
+                  });
                 }
               );
             });
