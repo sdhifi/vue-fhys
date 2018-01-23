@@ -47,7 +47,7 @@ export default {
   computed: {
     ...mapState(["account"]),
     valid() {
-      return /0?(13|14|15|18)[0-9]{9}/.test(this.mobile) && this.mobile != this.account;
+      return /^1[3,4,5,7,8,9]\d{9}$/.test(this.mobile) && this.mobile != this.account;
     }
   },
   created() {

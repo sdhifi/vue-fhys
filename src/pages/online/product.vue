@@ -82,11 +82,11 @@
           <div class="info flex flex-1">
             <p>{{info.proName}}</p>
             <p class="danger-color fs-14" v-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}积分+￥{{info.pointNeedMoney}}</p>
-            <p class="danger-color fs-14" v-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}责任金</p>
-            <p class="danger-color fs-14" v-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}代金券</p>
+            <p class="danger-color fs-14" v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}责任金</p>
+            <p class="danger-color fs-14" v-else-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}代金券</p>
             <template v-else>
               <p class="danger-color fs-14" v-if="info.productAttrStock.honourPrice">{{info.productAttrStock.price}}</p>
-              <p class="danger-color fs-14" v-else>￥{{info.productAttrStock&&info.productAttrStock.price}}</p>
+              <p class="danger-color fs-14" v-else>￥{{info.productAttrStock.price}}</p>
             </template>
           </div>
           <div class="close" @click="show=false">
