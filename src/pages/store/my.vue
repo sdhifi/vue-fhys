@@ -119,17 +119,6 @@ export default {
         //   color: "#fc9557"
         // },
         // {
-        //   icon: "self-dingdanguanli",
-        //   text: "个体入驻",
-        //   link: "/store/settle-2",
-        //   color: "#fab652"
-        // },
-        // {
-        //   icon: "self-dingdanguanli",
-        //   text: "企业入驻",
-        //   link: "/store/settle-3",
-        //   color: "#fab652"
-        // }
       ]
     };
   },
@@ -143,7 +132,7 @@ export default {
   computed: {
     valid() {
       return (
-        /^1[3|4|5|7|8][0-9]{9}$/.test(this.newMobile) && !!this.newAddressDetail
+        /^1[3,4,5,7,8,9]\d{9}$/.test(this.newMobile) && !!this.newAddressDetail
       );
     }
   },

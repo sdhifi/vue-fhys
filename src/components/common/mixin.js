@@ -120,7 +120,7 @@ export const validateSettle = {
       return !!this.sellerName
     },
     validSellerMobile() {
-      return /^(86)?1[3,4,5,7,8]\d{9}$/.test(this.sellerMobile)
+      return /^1[3,4,5,7,8,9]\d{9}$/.test(this.sellerMobile)
     },
     validEmail() {
       return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(this.sellerEmail)
