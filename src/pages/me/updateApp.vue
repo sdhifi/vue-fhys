@@ -4,7 +4,7 @@
     <main class='scroll-content-2'>
       <section class="app-info text-center">
         <div class="fs-15">当前版本：{{curVersion}}</div>
-        <a href="itms-apps://itunes.apple.com/ng/app/金凤凰共创辉煌/id1332551671?mt=8"  class="save-btn" v-if="type=='1'">去App Store更新</a>
+        <a href="itms-apps://itunes.apple.com/ng/app/凤凰云商-共创辉煌/id1334519955?mt=8"  class="save-btn" v-if="type=='1'">去App Store更新</a>
         <button @click="getInfo" class="save-btn" v-else>检查更新</button>
       </section>
     </main>
