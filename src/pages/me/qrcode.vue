@@ -14,7 +14,7 @@
         <div class="qr-img img-3" :style="{'background-image':formatBg('qr-3.png')}"></div>
         <div class="qr-img img-4" :style="{'background-image':formatBg('qr-4.png')}"></div>
         <div class="qr-img img-5" :style="{'background-image':formatBg('qr-5.png')}"></div>
-        <div class="qr-desc fs-16">消费变分红，红包天天有！</div>
+        <div class="qr-desc fs-16">购物有优惠，惊喜天天有</div>
       </section>
       <!-- <section class="share-container text-center">
         <h3 class="fs-16">分享到</h3>
