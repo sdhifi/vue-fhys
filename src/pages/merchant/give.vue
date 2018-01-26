@@ -102,11 +102,11 @@ export default {
     payMoney() {
       switch (this.type.key) {
         case "1":
-          return 1200 * 0.8;
+          return 1200;
         case "2":
-          return 6000 * 0.7;
+          return 6000;
         case "3":
-          return 18000 * 0.5;
+          return 18000;
       }
     }
   },
