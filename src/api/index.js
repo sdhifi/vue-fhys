@@ -135,6 +135,7 @@ let findVoucherProduct = `${trade}/findVoucherProduct` //获取商家联盟商�
 let addMerchantRechargeHistory = `${trade}/addMerchantRechargeHistory` //商家充值商家联盟
 let addMemberVonchersHistory = `${trade}/addMemberVonchersHistory` //商家赠送代金券
 let addMerchantRechargeToMemberHistory = `${trade}/addMerchantRechargeToMemberHistory` //商家升级赠送
+let addMerchantGiveHistory = `${trade}/addMerchantGiveHistory` //商家升级赠送
 let findMerchantGiveHistory = `${trade}/findMerchantGiveHistory` //获取商家升级赠送历史记录
 let findMemberVoucherHistory = `${trade}/findMemberVoucherHistory` //获取代金券交易历史记录
 
@@ -262,6 +263,7 @@ export {
   addMerchantRechargeHistory,
   addMemberVonchersHistory,
   addMerchantRechargeToMemberHistory,
+  addMerchantGiveHistory,
   findMerchantGiveHistory,
   findMemberVoucherHistory,
 
