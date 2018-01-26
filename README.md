@@ -161,7 +161,8 @@ router.afterEach( (to,from) => {
   	o2o用凤凰云商
   ```
 ### 应用截图 :lipstick:
-<img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/home.jpg" width="360px"/>
-<img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/online.jpg" width="360px"/>
-<img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/me.jpg" width="360px"/>
-<img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/wallet.jpg" width="360px"/>
+<img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/home.png" width="360px"/>
+<img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/online.png" width="360px"/>
+<img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/me.png" width="360px"/>
+<img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/wallet.png" width="360px"/>
+<img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/settle.png" width="360px"/>
