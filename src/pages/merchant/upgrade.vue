@@ -110,8 +110,10 @@ export default {
             vm.$dialog.toast({
               mes: res.msg,
               callback: () => {
-                vm.$store.dispatch("getInfo");
-                vm.$router.go(-1);
+                if (res.code == 200) {
+                  vm.$store.dispatch("getInfo");
+                  vm.$router.go(-1);
+                }
               }
             });
           } else if (vm.payType == "1") {
@@ -136,7 +138,7 @@ export default {
                 }
               );
             });
-          } 
+          }
         },
         error() {
           vm.$dialog.loading.close();
