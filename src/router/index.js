@@ -571,7 +571,7 @@ const router = new Router({
       name: 'MerchantGive',
       component: require('../pages/merchant/give'),
       meta: {
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
@@ -579,7 +579,7 @@ const router = new Router({
       name: 'MerchantGive2',
       component: require('../pages/merchant/give2'),
       meta: {
-        keepAlive: false
+        keepAlive: true
       }
     },
     {
