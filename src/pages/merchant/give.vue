@@ -58,7 +58,7 @@
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import { Checker, CheckerItem, CheckIcon } from "vux";
-import { addMerchantGiveHistory } from "../../api/index";
+import { addMerchantRechargeToMemberHistory } from "../../api/index";
 import { findMemberByMobile, payMixin } from "components/common/mixin";
 export default {
   name: "MerchantIndex",
@@ -112,9 +112,10 @@ export default {
   },
   mixins: [findMemberByMobile, payMixin],
   created() {
+    },
+  activated() {
     this.$store.dispatch("getFHB");
   },
-  activated() {},
   methods: {
     save() {
       if (this.account == this.mobile) {
@@ -132,16 +133,17 @@ export default {
       let vm = this;
       this.$dialog.loading.open("赠送中...");
       mui.ajax({
-        url: addMerchantGiveHistory,
+        url: addMerchantRechargeToMemberHistory,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           account: this.account,
           mobile: this.mobile,
-          type: this.type.key,
+          merchantType: this.type.key,
+          tradeMoney: this.payMoney,
           payType: this.payType,
           token: md5(
-            `gjfengaddMerchantGiveHistory${this.account}${this.mobile}`
+            `gjfengaddMerchantRechargeToMemberHistory${this.account}${this.mobile}${this.type.key}`
           )
         },
         success(res) {

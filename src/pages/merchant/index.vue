@@ -135,7 +135,7 @@ export default {
         });
         this.$router.push({
           path: "/online/product",
-          query: { id: pd.id }
+          query: { id: pd.id, type: 1}
         });
       }
     },
