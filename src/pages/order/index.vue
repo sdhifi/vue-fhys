@@ -258,10 +258,9 @@ export default {
             //银联
           } else if (
             item.payType == "7" ||
-            item.payType == "8" ||
-            item.payType == "10"
+            item.payType == "8"
           ) {
-            //积分||责任金额
+            //积分||责任金额||代金券
             vm.checkService(vm.pays["alipay"], function() {
               plus.payment.request(
                 vm.pays["alipay"],

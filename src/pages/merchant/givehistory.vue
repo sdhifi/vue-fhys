@@ -5,11 +5,11 @@
       <ul>
         <li class="item flex just-between" v-for="(item,index) in list" :key="index">
           <div>
-            <p>{{formatTime(item.addTime,true)}}</p>
-            <p>{{item.memberName}}</p>
+            <p>{{formatTime(item.tradeTime,true)}}</p>
+            <p class="danger-color">{{formatType(item.giveType)}}</p>
           </div>
           <div>
-            <p>{{formatType(item.type)}}</p>
+            <p>{{item.memberName}}</p>
             <p>{{item.memberMobile}}</p>
           </div>
         </li>
@@ -88,5 +88,6 @@ export default {
   .pd;
   background-color: @white;
   margin-bottom: @pd;
+  font-size: .3rem;
 }
 </style>
