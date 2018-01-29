@@ -97,7 +97,7 @@
           <span slot="left">帮助与反馈</span>
         </yd-cell-item>
         <yd-cell-item arrow type="label" @click.native="navigate('/me/about')">
-          <span class="iconfont-large self-fenghuang c2" slot="icon"></span>
+          <span class="iconfont-large self-about c2" slot="icon"></span>
           <span slot="left">关于凤凰云商</span>
         </yd-cell-item>
         <yd-cell-item arrow type="label" @click.native="navigate('/me/updateApp')">
