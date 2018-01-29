@@ -63,7 +63,7 @@
       </yd-grids-group>
       <yd-grids-group :rows="3" v-if="member.type=='1'">
         <yd-grids-item link="/treasure/index">
-          <span slot="icon" class="iconfont-large self-fenghuang" style="color: #e7d489;"></span>
+          <span slot="icon" class="iconfont-large self-wallet" style="color: #e7d489;"></span>
           <span slot="text">凤凰宝</span>
         </yd-grids-item>
         <yd-grids-item link="/trade/cashhistory">
@@ -251,7 +251,7 @@ export default {
       ],
       menu0: [
         {
-          icon: "self-fenghuang",
+          icon: "self-wallet",
           text: "凤凰宝",
           link: "/treasure/index",
           color: "#e7d489"
