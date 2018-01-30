@@ -612,6 +612,13 @@ const router = new Router({
         keepAlive: false
       }
     },{
+      path: '/merchant/recommendhistory',
+      name: 'MerchantRecommendHistory',
+      component: require('../pages/merchant/recommendhistory'),
+      meta: {
+        keepAlive: false
+      }
+    },{
       path: '*',
       redirect: '/home/index'
     }

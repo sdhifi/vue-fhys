@@ -138,6 +138,7 @@ let addMerchantRechargeToMemberHistory = `${trade}/addMerchantRechargeToMemberHi
 let addMerchantGiveHistory = `${trade}/addMerchantGiveHistory` //商家升级赠送
 let findMerchantGiveHistory = `${trade}/findMerchantGiveHistory` //获取商家升级赠送历史记录
 let findMemberVoucherHistory = `${trade}/findMemberVoucherHistory` //获取代金券交易历史记录
+let findMemberDirectMemberMoney = `${trade}/findMemberDirectMemberMoney` //获取推荐商家历史记录
 
 let findAppUpgredeByType = `${baseUrl}/app/upgrede/${VERSION}/findAppUpgredeByType` //APP版本信息
 export {
@@ -266,6 +267,7 @@ export {
   addMerchantGiveHistory,
   findMerchantGiveHistory,
   findMemberVoucherHistory,
-
+  findMemberDirectMemberMoney,
+  
   findAppUpgredeByType,
 }

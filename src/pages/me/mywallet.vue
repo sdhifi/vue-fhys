@@ -234,7 +234,7 @@ export default {
         {
           text: "商家联盟推荐奖励",
           param: "directMemberMoney",
-          link: "javascript:"
+          link: "#/merchant/recommendhistory"
         },
         {
           text: "代金券",
