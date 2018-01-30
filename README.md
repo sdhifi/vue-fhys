@@ -158,7 +158,9 @@ router.afterEach( (to,from) => {
    APP打包名称：
   	云南：金凤凰共创辉煌，安卓包名：cn.gjf_yunnan、苹果包名：com.gjfeng.yunnan
   	湛江：凤凰云商共创辉煌，安卓包名：cn.gjf_zhanjiang、苹果包名：com.gjfeng.zhanjiang
-  	o2o用凤凰云商
+    o2o用凤凰云商
+    
+    天天易购 包名：com.tiantian.ego
   ```
 ### 应用截图 :lipstick:
 <img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/home.png" width="360px"/>
