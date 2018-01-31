@@ -66,7 +66,8 @@
       <yd-cell-group>
         <yd-cell-item>
           <span slot="left">配送方式</span>
-          <span slot="right" class="fs-14">快递：￥{{formatPrice(settleList.pos)}}</span>
+          <span slot="right" class="fs-14" v-if="settleList.logist=='0'">快递：￥{{formatPrice(settleList.pos)}}</span>
+          <span slot="right" class="fs-14" v-if="settleList.logist=='1'">物流到付</span>
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">支付明细</span>
@@ -75,7 +76,8 @@
           <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==3">{{settleList.totalAmount}}代金券+￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
           <!-- <span slot="right" class="fs-14" v-else>￥{{settleList.totalAmount}}</span> -->
           <template slot="right" v-else>
-            <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice">￥{{formatPrice(total2)}}+￥{{settleList.pos}}</span>
+            <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='0'">￥{{formatPrice(total2)}}+￥{{settleList.pos}}</span>
+            <span class="danger-color fs-16" v-else-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='1'">￥{{formatPrice(total2)}}</span>
             <span class="danger-color fs-16" v-else>￥{{settleList.totalAmount}}</span>
           </template>
         </yd-cell-item>
@@ -113,7 +115,8 @@
             <span class="danger-color" v-else-if="orderType=='3'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
             <!-- <span class="danger-color" v-else>￥{{formatPrice(total)}}</span> -->
             <template v-else>
-              <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice">￥{{formatPrice(total2+ settleList.pos)}}</span>
+              <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='0'">￥{{formatPrice(total2)}}+￥{{settleList.pos}}</span>
+              <span class="danger-color fs-16" v-else-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='1'">￥{{formatPrice(total2)}}</span>
               <span class="danger-color" v-else>￥{{formatPrice(total)}}</span>
             </template>
           </p>
@@ -194,8 +197,8 @@
         </template>
         <template v-else>
           <p class="pay-price fs-14">
-          <span class="fs-20 danger-color">{{formatPrice(settleList.totalAmount)}}</span>
-        </p>
+            <span class="fs-20 danger-color">{{formatPrice(settleList.totalAmount)}}</span>
+          </p>
         </template>
         <P class="balance-price">
           <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
@@ -490,7 +493,10 @@ export default {
             mes: "超时，请稍后重试",
             callback: () => {
               if (vm.payType == "0" || vm.payType == "8") {
-                vm.$refs.keyboard.$emit("ydui.keyboard.error", "超时，请稍后重试");
+                vm.$refs.keyboard.$emit(
+                  "ydui.keyboard.error",
+                  "超时，请稍后重试"
+                );
               }
             }
           });
@@ -532,7 +538,10 @@ export default {
           this.$router.push({ name: "PwdManage" });
         }
       });
-      this.$refs.keyboard.$emit("ydui.keyboard.error", "对不起，您的支付密码不正确，请重新输入。");
+      this.$refs.keyboard.$emit(
+        "ydui.keyboard.error",
+        "对不起，您的支付密码不正确，请重新输入。"
+      );
     },
     zfbPay(payParams) {
       let vm = this;
