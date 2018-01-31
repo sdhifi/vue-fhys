@@ -12,16 +12,16 @@
         <p class="danger-color fs-16 flex just-between align-center">
           <template v-if="info.isWholesale=='0'">
             <span v-if="info.isCanUserCou=='0'">￥{{info.productAttrStock.price}}</span>
-          <span v-else-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}
-            <span class="fs-12" style="margin-left:.1rem;">积分</span>
-          </span>
-          <span v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}
-            <span class="fs-12" style="margin-left:.1rem;">责任金额</span>
-          </span>
-          <span v-else-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}
-            <span class="fs-14" style="margin-left:.1rem;">代金券金额</span>
-          </span>
-        </template>
+            <span v-else-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}
+              <span class="fs-12" style="margin-left:.1rem;">积分</span>
+            </span>
+            <span v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}
+              <span class="fs-12" style="margin-left:.1rem;">责任金额</span>
+            </span>
+            <span v-else-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}
+              <span class="fs-14" style="margin-left:.1rem;">代金券金额</span>
+            </span>
+          </template>
           <template v-else>
             <span>{{info.productAttrStock.price}}</span>
           </template>
@@ -35,28 +35,28 @@
           </yd-cell-item>
           <template v-if="info.isWholesale=='0'">
             <yd-cell-item v-if="info.isCanUserCou=='1'">
-            <span slot="left">积分使用说明:{{info.productAttrStock&&info.productAttrStock.price}}积分 +
-              <span class="danger-color">￥{{info.pointNeedMoney || 0}}</span>
-            </span>
-          </yd-cell-item>
-          <yd-cell-item v-else-if="info.isCanUserCou=='2'">
-            <span slot="left">责任金额使用说明:{{info.productAttrStock&&info.productAttrStock.price}}责任金额 +
-              <span class="danger-color">￥{{info.pointNeedMoney || 0}}</span>
-            </span>
-          </yd-cell-item>
-          <yd-cell-item v-else-if="info.isCanUserCou=='3'">
-            <span slot="left">代金券使用说明:{{info.productAttrStock&&info.productAttrStock.price}}代金券金额 +
-              <span class="danger-color">￥{{info.pointNeedMoney || 0}}</span>
-            </span>
-          </yd-cell-item>
+              <span slot="left">积分使用说明:{{info.productAttrStock&&info.productAttrStock.price}}积分 +
+                <span class="danger-color">￥{{info.pointNeedMoney || 0}}</span>
+              </span>
+            </yd-cell-item>
+            <yd-cell-item v-else-if="info.isCanUserCou=='2'">
+              <span slot="left">责任金额使用说明:{{info.productAttrStock&&info.productAttrStock.price}}责任金额 +
+                <span class="danger-color">￥{{info.pointNeedMoney || 0}}</span>
+              </span>
+            </yd-cell-item>
+            <yd-cell-item v-else-if="info.isCanUserCou=='3'">
+              <span slot="left">代金券使用说明:{{info.productAttrStock&&info.productAttrStock.price}}代金券金额 +
+                <span class="danger-color">￥{{info.pointNeedMoney || 0}}</span>
+              </span>
+            </yd-cell-item>
           </template>
           <template v-else>
             <yd-cell-item>
-            <span slot="left">商家兑换：{{info.productAttrStock.price}}</span>
-          </yd-cell-item>
-          <yd-cell-item>
-            <span slot="left">企业兑换：{{info.productAttrStock.honourTotalAmount* 10}}</span>
-          </yd-cell-item>
+              <span slot="left">商家兑换：{{info.productAttrStock.price}}</span>
+            </yd-cell-item>
+            <yd-cell-item>
+              <span slot="left">企业兑换：{{info.productAttrStock.honourTotalAmount* 10}}</span>
+            </yd-cell-item>
           </template>
           <yd-cell-item arrow type="link" :href="'/online/comment?id='+info.proId">
             <span slot="left">商品评价</span>
@@ -88,9 +88,9 @@
           <div class="info flex flex-1">
             <p>{{info.proName}}</p>
             <template v-if="info.isWholesale=='0'">
-            <p class="danger-color fs-14" v-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}积分+￥{{info.pointNeedMoney}}</p>
-            <p class="danger-color fs-14" v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}责任金</p>
-            <p class="danger-color fs-14" v-else-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}代金券</p>
+              <p class="danger-color fs-14" v-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}积分+￥{{info.pointNeedMoney}}</p>
+              <p class="danger-color fs-14" v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}责任金</p>
+              <p class="danger-color fs-14" v-else-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}代金券</p>
               <p class="danger-color fs-14" v-else>￥{{info.productAttrStock.price}}</p>
             </template>
             <template v-else>
@@ -123,19 +123,39 @@
             </yd-cell-item>
           </yd-cell-group>
           <div class="middle-2">
-            <h3>请选择数量：</h3>
-            <div class="flex align-center">
-              <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="info.purchasNum==1" readonly></yd-spinner>
-              <div v-else>
-                <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock&&info.productAttrStock.repertory" v-if="info.productAttrStock&&info.productAttrStock.repertory"></yd-spinner>
-                <yd-spinner :min="0" :max="0" readonly v-else></yd-spinner>
+            <template v-if="info.isWholesale=='1'">
+              <div class="flex align-center">
+                <h3>请选择运输方式：</h3>
+                <checker v-model="transport" @on-change="changeTransport" class="flex" default-item-class="self-checker-item" selected-item-class="self-checker-selected" type="radio" :radio-required="true">
+                  <checker-item :value="0" class="flex-1" style="margin-right:.3rem;">
+                    快递
+                  </checker-item>
+                  <checker-item :value="1" class="flex-1">
+                    物流
+                  </checker-item>
+                </checker>
               </div>
-              <p style="margin-left:.2rem;">库存
-                <span class="danger-color">{{info.productAttrStock&&info.productAttrStock.repertory}}</span>件(商品限购
-                <!-- <span v-if="info.isCanUserCou=='1' || info.isCanUserCou=='2'">1</span> -->
-                <span>{{info.purchasNum}}</span>件)
-              </p>
-            </div>
+              <div v-if="transport==1" class="flex align-center" style="margin-top:.3rem;">
+                <h3>请选择数量：</h3>
+                <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock&&info.productAttrStock.repertory" v-if="info.productAttrStock&&info.productAttrStock.repertory"></yd-spinner>
+                <span style="margin-left:.3rem;">库存
+                  <span class="danger-color">{{info.productAttrStock&&info.productAttrStock.repertory}}</span>件</span>
+              </div>
+            </template>
+            <template v-if="transport==0">
+              <h3>请选择数量</h3>
+              <div class="flex align-center">
+                <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="info.purchasNum==1" readonly></yd-spinner>
+                <div v-else>
+                  <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock&&info.productAttrStock.repertory" v-if="info.productAttrStock&&info.productAttrStock.repertory"></yd-spinner>
+                  <yd-spinner :min="0" :max="0" readonly v-else></yd-spinner>
+                </div>
+                <p style="margin-left:.2rem;">库存
+                  <span class="danger-color">{{info.productAttrStock&&info.productAttrStock.repertory}}</span>件(商品限购
+                  <span>{{info.purchasNum}}</span>件)
+                </p>
+              </div>
+            </template>
           </div>
         </div>
         <div class="bottom">
@@ -148,7 +168,7 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import HeaderTop from "components/header/index";
-import { LoadMore, Swiper, SwiperItem } from "vux";
+import { LoadMore, Swiper, SwiperItem, Checker, CheckerItem } from "vux";
 import {
   onlineProductsDetailInfoInH5,
   addMyCollect,
@@ -167,10 +187,11 @@ export default {
       show: false,
       buyType: 0, //购买方式--加入购物车：0，立即购买：1
       pdnum: 1,
+      transport: 0, //运输方式--快递：0，物流：1
       attrId: ""
     };
   },
-  components: { HeaderTop, LoadMore, Swiper, SwiperItem },
+  components: { HeaderTop, LoadMore, Swiper, SwiperItem, Checker, CheckerItem },
   computed: {
     ...mapState(["account", "cartList", "member"]),
     ...mapGetters(["cartNum"]),
@@ -189,7 +210,7 @@ export default {
     this.info = {};
     //this.pdtype = this.$route.query.pdtype;
     this.pdnum = 1;
-
+    this.transport = 0;
     if (this.account) {
       this.$store.dispatch("getCartList");
     }
@@ -238,7 +259,7 @@ export default {
           //图片路径处理
           _result.content = _result.content.replace(
             /\/userfiles/g,
-            "http://www.gjfeng.com/userfiles"
+            "http://yg.gjfeng.com/userfiles"
           );
           if (_result.isCanUserCou) {
             _result.attrs.forEach((item, index) => {
@@ -333,6 +354,11 @@ export default {
         }
       });
     },
+    changeTransport(value) {
+      if (value == 0) {
+        this.pdnum = 1;
+      }
+    },
     add2cart() {
       if (!this.account) {
         this.$router.push("/me/login");
@@ -373,6 +399,7 @@ export default {
             goodsAttrIds: this.info.productAttrStock.productAttrIds,
             goodsAttr: this.info.productAttrStock.productAttrIds,
             goodsNum: this.pdnum,
+            logist: this.transport,
             account: this.account,
             token: md5(`addCart${this.account}`)
           },
@@ -409,6 +436,7 @@ export default {
             "orderAddVos[0].goodsNum": this.pdnum,
             goodSource: this.info.goodSoure,
             orderAddressId: "",
+            logist: this.transport,
             account: this.account,
             token: md5(`toAdd${this.account}`)
           },
@@ -521,6 +549,7 @@ footer {
   background-color: @white;
   .top {
     position: relative;
+    margin-bottom: 0.4rem;
     .img-cover {
       position: absolute;
       left: 8px;
@@ -538,7 +567,6 @@ footer {
     }
     .info {
       padding-left: 2.3rem;
-      margin-bottom: 0.6rem;
       flex-direction: column;
       justify-content: space-between;
       p {
