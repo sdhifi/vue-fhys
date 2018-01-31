@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top title="商品列表"></header-top>
+    <header-top title="供应链"></header-top>
     <div class="search-form" autocomplete="off">
       <div class="input-group  flex align-center">
         <span class="iconfont-large self-search"></span>
@@ -8,93 +8,110 @@
         <button type="button" class="search-submit" @click="searchProduct">搜索</button>
       </div>
     </div>
-    <main class='scroll-content-1' style="background-color:#fff;">
-      <yd-infinitescroll :callback="getProduct" ref="pdlist">
-        <div slot="list" class="pd-list">
-          <div class="pd-item flex align-center" v-for="(pd,index) in productList" :key='index' @click="navigate($event,pd)">
-            <img v-lazy="pd.imgUrl" :alt="pd.name" class="pd-cover">
-            <div class="pd-info flex-1">
-              <h3>{{pd.name}}</h3>
-              <div class="flex just-between align-center">
-                <p>
-                  <!-- <span class="price1" v-if="member.merchantType=='1'">
-                    ￥{{pd.standardPrice}}
-                  </span>
-                  <span class="price1" v-else>
-                    ￥{{pd.honourPrice}}
-                  </span> -->
-                  <span class="fs-14 price1">
-                   {{pd.price}}
-                  </span>
-                </p>
-                <yd-button type="warning" v-if="account" @click.native="add2cart(pd.id,$event)">加入购物车</yd-button>
+    <div class="scroll-warpper">
+      <ul class="tab-list">
+        <li class="tab-item" :class="{'danger-bg':curIndex==index}" @click="changeTab(index)" v-for="(item,index) in tabList" :key="index">{{item.names}}</li>
+      </ul>
+      <main class="main-list" ref="mainList">
+        <yd-infinitescroll :callback="getProduct" ref="pdlist">
+          <ul class="product-list flex" slot="list">
+            <li class="product-item" v-for="(item,index) in productList" :key="index" @click="navigate(item)">
+              <div class="product-img">
+                <img :src="item.imgUrl" :alt="item.name">
               </div>
-            </div>
-          </div>
-        </div>
-      </yd-infinitescroll>
-    </main>
-    <div class="shopping-container" v-show="account" @click="goShoppingCart">
-      <div class="shopping-cart">
-        <span class="iconfont-large self-shopcart"></span>
-      </div>
-      <yd-badge type="danger" class="shopping-num" v-show="cartNum>0">{{cartNum}}</yd-badge>
+              <div class="product-info flex align-center">
+                <div class="product-name">{{item.name}}</div>
+              </div>
+              <div class="product-price">
+                <span class="fs-16 danger-color">{{item.price}}</span>
+              </div>
+            </li>
+          </ul>
+        </yd-infinitescroll>
+      </main>
     </div>
   </div>
 </template>
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import {
-  findVoucherProduct,
-  onlineProductsDetailInfoInH5,
-  addCart
-} from "../../api/index";
+import { findModelProductColumn, findVoucherProduct } from "../../api/index";
 export default {
   name: "MerchantIndex",
   data() {
     return {
+      searchValue: "",
       noData: false,
-      productList: [],
       pageNo: 1,
-      searchValue: ""
+      curIndex: 0,
+      tabList: [],
+      productList: []
     };
   },
-  components: { HeaderTop },
   computed: {
-    ...mapState(["account","member", "cacheList", "positions"]),
-    ...mapGetters(["cartNum"])
+    ...mapState(["account", "positions", "cacheList"])
   },
-  created() {},
+  components: {
+    HeaderTop
+  },
+  created() {
+    this.getCatalog();
+  },
   activated() {
-    this.$store.dispatch('getCartList')
-    if (this.$route.params.update) {
-      this.reset();
-
-      this.searchValue = "";
-      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
-      this.getProduct();
-    } else {
+    if (this.positions[this.$route.path]) {
       document.querySelector("main").scrollTop = this.positions[
         this.$route.path
       ];
-
+    }
+    if (this.cacheList[this.$route.path]) {
       this.noData = this.cacheList[this.$route.path].noData;
       this.pageNo = this.cacheList[this.$route.path].page;
       this.productList = this.cacheList[this.$route.path].list;
     }
   },
   methods: {
+    getCatalog() {
+      let vm = this;
+      this.$dialog.loading.open();
+      mui.ajax({
+        url: findModelProductColumn,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: {
+          token: md5(`gjfengfindModelProductColumn`)
+        },
+        success(res) {
+          vm.$dialog.loading.close();
+          let all = [{id:"",names: "全部"}];
+          vm.tabList =[...all ,...res.result];
+          vm.getProduct();
+        },
+        error(e) {
+          vm.$dialog.loading.close();
+          vm.$dialog.alert({
+            mes: "加载异常！"
+          });
+        }
+      });
+    },
     reset() {
       this.pageNo = 1;
       this.noData = false;
+      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
       this.productList = [];
+    },
+    changeTab(index) {
+      this.reset();
+      this.searchValue = "";
+      this.curIndex = index;
+      this.$refs.mainList.scrollTop = 0;
+      this.getProduct();
     },
     getProduct() {
       if (!this.noData) {
         let vm = this;
         mui.ajax({
-          url: `${findVoucherProduct}`,
+          url: findVoucherProduct,
           type: "post",
           headers: { "app-version": "v1.0" },
           data: {
@@ -102,6 +119,7 @@ export default {
             pageNo: this.pageNo,
             pageSize: 10,
             likeName: this.searchValue,
+            columnId: this.tabList[this.curIndex].id,
             token: md5(`gjfengfindVoucherProduct${this.account}`)
           },
           success(res) {
@@ -119,91 +137,16 @@ export default {
       }
     },
     searchProduct() {
+      if (!this.searchValue) {
+        this.$dialog.alert({
+          mes: "请输入关键词！"
+        });
+        return;
+      }
       this.reset();
       this.getProduct();
     },
-    navigate(event, pd) {
-      let p = this.$route.path;
-      if (event.target.tagName !== "BUTTON") {
-        this.$store.commit("SAVE_LIST_WITH_PAGE", {
-          name: this.$route.path,
-          cacheInfo: {
-            noData: this.noData,
-            page: this.pageNo,
-            list: this.productList
-          }
-        });
-        this.$router.push({
-          path: "/online/product",
-          query: { id: pd.id, type: 1}
-        });
-      }
-    },
-    add2cart(id, event) {
-      let vm = this;
-      var ct = event.currentTarget;
-      var img = ct.parentElement.parentElement.parentElement.querySelector(
-        "img"
-      );
-      var src = img.src;
-      var bottom = window.innerHeight - ct.getBoundingClientRect().bottom;
-      var left = ct.getBoundingClientRect().left;
-      this.$dialog.loading.open("库存检测中...");
-      mui.ajax({
-        url: onlineProductsDetailInfoInH5,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          id,
-          token: md5(`gjfengonlineProductsDetailInfoInH5${id}`)
-        },
-        success(res) {
-          vm.$dialog.loading.close();
-          let _result = res.result;
-          if (!_result.productAttrStock.repertory) {
-            vm.$dialog.toast({
-              mes: "库存不足，请查看其他商品"
-            });
-            return;
-          }
-
-          mui.ajax({
-            url: addCart,
-            type: "post",
-            headers: { "app-version": "v1.0" },
-            data: {
-              goodsId: id,
-              goodsAttrStockId: _result.productAttrStock.id,
-              goodsAttrIds: _result.productAttrStock.productAttrIds,
-              goodsAttr: _result.productAttrStock.productAttrIds,
-              goodsNum: 1,
-              account: vm.account,
-              token: md5(`gjfengaddCart${vm.account}`)
-            },
-            success(response) {
-              vm.$dialog.toast({
-                mes: response.msg,
-                timeout: 1000
-              });
-              vm.$store.dispatch("getCartList");
-              // 商品加入购物车动画
-
-              var m = document.createElement("img");
-              m.className = "img-animate";
-              var tt = `bottom:${bottom}px;left:${left}px;`;
-              m.setAttribute("style", tt);
-              m.src = src;
-              document.body.appendChild(m);
-
-              setTimeout(() => {
-                m.remove();
-              }, 1500);
-            }
-          });
-        }
-      });
-    },
-    goShoppingCart() {
+    navigate(pd) {
       this.$store.commit("SAVE_LIST_WITH_PAGE", {
         name: this.$route.path,
         cacheInfo: {
@@ -212,56 +155,80 @@ export default {
           list: this.productList
         }
       });
-      this.$router.push({ name: "ShoppingCart" });
+      this.$router.push({
+        path: "/online/product",
+        query: { id: pd.id }
+      });
     }
   }
 };
 </script>
 <style lang='less' scoped>
 @import "../../style/mixin.less";
-.pd-list {
-  margin-top: @pd;
+.scroll-warpper {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 2rem;
+  bottom: 0;
+  overflow: hidden;
+  background-color: @white;
 }
-
-.pd-item {
-  .pd;
-  border-bottom: 1px solid #f9f9f9;
-  img {
-    .wh(1.5rem, 1.5rem);
+.tab-list {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  width: 20%;
+  border-right: 1px solid #ccc;
+  .tab-item {
+    line-height: 46px;
+    height: 46px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    font-size: 0.28rem;
   }
-  .pd-info {
-    margin-left: @pd;
-    h3 {
-      .multi-ellipsis(2);
-      margin-bottom: @pd;
-      font-weight: normal;
+}
+.main-list {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20%;
+  width: 80%;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  padding: 5px;
+  .product-item {
+    width: 50%;
+    margin-bottom: 5px;
+    padding: 5px;
+    border: 1px solid #f7f5f0;
+    color: #333;
+    .product-img {
+      position: relative;
+      padding: 50%;
+      overflow: hidden;
+      img {
+        .hv-cen;
+        width: 100%;
+      }
     }
-    .price1 {
+    .product-info {
+      line-height: 20px;
+      height: 40px;
+      .product-name {
+        display: -webkit-box;
+        .multi-ellipsis(2);
+        word-wrap: break-word;
+        word-break: break-all;
+      }
+    }
+    .product-price {
+      font-size: 0.28rem;
       color: @red;
-      font-size: .32rem;
     }
-    .price2 {
-      color: @lightgray;
-      text-decoration: line-through;
-    }
-  }
-}
-.shopping-container {
-  position: fixed;
-  left: @pd;
-  bottom: @pd * 2;
-  .wh(1rem,1rem);
-  border-radius: 50%;
-  z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.5);
-  .shopping-cart {
-    .hv-cen;
-    color: @white;
-  }
-  .shopping-num {
-    position: absolute;
-    left: 0.5rem;
-    top: 0.1rem;
   }
 }
 </style>

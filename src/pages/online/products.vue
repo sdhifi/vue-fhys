@@ -187,6 +187,7 @@ export default {
               goodsAttr: _result.productAttrStock.productAttrIds,
               goodsNum: 1,
               account: vm.account,
+              logist: 0,
               token: md5(`gjfengaddCart${vm.account}`)
             },
             success(response) {

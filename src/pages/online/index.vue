@@ -26,7 +26,7 @@
         </div>
       </section>
       <section class="merchant-container" @click="goMerchant">
-        <div :style="{'background-image':formatBg('merchant.jpg')}"></div>
+        <img :src="getLocalImg('merchant.jpg')" alt="商品供应链采购端">
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
         <yd-cell-group>
@@ -66,10 +66,10 @@
   </div>
 </template>
 <script>
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
-import { mixin } from "components/common/mixin";
+import { mixin, localImg } from "components/common/mixin";
 import { onlineInH5 } from "../../api/index";
 export default {
   name: "Online",
@@ -87,8 +87,8 @@ export default {
     };
   },
   components: { HeaderTop, FooterBar },
-  computed: {...mapState(['account','member'])},
-  mixins: [mixin],
+  computed: { ...mapState(["account", "member"]) },
+  mixins: [mixin, localImg],
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.plusReady();
@@ -159,33 +159,33 @@ export default {
       }
       this.$router.push({ path: link });
     },
-    goMerchant(){
-      if(!this.account){
+    goMerchant() {
+      if (!this.account) {
         this.$dialog.alert({
           mes: "请先登录！",
-          callback:()=>{
-            this.$router.push({name:'Login'})
+          callback: () => {
+            this.$router.push({ name: "Login" });
           }
         });
         return;
       }
-      if(this.member.type !="1"){
+      if (this.member.type != "1") {
         this.$dialog.alert({
-          mes: "你不是商家,请在个人中心-我是商家里面进行商家申请后再进行相应的操作！"
+          mes:
+            "你不是商家,请在个人中心-我是商家里面进行商家申请后再进行相应的操作！"
         });
         return;
       }
-      if(this.member.merchantType == "0"){
+      if (this.member.merchantType == "0") {
         this.$dialog.confirm({
-          title:"提示",
+          title: "提示",
           mes: "你不是联盟商家，去升级?",
-          opts:()=>{
-            this.$router.push({name:'Upgrade'})
+          opts: () => {
+            this.$router.push({ name: "Upgrade" });
           }
         });
-      }
-      else{
-        this.$router.push({name:'MerchantIndex',params:{update: true}})
+      } else {
+        this.$router.push({ name: "MerchantIndex", params: { update: true } });
       }
     }
   }
@@ -227,12 +227,9 @@ section {
   }
 }
 .merchant-container {
-  padding: .2rem 0 0 0;
-  div {
-    display: block;
-    height: 3.4rem;
-    background-size: contain;
-    background-repeat: no-repeat;
+  padding: 0.2rem 0 0 0;
+  img {
+    width: 100%;
   }
 }
 .pd-list {
