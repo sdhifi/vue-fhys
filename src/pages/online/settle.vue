@@ -422,6 +422,7 @@ export default {
           this.addressList[0].id,
         payPassword: pwd,
         account: this.account,
+        logist: this.settleList.logist,
         token: md5(`gjfengaddOrder${this.payType}`)
       };
       // this.$dialog.loading.open("下单中...");
