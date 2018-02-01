@@ -109,13 +109,13 @@
         <yd-cell-item>
           <p slot="right" class="fs-16">
             支付：
-            <span class="danger-color" v-if="orderType=='1'&&!$route.query.buynow">￥{{formatPrice(settleList.pointNiceAmount+settleList.pos)}}</span>
+            <span class="danger-color" v-if="orderType=='1'&&!$route.query.buynow">￥{{formatPrice(settleList.pointNiceAmount)}}</span>
             <span class="danger-color" v-else-if="orderType=='1'&&$route.query.buynow">￥{{formatPrice(settleList.pointNiceAmount)}}</span>
             <span class="danger-color" v-else-if="orderType=='2'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
             <span class="danger-color" v-else-if="orderType=='3'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
             <!-- <span class="danger-color" v-else>￥{{formatPrice(total)}}</span> -->
             <template v-else>
-              <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='0'">￥{{formatPrice(total2)}}+￥{{settleList.pos}}</span>
+              <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='0'">￥{{formatPrice(total2+settleList.pos)}}</span>
               <span class="danger-color fs-16" v-else-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='1'">￥{{formatPrice(total2)}}</span>
               <span class="danger-color" v-else>￥{{formatPrice(total)}}</span>
             </template>
