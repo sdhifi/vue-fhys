@@ -2,7 +2,7 @@
   <div>
     <header-top title="赠送代金券记录"></header-top>
     <main class='scroll-content-2'>
-<section v-if="info.length">
+      <section v-if="info.length">
         <ul>
           <li class="item" v-for="(item,index) in info" :key="index">
             <div class="item-top flex just-between align-center">
@@ -12,7 +12,7 @@
                 <span class="iconfont-large self-edu" style="color:#f9a340;" v-if="item.payType=='4'"></span>
                 <span class="iconfont-large self-yuanbao danger-color" v-if="item.payType=='6'"></span>
                 <span class="time">{{formatTime(item.addTime, true)}}</span>
-                </p>
+              </p>
               <span class="status status-0" v-if="item.tradeStatus==0">待支付</span>
               <span class="status status-1" v-if="item.tradeStatus==1">已支付</span>
             </div>
@@ -34,15 +34,15 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import HeaderTop from 'components/header/index'
+import HeaderTop from "components/header/index";
 import { findMemberVoucherHistory } from "../../api/index";
 import { mixin } from "components/common/mixin";
 export default {
-  name: 'CouponHistory',
+  name: "CouponHistory",
   data() {
     return {
       info: []
-    }
+    };
   },
   components: { HeaderTop },
   computed: {
@@ -52,11 +52,9 @@ export default {
   created() {
     this.getInfo();
   },
-  activated() {
-
-  },
+  activated() {},
   methods: {
-getInfo() {
+    getInfo() {
       let vm = this;
       mui.ajax({
         url: findMemberVoucherHistory,
@@ -78,10 +76,10 @@ getInfo() {
       });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
+@import "../../style/mixin.less";
 
 .item {
   background-color: @white;

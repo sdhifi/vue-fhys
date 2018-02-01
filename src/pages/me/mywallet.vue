@@ -74,7 +74,7 @@
           <span slot="icon" class="iconfont-large self-yinhangka" style="color: #e7d489;"></span>
           <span slot="text">银行卡</span>
         </yd-grids-item>
-        <yd-grids-item v-if="+member.merchantType>0" link="/merchant/give">
+        <yd-grids-item link="/merchant/give">
           <span slot="icon" class="iconfont-large self-shenghuofuwu" style="color: #e7d489;"></span>
           <span slot="text">升级赠送</span>
         </yd-grids-item>

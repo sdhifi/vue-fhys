@@ -61,7 +61,7 @@
           <span class="iconfont-large self-seller c1" slot="icon"></span>
           <span slot="left">我是商家</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="label" @click.native="navigate('/merchant/upgrade')" v-if="(member.type=='1' && member.merchantType=='1')">
+        <yd-cell-item arrow type="label" @click.native="navigate('/merchant/upgrade')" v-if="(member.type=='1' && +member.merchantType <2)">
           <span class="iconfont-large self-shenghuofuwu c2" slot="icon"></span>
           <span slot="left">联盟商家升级</span>
         </yd-cell-item>
