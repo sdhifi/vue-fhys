@@ -259,7 +259,7 @@ export default {
           //图片路径处理
           _result.content = _result.content.replace(
             /\/userfiles/g,
-            "http://yg.gjfeng.com/userfiles"
+            "http://www.gjfeng.com/userfiles"
           );
           if (_result.goodSoure != "2") {
             _result.attrs.forEach((item, index) => {
