@@ -5,7 +5,7 @@
       <yd-infinitescroll :callback="getRecommend" ref="re">
         <ul class="recommend-list" slot="list">
           <li v-for="item in info" :key="item.id" class="recommend-item flex">
-            <img :src="item.imgHeadUrl" alt="" class="recommend-cover">
+            <img :src="formatUser(item.imgHeadUrl)" alt="" class="recommend-cover">
             <div class="recommend-info flex">
               <h3>{{item.nickName}}</h3>
               <p>推荐时间：{{formatTime(item.bindTime)}}</p>
