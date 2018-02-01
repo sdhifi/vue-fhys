@@ -55,7 +55,7 @@
               <span slot="left">商家兑换：{{info.productAttrStock.price}}</span>
             </yd-cell-item>
             <yd-cell-item>
-              <span slot="left">企业兑换：{{info.productAttrStock.honourTotalAmount* 10}}</span>
+              <span slot="left">企业兑换：{{info.productAttrStock.standardPreferentialMoney}}</span>
             </yd-cell-item>
           </template>
           <yd-cell-item arrow type="link" :href="'/online/comment?id='+info.proId">
@@ -94,7 +94,7 @@
               <p class="danger-color fs-14" v-else>￥{{info.productAttrStock.price}}</p>
             </template>
             <template v-else>
-              <p class="danger-color fs-14" v-if="+member.merchantType>1">{{info.productAttrStock.honourTotalAmount * 10}}</p>
+              <p class="danger-color fs-14" v-if="+member.merchantType>1">{{info.productAttrStock.standardPreferentialMoney}}</p>
               <p class="danger-color fs-14" v-else>{{info.productAttrStock.price}}</p>
             </template>
           </div>
@@ -550,7 +550,7 @@ footer {
   background-color: @white;
   .top {
     position: relative;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.6rem;
     .img-cover {
       position: absolute;
       left: 8px;
