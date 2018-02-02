@@ -11,7 +11,7 @@
         <p>{{info.proName}}</p>
         <p class="danger-color fs-16 flex just-between align-center">
           <template v-if="info.isWholesale=='0'">
-            <span v-if="info.isCanUserCou=='0'">￥{{info.productAttrStock.price}}</span>
+            <span v-if="info.isCanUserCou=='0'">￥{{info.productAttrStock&&info.productAttrStock.price}}</span>
             <span v-else-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}
               <span class="fs-12" style="margin-left:.1rem;">积分</span>
             </span>
@@ -23,7 +23,7 @@
             </span>
           </template>
           <template v-else>
-            <span>{{info.productAttrStock.price}}</span>
+            <span>{{info.productAttrStock&&info.productAttrStock.price}}</span>
           </template>
           <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
@@ -52,10 +52,10 @@
           </template>
           <template v-else>
             <yd-cell-item>
-              <span slot="left">商家兑换：{{info.productAttrStock.price}}</span>
+              <span slot="left">商家兑换：{{info.productAttrStock&&info.productAttrStock.price}}</span>
             </yd-cell-item>
             <yd-cell-item>
-              <span slot="left">企业兑换：{{info.productAttrStock.standardPreferentialMoney}}</span>
+              <span slot="left">企业兑换：{{info.productAttrStock&&info.productAttrStock.standardPreferentialMoney}}</span>
             </yd-cell-item>
           </template>
           <yd-cell-item arrow type="link" :href="'/online/comment?id='+info.proId">
@@ -91,11 +91,11 @@
               <p class="danger-color fs-14" v-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}积分+￥{{info.pointNeedMoney}}</p>
               <p class="danger-color fs-14" v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}责任金</p>
               <p class="danger-color fs-14" v-else-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}代金券</p>
-              <p class="danger-color fs-14" v-else>￥{{info.productAttrStock.price}}</p>
+              <p class="danger-color fs-14" v-else>￥{{info.productAttrStock&&info.productAttrStock.price}}</p>
             </template>
             <template v-else>
-              <p class="danger-color fs-14" v-if="+member.merchantType>1">{{info.productAttrStock.standardPreferentialMoney}}</p>
-              <p class="danger-color fs-14" v-else>{{info.productAttrStock.price}}</p>
+              <p class="danger-color fs-14" v-if="+member.merchantType>1">{{info.productAttrStock&&info.productAttrStock.standardPreferentialMoney}}</p>
+              <p class="danger-color fs-14" v-else>{{info.productAttrStock&&info.productAttrStock.price}}</p>
             </template>
           </div>
           <div class="close" @click="show=false">
@@ -117,7 +117,7 @@
           <yd-cell-group v-else-if="info.isWholesale=='1' && +member.merchantType <2">
             <yd-cell-item arrow type="link" href="/merchant/upgrade">
               <p slot="left">企业版立省
-                <span class="danger-color fs-14">{{info.productAttrStock.honourPreferentialMoney}}</span>
+                <span class="danger-color fs-14">{{info.productAttrStock&&info.productAttrStock.honourPreferentialMoney}}</span>
               </p>
               <span slot="right" class="fs-14">去升级</span>
             </yd-cell-item>
