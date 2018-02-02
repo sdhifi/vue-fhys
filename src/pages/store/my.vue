@@ -9,9 +9,9 @@
         <input type="file" name="upload-img" id="" accept="image/*" @change="previewImg($event)">
       </section>
       <section class="store-info">
-        <h2 class="store-title flex align-center">
-          <span class="flex-1">{{info.storeName}}</span>
-          <!-- <span class="iconfont-large self-vip" style="color: #f5ca3a;"></span> -->
+        <h2 class="store-title">
+          <span class="iconfont-large self-vip vip-tag" v-if="info.isActivityStore=='1'"></span>
+          <span>{{info.storeName}}</span>
         </h2>
         <div class="flex align-center" @click="showEdit">
           <div class="flex-1 fs-15 flex align-center">
@@ -325,9 +325,12 @@ export default {
   .mg-v;
   font-size: 14px;
   .store-title {
+    position: relative;
     font-size: 0.35rem;
-    .pd-v;
     border-bottom: 1px solid #f7f5f5;
+    .vip-tag {
+      color: rgb(245, 202, 58);
+    }
   }
   > div {
     margin: 0.1rem 0;
