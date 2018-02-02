@@ -251,7 +251,12 @@ export default {
         success(res) {
           let _result = res.result;
           // 轮播图单独处理
-          for (let i = 1; i <= 5; i++) {
+          for (let i = 3; i <= 5; i++) {
+            if (_result[`para${i}`]) {
+              vm.imgList.push(_result[`para${i}`]);
+            }
+          }
+          for (let i = 1; i <= 2; i++) {
             if (_result[`para${i}`]) {
               vm.imgList.push(_result[`para${i}`]);
             }
