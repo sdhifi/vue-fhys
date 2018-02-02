@@ -7,7 +7,6 @@
         <div class="head-cover" :style="{'background-image':formatBg('mine_background.png')}">
           <router-link :to="{name:'Update'}">
             <div class="head-img" v-lazy:background-image="getImgPath(member.imgHeadUrl)"></div>
-            <!-- <span class="iconfont self-vip2 vip-tag bounce"></span> -->
           </router-link>
         </div>
         <div class="head-info">
@@ -16,6 +15,7 @@
             <span class="iconfont self-male" :style="{'color':'#57A9FF'}" v-if="member.sex=='1'"></span>
             <span class="iconfont self-female" :style="{'color':'#f860ef'}" v-else-if="member.sex=='2'"></span>
             <span class="iconfont self-sex" :style="{'color':'#4cd864'}" v-else></span>
+            <span class="iconfont self-vip2 vip-tag" v-if="member.isActiveMember=='1'"></span>
           </div>
           <p class="desc">{{member.remark||'-介绍信息-'}}</p>
         </div>
@@ -193,7 +193,13 @@ export default {
   components: { HeaderTop, FooterBar, CertModal },
   created() {},
   computed: {
-    ...mapState(["certificateStatus", "showCertificate", "account", "member","update"]),
+    ...mapState([
+      "certificateStatus",
+      "showCertificate",
+      "account",
+      "member",
+      "update"
+    ]),
     ...mapGetters(["cartNum"])
   },
   mixins: [mixin],
@@ -221,8 +227,8 @@ export default {
     }
   },
   methods: {
-    navigate(url){
-      this.$router.push({path:url});
+    navigate(url) {
+      this.$router.push({ path: url });
     },
     goOrder(index) {
       this.$router.push({
@@ -231,8 +237,8 @@ export default {
         query: { id: index }
       });
     },
-    goWallet(){
-      this.$router.push({name: "MyWallet",params:{update: true}});
+    goWallet() {
+      this.$router.push({ name: "MyWallet", params: { update: true } });
     },
     goStore() {
       if (!this.certificateStatus) {
@@ -326,14 +332,6 @@ section {
       z-index: 5;
       border: 3px solid rgba(228, 187, 145, 0.6);
     }
-   .vip-tag {
-      position: absolute;
-      left: 31%;
-      bottom: 0;
-      color: #f5ca3a;
-      font-size: .5rem;
-      font-weight: bold;
-    }
   }
   .head-info {
     min-height: 1.6rem;
@@ -351,16 +349,11 @@ section {
     }
   }
 }
- @media  (min-width: 768px) and (max-width: 1024px){
-   .vip-tag{
-     left: 40% !important;
-   }
- }
- @media  (min-width: 1024px){
-   .vip-tag{
-     left:42% !important;
-   }
- }
+.vip-tag {
+  color: #f5ca3a;
+  font-size: 0.35rem;
+  font-weight: bold;
+}
 .order-container {
   .order-item {
     .pd-v;
@@ -430,20 +423,6 @@ section {
   }
   button {
     margin-top: @pd * 2;
-  }
-}
-.bounce{
-  animation: bounce 2s ease infinite;
-}
-@keyframes bounce {
-  0%{
-    transform: scale(.7);
-  }
-  50%{
-    transform: scale(1.1);
-  }
-  100%{
-    transform: scale(.9);
   }
 }
 </style>
