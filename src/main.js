@@ -11,11 +11,17 @@ import VueLazyload from 'vue-lazyload'
 import YDUI from 'vue-ydui';
 import 'vue-ydui/dist/ydui.rem.css'
 import './style/iconfont.css'
+
+if (process.env.NODE_ENV === 'development') {
+  const plus = require('../config/plus').plus;
+  window.plus = plus;
+}
+
 Vue.use(VueRouter)
 Vue.use(YDUI)
-Vue.use(VueLazyload,{
-  error: process.env.NODE_ENV == 'development' ? "/static/img/default.png" : "./static/img/default.png" ,
-  loading: process.env.NODE_ENV == 'development' ? "/static/img/loading.svg" : "./static/img/loading.svg" 
+Vue.use(VueLazyload, {
+  error: process.env.NODE_ENV == 'development' ? "/static/img/default.png" : "./static/img/default.png",
+  loading: process.env.NODE_ENV == 'development' ? "/static/img/loading.svg" : "./static/img/loading.svg"
 })
 FastClick.attach(document.body)
 Vue.prototype.axios = axios;
