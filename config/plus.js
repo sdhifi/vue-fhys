@@ -1,4 +1,22 @@
 let plus = {
+  barcode: {
+    Barcode: function (params) {
+      return {
+        start: function () {
+          console.log('starting...')
+        },
+        cancel: function () {
+          console.log('canceled!!!')
+        },
+        close: function () {
+          console.log('closeed!!!')
+        },
+        setFlash:function(){
+          console.log('flashing...')
+        }
+      }
+    }
+  },
   runtime: {
     openURL(href) {
       window.location = href;
@@ -32,7 +50,7 @@ let plus = {
     getChannels(successCB, errorCB) {
       successCB(this.channels);
     },
-    request(channel,statement,successCB,errorCB) {
+    request(channel, statement, successCB, errorCB) {
       successCB("ok");
     }
   }
