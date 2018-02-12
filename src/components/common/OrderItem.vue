@@ -12,7 +12,7 @@
           <h3 class="good-title">{{good.goodsName}}</h3>
           <div class="good-price flex just-between">
             <span>数量：{{good.goodNum}}</span>
-            <span>￥{{good.goodsAmount}}</span>
+            <span>￥{{good.goodsPrice}}</span>
           </div>
         </div>
       </div>

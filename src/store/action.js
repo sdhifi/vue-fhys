@@ -16,7 +16,9 @@ import {
   myCart,
   toFhTreasurePage
 } from '../api/index'
-import {getStore} from "../components/common/mixin"
+import {
+  getStore
+} from "../components/common/mixin"
 export default {
   getInfo({
     commit,
@@ -70,6 +72,8 @@ export default {
   getAddressList({
     commit,
     state
+  }, {
+    source
   }) {
     mui.ajax({
       url: getMyAddress,
@@ -79,12 +83,13 @@ export default {
       },
       data: {
         account: state.account,
+        goodSource: source,
         token: md5('gjfenggetMyAddress')
       },
       success(res) {
         let _result = res.result;
+        commit('RECORD_DEFAULT_ADDRESS', null)
         if (!_result.length) {
-          commit('RECORD_DEFAULT_ADDRESS', null)
           commit('RECORD_ADDRESS_List', [])
         } else {
           _result.forEach((item, index) => {
@@ -124,17 +129,19 @@ export default {
   getFHB({
     commit,
     state
-  }){
+  }) {
     mui.ajax({
       url: toFhTreasurePage,
       type: 'post',
-      headers: {'app-version': 'v1.0'},
+      headers: {
+        'app-version': 'v1.0'
+      },
       data: {
-        account:state.account,
+        account: state.account,
         token: md5(`gjfengtoFhTreasurePage${state.account}`)
       },
-      success(res){
-      commit(RECORD_FHB_MONEY,res.result.fhTreasureInfo.fhTreasureMoney);
+      success(res) {
+        commit(RECORD_FHB_MONEY, res.result.fhTreasureInfo.fhTreasureMoney);
       }
     })
   }

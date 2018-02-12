@@ -1,6 +1,6 @@
 <template>
   <div>
-    <yd-navbar title="京东" :fixed="true">
+    <yd-navbar title="京东自营" :fixed="true">
       <section slot="left" @click="goBack" style="line-height:1rem;">
         <yd-navbar-back-icon>返回</yd-navbar-back-icon>
       </section>
@@ -21,14 +21,13 @@
           <ul class="product-list flex" slot="list">
             <li class="product-item" v-for="(item,index) in productList" :key="index" @click="navigate(item)">
               <div class="product-img">
-                <img :src="item.img" :alt="item.title">
+                <img :src="item.goodsThumb" :alt="item.goodsName">
               </div>
               <div class="product-info flex align-center">
-                <div class="product-name">{{item.title}}</div>
+                <div class="product-name">{{item.goodsName}}</div>
               </div>
               <div class="product-price">
-                <span>优惠券：</span>
-                <span class="fs-16 danger-color">￥{{item.yhqmoney || 0}}</span>
+                <span class="fs-16 danger-color">￥{{item.shopPrice || 0}}</span>
               </div>
             </li>
           </ul>
@@ -41,8 +40,8 @@
 import { mapState } from "vuex";
 import { getStore } from "components/common/mixin";
 import {
-  findJdProdutCat,
-  findJdProductList,
+  findProprietaryJdCategory,
+  findJdProprietaryProByCatId,
   findJdProductListBySerch
 } from "../../api/index";
 export default {
@@ -93,6 +92,10 @@ export default {
       this.$router.replace("/online/index");
     },
     searchProduct() {
+      this.$dialog.alert({
+        mes: "搜索功能即将上线，敬请期待！"
+      });
+      return;
       if (!this.searchValue) {
         this.$dialog.alert({
           mes: "请输入关键词！"
@@ -135,11 +138,16 @@ export default {
       let vm = this;
       this.$dialog.loading.open();
       mui.ajax({
-        url: findJdProdutCat,
-        type: "get",
+        url: findProprietaryJdCategory,
+        type: "post",
+        headers: { "app-version": "v1.0" },
+        data: {
+          token: md5(`gjfengfindProprietaryJdCategory`)
+        },
         success(res) {
           vm.$dialog.loading.close();
-          vm.tabList = res;
+          let _result = res.result;
+          vm.tabList = _result.cat.firstLevel;
           vm.getProduct();
         },
         error(e) {
@@ -153,15 +161,23 @@ export default {
     getProduct() {
       let vm = this;
       mui.ajax({
-        url: findJdProductList,
-        type: "get",
+        url: findJdProprietaryProByCatId,
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          type: this.tabList[this.curIndex].id,
-          page: this.pageNo
+          catId: this.tabList[this.curIndex].catId,
+          page: this.pageNo,
+          sup: "",
+          rateBegin: "",
+          token: md5(
+            `gjfengfindJdProprietaryProByCatId${
+              this.tabList[this.curIndex].catId
+            }`
+          )
         },
         success(res) {
-          vm.productList = [...vm.productList, ...res];
-          if (res.length < 30) {
+          vm.productList = [...vm.productList, ...res.result.product];
+          if (res.length < 50) {
             vm.noData = true;
             vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
             return;
@@ -184,13 +200,7 @@ export default {
           list: this.productList
         }
       });
-      let pdId = pd.id;
-      let userId = `1002${this.member.id}`; //广州：1004，O2O：1003，云南：1002，湛江：1001
-      let url = `http://aihua.likecs.com/index.php?mod=aihua&act=jdfh&param=detail&id=${pdId}&userid=${userId}&phone=${
-        this.member.mobile
-      }&email=&kh=fenghuang&tbnum=`;
-      //this.$router.push({ name: "TMDetail", params: { url } });
-      plus.runtime.openURL(url);
+      this.$router.push({ name: "JDProduct", query: { id: pd.goodsId } });
     }
   }
 };

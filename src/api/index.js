@@ -33,6 +33,10 @@ let onlineProductsByAllColumn = `${pd}/online/onlineProductsByAllColumn` //网�
 let onlineProductsDetailInfoInH5 = `${pd}/online/onlineProductsDetailInfoInH5` //网上商城商品详情
 let stockAndPrice = `${pd}/online/product/stockAndPrice` //商品价格和库存
 let allColumn = `${pd}/online/allColumn` //商城所有分类
+let findProprietaryJdCategory = `${pd}/findProprietaryJdCategory` //获取京东自营商城分类
+let findJdProprietaryProByCatId = `${pd}/findJdProprietaryProByCatId` //获取分类商品
+let findJdProprietaryProDetail = `${pd}/findJdProprietaryProDetail` //获取京东自营商城分类商品详情
+let addJdProprietaryProduct = `${pd}/addJdProprietaryProduct` //添加京东商品信息
 
 let findProdutCat = `${baseUrl}/wx/product/findProdutCat` //天猫|淘宝目录
 let findProductList = `${baseUrl}/wx/product/findProductList` //天猫|淘宝商品
@@ -57,6 +61,8 @@ let updateAddressInIos = `${address}/updateAddressInIos` //修改收货地址
 let defaultAddress = `${address}/default` //设置默认地址
 let delAdress = `${address}/delAdress` //删除收货地址
 let newsAddressInIos = `${address}/newsAddressInIos` //新增收货地址
+let newsAddress = `${address}/newsAddress` //新增收货地址
+let getAreaByType = `${address}/getAreaByType` //获取省市区信息
 
 let register = baseUrl + `/app/${VERSION}/register` //注册
 let login = baseUrl + `/app/${VERSION}/login` //登录
@@ -163,6 +169,10 @@ export {
   onlineProductsDetailInfoInH5,
   stockAndPrice,
   allColumn,
+  findProprietaryJdCategory,
+  findJdProprietaryProByCatId,
+  findJdProprietaryProDetail,
+  addJdProprietaryProduct,
 
   findProdutCat,
   findProductList,
@@ -187,6 +197,8 @@ export {
   defaultAddress,
   delAdress,
   newsAddressInIos,
+  newsAddress,
+  getAreaByType,
 
   register,
   login,

@@ -17,7 +17,7 @@
             <span class="iconfont self-sex" :style="{'color':'#4cd864'}" v-else></span>
             <span class="iconfont self-vip2 vip-tag" v-if="member.isActiveMember=='1'"></span>
           </div>
-          <p class="desc">{{member.remark||'-介绍信息-'}}</p>
+          <p class="desc">{{member.remark||'-个人简介-'}}</p>
         </div>
       </section>
       <!-- 订单 -->
@@ -80,6 +80,10 @@
         <yd-cell-item arrow type="label" @click.native="navigate('/address/index')">
           <span class="iconfont-large self-address c2" slot="icon"></span>
           <span slot="left">地址管理</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="label" @click.native="navigate('/address/jdaddress')">
+          <span class="iconfont-large self-address c2" slot="icon"></span>
+          <span slot="left">京东地址管理</span>
         </yd-cell-item>
         <yd-cell-item arrow type="label" @click.native="navigate('/me/collect')">
           <span class="iconfont-large self-heart c1" slot="icon"></span>
