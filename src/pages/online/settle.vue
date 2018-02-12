@@ -312,7 +312,7 @@ export default {
     this.$store.dispatch("getFHB");
     this.orderType = this.$route.query.orderType;
     if (!this.defaultAddress) {
-      this.$store.dispatch("getAddressList");
+      this.$store.dispatch("getAddressList",{source:0});
     }
     switch (this.orderType) {
       case "1":
@@ -569,6 +569,7 @@ export default {
                   callback: () => {
                     vm.$router.replace({
                       name: "MyOrder",
+                      params: { update: true },
                       query: { id: 0 }
                     });
                   }

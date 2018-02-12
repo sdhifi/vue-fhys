@@ -39,7 +39,7 @@
               <span class="left">商品数量：</span>
               {{item.goodsNum}}
             </li>
-            <li class="item">
+            <li class="item" v-if="item.goodsAttr">
               <span class="left">商品属性：</span>
               {{item.goodsAttr}}
             </li>

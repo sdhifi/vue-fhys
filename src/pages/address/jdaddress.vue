@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top title="地址管理"></header-top>
+    <header-top title="京东地址管理"></header-top>
     <main class='scroll-content' style="background-color:#fff;">
       <section class="address-list" v-show="addressList.length">
         <group-title>点击更换默认地址，左滑地址更多操作</group-title>
@@ -23,8 +23,7 @@
                   <span class="address-name">{{item.consigneeName}}</span>
                   <span>{{item.mobile}}</span>
                 </div>
-                <div class="address-detail">{{item.proviceId.province}} {{item.cityId.city}}
-                  <span v-if="item.areaId">{{item.areaId.area}}</span> {{item.addressDetail}}</div>
+                <div class="address-detail">{{item.proviceId.province}} {{item.cityId.city}} <span v-if="item.areaId">{{item.areaId.area}}</span> <span v-if="item.townId">{{item.townId.townName}}</span> {{item.addressDetail}}</div>
               </li>
             </ul>
           </swipeout-item>
@@ -42,61 +41,65 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
-import HeaderTop from "components/header/index";
-import { GroupTitle, Swipeout, SwipeoutItem } from "vux";
-import { getMyAddress, defaultAddress, delAdress } from "../../api/index";
-import { getStore } from "components/common/mixin";
+import { mapState } from 'vuex'
+import HeaderTop from 'components/header/index'
+import { GroupTitle, Swipeout, SwipeoutItem } from 'vux'
+import { getMyAddress, defaultAddress, delAdress } from '../../api/index'
+import { getStore } from 'components/common/mixin'
 export default {
-  name: "AddressManage",
+  name: 'AddressManage',
   data() {
-    return {};
+    return {
+
+    }
   },
   components: { HeaderTop, GroupTitle, Swipeout, SwipeoutItem },
   computed: {
-    ...mapState(["account", "addressList"])
+    ...mapState(['account', 'addressList'])
   },
   activated() {
-    this.$store.dispatch("getAddressList", { source: 0 });
+    this.$store.dispatch('getAddressList',{source:1});
   },
   methods: {
     setDefault(address) {
       let vm = this;
-      mui.ajax({
-        url: defaultAddress,
-        type: "post",
-        headers: { "app-version": "v1.0" },
-        data: {
-          id: address.id,
-	  goodSource: 0,
-          account: this.account,
-          token: md5(`gjfendefault${address.id}${this.account}`)
-        },
-        success(res) {
-          if (res.code == 200) {
-            vm.$store.commit("RECORD_DEFAULT_ADDRESS", address);
-            if (vm.$route.query.type == "choose") {
-              // 选择地址，选择之后回退页面
-              vm.$router.go(-1);
-            } else {
-              vm.$store.dispatch("getAddressList", { source: 0 });
-              vm.$dialog.toast({
-                mes: "设置默认地址成功"
-              });
+        mui.ajax({
+          url: defaultAddress,
+          type: 'post',
+          headers: { 'app-version': 'v1.0' },
+          data: {
+            id: address.id,
+            goodSource: 1,
+            account: this.account,
+            token: md5(`gjfengdefault${address.id}${this.account}`)
+          },
+          success(res) {
+            if (res.code == 200) {
+              vm.$store.commit('RECORD_DEFAULT_ADDRESS', address)
+              if (vm.$route.query.type == 'choose') {
+                // 选择地址，选择之后回退页面
+                vm.$router.go(-1)
+              }
+              else{
+                vm.$store.dispatch('getAddressList',{source:1});
+                vm.$dialog.toast({
+                  mes: '设置默认地址成功'
+                });
+              }
             }
-          } else {
-            vm.$dialog.toast({
-              mes: res.msg
-            });
+            else {
+              vm.$dialog.toast({
+                mes: res.msg
+              })
+            }
           }
-        }
-      });
+        })
     },
-    editAddress(item, index) {
+    editAddress(item,index) {
       this.$nextTick(() => {
-        this.$refs.aaa[index].close();
+        this.$refs.aaa[index].close()
       });
-      this.$router.push({ name: "AddressEdit", params: { item } });
+      this.$router.push({ name: 'JDAddressEdit', params: { item } })
     },
     deleteAddress(item) {
       this.$dialog.confirm({
@@ -105,49 +108,49 @@ export default {
           let vm = this;
           mui.ajax({
             url: delAdress,
-            type: "post",
-            headers: { "app-version": "v1.0" },
+            type: 'post',
+            headers: { 'app-version': 'v1.0' },
             data: {
               id: item.id,
-	      goodSource: 0,
-              account: getStore("account"),
-              token: md5(`gjfengdelAdress${item.id}${getStore("account")}`)
+              goodSource:1,
+              account: getStore('account'),
+              token: md5(`gjfengdelAdress${item.id}${getStore('account')}`)
             },
             success(res) {
               if (res.code !== 200) {
                 vm.$dialog.toast({
                   mes: res.msg,
-                  timeout: 1000
-                });
+                  timeout:1000
+                })
                 return;
               }
-              vm.$store.dispatch("getAddressList", { source: 0 });
+              vm.$store.dispatch('getAddressList',{source:1});
             }
-          });
+          })
         }
-      });
+      })
     },
     newAddress() {
-      this.$router.push({ name: "AddressNew" });
+      this.$router.push({ name: 'JDAddressNew' })
     }
   }
-};
+}
 </script>
 <style lang='less' scoped>
-@import "../../style/mixin.less";
+@import '../../style/mixin.less';
 .address-item {
   position: relative;
-  padding: 0.3rem @pd;
+  padding: .3rem @pd ;
   background-color: @white;
   border: 1px solid #dfdfdf;
-  font-size: 0.3rem;
+  font-size: .3rem;
   &.active {
     border-color: @red;
     box-shadow: 0 0 5px @red;
   }
   .address-name {
     font-weight: 700;
-    font-size: 0.32rem;
+    font-size: .32rem;
     margin-right: @pd;
   }
   .address-detail {

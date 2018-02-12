@@ -60,6 +60,43 @@ const router = new Router({
       meta: {
         keepAlive: true
       }
+    },
+    {
+      path: '/online/jdproduct',
+      name: 'JDProduct',
+      component: require('../pages/online/jdproduct'),
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/online/jdsettle',
+      name: 'JDSettle',
+      component: require('../pages/online/jdsettle'),
+      meta: {
+        keepAlive: true
+      }
+    }, {
+      path: '/address/jdaddress',
+      name: 'JDAddress',
+      component: require('../pages/address/jdaddress'),
+      meta: {
+        keepAlive: true
+      }
+    }, {
+      path: '/address/jdedit',
+      name: 'JDAddressEdit',
+      component: require('../pages/address/jdedit'),
+      meta: {
+        keepAlive: false
+      }
+    }, {
+      path: '/address/jdnew',
+      name: 'JDAddressNew',
+      component: require('../pages/address/jdnew'),
+      meta: {
+        keepAlive: false
+      }
     }, {
       path: '/online/tmindex',
       name: 'TianMao',
@@ -552,14 +589,14 @@ const router = new Router({
       meta: {
         keepAlive: true
       }
-    },  {
+    }, {
       path: '/merchant/index',
       name: 'MerchantIndex',
       component: require('../pages/merchant/index'),
       meta: {
         keepAlive: true
       }
-    },{
+    }, {
       path: '/merchant/give',
       name: 'MerchantGive',
       component: require('../pages/merchant/give'),
@@ -597,28 +634,28 @@ const router = new Router({
       meta: {
         keepAlive: true
       }
-    },{
+    }, {
       path: '/merchant/couponhistory',
       name: 'CouponHistory',
       component: require('../pages/merchant/couponhistory'),
       meta: {
         keepAlive: false
       }
-    },{
+    }, {
       path: '/merchant/protocol',
       name: 'MerchantProtocol',
       component: require('../pages/merchant/protocol'),
       meta: {
         keepAlive: false
       }
-    },{
+    }, {
       path: '/merchant/recommendhistory',
       name: 'MerchantRecommendHistory',
       component: require('../pages/merchant/recommendhistory'),
       meta: {
         keepAlive: false
       }
-    },{
+    }, {
       path: '*',
       redirect: '/home/index'
     }
