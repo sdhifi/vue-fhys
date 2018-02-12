@@ -140,16 +140,23 @@ export default {
             },
             success(res) {
               vm.$dialog.loading.close();
-              vm.show = false;
-              let _result = res.result;
-              vm.$store.commit("RECORD_SETTLE_LIST", _result);
-              vm.$store.commit(
-                "SET_PAY_PASSWORD",
-                _result.gjfMemberInfo.payPassword ? true : false
-              );
-              vm.$router.push({
-                name: "JDSettle"
-              });
+
+              if (res.code == 200) {
+                vm.show = false;
+                let _result = res.result;
+                vm.$store.commit("RECORD_SETTLE_LIST", _result);
+                vm.$store.commit(
+                  "SET_PAY_PASSWORD",
+                  _result.gjfMemberInfo.payPassword ? true : false
+                );
+                vm.$router.push({
+                  name: "JDSettle"
+                });
+              } else {
+                vm.$dialog.alert({
+                  mes: res.msg
+                });
+              }
             }
           });
         }
