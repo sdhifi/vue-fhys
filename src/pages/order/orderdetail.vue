@@ -33,7 +33,8 @@
             </li>
             <li class="item">
               <span class="left">商品价格：</span>
-              <span class="danger-color">{{item.goodsAmount}}</span>
+              <span class="danger-color" v-if="$route.query.jdOrderSn">{{info.goodsTotalAmount}}</span>
+              <span class="danger-color" v-else>{{item.goodsAmount}}</span>
             </li>
             <li class="item">
               <span class="left">商品数量：</span>

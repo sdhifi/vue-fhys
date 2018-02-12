@@ -1,6 +1,6 @@
 <template>
   <div>
-    <yd-navbar title="京东自营" :fixed="true">
+    <yd-navbar title="京东" :fixed="true">
       <section slot="left" @click="goBack" style="line-height:1rem;">
         <yd-navbar-back-icon>返回</yd-navbar-back-icon>
       </section>
@@ -160,6 +160,7 @@ export default {
     },
     getProduct() {
       let vm = this;
+      this.$dialog.loading.open();
       mui.ajax({
         url: findJdProprietaryProByCatId,
         type: "post",
@@ -176,6 +177,7 @@ export default {
           )
         },
         success(res) {
+          vm.$dialog.loading.close();
           vm.productList = [...vm.productList, ...res.result.product];
           if (res.length < 50) {
             vm.noData = true;

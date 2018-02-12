@@ -8,35 +8,35 @@
       <div v-show="index==0">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist7">
           <ul slot="list">
-            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @pay="payOrder(item)" @update="updateOrder(item)" @comment="addComment(item)" @navigate="goDetail(item.orderSn)"></order-item>
+            <order-item v-for="item in list7" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @pay="payOrder(item)" @update="updateOrder(item)" @comment="addComment(item)" @navigate="goDetail(item.orderSn,item.jdOrderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==1">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist0">
           <ul slot="list">
-            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item,index)" @navigate="goDetail(item.orderSn)"></order-item>
+            <order-item v-for="item in list0" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @pay="payOrder(item,index)" @navigate="goDetail(item.orderSn,item.jdOrderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==2">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist1">
           <ul slot="list">
-            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @navigate="goDetail(item.orderSn)"></order-item>
+            <order-item v-for="item in list1" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @navigate="goDetail(item.orderSn,item.jdOrderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==3">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist2">
           <ul slot="list">
-            <order-item v-for="(item,index) in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @update="updateOrder(item,index)" @navigate="goDetail(item.orderSn)"></order-item>
+            <order-item v-for="(item,index) in list2" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :paytype="item.payType" @update="updateOrder(item,index)" @navigate="goDetail(item.orderSn,item.jdOrderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
       <div v-show="index==4">
         <yd-infinitescroll :callback="getMyOrder" ref="orderlist3">
           <ul slot="list">
-            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @comment="addComment(item)" @navigate="goDetail(item.orderSn)"></order-item>
+            <order-item v-for="item in list3" :key="item.orderSn" :name="item.storeName" :sn="item.orderSn" :goods="item.goods" :total="item.goodsTotalAmount" :status="item.orderStatus" :evaluation="item.evaluationStatus" :paytype="item.payType" @comment="addComment(item)" @navigate="goDetail(item.orderSn,item.jdOrderSn)"></order-item>
           </ul>
         </yd-infinitescroll>
       </div>
@@ -189,9 +189,9 @@ export default {
         }
       });
     },
-    goDetail(sn) {
+    goDetail(sn, jdOrderSn) {
       this.saveCache();
-      this.$router.push({ name: "OrderDetail", query: { sn } });
+      this.$router.push({ name: "OrderDetail", query: { sn, jdOrderSn } });
     },
     payOrder(item, index) {
       let vm = this;
@@ -256,10 +256,7 @@ export default {
               mes: "银联支付功能暂时无法使用，请更换其他支付方式重新下单"
             });
             //银联
-          } else if (
-            item.payType == "7" ||
-            item.payType == "8"
-          ) {
+          } else if (item.payType == "7" || item.payType == "8") {
             //积分||责任金额||代金券
             vm.checkService(vm.pays["alipay"], function() {
               plus.payment.request(
