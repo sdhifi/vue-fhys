@@ -7,7 +7,7 @@
         </div> -->
         <img :src="getImgPath(member.imgHeadUrl)" alt="头像" class="head-img">
         <div class="qr-box">
-          <img :src="info.imgAppQrUrl" alt="二维码">
+          <img :src="info.imgAppQrUrl" alt="二维码" @touchstart="showSave" @touchend="clearShow">
         </div>
         <div class="qr-img img-1" :style="{'background-image':formatBg('qr-1.png')}"></div>
         <div class="qr-img img-2" :style="{'background-image':formatBg('qr-2.png')}"></div>
@@ -75,6 +75,40 @@ export default {
           vm.info = res.result;
         }
       });
+    },
+    showSave() {
+      clearTimeout(this.touch);
+      this.touch = setTimeout(() => {
+        this.$dialog.confirm({
+          title: "提示",
+          mes: "需要保存图片？",
+          opts: () => {
+            this.downloadPic();
+          }
+        });
+      }, 500);
+    },
+    clearShow() {
+      clearTimeout(this.touch);
+    },
+    downloadPic() {
+      plus.downloader
+        .createDownload(this.info.imgAppQrUrl, {}, (d, status) => {
+          if (status == 200) {
+            plus.gallery.save(
+              d.filename,
+              () => {
+                alert("已保存到相册");
+              },
+              () => {
+                alert("保存相册失败");
+              }
+            );
+          } else {
+            alert("保存异常");
+          }
+        })
+        .start();
     },
     updateServices() {
       plus.share.getServices(s => {
@@ -163,6 +197,7 @@ export default {
   .qr-box {
     .wh(4rem,4rem);
     margin: 0 auto;
+    user-select: none;
     img {
       width: 100%;
     }
