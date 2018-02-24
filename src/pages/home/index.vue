@@ -29,7 +29,7 @@
         </section>
         <section class="banner-list">
           <yd-slider>
-            <yd-slider-item v-for="(item,index) in banner" :key="item.id">
+            <yd-slider-item v-for="item in banner" :key="item.id">
               <router-link :to="'/shop/index/'+item.address.substring(item.address.lastIndexOf('/')+1)">
                 <img :src="item.photo" :alt="item.names">
               </router-link>

@@ -10,7 +10,7 @@
       </section>
       <section class="banner-list">
         <yd-slider>
-          <yd-slider-item v-for="(item,index) in banner" :key="item.id">
+          <yd-slider-item v-for="item in banner" :key="item.id">
             <img :src="item.photo" :alt="item.names">
           </yd-slider-item>
         </yd-slider>
@@ -18,7 +18,7 @@
       <section class="subcolumns-list">
         <ul class="flex" v-show="subcolumns.length">
           <router-link :to="{path:'/home/subcolumn2/'+e.id}" v-for="e in subcolumns" :key="e.id" class="type-item text-center" tag="li">
-            <img :src="getImgPath(e.pic2)" :alt="e.names">
+            <img :src="formatUser(e.pic2)" :alt="e.names">
             <p>{{e.names}}</p>
           </router-link>
         </ul>

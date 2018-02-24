@@ -42,7 +42,6 @@ export default {
       let vm = this;
       plus.runtime.getProperty(plus.runtime.appid, function(inf) {
         vm.curVersion = inf.version;
-        console.log("当前应用版本：" + inf.version);
       });
     },
     getInfo() {
