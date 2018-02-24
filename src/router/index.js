@@ -60,6 +60,13 @@ const router = new Router({
       meta: {
         keepAlive: true
       }
+    }, {
+      path: '/online/jdself',
+      name: 'JDSelf',
+      component: require('../pages/online/jdself'),
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/online/jdproduct',

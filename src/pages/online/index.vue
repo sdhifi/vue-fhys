@@ -25,6 +25,9 @@
         <div v-for="(item,index) in platform" :key="index" class="platform-item" :style="{'background-image':formatBg(item.img)}" @click="navigate(item.link)">
         </div>
       </section>
+      <section class="merchant-container" @click="goJD">
+        <img :src="getLocalImg('jd.jpg')" alt="京东自营">
+      </section>
       <section class="merchant-container" @click="goMerchant">
         <img :src="getLocalImg('merchant.jpg')" alt="商品供应链采购端">
       </section>
@@ -158,6 +161,9 @@ export default {
         return;
       }
       this.$router.push({ path: link });
+    },
+    goJD(){
+      this.$router.push({ name: "JDSelf" });
     },
     goMerchant() {
       if (!this.account) {
