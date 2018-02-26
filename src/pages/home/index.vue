@@ -64,7 +64,7 @@ import { Swiper, SwiperItem } from "vux";
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
 import ProductItem from "components/common/ProductItem";
-import { o2o, like,getCityName, findAppUpgredeByType } from "../../api/index";
+import { o2o, like, getCityName, findAppUpgredeByType } from "../../api/index";
 import { mixin, getStore, setStore } from "components/common/mixin";
 export default {
   name: "Home",
@@ -149,18 +149,18 @@ export default {
               let vm = this;
               mui.ajax({
                 url: getCityName,
-                type: 'post',
-                headers: {'app-version': 'v1.0'},
+                type: "post",
+                headers: { "app-version": "v1.0" },
                 data: {
                   latitude,
                   longitude,
                   token: md5(`gjfenggetCityName`)
                 },
-                success(res){
+                success(res) {
                   let city = res.result;
                   vm.$store.commit("RECORD_CITY", city);
                 }
-              })
+              });
             });
         } else {
           document.addEventListener("plusready", this.onPlusReady, false);
