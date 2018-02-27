@@ -1,6 +1,6 @@
 <template>
   <div>
-    <yd-navbar title="京东" :fixed="true">
+    <yd-navbar title="京东自营" :fixed="true">
       <section slot="left" @click="goBack" style="line-height:1rem;">
         <yd-navbar-back-icon>返回</yd-navbar-back-icon>
       </section>

@@ -16,6 +16,7 @@
         <div class="qr-img img-5" :style="{'background-image':formatBg('qr-5.png')}"></div>
         <div class="qr-desc fs-16">免费领券省钱，推荐分享赚钱</div>
       </section>
+      <div class="text-center">长按二维码保存，分享更方便</div>
       <!-- <section class="share-container text-center">
         <h3 class="fs-16">分享到</h3>
         <ul class="flex just-around align-center">
@@ -169,10 +170,9 @@ export default {
 @import "../../style/mixin.less";
 .qr-container {
   position: relative;
-  top: 1.3rem;
   width: 6.5rem;
   background-color: @white;
-  margin: 0 auto;
+  margin: 1.3rem auto 0;
   padding: 1rem 0 1.8rem;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(232, 142, 44, 0.3);
