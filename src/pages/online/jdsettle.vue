@@ -68,11 +68,11 @@
       <group title="选择返赠方式">
         <div class="box">
           <checker v-model="commissionType" class="flex" default-item-class="self-checker-item" selected-item-class="self-checker-selected" type="radio" :radio-required="true">
-            <checker-item value="0" class="flex-1" style="margin-right:.2rem;">
-              积分(约{{settleList.pointMoney}})
-            </checker-item>
             <checker-item value="1" class="flex-1">
               代金券(约{{settleList.vocMoney}})
+            </checker-item>
+            <checker-item value="0" class="flex-1" style="margin-right:.2rem;">
+              积分(约{{settleList.pointMoney}})
             </checker-item>
           </checker>
         </div>
@@ -103,7 +103,7 @@ export default {
       oldBack: mui.back,
       remark: "", //备注
       payType: "2", //支付方式
-      commissionType: "0", //赠送方式
+      commissionType: "1", //赠送方式
       pays: {}
     };
   },
