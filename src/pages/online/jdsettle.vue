@@ -112,14 +112,14 @@ export default {
     ...mapState(["account", "defaultAddress", "addressList", "settleList"]),
     total() {
       return this.settleList.totalAmount + this.settleList.pos;
-      },
+    },
     valid() {
       return this.defaultAddress || !!this.addressList.length;
     }
   },
   created() {},
   activated() {
-      this.$store.dispatch("getAddressList", { source: 1 });
+    this.$store.dispatch("getAddressList", { source: 1 });
   },
   mixins: [mixin, payMixin],
   methods: {

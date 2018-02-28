@@ -17,7 +17,7 @@
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">昵称</span>
-          <input slot="right" v-model="info.nickName" type="text" style="text-align:right;" class="hight-input" placeholder="不要输入特殊符号"></input>
+          <input slot="right" v-model="info.nickName" type="text" style="text-align:right;" class="hight-input" placeholder="不要输入特殊符号">
         </yd-cell-item>
         <yd-cell-item>
           <span slot="left">性别</span>
