@@ -129,27 +129,15 @@ export const validateSettle = {
     validSellerMobile() {
       return /^1[3,4,5,7,8,9]\d{9}$/.test(this.sellerMobile)
     },
-    validEmail() {
-      return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(this.sellerEmail)
-    },
     validStoreCitys() {
       return !!this.storeCitys.length;
     },
     validAddressDetail() {
       return !!this.addressDetail
     },
-    validLicenseNumber() {
-      return !!this.businessLicenceNumber
-    },
-    validLicenseAddress() {
-      return !!this.businessLicenceAddress.length
-    },
     validFileContent() {
       return !!this.fileContent
     },
-    validBankAccount() {
-      return /^\d{15,19}$/.test(this.bankAccountNumber)
-    }
   }
 }
 

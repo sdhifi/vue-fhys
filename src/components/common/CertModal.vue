@@ -32,54 +32,51 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
-import { realNameByAly } from '../../api/index'
+import { mapState } from "vuex";
+import { realNameByAly } from "../../api/index";
 export default {
-  name: 'CertModal',
-  props: {
-
-  },
+  name: "CertModal",
+  props: {},
   data() {
     return {
-      realName: '',
-      certNum: '',
-    }
+      realName: "",
+      certNum: ""
+    };
   },
   computed: {
-    ...mapState(['account','showCertificate'])
+    ...mapState(["account", "showCertificate"])
   },
-  created() {
-  },
+  created() {},
   methods: {
     closeOverlay() {
-      this.$store.commit('SHOW_CERTIFICATE', false)
+      this.$store.commit("SHOW_CERTIFICATE", false);
     },
     saveCert() {
       let vm = this;
       if (!this.realName || !this.certNum) {
         this.$dialog.toast({
-          mes: '请完善信息',
+          mes: "请完善信息",
           timeout: 1500,
-          icon: 'error'
-        })
+          icon: "error"
+        });
         return;
       }
       if (!/(^\d{15}$)|(^\d{17}([0-9]|[X|x])$)/.test(this.certNum)) {
         this.$dialog.toast({
-          mes: '请输入正确的身份证号',
+          mes: "请输入正确的身份证号",
           timeout: 1500,
-          icon: 'error'
-        })
+          icon: "error"
+        });
         return;
       }
       mui.ajax({
         url: realNameByAly,
-        type: 'post',
-        headers: { 'app-version': 'v1.0' },
+        type: "post",
+        headers: { "app-version": "v1.0" },
         data: {
-          idCardNo: this.certNum.replace(/x/gi, 'X'),
+          idCardNo: this.certNum.replace(/x/gi, "X"),
           idCardName: this.realName,
-          account:this.account,
+          account: this.account,
           token: md5(`gjfengrealNameByAly${this.account}`)
         },
         success(res) {
@@ -87,31 +84,33 @@ export default {
             vm.$dialog.toast({
               mes: res.msg,
               timeout: 1500,
-              icon: 'success',
+              icon: "success",
               callback: () => {
-                vm.$store.commit('SHOW_CERTIFICATE', false);
-                vm.$store.commit('SET_CERTIFICATE', true);
-                vm.$store.commit('RECORD_ID_CARD',vm.certNum.replace(/x/gi, 'X'))
-                vm.$emit("update-name",vm.realName)
+                vm.$store.commit("SHOW_CERTIFICATE", false);
+                vm.$store.commit("SET_CERTIFICATE", true);
+                vm.$store.commit(
+                  "RECORD_ID_CARD",
+                  vm.certNum.replace(/x/gi, "X")
+                );
+                vm.$emit("update-name", vm.realName);
+                vm.$emit('callback');
               }
-            })
-          }
-          else {
+            });
+          } else {
             vm.$dialog.toast({
               mes: res.msg,
               timeout: 1500,
-              icon: 'error'
-            })
+              icon: "error"
+            });
           }
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 <style lang='less' scoped>
-@import '../../style/mixin.less';
-
+@import "../../style/mixin.less";
 .v-layer {
   position: fixed;
   left: 0;
@@ -119,7 +118,7 @@ export default {
   top: 0;
   bottom: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, .6);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .v-modal {
@@ -143,7 +142,7 @@ export default {
 }
 
 .t-scale-enter-active {
-  animation: scale-in .5s linear;
+  animation: scale-in 0.5s linear;
 }
 
 .t-scale-leave-active {
@@ -175,7 +174,7 @@ export default {
       border: 1px solid #ddd;
       padding: @pd;
       width: 100%;
-      font-family:Helvetica;
+      font-family: Helvetica;
       &:focus {
         border-color: @blue;
         box-shadow: 0 0 5px @blue;

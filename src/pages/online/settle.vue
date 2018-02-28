@@ -311,9 +311,7 @@ export default {
     this.$store.dispatch("getInfo");
     this.$store.dispatch("getFHB");
     this.orderType = this.$route.query.orderType;
-    if (!this.defaultAddress) {
-      this.$store.dispatch("getAddressList",{source:0});
-    }
+    this.$store.dispatch("getAddressList", { source: 0 });
     switch (this.orderType) {
       case "1":
         this.payType = "7";

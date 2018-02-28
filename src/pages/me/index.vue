@@ -57,7 +57,11 @@
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group>
-        <yd-cell-item arrow type="label" @click.native="goStore">
+        <yd-cell-item arrow type="label" @click.native="goStore" v-if="+member.type==0">
+          <span class="iconfont-large self-seller c1" slot="icon"></span>
+          <span slot="left">商家入驻</span>
+        </yd-cell-item>
+        <yd-cell-item arrow type="label" @click.native="goStore" v-if="+member.type==1">
           <span class="iconfont-large self-seller c1" slot="icon"></span>
           <span slot="left">我是商家</span>
         </yd-cell-item>
@@ -116,30 +120,7 @@
       </section>
     </main>
     <footer-bar></footer-bar>
-    <cert-modal></cert-modal>
-    <yd-popup v-model="showPopup" position="center" width="90%">
-      <div class="ruzhu-container">
-        <h3 class="ruzhu-title">您还未入驻凤凰云商O2O</h3>
-        <div class="ruzhu-content">
-          <div>
-            <input type="radio" name="settle-way" id="1" value="1" v-model="settleWay">
-            <label class="ruzhu-item" for="1">
-              <span class="iconfont self-qiye"></span>
-              <p>企业入驻</p>
-            </label>
-          </div>
-          <div>
-            <input type="radio" name="settle-way" id="0" value="0" v-model="settleWay">
-            <label class="ruzhu-item" for="0">
-              <span class="iconfont self-geti"></span>
-              <p>个体入驻</p>
-            </label>
-          </div>
-        </div>
-        <yd-button type="danger" size="large" @click.native="settle">确认</yd-button>
-        <span class="close iconfont-large self-guanbi" @click="showPopup=false;"></span>
-      </div>
-    </yd-popup>
+    <cert-modal @callback="settle"></cert-modal>
     <yd-popup v-model="showDialog" position="center" width="80%">
       <div class="tel-container text-center">
         <a href="tel:020-29030366" class="tel-box flex align-center">
@@ -252,7 +233,7 @@ export default {
 
       //入驻弹窗
       if (this.member.type == "0") {
-        this.showPopup = true;
+        this.settle();
         return;
       }
       this.$router.push("/store/my");
@@ -264,19 +245,7 @@ export default {
       });
     },
     settle() {
-      if (this.settleWay == "") {
-        this.$dialog.toast({
-          mes: "请选择一种入驻方式后再确认",
-          timeout: 1500
-        });
-        return;
-      }
-      this.showPopup = false;
-      if (this.settleWay == "0") {
         this.$router.push({ path: "/store/settle-2" });
-      } else {
-        this.$router.push({ path: "/store/settle-3" });
-      }
     },
     signOut() {
       removeStore("account");
