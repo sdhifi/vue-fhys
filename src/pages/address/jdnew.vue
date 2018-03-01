@@ -38,7 +38,6 @@ export default {
   name: "JDAddressNew",
   data() {
     return {
-      oldBack: mui.back,
       pid: "",
       cid: "",
       aid: "",
