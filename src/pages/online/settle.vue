@@ -144,7 +144,7 @@
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group title="选择支付方式" v-else>
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <div slot="left">
             <p>会员余额
@@ -157,7 +157,7 @@
           <span slot="icon" class="iconfont-large self-yuanbao" style="color:#f9a340;"></span>
           <span slot="left">凤凰宝</span>
           <input slot="right" type="radio" value="9" v-model="payType" />
-        </yd-cell-item>
+        </yd-cell-item> -->
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea"></span>
           <span slot="left">支付宝支付</span>
@@ -323,7 +323,7 @@ export default {
         this.payType = "10";
         break;
       default:
-        this.payType = "0";
+        this.payType = "2";
         break;
     }
   },
