@@ -41,11 +41,11 @@
           <span slot="left">授信额度</span>
           <input slot="right" type="radio" value="4" v-model="payType" />
         </yd-cell-item>
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yuanbao danger-color"></span>
           <span slot="left">凤凰宝</span>
           <input slot="right" type="radio" value="6" v-model="payType" />
-        </yd-cell-item>
+        </yd-cell-item> -->
       </yd-cell-group>
       <div class="btn-container flex just-around" style="padding:0 .2rem;">
         <yd-button type="warning" @click.native="goCouponHistory" style="font-size:15px;"> 更 多 记 录
