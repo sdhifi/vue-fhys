@@ -46,11 +46,11 @@
           <span slot="left">授信额度</span>
           <input slot="right" type="radio" value="4" v-model="payType" />
         </yd-cell-item>
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yuanbao danger-color"></span>
           <span slot="left">凤凰宝</span>
           <input slot="right" type="radio" value="6" v-model="payType" />
-        </yd-cell-item>
+        </yd-cell-item> -->
         <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
           <span slot="left">会员余额 </span>
