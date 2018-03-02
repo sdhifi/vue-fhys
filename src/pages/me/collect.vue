@@ -2,9 +2,9 @@
   <div>
     <header-top title="我的收藏"></header-top>
     <tab :line-width="2" active-color='#ff5350' v-model="tabIndex" custom-bar-width="70px">
-      <tab-item  v-for="(item, index) in menu" :key="index" @on-item-click="toggleItem(index)">{{item.value}}</tab-item>
+      <tab-item v-for="(item, index) in menu" :key="index" @on-item-click="toggleItem(index)">{{item.value}}</tab-item>
     </tab>
-     <main class="scroll-content-1">
+    <main class="scroll-content-1">
       <div v-show="tabIndex==0">
         <yd-infinitescroll :callback="getCollect" ref="ctlist1">
           <ul slot="list">
@@ -22,18 +22,18 @@
       <div v-show="tabIndex==1">
         <yd-infinitescroll :callback="getCollect" ref="ctlist2">
           <ul slot="list">
-            <li v-for="(p,q) in info2" :key="p.colId" class="collect-item flex align-center px-1">
+            <li v-for="(p,q) in info2" :key="p.colId" class="collect-item flex align-center px-1" @click="go(p.id,$event)">
               <img :src="getImgPath(p.img)" alt="">
               <div class="collect-info flex-1">
                 <h3>{{p.goodName}}</h3>
                 <p>收藏时间：{{formatTime(p.addTime)}}</p>
               </div>
-              <span class="iconfont self-delete danger-color" @click="deleteCollect(p.colId,q)"></span>
+              <span class="iconfont self-delete danger-color" @click.stop="deleteCollect(p.colId,q)"></span>
             </li>
           </ul>
         </yd-infinitescroll>
       </div>
-     </main>
+    </main>
   </div>
 </template>
 <script>
@@ -74,9 +74,7 @@ export default {
   created() {
     this.toggleItem(this.tabIndex);
   },
-  activated() {
-
-  },
+  activated() {},
   methods: {
     toggleItem(index) {
       this.collectType = this.menu[index].key;
@@ -100,13 +98,20 @@ export default {
         success(res) {
           if (res.code == 200) {
             let _list = res.result;
-            vm[`info${vm.collectType}`] = [...vm[`info${vm.collectType}`],..._list];
+            vm[`info${vm.collectType}`] = [
+              ...vm[`info${vm.collectType}`],
+              ..._list
+            ];
             if (_list.length < 10) {
               vm[`noData${vm.collectType}`] = true;
-              vm.$refs[`ctlist${vm.collectType}`].$emit("ydui.infinitescroll.loadedDone");
+              vm.$refs[`ctlist${vm.collectType}`].$emit(
+                "ydui.infinitescroll.loadedDone"
+              );
               return;
             }
-            vm.$refs[`ctlist${vm.collectType}`].$emit("ydui.infinitescroll.finishLoad");
+            vm.$refs[`ctlist${vm.collectType}`].$emit(
+              "ydui.infinitescroll.finishLoad"
+            );
             vm[`pageNo${vm.collectType}`]++;
           } else {
             vm.$dialog.toast({
@@ -116,10 +121,10 @@ export default {
           }
         }
       });
-      // axios.get('/static/json/collect.json').then(res=>{
-      //   this.info1 = res.data.result;
-      //   this.info2 = res.data.result;
-      // })
+    },
+    go(id, event) {
+      let t = event.currentTarget.tagName;
+      t == "LI" ? this.$router.push({ name: "Product", query: { id } }) : "";
     },
     deleteCollect(id, index) {
       let vm = this;

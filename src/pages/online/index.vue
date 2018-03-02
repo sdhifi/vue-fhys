@@ -3,7 +3,7 @@
     <header-top title="网上商城" :back="false"></header-top>
     <main class='scroll-content'>
       <section>
-        <yd-slider :autoplay="2000">
+        <yd-slider :autoplay="4000">
           <yd-slider-item v-for="item in info.indexAds" :key="item.id">
             <router-link :to="'/online/product?id='+item.address.substring(item.address.lastIndexOf('/')+1)">
               <img :src="item.photo" :alt="item.names">
@@ -11,10 +11,8 @@
           </yd-slider-item>
         </yd-slider>
       </section>
-      <div>
-        <img :src="getLocalImg('fast.jpg')" alt="" style="width:100%;">
-      </div>
       <section class="column-list flex text-center align-center" v-show="info.indexColumns">
+        <img :src="getLocalImg('fast.jpg')" alt="" style="width:100%;">
         <router-link :to="{name:'Products',params:{update:true},query:{type:0,id:item.id}}" class="column-item" v-for="item in info.indexColumns" :key="item.id">
           <img :src="getImgPath(item.pic2)" alt="" class="column-img">
           <p>{{item.names}}</p>
@@ -52,7 +50,7 @@
             </div>
             <div class="price" v-if="pd.isCanUserCou=='1'">
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+
-              <span>{{pd.price-pd.pointNicePrice}}积分</span>
+              <span>{{pd.price}}积分</span>
             </div>
             <div class="price" v-else-if="pd.isCanUserCou=='2'">
               <span>￥{{formatPrice(pd.pointNicePrice)}}</span>+

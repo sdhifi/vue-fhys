@@ -3,58 +3,59 @@
     <header-top title="我的钱包"></header-top>
     <main class='scroll-content-2'>
       <yd-pullrefresh :callback="refreshInfo" ref="wallet">
-      <section class="wallet-top text-center" :style="{'background-image':formatBg('banner-wallet.png')}">
-        <nav class="tab-list">
-          <div class="tab-item" :class="{'tab-active':!type}" @click="changeTab(0)">个人福利</div>
-          <div class="tab-item" :class="{'tab-active':type}" @click="changeTab(1)">商户福利</div>
-        </nav>
-        <div class="wallet-today">
-          今日福利
-          <p v-if="!type">+{{info0.benefitYesterdayMoney}}</p>
-          <p v-else>+{{info1.benefitYesterdayMoney}}</p>
-        </div>
-      </section>
-      <!-- 个人福利 -->
-      <section class="wallet-tab" v-show="!type">
-        <ul class="flex text-center">
-          <li v-for="(item,m) in tabs0" :key="'m'+m" class="tab-item">
-            <a :href="item.link" :class="{'danger-bg':m<3}">
-              <p>{{item.text}}</p>
-              <p :class="{'danger-color':m>2}">{{info0[item.param]}}</p>
-            </a>
-          </li>
-          <li v-for="(item,n) in tabs3" :key="'n'+n" class="tab-item">
-            <a :href="item.link">
-              <p>{{item.text}}</p>
-              <p class="danger-color" v-if="item.param=='diviTotalMoney'">{{info[item.param] *100 ||0}}
-                <span>%</span>
-              </p>
-              <p v-else class="danger-color">{{info[item.param] || 0}}</p>
-            </a>
-          </li>
-        </ul>
-      </section>
-      <!-- 商户福利 -->
-      <section class="wallet-tab" v-show="type">
-        <ul class="flex text-center">
-          <li v-for="(item,p) in tabs1" :key="'p'+p" class="tab-item" :class="{'tab-item2':p<2}">
-            <a :href="item.link" :class="{'danger-bg':p<2}">
-              <p>{{item.text}}</p>
-              <p :class="{'danger-color':p>1}" v-if="item.param=='canMoney'">{{info1[item.param] *100 ||0}}<span>%</span>
-              </p>
-              <p v-else :class="{'danger-color':p>1}">{{info1[item.param]}}</p>
-            </a>
-          </li>
-          <li v-for="(item,q) in tabs4" :key="'q'+q" class="tab-item">
-            <a :href="item.link">
-              <p>{{item.text}}</p>
-              <p class="danger-color">{{info[item.param] || 0}}
-              </p>
-            </a>
-          </li>
-        </ul>
-      </section>
-    </yd-pullrefresh>
+        <section class="wallet-top text-center" :style="{'background-image':formatBg('banner-wallet.png')}">
+          <nav class="tab-list">
+            <div class="tab-item" :class="{'tab-active':!type}" @click="changeTab(0)">个人福利</div>
+            <div class="tab-item" :class="{'tab-active':type}" @click="changeTab(1)">商户福利</div>
+          </nav>
+          <div class="wallet-today">
+            今日福利
+            <p v-if="!type">+{{info0.benefitYesterdayMoney}}</p>
+            <p v-else>+{{info1.benefitYesterdayMoney}}</p>
+          </div>
+        </section>
+        <!-- 个人福利 -->
+        <section class="wallet-tab" v-show="!type">
+          <ul class="flex text-center">
+            <li v-for="(item,m) in tabs0" :key="'m'+m" class="tab-item">
+              <a :href="item.link" :class="{'danger-bg':m<3}">
+                <p>{{item.text}}</p>
+                <p :class="{'danger-color':m>2}">{{info0[item.param]}}</p>
+              </a>
+            </li>
+            <li v-for="(item,n) in tabs3" :key="'n'+n" class="tab-item">
+              <a :href="item.link">
+                <p>{{item.text}}</p>
+                <p class="danger-color" v-if="item.param=='diviTotalMoney'">{{info[item.param] *100 ||0}}
+                  <span>%</span>
+                </p>
+                <p v-else class="danger-color">{{info[item.param] || 0}}</p>
+              </a>
+            </li>
+          </ul>
+        </section>
+        <!-- 商户福利 -->
+        <section class="wallet-tab" v-show="type">
+          <ul class="flex text-center">
+            <li v-for="(item,p) in tabs1" :key="'p'+p" class="tab-item" :class="{'tab-item2':p<2}">
+              <a :href="item.link" :class="{'danger-bg':p<2}">
+                <p>{{item.text}}</p>
+                <p :class="{'danger-color':p>1}" v-if="item.param=='canMoney'">{{info1[item.param] *100 ||0}}
+                  <span>%</span>
+                </p>
+                <p v-else :class="{'danger-color':p>1}">{{info1[item.param]}}</p>
+              </a>
+            </li>
+            <li v-for="(item,q) in tabs4" :key="'q'+q" class="tab-item">
+              <a :href="item.link">
+                <p>{{item.text}}</p>
+                <p class="danger-color">{{info[item.param] || 0}}
+                </p>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </yd-pullrefresh>
       <yd-grids-group :rows="3" v-if="member.type=='0'">
         <yd-grids-item v-for="(item,i) in menu0" :key="'i'+i" :link="item.link">
           <span slot="icon" :class="['iconfont-large',item.icon]" :style="{color:item.color}"></span>
@@ -307,7 +308,7 @@ export default {
       ]
     };
   },
-  components: { HeaderTop, CertModal},
+  components: { HeaderTop, CertModal },
   computed: {
     ...mapState(["member", "certificateStatus", "showCertificate"])
   },
@@ -328,14 +329,13 @@ export default {
         this.$route.path
       ];
     }
-    if(this.$route.params.update){
+    if (this.$route.params.update) {
       this.type = 0;
       this.getInfo();
-      setTimeout(()=>{
+      setTimeout(() => {
         this.getWallet();
-      },200)
+      }, 1000);
     }
-    
   },
   methods: {
     goBack() {
@@ -397,11 +397,11 @@ export default {
         }
       });
     },
-    refreshInfo(){
+    refreshInfo() {
       this.getInfo();
-       setTimeout(()=>{
+      setTimeout(() => {
         this.getWallet();
-      },200)
+      }, 200);
       this.$refs.wallet.$emit("ydui.pullrefresh.finishLoad");
     },
     settle() {
