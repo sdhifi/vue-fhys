@@ -4,14 +4,12 @@
     <main class="scroll-content-2">
       <section class="pd-container">
         <div class="pd-cover">
-          <!-- <img :src="pdDetail.imgUrl1" alt=""> -->
           <img v-lazy="pdDetail.imgUrl1" alt="">
           <div class="pd-desc">{{pdDetail.name}}</div>
         </div>
         <div class="pd-price fs-12">
           <span class="pd-rmb danger-color">￥</span>
           <span class="pd-price1 danger-color fs-20">{{formatPrice(pdDetail.price)}}</span>
-          <!-- <span class="pd-price2">门市价:￥{{formatPrice(pdDetail.marketPrice)}}</span> -->
         </div>
       </section>
       <section class="seller-container">
@@ -35,7 +33,7 @@
           </a>
         </div>
         <div class="collect flex align-center just-between">
-          <span class="iconfont self-heart danger-color" @click="collect(pdDetail.id,2)">收藏商品</span>
+          <!-- <span class="iconfont self-heart danger-color" @click="collect(pdDetail.id,2)">收藏商品</span> -->
           <span class="iconfont self-star" style="color:#f90;" @click="collect(pdDetail.storeId,1)">关注店铺</span>
         </div>
       </section>
@@ -51,15 +49,6 @@
           </li>
         </ul>
       </section>
-      <yd-cell-group v-if="false">
-        <yd-cell-item :arrow="comment.count>0">
-          <span slot="left">
-            <span>用户评价({{pdDetail.score||0}}分)</span>
-            <crown :value="pdDetail.score"></crown>
-          </span>
-          <span slot="right">共{{comment.count||0}}条</span>
-        </yd-cell-item>
-      </yd-cell-group>
       <section class="hot-container">
         <div class="title-wrap text-center">
           <div class="like-title">
@@ -208,7 +197,7 @@ export default {
         });
         return;
       }
-      this.$dialog.loading.open("开始导航...")
+      this.$dialog.loading.open("开始导航...");
       mui.ajax({
         url: myStore,
         type: "post",
@@ -227,10 +216,12 @@ export default {
             return;
           }
           let address = _result.areaId
-            ? `${_result.provinceId.province}${_result.cityId.city}${_result
-                .areaId.area}${_result.addressDetail}`
-            : `${_result.provinceId.province}${_result.cityId
-                .city}${_result.addressDetail}`;
+            ? `${_result.provinceId.province}${_result.cityId.city}${
+                _result.areaId.area
+              }${_result.addressDetail}`
+            : `${_result.provinceId.province}${_result.cityId.city}${
+                _result.addressDetail
+              }`;
           vm.$router.push({
             name: "ShopMap",
             params: { address, city: _result.cityId.city }
