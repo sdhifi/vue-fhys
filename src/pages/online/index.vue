@@ -11,11 +11,9 @@
           </yd-slider-item>
         </yd-slider>
       </section>
-      <div>
-        <img :src="getLocalImg('fast.jpg')" alt="" style="width:100%;">
-      </div>
       <section class="column-list flex text-center align-center" v-show="info.indexColumns">
-        <router-link :to="{name:'Products',params:{update:true},query:{type:0,id:item.id}}" class="column-item" v-for="(item,index) in info.indexColumns" :key="item.id">
+        <img :src="getLocalImg('fast.jpg')" alt="" style="width:100%;">
+        <router-link :to="{name:'Products',params:{update:true},query:{type:0,id:item.id}}" class="column-item" v-for="item in info.indexColumns" :key="item.id">
           <img :src="getImgPath(item.pic2)" :alt="item.names" class="column-img">
           <p>{{item.names}}</p>
         </router-link>

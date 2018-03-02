@@ -333,7 +333,7 @@ export default {
       this.getInfo();
       setTimeout(()=>{
         this.getWallet();
-      },200)
+      },1000)
     }
     
   },
