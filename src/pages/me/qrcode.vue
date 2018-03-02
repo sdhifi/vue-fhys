@@ -17,23 +17,6 @@
         <div class="qr-desc fs-16">免费领券省钱，推荐分享赚钱</div>
       </section>
       <div class="text-center">长按二维码保存，分享更方便</div>
-      <!-- <section class="share-container text-center">
-        <h3 class="fs-16">分享到</h3>
-        <ul class="flex just-around align-center">
-          <li @click="shareAction('weixin','WXSceneSession')">
-            <span :style="{'background-image':formatBg('weixin.png')}" class="share-icon"></span>
-            <p class="fs-14">微信好友</p>
-          </li>
-          <li @click="shareAction('weixin','WXSceneTimeline')">
-            <span :style="{'background-image':formatBg('pengyouquan.png')}" class="share-icon"></span>
-            <p class="fs-14">朋友圈</p>
-          </li>
-          <li @click="shareAction('sinaweibo')">
-            <span :style="{'background-image':formatBg('sina.png')}" class="share-icon"></span>
-            <p class="fs-14">新浪微博</p>
-          </li>
-        </ul>
-      </section> -->
     </main>
   </div>
 </template>
@@ -46,7 +29,6 @@ export default {
   name: "QrCode",
   data() {
     return {
-      shares: {},
       info: {}
     };
   },
@@ -57,12 +39,10 @@ export default {
     this.getInfo();
   },
   activated() {
-    // this.updateServices();
   },
   methods: {
     getInfo() {
       let vm = this;
-      // this.dialog.loading.open();
       mui.ajax({
         url: myQr,
         type: "post",
@@ -72,7 +52,6 @@ export default {
           token: md5(`gjfengmyQr`)
         },
         success(res) {
-          // vm.dialog.loading.close();
           vm.info = res.result;
         }
       });
@@ -110,58 +89,6 @@ export default {
           }
         })
         .start();
-    },
-    updateServices() {
-      plus.share.getServices(s => {
-        for (var i in s) {
-          var t = s[i];
-          this.shares[t.id] = t;
-        }
-      });
-    },
-    shareAction(type, extraScene) {
-      if (!this.shares || !this.shares[type]) {
-        this.$dialog.toast({
-          mes: "未找到相关分享服务!"
-        });
-        return;
-      }
-      var msg = {
-        content: "扫一扫我的二维码",
-        extra: {
-          scene: extraScene
-        },
-        pictures: [this.info.imgAppQrUrl]
-      };
-      if (this.shares[type].authenticated) {
-        this.shareMessage(msg, this.shares[type]);
-      } else {
-        this.shares[type].authorize(
-          () => {
-            this.shareMessage(msg, this.shares[type]);
-          },
-          e => {
-            this.$dialog.alert({
-              mes: `认证授权失败：${e.message}`
-            });
-          }
-        );
-      }
-    },
-    shareMessage(msg, s) {
-      s.send(
-        msg,
-        () => {
-          this.$dialog.toast({
-            mes: "分享成功"
-          });
-        },
-        e => {
-          this.$dialog.alert({
-            mes: `分享失败：${e.message}`
-          });
-        }
-      );
     }
   }
 };
