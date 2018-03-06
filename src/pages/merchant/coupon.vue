@@ -36,11 +36,11 @@
           <span slot="left">支付宝</span>
           <input slot="right" type="radio" value="1" v-model="payType" />
         </yd-cell-item>
-        <yd-cell-item type="radio">
+        <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-edu" style="color:#f9a340;"></span>
           <span slot="left">授信额度</span>
           <input slot="right" type="radio" value="4" v-model="payType" />
-        </yd-cell-item>
+        </yd-cell-item> -->
         <!-- <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-yuanbao danger-color"></span>
           <span slot="left">凤凰宝</span>
@@ -70,7 +70,7 @@ export default {
       money: "",
       mobile: "",
       mobileName: "",
-      payType: "",
+      payType: "1",
       pays: {}
     }
   },
