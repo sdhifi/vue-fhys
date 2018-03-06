@@ -52,10 +52,10 @@
           </template>
           <template v-else>
             <yd-cell-item>
-              <span slot="left">商家兑换：{{info.productAttrStock&&info.productAttrStock.price}}</span>
+              <span slot="left" class="primary-color">商家兑换：{{info.productAttrStock&&info.productAttrStock.standardTotalAmount}}</span>
             </yd-cell-item>
             <yd-cell-item>
-              <span slot="left">企业兑换：{{info.productAttrStock&&info.productAttrStock.standardPreferentialMoney}}</span>
+              <span slot="left" class="royal-color">企业兑换：{{info.productAttrStock&&info.productAttrStock.honourTotalAmount}}</span>
             </yd-cell-item>
           </template>
           <yd-cell-item arrow type="link" :href="'/online/comment?id='+info.proId">
