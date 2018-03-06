@@ -23,7 +23,7 @@
             </span>
           </template>
           <template v-else>
-            <span>{{info.productAttrStock&&info.productAttrStock.price}}</span>
+            <span>零售：{{info.productAttrStock&&info.productAttrStock.price}}</span>
           </template>
           <span class="iconfont self-star" @click="collect" v-show="account">收藏</span>
         </p>
@@ -94,8 +94,8 @@
               <p class="danger-color fs-14" v-else>￥{{info.productAttrStock&&info.productAttrStock.price}}</p>
             </template>
             <template v-else>
-              <p class="danger-color fs-14" v-if="+member.merchantType>1">{{info.productAttrStock&&info.productAttrStock.standardPreferentialMoney}}</p>
-              <p class="danger-color fs-14" v-else>{{info.productAttrStock&&info.productAttrStock.price}}</p>
+              <p class="danger-color fs-14" v-if="+member.merchantType>1">{{info.productAttrStock&&info.productAttrStock.honourTotalAmount}}</p>
+              <p class="danger-color fs-14" v-else>{{info.productAttrStock&&info.productAttrStock.standardTotalAmount}}</p>
             </template>
           </div>
           <div class="close" @click="show=false">
