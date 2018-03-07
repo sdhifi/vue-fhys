@@ -18,6 +18,10 @@
 
 .self-shopcart:before { content: "\e601"; }
 
+.self-zuo:before { content: "\e644"; }
+
+.self-you:before { content: "\e645"; }
+
 .self-qq:before { content: "\e616"; }
 
 .self-mobile:before { content: "\e621"; }
@@ -27,6 +31,8 @@
 .self-vip:before { content: "\e636"; }
 
 .self-bianji:before { content: "\e83f"; }
+
+.self-quan:before { content: "\e63c"; }
 
 .self-yuanbao:before { content: "\e63b"; }
 

@@ -23,7 +23,7 @@
                 <div class="product-name">{{item.name}}</div>
               </div>
               <div class="product-price">
-                <span class="fs-16 danger-color">{{item.price}}</span>
+                <span>零售价:</span><span class="fs-16 danger-color">￥{{item.price}}</span>
               </div>
             </li>
           </ul>
@@ -227,7 +227,6 @@ export default {
     }
     .product-price {
       font-size: 0.28rem;
-      color: @red;
     }
   }
 }
