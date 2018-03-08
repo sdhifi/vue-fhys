@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-top title="个体入驻"></header-top>
+    <header-top title="商家入驻"></header-top>
     <main class='scroll-content-2'>
       <yd-step :current="step1" current-color="#04be02">
         <yd-step-item>
