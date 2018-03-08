@@ -156,7 +156,6 @@ export default {
   background-color: @white;
   img {
     .wh(1.2rem,1.2rem);
-    border-radius: 50%;
   }
   .collect-info {
     margin: 0 @pd /1;
@@ -164,6 +163,9 @@ export default {
     p:first-of-type {
       color: @lightgray;
       font-size: 12px;
+    }
+    h3 {
+      font-weight: 400;
     }
   }
   &.item-1 {

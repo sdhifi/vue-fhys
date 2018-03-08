@@ -65,7 +65,7 @@
           </p>
         </yd-cell-item>
       </yd-cell-group>
-      <group title="选择返赠方式">
+      <group title="选择赠送方式">
         <div class="box">
           <checker v-model="commissionType" class="flex" default-item-class="self-checker-item" selected-item-class="self-checker-selected" type="radio" :radio-required="true">
             <checker-item value="1" class="flex-1">
