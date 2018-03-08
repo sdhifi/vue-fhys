@@ -128,21 +128,21 @@ export default {
       info: {},
       type: 0,
       tabs0: [
-        {
-          text: "可参与福利权益",
-          param: "canParticipate",
-          link: "#/trade/participate?type=0"
-        },
-        {
-          text: "责任消费",
-          param: "saleTotalMoney",
-          link: "javascript:"
-        },
-        {
-          text: "还可获得福利",
-          param: "consumptionMoney",
-          link: "javascript:"
-        },
+        // {
+        //   text: "可参与福利权益",
+        //   param: "canParticipate",
+        //   link: "#/trade/participate?type=0"
+        // },
+        // {
+        //   text: "责任消费",
+        //   param: "saleTotalMoney",
+        //   link: "javascript:"
+        // },
+        // {
+        //   text: "还可获得福利",
+        //   param: "consumptionMoney",
+        //   link: "javascript:"
+        // },
         {
           text: "销售福利",
           param: "dividendsTotalMoney",
@@ -197,16 +197,16 @@ export default {
           param: "diviTotalMoney",
           link: "javascript:"
         },
-        {
-          text: "线上消费笔数",
-          param: "orCount",
-          link: "javascript:"
-        },
-        {
-          text: "线下消费笔数",
-          param: "beCount",
-          link: "javascript:"
-        },
+        // {
+        //   text: "线上消费笔数",
+        //   param: "orCount",
+        //   link: "javascript:"
+        // },
+        // {
+        //   text: "线下消费笔数",
+        //   param: "beCount",
+        //   link: "javascript:"
+        // },
         {
           text: "商家联盟推荐奖励",
           param: "directMemberMoney",
