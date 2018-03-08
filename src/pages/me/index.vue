@@ -116,7 +116,6 @@
       </section>
     </main>
     <footer-bar></footer-bar>
-    <cert-modal @callback="settle"></cert-modal>
     <yd-popup v-model="showDialog" position="center" width="80%">
       <div class="tel-container text-center">
         <a href="tel:020-29030366" class="tel-box flex align-center">
@@ -137,7 +136,6 @@
 import { mapState, mapGetters } from "vuex";
 import HeaderTop from "components/header/index";
 import FooterBar from "components/footer/index";
-import CertModal from "components/common/CertModal";
 import { mixin, getStore, removeStore } from "components/common/mixin";
 export default {
   name: "Me",
@@ -171,12 +169,10 @@ export default {
       showDialog: false
     };
   },
-  components: { HeaderTop, FooterBar, CertModal },
+  components: { HeaderTop, FooterBar},  
   created() {},
   computed: {
     ...mapState([
-      "certificateStatus",
-      "showCertificate",
       "account",
       "member",
       "update"
@@ -222,11 +218,6 @@ export default {
       this.$router.push({ name: "MyWallet", params: { update: true } });
     },
     goStore() {
-      if (!this.certificateStatus) {
-        this.$store.commit("SHOW_CERTIFICATE", true);
-        return;
-      }
-
       //入驻弹窗
       if (this.member.type == "0") {
         this.settle();

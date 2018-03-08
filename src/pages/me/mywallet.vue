@@ -109,13 +109,11 @@
         </yd-grids-item>
       </yd-grids-group>
     </main>
-    <cert-modal @callback="settle"></cert-modal>
   </div>
 </template>
 <script>
 import { mapState } from "vuex";
 import HeaderTop from "components/header/index";
-import CertModal from "components/common/CertModal";
 import { countMemberInfo, myWallet } from "../../api/index";
 import { mixin, getStore } from "components/common/mixin";
 export default {
@@ -244,18 +242,6 @@ export default {
           link: "/trade/bankcard",
           color: "#e7d489"
         },
-        // {
-        //   icon: "self-zhuanyi",
-        //   text: "积分转移",
-        //   link: "/trade/transfer",
-        //   color: "#ee3355"
-        // },
-        // {
-        //   icon: "self-hebing",
-        //   text: "合并用户信息",
-        //   link: "/trade/merge",
-        //   color: "#e7d489"
-        // },
         {
           icon: "self-fulijilu",
           text: "福利记录",
@@ -283,9 +269,9 @@ export default {
       ]
     };
   },
-  components: { HeaderTop, CertModal },
+  components: { HeaderTop },
   computed: {
-    ...mapState(["member", "certificateStatus", "showCertificate"])
+    ...mapState(["member"])
   },
   mixins: [mixin],
   beforeRouteEnter(to, from, next) {
@@ -314,21 +300,13 @@ export default {
   },
   methods: {
     goBack() {
-      if (this.showPopup) {
-        this.showPopup = false;
-      } else if (this.showCertificate) {
-        this.$store.commit("SHOW_CERTIFICATE", false);
-      } else if (document.querySelector(".yd-dialog-white-mask")) {
+      if (document.querySelector(".yd-dialog-white-mask")) {
         this.$dialog.loading.close();
       } else {
         this.$router.go(-1);
       }
     },
     changeTab(tag) {
-      if (tag == 1 && !this.certificateStatus) {
-        this.$store.commit("SHOW_CERTIFICATE", true);
-        return;
-      }
       if (tag == 1 && this.member.type == "0") {
         this.settle();
         return;
