@@ -144,20 +144,6 @@
         </yd-cell-item>
       </yd-cell-group>
       <yd-cell-group title="选择支付方式" v-else>
-        <!-- <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont-large self-wallet danger-color"></span>
-          <div slot="left">
-            <p>会员余额
-            </p>
-            <span class="danger-color fs-12">(余额支付需要额外支付10%税费)</span>
-          </div>
-          <input slot="right" type="radio" value="0" v-model="payType" />
-        </yd-cell-item>
-        <yd-cell-item type="radio">
-          <span slot="icon" class="iconfont-large self-yuanbao" style="color:#f9a340;"></span>
-          <span slot="left">凤凰宝</span>
-          <input slot="right" type="radio" value="9" v-model="payType" />
-        </yd-cell-item> -->
         <yd-cell-item type="radio">
           <span slot="icon" class="iconfont-large self-zhifubao" style="color:#00a0ea"></span>
           <span slot="left">支付宝支付</span>
@@ -168,66 +154,6 @@
         <yd-button size="large" :type="valid ?'danger':'disabled'" @click.native="pay">确认支付</yd-button>
       </div>
     </main>
-    <div v-show="showPassword" class="text-center pay-box">
-      <h3 class="fs-18 pay-title" style="background-color:#9ED97C">待支付金额</h3>
-      <div v-if="orderType=='0'&&payType=='0'">
-        <template v-if="settleList.goodsVos[0].honourPrice">
-          <p class="pay-price fs-14">
-            {{total2 + settleList.pos}}×(1+10%)=
-            <span class="fs-20 danger-color">￥{{formatPrice((total2+settleList.pos) * 1.1)}}</span>
-          </p>
-        </template>
-        <template v-else>
-          <p class="pay-price fs-14">
-            {{total}}×(1+10%)=
-            <span class="fs-20 danger-color">￥{{formatPrice(total * 1.1)}}</span>
-          </p>
-        </template>
-        <P class="balance-price">
-          <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
-          余额：
-          <span>{{member.balanceMoney}}</span>元
-        </P>
-      </div>
-      <div v-if="orderType=='0'&&payType=='9'">
-        <template v-if="settleList.goodsVos[0].honourPrice">
-          <p class="pay-price fs-14">
-            <span class="fs-20 danger-color">￥{{formatPrice(total2+settleList.pos)}}</span>
-          </p>
-        </template>
-        <template v-else>
-          <p class="pay-price fs-14">
-            <span class="fs-20 danger-color">{{formatPrice(settleList.totalAmount)}}</span>
-          </p>
-        </template>
-        <P class="balance-price">
-          <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
-          当前凤凰宝余额：
-          <span>{{fhbMoney}}</span>
-        </P>
-      </div>
-      <div v-if="orderType=='2'">
-        <p class="pay-price fs-14">
-          <span class="fs-20 danger-color">{{formatPrice(settleList.totalAmount)}}</span>
-        </p>
-        <P class="balance-price">
-          <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
-          当前责任金：
-          <span>{{member.insuranceMoney}}</span>
-        </P>
-      </div>
-      <div v-if="payType=='10'">
-        <p class="pay-price fs-14">
-          <span class="fs-20 danger-color">{{formatPrice(settleList.totalAmount)}}</span>
-        </p>
-        <P class="balance-price">
-          <span class="iconfont self-rmb1" style="color:#9ED97C"></span>
-          当前代金券：
-          <span>{{member.memberVoucherMoney}}</span>
-        </P>
-      </div>
-    </div>
-    <yd-keyboard v-model="showPassword" :callback="checkPayPwd" ref="keyboard" title="凤凰云商安全键盘" input-text="请输入支付密码"></yd-keyboard>
   </div>
 </template>
 <script>
@@ -242,7 +168,6 @@ export default {
       orderType: "0", //0:普通商品 1：积分兑换 2责任消费 3代金券
       remark: "", //备注
       payType: "", //支付方式
-      showPassword: false, //安全键盘
       pays: {}
     };
   },
@@ -252,9 +177,7 @@ export default {
       "defaultAddress",
       "addressList",
       "settleList",
-      "paypwd",
-      "member",
-      "fhbMoney"
+      "member"
     ]),
     total() {
       return this.settleList.totalAmount + this.settleList.pointNiceAmount;
@@ -354,35 +277,12 @@ export default {
         });
         return;
       }
-      //判断是否设置过支付密码，没有就跳转密码设置
-      if (
-        (this.payType == "0" ||
-          this.payType == "8" ||
-          this.payType == "9" ||
-          this.payType == "10") &&
-        !this.paypwd
-      ) {
-        this.$router.push({ name: "PwdManage" });
-        return;
-      }
-      //普通商品，余额支付&凤凰宝 || 责任商品，责任金额 ||代金券商品，代金券
-      if (
-        (this.orderType == 0 && this.payType == "0") ||
-        (this.orderType == 0 && this.payType == "9") ||
-        (this.orderType == 2 && this.payType == "8") ||
-        (this.orderType == 3 && this.payType == "10")
-      ) {
-        this.showPassword = true;
-      } else if (this.orderType == 1) {
+      if (this.orderType == 1) {
         //积分换购
         this.placeAnOrder("");
       } else {
         this.placeAnOrder("");
       }
-    },
-    checkPayPwd(val) {
-      this.$dialog.loading.open("验证支付密码");
-      this.placeAnOrder(val);
     },
     placeAnOrder(pwd) {
       let vm = this;
@@ -423,33 +323,17 @@ export default {
         logist: this.settleList.logist,
         token: md5(`gjfengaddOrder${this.payType}`)
       };
-      // this.$dialog.loading.open("下单中...");
       mui.ajax({
         url: addOrder,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: cmParams,
         success(res) {
-          // vm.$dialog.loading.close();
           let _result = res.result;
           //品牌商城
           if (vm.orderType == 0) {
             // 余额支付
-            if (vm.payType == "0" || vm.payType == "9") {
-              vm.$dialog.loading.close();
-              if (res.code == 200) {
-                vm.showPassword = false;
-                vm.confirmBox();
-              } else if (res.code == 401) {
-                vm.forgetpwd();
-              } else {
-                vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
-              }
-            } else if (vm.payType == "3") {
-              //银联支付跳转
-              vm.$store.commit("RECORD_PAY_INFO", _result);
-              vm.$router.push({ name: "YinLian" });
-            } else if (vm.payType == "2") {
+            if (vm.payType == "2") {
               //支付宝
               vm.zfbPay(_result.payString);
             }
@@ -464,47 +348,34 @@ export default {
             }
           } else if (vm.orderType == 2) {
             //责任消费
-            vm.$dialog.loading.close();
             if (res.code == 200) {
-              vm.showPassword = false;
               vm.payPos(_result.payString, res.msg);
-            } else if (res.code == 401) {
-              vm.forgetpwd();
             } else {
-              vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
+              vm.$dialog.alert({
+                mes: res.msg
+              });
             }
           } else if (vm.orderType == 3) {
             //代金券
-            vm.$dialog.loading.close();
             if (res.code == 200) {
-              vm.showPassword = false;
               vm.payPos(_result.payString, res.msg);
-            } else if (res.code == 401) {
-              vm.forgetpwd();
             } else {
-              vm.$refs.keyboard.$emit("ydui.keyboard.error", res.msg);
+              vm.$dialog.alert({
+                mes: res.msg
+              });
             }
           }
         },
         error(err) {
-          vm.$dialog.loading.close();
           vm.$dialog.toast({
-            mes: "超时，请稍后重试",
-            callback: () => {
-              if (vm.payType == "0" || vm.payType == "8") {
-                vm.$refs.keyboard.$emit(
-                  "ydui.keyboard.error",
-                  "超时，请稍后重试"
-                );
-              }
-            }
+            mes: "超时，请稍后重试"
           });
         }
       });
     },
-    confirmBox() {
+    confirmBox(tips) {
       this.$dialog.confirm({
-        mes: "下单成功！",
+        mes: tips || "下单成功！",
         opts: [
           {
             txt: "返回购物",
@@ -529,19 +400,6 @@ export default {
         ]
       });
     },
-    forgetpwd() {
-      this.$dialog.confirm({
-        title: "忘记密码？",
-        mes: `支付密码错误，前往设置`,
-        opts: () => {
-          this.$router.push({ name: "PwdManage" });
-        }
-      });
-      this.$refs.keyboard.$emit(
-        "ydui.keyboard.error",
-        "对不起，您的支付密码不正确，请重新输入。"
-      );
-    },
     zfbPay(payParams) {
       let vm = this;
       this.checkService(this.pays["alipay"], function() {
@@ -549,31 +407,7 @@ export default {
           vm.pays["alipay"],
           payParams,
           function(result) {
-            vm.$dialog.confirm({
-              mes: "支付成功！",
-              opts: [
-                {
-                  txt: "返回购物",
-                  color: false,
-                  stay: false,
-                  callback: () => {
-                    vm.goBack(true);
-                  }
-                },
-                {
-                  txt: "查看订单",
-                  color: true,
-                  stay: false,
-                  callback: () => {
-                    vm.$router.replace({
-                      name: "MyOrder",
-                      params: { update: true },
-                      query: { id: 0 }
-                    });
-                  }
-                }
-              ]
-            });
+            vm.confirmBox("支付成功！");
           },
           function(e) {
             vm.$dialog.alert({
