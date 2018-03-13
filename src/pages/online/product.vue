@@ -268,7 +268,7 @@ export default {
           //图片路径处理
           _result.content = _result.content.replace(
             /\/userfiles/g,
-            "http://yn.gzfzsw.top/userfiles"
+            "http://o2o.gjfeng.net/userfiles"
           );
           if (_result.goodSoure!='2') {
             _result.attrs.forEach((item, index) => {
