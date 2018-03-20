@@ -107,7 +107,7 @@ export default {
               timeout: 1500,
               icon: "success",
               callback: () => {
-                vm.$router.go(-2);
+                vm.$router.go(-1);
               }
             });
           } else {
