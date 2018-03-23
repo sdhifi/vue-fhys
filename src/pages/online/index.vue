@@ -83,10 +83,10 @@ export default {
       info: {},
       pds: [],
       platform: [
-        { img: "taobao.jpg", link: "/online/tmindex" },
+        { img: "jingdong.png", link: "/online/jdindex" },
         { img: "tianmao.jpg", link: "/online/tmindex" },
-        { img: "yihaodian.jpg", link: "" },
-        { img: "jingdong.png", link: "/online/jdindex" }
+        { img: "taobao.jpg", link: "/online/tmindex" },
+        { img: "lianyin.png", link: "/online/jdself" },
       ]
     };
   },
