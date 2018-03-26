@@ -2,7 +2,7 @@
 // let baseUrl = "http://jfh.jfeimao.com/gjfeng-web-client";//广州域名
 // let baseUrl = "http://yn.gzfzsw.top/gjfeng-web-client";//云南域名
 // let baseUrl = "http://www.gjfeng.com/gjfeng-web-client";//湛江域名
-let baseUrl = "http://jin.gjfeng.com/gjfeng-web-client";//o2o域名
+let baseUrl = "http://o2o.gjfeng.com/gjfeng-web-client";//o2o域名
 
 const VERSION = 'v1_0';
 let index = `${baseUrl}/app/index/${VERSION}`,
