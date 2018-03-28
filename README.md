@@ -111,5 +111,5 @@ router.afterEach( (to,from) => {
 
 ```html
   APP打包名称：凤凰云商共创辉煌
-  安卓包名：cn.gjf_zhanjiang
+  Android包名：cn.gjf_zhanjiang，iOS包名：com.gjfeng.zhanjiang
 ```
