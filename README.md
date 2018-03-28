@@ -17,9 +17,7 @@ npm run dev
 
 # build for production with minification
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+npm run replace
 ```
 
 ### 功能 :hammer:
@@ -45,13 +43,6 @@ npm run build --report
 :construction:退货
 
 ### 注意事项 :sparkles:
-
-- 由于打包配置问题， 字体图标库和背景图片路径会出现错误。  
-~~搜索mine_background，把/static修改为..[已经使用下面事项解决] ,手动修改app.css如下[已使用配置文件解决]~~：
-```html
-// 搜索static/fonts，把static修改为..
-在运行 npm run build 之后 npm run replace
-```
 
 - 解决背景图片打包错误的问题
 
@@ -147,21 +138,8 @@ router.afterEach( (to,from) => {
 
 - 代码
 
-   ~~api基路径也需要根据地区更改~~  
-   ~~天猫、淘宝、京东首页跳转到优惠券，需要更改相应的参数，详见tmindex注释~~  
-   ~~我的钱包：湛江、云南没有积分转移和用户合并~~  
    现在切换分支，打包对应版本。
 
-- 应用
-
-  ```html
-   APP打包名称：
-  	云南：金凤凰共创辉煌，安卓包名：cn.gjf_yunnan、苹果包名：com.gjfeng.yunnan
-  	湛江：凤凰云商共创辉煌，安卓包名：cn.gjf_zhanjiang、苹果包名：com.gjfeng.zhanjiang
-    o2o用凤凰云商
-    
-    天天易购 包名：com.tiantian.ego
-  ```
 ### 应用截图 :lipstick:
 <img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/home.png" width="360px"/>
 <img src="https://github.com/weixisheng/vue-fhys/blob/master/screenshots/online.png" width="360px"/>
