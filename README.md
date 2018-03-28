@@ -17,17 +17,11 @@ npm run dev
 
 # build for production with minification
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+npm run replace
 ```
 
 ### 注意事项
 
-- 由于打包配置问题， 字体图标库和背景图片路径会出现错误。~~搜索mine_background，把/static修改为..[已经使用第三条解决]~~ ,手动修改app.css如下：
-```
-搜索iconfont，把static修改为..
-```
 - 路由传name形式，才能使用params
 ```html
   <router-link :to="{name:'Update',params:{member}}"></router-link>
@@ -49,11 +43,7 @@ formatBg(filename){
       return process.env.NODE_ENV == 'development' ? `url(/static/img/${filename})` : `url(./static/img/${filename})`
     }
 ```
-- 解决模拟数据加载路径错误问题
-```javascript
-  // app.js
-  搜索相关json文件，在路径前加‘.’，一般是./static/service/xx.json
-```
+
 - 引用swiper报错
 ```javascript
 // .babelrc
@@ -121,7 +111,6 @@ router.afterEach( (to,from) => {
 - 打包注意事项
 
 ```html
-  api基路径也需要根据地区更改
-  天猫、淘宝首页跳转到优惠券，需要更改相应的参数，详见tmindex注释
-  APP打包名称：云南用金凤凰共创辉煌、湛江用凤凰云商共创辉煌、o2o用凤凰云商
+  APP打包名称：金凤凰共创辉煌
+  Android包名：cn.gjf_yunnan，iOS包名：com.gjfeng.yunnan
 ```
