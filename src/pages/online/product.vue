@@ -3,7 +3,7 @@
     <header-top title="商品详情"></header-top>
     <main class='scroll-content'>
       <section class="info-1">
-        <swiper :aspect-ratio="0.8" :show-desc-mask="false" dots-position="center" :loop="false">
+        <swiper :aspect-ratio="1" :show-desc-mask="false" dots-position="center" :loop="false">
           <swiper-item v-for="(item, index) in imgList" :key="index">
             <img :src="item">
           </swiper-item>
@@ -13,13 +13,13 @@
           <template v-if="info.isWholesale=='0'">
             <span v-if="info.isCanUserCou=='0'">￥{{info.productAttrStock&&info.productAttrStock.price}}</span>
             <span v-else-if="info.isCanUserCou=='1'">{{info.productAttrStock&&info.productAttrStock.price}}
-              <span class="fs-12" style="margin-left:.1rem;">积分</span>
+              <span class="fs-12">积分</span>
             </span>
             <span v-else-if="info.isCanUserCou=='2'">{{info.productAttrStock&&info.productAttrStock.price}}
-              <span class="fs-12" style="margin-left:.1rem;">责任金额</span>
+              <span class="fs-12">责任金额</span>
             </span>
             <span v-else-if="info.isCanUserCou=='3'">{{info.productAttrStock&&info.productAttrStock.price}}
-              <span class="fs-14" style="margin-left:.1rem;">代金券金额</span>
+              <span class="fs-14">代金券</span>
             </span>
           </template>
           <template v-else>
@@ -30,9 +30,6 @@
       </section>
       <section class="info-2">
         <yd-cell-group>
-          <yd-cell-item v-if="info.isCanUserCou">
-            <span slot="left">剩余：{{info.productAttrStock&&info.productAttrStock.repertory}}</span>
-          </yd-cell-item>
           <template v-if="info.isWholesale=='0'">
             <yd-cell-item v-if="info.isCanUserCou=='1'">
               <span slot="left">积分使用说明:{{info.productAttrStock&&info.productAttrStock.price}}积分 +
@@ -45,23 +42,26 @@
               </span>
             </yd-cell-item>
             <yd-cell-item v-else-if="info.isCanUserCou=='3'">
-              <span slot="left">代金券使用说明:{{info.productAttrStock&&info.productAttrStock.price}}代金券金额 +
+              <span slot="left">代金券使用说明:{{info.productAttrStock&&info.productAttrStock.price}}代金券 +
                 <span class="danger-color">￥{{info.pointNeedMoney || 0}}</span>
               </span>
             </yd-cell-item>
           </template>
           <template v-else>
             <yd-cell-item>
-              <span slot="left" class="primary-color">商家兑换：{{info.productAttrStock&&info.productAttrStock.standardTotalAmount}}
+              <span slot="left" class="primary-color">商家兑换：{{info.productAttrStock&&formatPrice(info.productAttrStock.standardTotalAmount*10)}}
                 <span class="iconfont self-quan"></span>
               </span>
             </yd-cell-item>
             <yd-cell-item>
-              <span slot="left" class="royal-color">企业兑换：{{info.productAttrStock&&info.productAttrStock.honourTotalAmount}}
+              <span slot="left" class="royal-color">企业兑换：{{info.productAttrStock&&formatPrice(info.productAttrStock.honourTotalAmount*10)}}
                 <span class="iconfont self-quan"></span>
               </span>
             </yd-cell-item>
           </template>
+          <yd-cell-item v-if="info.isCanUserCou">
+            <span slot="left">剩余：{{info.productAttrStock&&info.productAttrStock.repertory}}</span>
+          </yd-cell-item>
           <yd-cell-item arrow type="link" :href="'/online/comment?id='+info.proId">
             <span slot="left">商品评价</span>
           </yd-cell-item>
@@ -72,7 +72,7 @@
         <div v-html="info.content" class="pd-content"></div>
       </section>
     </main>
-    <footer class="fix-footer flex align-center" v-show="info.goodSoure!='2'" style="border-top:1px solid #dfdfdf;">
+    <footer class="fix-footer flex align-center" style="border-top:1px solid #dfdfdf;">
       <div class="shopping-cart flex just-center align-center" @click="goShoppingCart">
         <span class="iconfont-large self-shopcart"></span>
         <yd-badge type="danger" class="shopping-num" v-show="account&&cartNum>0">{{cartNum}}</yd-badge>
@@ -98,8 +98,12 @@
               <p class="danger-color fs-14" v-else>￥{{info.productAttrStock&&info.productAttrStock.price}}</p>
             </template>
             <template v-else>
-              <p class="danger-color fs-14" v-if="+member.merchantType>1">{{info.productAttrStock&&info.productAttrStock.honourTotalAmount}}<span class="iconfont self-quan"></span></p>
-              <p class="danger-color fs-14" v-else>{{info.productAttrStock&&info.productAttrStock.standardTotalAmount}}<span class="iconfont self-quan"></span></p>
+              <p class="danger-color fs-14" v-if="+member.merchantType>1">{{info.productAttrStock&&formatPrice(info.productAttrStock.honourTotalAmount*10)}}
+                <span class="iconfont self-quan"></span>
+              </p>
+              <p class="danger-color fs-14" v-else>{{info.productAttrStock&&formatPrice(info.productAttrStock.standardTotalAmount*10)}}
+                <span class="iconfont self-quan"></span>
+              </p>
             </template>
           </div>
           <div class="close" @click="show=false">
@@ -107,7 +111,7 @@
           </div>
         </div>
         <div class="middle">
-          <div class="middle-1" v-if="info.isWholesale=='0'">
+          <div class="middle-1" v-if="info.goodSoure!='5'">
             <h3>请选择属性：</h3>
             <div class="flex align-center" v-for="(item,index) in info.attrs" :key="index">
               <span class="attr-name fs-14" v-if="info.isCanUserCou=='2'">责任金兑换</span>
@@ -141,7 +145,7 @@
               </div>
               <div v-if="transport==1" class="flex align-center" style="margin-top:.3rem;">
                 <h3>请选择数量：</h3>
-                <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock&&info.productAttrStock.repertory" v-if="info.productAttrStock&&info.productAttrStock.repertory"></yd-spinner>
+                <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock&&((Math.floor(info.productAttrStock.repertory/(+info.multipleNumber||1)))*(info.multipleNumber||1))" :unit="+info.multipleNumber||1" v-if="info.productAttrStock&&info.productAttrStock.repertory"></yd-spinner>
                 <span style="margin-left:.3rem;">库存
                   <span class="danger-color">{{info.productAttrStock&&info.productAttrStock.repertory}}</span>件</span>
               </div>
@@ -151,7 +155,7 @@
               <div class="flex align-center">
                 <yd-spinner v-model="pdnum" :min="1" :max="1" v-if="info.purchasNum==1" readonly></yd-spinner>
                 <div v-else>
-                  <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock&&info.productAttrStock.repertory" v-if="info.productAttrStock&&info.productAttrStock.repertory"></yd-spinner>
+                  <yd-spinner v-model="pdnum" :min="1" :max="info.productAttrStock&&((Math.floor(info.productAttrStock.repertory/(+info.multipleNumber||1)))*(info.multipleNumber||1))" :unit="+info.multipleNumber||1" v-if="info.productAttrStock&&info.productAttrStock.repertory"></yd-spinner>
                   <yd-spinner :min="0" :max="0" readonly v-else></yd-spinner>
                 </div>
                 <p style="margin-left:.2rem;">库存
@@ -253,6 +257,15 @@ export default {
           )
         },
         success(res) {
+          if (res.code !== 200) {
+            vm.$dialog.alert({
+              mes: "该商品数据异常",
+              callback: () => {
+                vm.$router.go(-1);
+              }
+            });
+            return;
+          }
           let _result = res.result;
           // 轮播图单独处理
           for (let i = 3; i <= 5; i++) {
@@ -270,8 +283,8 @@ export default {
             /\/userfiles/g,
             "http://www.gjfeng.com/userfiles"
           );
-          if (_result.isCanUserCou) {
-            _result.attrs.forEach((item, index) => {
+          if (_result.goodSoure != "2"||_result.goodSoure != "5") {
+            _result.attrs&&_result.attrs.forEach((item, index) => {
               //排序：防止数据错乱
               item.attrValues.sort(function(a, b) {
                 return a.id - b.id;
@@ -364,9 +377,9 @@ export default {
       });
     },
     changeTransport(value) {
-      if (value == 0) {
+      // if (value == 0) {
         this.pdnum = 1;
-      }
+      // }
     },
     add2cart() {
       if (!this.account) {
@@ -401,14 +414,15 @@ export default {
         mui.ajax({
           url: addCart,
           type: "post",
+          timeout: 10000,
           headers: { "app-version": "v1.0" },
           data: {
             goodsId: this.info.proId,
-            goodsAttrStockId: this.info.productAttrStock.id,
-            goodsAttrIds: this.info.productAttrStock.productAttrIds,
-            goodsAttr: this.info.productAttrStock.productAttrIds,
+            goodsAttrStockId: this.info.productAttrStock.id||'',
+            goodsAttrIds: this.info.productAttrStock.productAttrIds||'',
+            goodsAttr: this.info.productAttrStock.productAttrIds||'',
             goodsNum: this.pdnum,
-            logist: this.transport,
+            logist:this.info.isWholesale=='0'?'0':this.transport,
             account: this.account,
             token: md5(`addCart${this.account}`)
           },
@@ -420,24 +434,43 @@ export default {
               timeout: 1000
             });
             vm.$store.dispatch("getCartList");
+          },
+          error(e) {
+            vm.$dialog.loading.close();
+            vm.$dialog.toast({
+              mes: "超时请稍后重试",
+              timeout: 1000
+            });
           }
         });
       } else {
         //立即购买
         // 商品属性拼接：报错暂不使用，使用ids
         let attrValueStr = [];
-        this.info.attrs.forEach(m => {
+        this.info.attrs&&this.info.attrs.forEach(m => {
           m.attrValues.forEach(n => {
             if (n.selected) {
               attrValueStr.push(`${m.attrName}:${n.attrValueId.attrValue}`);
             }
           });
         });
-        let attrIds = this.info.productAttrStock.productAttrIds;
+        let attrIds = this.info.productAttrStock.productAttrIds?this.info.productAttrStock.productAttrIds:'';
+        var tips = '0';
+        if (this.info.isWholesale == "1") {
+            tips = "0";
+          } else {
+            if (this.info.isCanUserCou == '0') {
+              tips = "1";
+            }
+            if (this.info.isCanUserCou == '3') {
+              tips = "0";
+            }
+          }
         this.$dialog.loading.open("正在发起订单...");
         mui.ajax({
           url: toAdd,
           type: "post",
+          timeout: 10000,
           headers: { "app-version": "v1.0" },
           data: {
             "orderAddVos[0].goodsId": this.info.proId,
@@ -445,7 +478,7 @@ export default {
             "orderAddVos[0].goodsNum": this.pdnum,
             goodSource: this.info.goodSoure,
             orderAddressId: "",
-            logist: this.transport,
+            logist:this.info.isWholesale=='0'?'0':this.transport,
             account: this.account,
             token: md5(`toAdd${this.account}`)
           },
@@ -453,10 +486,10 @@ export default {
             vm.$dialog.loading.close();
             let _result = res.result;
             _result.orderAddVos[0].goodsAttr = attrValueStr.join(" ");
-            _result.orderAddVos[0].goodsAttrIds = attrIds.slice(
+            _result.orderAddVos[0].goodsAttrIds = attrIds? attrIds.slice(
               0,
               attrIds.length - 1
-            );
+            ):'';
             _result.orderAddVos[0].goodsAttrStockId =
               vm.info.productAttrStock.id;
             vm.show = false;
@@ -467,7 +500,14 @@ export default {
             );
             vm.$router.push({
               name: "SettleBalance",
-              query: { orderType: vm.orderType, buynow: true }
+              query: { orderType: vm.orderType, buynow: true, tips }
+            });
+          },
+          error(e) {
+            vm.$dialog.loading.close();
+            vm.$dialog.toast({
+              mes: "超时请稍后重试",
+              timeout: 1000
             });
           }
         });
@@ -626,5 +666,8 @@ footer {
 
 .actionsheet-toggle {
   transform: translate3d(0, 0, 0);
+}
+.pd-content{
+  line-height: 0;
 }
 </style>

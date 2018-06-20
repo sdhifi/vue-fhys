@@ -77,7 +77,8 @@ export default {
             if (res.code == 200) {
               vm.$store.commit('RECORD_DEFAULT_ADDRESS', address)
               if (vm.$route.query.type == 'choose') {
-                // 选择地址，选择之后回退页面
+                // 选择地址，选择之后回退页面并返回订单邮费
+                vm.$store.dispatch('refreshPos',{addressId:address.id});
                 vm.$router.go(-1)
               }
               else{

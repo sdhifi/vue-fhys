@@ -7,29 +7,27 @@
     </yd-navbar>
     <main class='scroll-content-2'>
       <section class="address-container">
-        <yd-cell-group v-if="!addressList.length">
-          <yd-cell-item arrow type="link" href="/address/new">
-            <yd-icon slot="icon" name="location"></yd-icon>
+        <yd-cell-group v-if="!defaultAddress">
+          <yd-cell-item arrow type="link" :href="`/address/index?type=choose&source=${settleList.goodSource}`">
+            <span slot="icon" class="iconfont-large self-location"></span>
             <span slot="left">收货人</span>
             <span slot="right">去添加</span>
           </yd-cell-item>
         </yd-cell-group>
-        <router-link v-else to="/address/index?type=choose" class="flex align-center">
+        <router-link v-else :to="`/address/index?type=choose&source=${settleList.goodSource}`" class="flex align-center">
           <div v-if="defaultAddress" class="fs-14 flex-1">
             <p>收货人：
               <span style="margin-right:.2rem;font-weight:bold;">{{defaultAddress.consigneeName}}</span>
               <span>{{defaultAddress.mobile}}</span>
             </p>
-            <p>收货地址：{{defaultAddress.proviceId.province}}{{defaultAddress.cityId.city}}
-              <span v-if="defaultAddress.areaId">{{defaultAddress.areaId.area}}</span>{{defaultAddress.addressDetail}}</p>
+            <p>收货地址：{{defaultAddress.proviceId.province}}{{defaultAddress.cityId.city}}<span v-if="defaultAddress.areaId">{{defaultAddress.areaId.area}}</span><span v-if="defaultAddress.townId">{{defaultAddress.townId.townName}}</span>{{defaultAddress.addressDetail}}</p>
           </div>
           <div v-else-if="addressList[0]" class="fs-14 flex-1">
             <p>收货人：
               <span style="margin-right:.2rem;font-weight:bold;">{{addressList[0].consigneeName}}</span>
               <span>{{addressList[0].mobile}}</span>
             </p>
-            <p>收货地址：{{addressList[0].proviceId.province}}{{addressList[0].cityId.city}}
-              <span v-if="addressList[0].areaId">{{addressList[0].areaId.area}}</span>{{addressList[0].addressDetail}}</p>
+            <p>收货地址：{{addressList[0].proviceId.province}}{{addressList[0].cityId.city}}<span v-if="addressList[0].areaId">{{addressList[0].areaId.area}}</span><span v-if="addressList[0].townId">{{addressList[0].townId.townName}}</span>{{addressList[0].addressDetail}}</p>
           </div>
           <span class="iconfont self-right"></span>
         </router-link>
@@ -48,13 +46,16 @@
                 <span class="danger-color fs-16" v-else-if="settleList.isCanUseCou==3">{{item.goodsAmount}}代金券</span>
                 <!-- <span class="danger-color fs-16" v-else>￥{{item.goodsAmount}}</span> -->
                 <template v-else>
-                  <template v-if="+member.merchantType==1">
-                    <span class="danger-color fs-16" v-if="item.standardPrice">￥{{item.standardPrice}}</span>
-                    <span class="danger-color fs-16" v-else>￥{{item.goodsAmount}}</span>
+                  <template v-if="settleList.isWholesale=='0' || settleList.isWohsalse=='0'">
+                    <span class="danger-color fs-16">￥{{item.goodsAmount}}</span>
                   </template>
                   <template v-else>
-                    <span class="danger-color fs-16" v-if="item.honourPrice">￥{{item.honourPrice}}</span>
-                    <span class="danger-color fs-16" v-else>￥{{item.goodsAmount}}</span>
+                    <template v-if="+member.merchantType==1">
+                      <span class="danger-color fs-16" v-if="item.standardPrice">￥{{item.standardPrice}}</span>
+                    </template>
+                    <template v-else>
+                      <span class="danger-color fs-16" v-if="item.honourPrice">￥{{item.honourPrice}}</span>
+                    </template>
                   </template>
                 </template>
                 <span class="fs-14">x{{item.goodsNum}}</span>
@@ -74,10 +75,9 @@
           <span slot="right" class="fs-14" v-if="settleList.isCanUseCou==1">{{settleList.totalAmount}}积分+￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
           <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==2">{{settleList.totalAmount}}责任金+￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
           <span slot="right" class="fs-14" v-else-if="settleList.isCanUseCou==3">{{settleList.totalAmount}}代金券+￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
-          <!-- <span slot="right" class="fs-14" v-else>￥{{settleList.totalAmount}}</span> -->
           <template slot="right" v-else>
-            <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='0'">￥{{formatPrice(total2)}}+￥{{settleList.pos}}</span>
-            <span class="danger-color fs-16" v-else-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='1'">￥{{formatPrice(total2)}}</span>
+            <span class="danger-color fs-16" v-if="(settleList.isWholesale=='1' || settleList.isWohsalse=='1')&&settleList.logist=='0'">￥{{formatPrice(total2)}}</span>
+            <span class="danger-color fs-16" v-else-if="(settleList.isWholesale=='1' || settleList.isWohsalse=='1')&&settleList.logist=='1'">￥{{formatPrice(total2)}}</span>
             <span class="danger-color fs-16" v-else>￥{{settleList.totalAmount}}</span>
           </template>
         </yd-cell-item>
@@ -109,15 +109,13 @@
         <yd-cell-item>
           <p slot="right" class="fs-16">
             支付：
-            <span class="danger-color" v-if="orderType=='1'&&!$route.query.buynow">￥{{formatPrice(settleList.pointNiceAmount)}}</span>
-            <span class="danger-color" v-else-if="orderType=='1'&&$route.query.buynow">￥{{formatPrice(settleList.pointNiceAmount)}}</span>
+            <span class="danger-color" v-if="orderType=='1'">￥{{formatPrice(settleList.pointNiceAmount)}}</span>
             <span class="danger-color" v-else-if="orderType=='2'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
             <span class="danger-color" v-else-if="orderType=='3'">￥{{formatPrice(settleList.pointNiceAmount||settleList.pos)}}</span>
-            <!-- <span class="danger-color" v-else>￥{{formatPrice(total)}}</span> -->
             <template v-else>
-              <span class="danger-color fs-16" v-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='0'">￥{{formatPrice(total2+settleList.pos)}}</span>
-              <span class="danger-color fs-16" v-else-if="settleList.goodsVos[0].honourPrice&&settleList.logist=='1'">￥{{formatPrice(total2)}}</span>
-              <span class="danger-color" v-else>￥{{formatPrice(total)}}</span>
+              <span class="danger-color fs-16" v-if="(settleList.isWholesale=='1' || settleList.isWohsalse=='1')&&settleList.logist=='0'">￥{{formatPrice(total2+settleList.pos)}}</span>
+              <span class="danger-color fs-16" v-else-if="(settleList.isWholesale=='1' || settleList.isWohsalse=='1')&&settleList.logist=='1'">￥{{formatPrice(total2)}}</span>
+              <span class="danger-color" v-else>￥{{formatPrice(settleList.totalAmount+settleList.pos)}}</span>
             </template>
           </p>
         </yd-cell-item>
@@ -158,7 +156,7 @@
 </template>
 <script>
 import { mapState } from "vuex";
-import { addOrder, toAdd } from "../../api/index";
+import { addOrder } from "../../api/index";
 import { mixin, payMixin } from "components/common/mixin";
 export default {
   name: "Settle",
@@ -168,7 +166,8 @@ export default {
       orderType: "0", //0:普通商品 1：积分兑换 2责任消费 3代金券
       remark: "", //备注
       payType: "", //支付方式
-      pays: {}
+      pays: {},
+      commissionType: "1", //赠送方式
     };
   },
   computed: {
@@ -234,7 +233,7 @@ export default {
     this.$store.dispatch("getInfo");
     this.$store.dispatch("getFHB");
     this.orderType = this.$route.query.orderType;
-    this.$store.dispatch("getAddressList", { source: 0 });
+    this.$store.dispatch("getAddressList", { source: this.settleList.goodSource });
     switch (this.orderType) {
       case "1":
         this.payType = "7";
@@ -307,11 +306,10 @@ export default {
       });
       cmParams = {
         goodsId: a.join(","),
-        goodsAttrStockId: b.join(","),
-        goodsAttrIds: c.join(";"),
-        goodsAttr: d.join(","),
+        goodsAttrStockId: b.length>0?b.join(","):'',
+        goodsAttrIds:c.length>0? c.join(";"):'',
+        goodsAttr: d.length>0?d.join(","):'',
         goodsNum: e.join(","),
-
         payType: this.payType,
         remark: this.remark,
         couponsId: "",
@@ -321,6 +319,11 @@ export default {
         payPassword: pwd,
         account: this.account,
         logist: this.settleList.logist,
+        commissionType: this.commissionType,
+        goodSource: this.settleList.goodSource,
+        orderSn:this.settleList.orderSn,
+        customerSn:this.settleList.customerSn,
+        postage:this.settleList.pos,
         token: md5(`gjfengaddOrder${this.payType}`)
       };
       mui.ajax({
@@ -330,40 +333,18 @@ export default {
         data: cmParams,
         success(res) {
           let _result = res.result;
-          //品牌商城
-          if (vm.orderType == 0) {
-            // 余额支付
-            if (vm.payType == "2") {
-              //支付宝
-              vm.zfbPay(_result.payString);
+          if(res.code==200){
+            if (vm.orderType == 0 && vm.payType == "2"){
+              vm.zfbPay(_result.alyString);
             }
-          } else if (vm.orderType == 1) {
-            //积分换购，积分支付
-            if (res.code == 200) {
-              vm.payPos(_result.payString, res.msg);
-            } else {
-              vm.$dialog.alert({
+            else if (vm.orderType == 1 ||vm.orderType == 2||vm.orderType == 3) {
+              vm.payPos(_result.alyString, res.msg);
+            } 
+          }
+          else{
+            vm.$dialog.alert({
                 mes: res.msg
               });
-            }
-          } else if (vm.orderType == 2) {
-            //责任消费
-            if (res.code == 200) {
-              vm.payPos(_result.payString, res.msg);
-            } else {
-              vm.$dialog.alert({
-                mes: res.msg
-              });
-            }
-          } else if (vm.orderType == 3) {
-            //代金券
-            if (res.code == 200) {
-              vm.payPos(_result.payString, res.msg);
-            } else {
-              vm.$dialog.alert({
-                mes: res.msg
-              });
-            }
           }
         },
         error(err) {

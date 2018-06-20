@@ -259,7 +259,6 @@ section {
     position: relative;
     img {
       width: 100%;
-      max-height: 5rem;
     }
     .pd-desc {
       position: absolute;

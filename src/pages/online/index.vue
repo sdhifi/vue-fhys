@@ -33,7 +33,7 @@
         <img :src="getLocalImg('merchant.jpg')" alt="商品供应链采购端">
       </section>
       <section class="pd-list" v-for="(item,index) in pds" :key="index">
-        <yd-cell-group>
+        <yd-cell-group v-if="item.list.length>0">
           <yd-cell-item arrow type="label" @click.native="goProducts(item.id)">
             <span slot="icon" class="iconfont self-libao" style="color:#f98e25;font-size:20px;"></span>
             <span slot="left">{{item.label}}</span>
@@ -243,7 +243,7 @@ section {
     .pd-h;
   }
   .pd-item {
-    width: 48%;
+    width: 32%;
     padding: 0.1rem;
     margin-bottom: @pd;
     border: 1px solid #dfdfdf;

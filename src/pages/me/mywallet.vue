@@ -2,7 +2,7 @@
   <div>
     <header-top title="我的钱包"></header-top>
     <main class='scroll-content-2'>
-      <yd-pullrefresh :callback="refreshInfo" ref="wallet">
+      <yd-pullrefresh :callback="refreshInfo" ref="wallet" :show-init-tip="false">
         <section class="wallet-top text-center" :style="{'background-image':formatBg('banner-wallet.png')}">
           <nav class="tab-list">
             <div class="tab-item" :class="{'tab-active':!type}" @click="changeTab(0)">个人福利</div>

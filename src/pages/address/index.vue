@@ -23,8 +23,7 @@
                   <span class="address-name">{{item.consigneeName}}</span>
                   <span>{{item.mobile}}</span>
                 </div>
-                <div class="address-detail">{{item.proviceId.province}} {{item.cityId.city}}
-                  <span v-if="item.areaId">{{item.areaId.area}}</span> {{item.addressDetail}}</div>
+                <div class="address-detail">{{item.proviceId.province}}{{item.cityId.city}}<span v-if="item.areaId">{{item.areaId.area}}</span><span v-if="item.townId">{{item.townId.townName}}</span>{{item.addressDetail}}</div>
               </li>
             </ul>
           </swipeout-item>
@@ -57,7 +56,7 @@ export default {
     ...mapState(["account", "addressList"])
   },
   activated() {
-    this.$store.dispatch("getAddressList", { source: 0 });
+    this.$store.dispatch("getAddressList", { source: this.$route.query.source });
   },
   methods: {
     setDefault(address) {
@@ -68,18 +67,19 @@ export default {
         headers: { "app-version": "v1.0" },
         data: {
           id: address.id,
-	  goodSource: 0,
+          goodSource: this.$route.query.source,
           account: this.account,
-          token: md5(`gjfendefault${address.id}${this.account}`)
+          token: md5(`gjfengdefault${address.id}${this.account}`)
         },
         success(res) {
           if (res.code == 200) {
             vm.$store.commit("RECORD_DEFAULT_ADDRESS", address);
             if (vm.$route.query.type == "choose") {
-              // 选择地址，选择之后回退页面
+              // 选择地址，选择之后回退页面并返回订单邮费
+              vm.$store.dispatch('refreshPos',{addressId:address.id});
               vm.$router.go(-1);
             } else {
-              vm.$store.dispatch("getAddressList", { source: 0 });
+              vm.$store.dispatch("getAddressList", { source: vm.$route.query.source });
               vm.$dialog.toast({
                 mes: "设置默认地址成功"
               });
@@ -96,7 +96,7 @@ export default {
       this.$nextTick(() => {
         this.$refs.aaa[index].close();
       });
-      this.$router.push({ name: "AddressEdit", params: { item } });
+      this.$router.push({ name: "AddressEdit", params: { item },query:{source:this.$route.query.source} });
     },
     deleteAddress(item) {
       this.$dialog.confirm({
@@ -109,7 +109,7 @@ export default {
             headers: { "app-version": "v1.0" },
             data: {
               id: item.id,
-	      goodSource: 0,
+              goodSource: this.$route.query.source,
               account: getStore("account"),
               token: md5(`gjfengdelAdress${item.id}${getStore("account")}`)
             },
@@ -121,14 +121,14 @@ export default {
                 });
                 return;
               }
-              vm.$store.dispatch("getAddressList", { source: 0 });
+              vm.$store.dispatch("getAddressList", { source: vm.$route.query.source });
             }
           });
         }
       });
     },
     newAddress() {
-      this.$router.push({ name: "AddressNew" });
+      this.$router.push({ name: "AddressNew",query:{source:this.$route.query.source} });
     }
   }
 };

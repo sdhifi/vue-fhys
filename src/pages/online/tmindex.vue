@@ -92,6 +92,12 @@ export default {
     goBack() {
       this.$router.replace("/online/index");
     },
+    reset() {
+      this.pageNo = 1;
+      this.$refs.mainList.scrollTop = 0;
+      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
+      this.productList = [];
+    },
     searchProduct() {
       if (!this.searchValue) {
         this.$dialog.alert({
@@ -99,36 +105,14 @@ export default {
         });
         return;
       }
-      this.pageNo = 1;
-      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
-      this.productList = [];
-      let vm = this;
-      this.$dialog.loading.open();
-      mui.ajax({
-        url: findProductListBySerch,
-        type: "get",
-        data: {
-          keyWord: this.searchValue,
-          page: this.pageNo
-        },
-        success(res) {
-          vm.$dialog.loading.close();
-          vm.productList = [...vm.productList, ...res];
-          if (res.length < 30) {
-            vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
-            return;
-          }
-          vm.$refs.pdlist.$emit("ydui.infinitescroll.finishLoad");
-          vm.pageNo++;
-        }
-      });
+      this.reset();
+      this.curIndex = 0;
+      this.getProduct();
     },
     changeTab(index) {
-      this.pageNo = 1;
+      this.searchValue = "";
       this.curIndex = index;
-      this.$refs.mainList.scrollTop = 0;
-      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
-      this.productList = [];
+      this.reset();
       this.getProduct();
     },
     getCatalog() {
@@ -152,24 +136,46 @@ export default {
     },
     getProduct() {
       let vm = this;
-      mui.ajax({
-        url: findProductList,
-        type: "get",
-        data: {
-          type: this.tabList[this.curIndex].id,
-          page: this.pageNo
-        },
-        success(res) {
-          vm.productList = [...vm.productList, ...res];
-          if (res.length < 30) {
-            vm.noData = true;
-            vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
-            return;
+      if (this.searchValue) {
+        this.$dialog.loading.open();
+        mui.ajax({
+          url: findProductListBySerch,
+          type: "get",
+          data: {
+            keyWord: this.searchValue,
+            page: this.pageNo
+          },
+          success(res) {
+            vm.$dialog.loading.close();
+            vm.productList = [...vm.productList, ...res];
+            if (res.length == 0) {
+              vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
+              return;
+            }
+            vm.$refs.pdlist.$emit("ydui.infinitescroll.finishLoad");
+            vm.pageNo++;
           }
-          vm.$refs.pdlist.$emit("ydui.infinitescroll.finishLoad");
-          vm.pageNo++;
-        }
-      });
+        });
+      } else {
+        mui.ajax({
+          url: findProductList,
+          type: "get",
+          data: {
+            type: this.tabList[this.curIndex].id,
+            page: this.pageNo
+          },
+          success(res) {
+            vm.productList = [...vm.productList, ...res];
+            if (res.length == 0) {
+              vm.noData = true;
+              vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
+              return;
+            }
+            vm.$refs.pdlist.$emit("ydui.infinitescroll.finishLoad");
+            vm.pageNo++;
+          }
+        });
+      }
     },
     navigate(pd) {
       if (!this.member) {

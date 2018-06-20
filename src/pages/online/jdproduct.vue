@@ -56,7 +56,7 @@ import { XButton, Swiper, SwiperItem, LoadMore } from "vux";
 import {
   findJdProprietaryProDetail,
   addJdProprietaryProduct,
-  toAdd
+  toAddOrder
 } from "../../api/index";
 export default {
   name: "JDProduct",
@@ -99,7 +99,11 @@ export default {
           token: md5(`gjfengfindJdProprietaryProDetail${this.$route.query.id}`)
         },
         success(res) {
-          vm.info = res.result;
+          let _result = res.result;
+          if(_result.gallery.length==0){
+            _result.gallery.push({imgUrl:_result.goodsThumb})
+          }
+          vm.info = _result;
           vm.$nextTick(function() {
             Array.from(
               document
@@ -107,6 +111,13 @@ export default {
                 .querySelectorAll("img,table,div,p")
             ).forEach(function(e) {
               e.style.width = "100%";
+            });
+            Array.from(
+              document
+                .querySelector(".pd-content")
+                .querySelectorAll("div,p")
+            ).forEach(function(e) {
+              e.style.lineHeight = 1;
             });
           });
         }
@@ -116,12 +127,12 @@ export default {
       let vm = this;
       this.$dialog.loading.open("正在发起订单...");
       mui.ajax({
-        url: addJdProprietaryProduct,
+        url: toAddOrder,
         type: "post",
         headers: { "app-version": "v1.0" },
         data: {
           proId: this.$route.query.id,
-          token: md5(`gjfengaddJdProprietaryProduct${this.$route.query.id}`)
+          token: md5(`gjfengtoAddOrder${this.$route.query.id}`)
         },
         success(res) {
           mui.ajax({
@@ -136,7 +147,7 @@ export default {
               orderAddressId: "",
               logist: 0,
               account: vm.account,
-              token: md5(`gjfengtoAdd${vm.account}`)
+              token: md5(`gjfengtoAddOrder${vm.account}`)
             },
             success(res) {
               vm.$dialog.loading.close();
@@ -260,5 +271,8 @@ section {
 
 .actionsheet-toggle {
   transform: translate3d(0, 0, 0);
+}
+.pd-content{
+  line-height: 0;
 }
 </style>
