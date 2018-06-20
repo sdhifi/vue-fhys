@@ -81,7 +81,7 @@
           <span class="iconfont-large self-group c1" slot="icon"></span>
           <span slot="left">我推荐的人</span>
         </yd-cell-item>
-        <yd-cell-item arrow type="label" @click.native="navigate('/address/index')">
+        <yd-cell-item arrow type="label" @click.native="navigate('/address/index?source=5')">
           <span class="iconfont-large self-address c2" slot="icon"></span>
           <span slot="left">地址管理</span>
         </yd-cell-item>

@@ -97,6 +97,7 @@ export default {
       this.pageNo = 1;
       this.noData = false;
       this.productList = [];
+      this.$refs.pdlist.$emit("ydui.infinitescroll.reInit");
     },
     getProduct() {
       if (!this.noData) {
@@ -182,9 +183,9 @@ export default {
             headers: { "app-version": "v1.0" },
             data: {
               goodsId: id,
-              goodsAttrStockId: _result.productAttrStock.id,
-              goodsAttrIds: _result.productAttrStock.productAttrIds,
-              goodsAttr: _result.productAttrStock.productAttrIds,
+             goodsAttrStockId: _result.productAttrStock.id||'',
+              goodsAttrIds: _result.productAttrStock.productAttrIds||'',
+              goodsAttr: _result.productAttrStock.productAttrIds||'',
               goodsNum: 1,
               account: vm.account,
               logist: 0,

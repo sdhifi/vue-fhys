@@ -7,14 +7,16 @@ import {
   RECORD_ADDRESS_List,
   RECORD_DEFAULT_ADDRESS,
   RECORD_CART_LIST,
-  RECORD_FHB_MONEY
+  RECORD_FHB_MONEY,
+  RECORD_SETTLE_LIST
 } from './mutation-types'
 import {
   my,
   myBanks,
   getMyAddress,
   myCart,
-  toFhTreasurePage
+  toFhTreasurePage,
+  findOrderPos
 } from '../api/index'
 import {
   getStore
@@ -142,6 +144,48 @@ export default {
       },
       success(res) {
         commit(RECORD_FHB_MONEY, res.result.fhTreasureInfo.fhTreasureMoney);
+      }
+    })
+  },
+  refreshPos({commit,state},{addressId}){
+    let vm = this;
+    let a = [],b = [];
+          state.settleList.orderAddVos.forEach(item=>{
+            a.push(item.goodsId);
+            b.push(item.goodsNum);
+          })
+    mui.ajax({
+      url: findOrderPos,
+      type: 'post',
+      headers: {'app-version': 'v1.0'},
+      data: {
+        goodIds:a.join(','),
+        goodNums:b.join(','),
+        addsId:addressId,
+        token: md5(`gjfengfindOrderPos`)
+      },
+      success(res){
+        if(res.code==200){
+          let _r = res.result;
+          let {pointNiceAmount} = state.settleList;
+          switch(state.settleList.isCanUseCou){
+            //积分商品
+            case 1:
+              pointNiceAmount = pointNiceAmount+(_r.pos-state.settleList.pos);
+              commit(RECORD_SETTLE_LIST,{...state.settleList,..._r,...{pointNiceAmount}})
+              break;
+            //代金券
+            case 3:
+              pointNiceAmount = pointNiceAmount+(_r.pos-state.settleList.pos);
+              commit(RECORD_SETTLE_LIST,{...state.settleList,..._r,...{pointNiceAmount}})
+              break;
+            default:
+            commit(RECORD_SETTLE_LIST,{...state.settleList,..._r})
+          }
+        }
+        else{
+          return state;
+        }
       }
     })
   }

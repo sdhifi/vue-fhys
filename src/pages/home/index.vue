@@ -2,7 +2,7 @@
   <div>
     <header-top :back="false" :login="!loginAccount" :show-scan="loginAccount">注册|登录</header-top>
     <main class="scroll-content">
-      <yd-pullrefresh :callback="refreshList" ref="refreshcontainer">
+      <yd-pullrefresh :callback="refreshList" ref="refreshcontainer" :show-init-tip="false">
         <section class="city-search flex text-center align-center danger-bg">
           <router-link to="/address/city" class="current-city">
             <span>{{city}}</span>

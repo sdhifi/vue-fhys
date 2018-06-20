@@ -179,7 +179,7 @@ export default {
         success(res) {
           vm.$dialog.loading.close();
           vm.productList = [...vm.productList, ...res.result.product];
-          if (res.length < 50) {
+          if (res.result.product.length == 0) {
             vm.noData = true;
             vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
             return;

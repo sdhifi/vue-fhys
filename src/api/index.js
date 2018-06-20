@@ -37,6 +37,7 @@ let findProprietaryJdCategory = `${pd}/findProprietaryJdCategory` //获取京东
 let findJdProprietaryProByCatId = `${pd}/findJdProprietaryProByCatId` //获取分类商品
 let findJdProprietaryProDetail = `${pd}/findJdProprietaryProDetail` //获取京东自营商城分类商品详情
 let addJdProprietaryProduct = `${pd}/addJdProprietaryProduct` //添加京东商品信息
+let toAddOrder = `${pd}/toAddOrder` //立即购买
 
 let findProdutCat = `${baseUrl}/wx/product/findProdutCat` //天猫|淘宝目录
 let findProductList = `${baseUrl}/wx/product/findProductList` //天猫|淘宝商品
@@ -101,6 +102,7 @@ let actCartInH5 = `${order}/actCartInH5` //结算购物车
 let yinLPay = `${order}/yinLPay` //银联预下单
 let yinLPayCofirom = `${order}/yinLPayCofirom` //银联支付
 let payOrderSign = `${order}/payOrderSign` //订单付款
+let findOrderPos = `${order}/findOrderPos` //邮费
 
 let newProCommet = baseUrl + `/app/comment/${VERSION}/newProCommet` //添加评论
 let getAllProCommetByPage = baseUrl + `/app/comment/${VERSION}/getAllProCommetByPage` //获取评论
@@ -173,6 +175,7 @@ export {
   findJdProprietaryProByCatId,
   findJdProprietaryProDetail,
   addJdProprietaryProduct,
+  toAddOrder,
 
   findProdutCat,
   findProductList,
@@ -237,6 +240,7 @@ export {
   yinLPay,
   yinLPayCofirom,
   payOrderSign,
+  findOrderPos,
 
   newProCommet,
   getAllProCommetByPage,

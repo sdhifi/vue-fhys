@@ -12,23 +12,32 @@
       <ul class="tab-list">
         <li class="tab-item" :class="{'danger-bg':curIndex==index}" @click="changeTab(index)" v-for="(item,index) in tabList" :key="index">{{item.names}}</li>
       </ul>
-      <main class="main-list" ref="mainList">
-        <yd-infinitescroll :callback="getProduct" ref="pdlist">
-          <ul class="product-list flex" slot="list">
-            <li class="product-item" v-for="(item,index) in productList" :key="index" @click="navigate(item)">
-              <div class="product-img">
-                <img :src="item.imgUrl" :alt="item.name">
-              </div>
-              <div class="product-info flex align-center">
-                <div class="product-name">{{item.name}}</div>
-              </div>
-              <div class="product-price">
-                <span>零售价:</span><span class="fs-16 danger-color">￥{{item.price}}</span>
-              </div>
-            </li>
-          </ul>
-        </yd-infinitescroll>
-      </main>
+      <div class="main-list" ref="mainList">
+        <div class="flex align-center">
+          <span class="fs-15 orange-color" style="color: #ff7625;">折扣筛选：</span>
+          <select v-model="discount" @change="filterProduct" class="select-container flex-1">
+            <option :value="item.key" v-for="(item,index) in dlist" :key="index">{{item.value}}</option>
+          </select>
+        </div>
+        <main class="product-list">
+          <yd-infinitescroll :callback="getProduct" ref="pdlist">
+            <ul class="flex" slot="list">
+              <li class="product-item" v-for="(item,index) in productList" :key="index" @click="navigate(item)">
+                <div class="product-img">
+                  <img :src="item.imgUrl" :alt="item.name">
+                </div>
+                <div class="product-info flex align-center">
+                  <div class="product-name">{{item.name}}</div>
+                </div>
+                <div class="product-price">
+                  <span>零售价:</span>
+                  <span class="fs-16 danger-color">￥{{item.price}}</span>
+                </div>
+              </li>
+            </ul>
+          </yd-infinitescroll>
+        </main>
+      </div>
     </div>
   </div>
 </template>
@@ -44,6 +53,14 @@ export default {
       noData: false,
       pageNo: 1,
       curIndex: 0,
+      discount: "",
+      dlist: [
+        { key: "", value: "全部" },
+        { key: "1", value: "1折以下" },
+        { key: "2", value: "1~2折" },
+        { key: "3", value: "3~4折" },
+        { key: "4", value: "4折以上" }
+      ],
       tabList: [],
       productList: []
     };
@@ -59,7 +76,7 @@ export default {
   },
   activated() {
     if (this.positions[this.$route.path]) {
-      document.querySelector("main").scrollTop = this.positions[
+      document.querySelector(".product-list").scrollTop = this.positions[
         this.$route.path
       ];
     }
@@ -103,6 +120,7 @@ export default {
     changeTab(index) {
       this.reset();
       this.searchValue = "";
+      this.discount = "";
       this.curIndex = index;
       this.$refs.mainList.scrollTop = 0;
       this.getProduct();
@@ -119,13 +137,14 @@ export default {
             pageNo: this.pageNo,
             pageSize: 10,
             likeName: this.searchValue,
+            discount: this.discount,
             columnId: this.tabList[this.curIndex].id,
             token: md5(`gjfengfindVoucherProduct${this.account}`)
           },
           success(res) {
             let _list = res.result.products.result;
             vm.productList = [...vm.productList, ..._list];
-            if (_list.length < 10) {
+            if (_list.length==0) {
               vm.noData = true;
               vm.$refs.pdlist.$emit("ydui.infinitescroll.loadedDone");
               return;
@@ -143,6 +162,11 @@ export default {
         });
         return;
       }
+      this.reset();
+      this.curIndex=0;
+      this.getProduct();
+    },
+    filterProduct() {
       this.reset();
       this.getProduct();
     },
@@ -197,36 +221,54 @@ export default {
   bottom: 0;
   left: 20%;
   width: 80%;
-  -webkit-overflow-scrolling: touch;
-  overflow-y: auto;
   padding: 5px;
-  .product-item {
-    width: 50%;
-    margin-bottom: 5px;
-    padding: 5px;
-    border: 1px solid #f7f5f0;
-    color: #333;
-    .product-img {
-      position: relative;
-      padding: 50%;
-      overflow: hidden;
-      img {
-        .hv-cen;
-        width: 100%;
+  .select-container {
+    height: 0.65rem;
+    line-height: 0.65rem;
+    overflow: hidden;
+    background-image: url(../../assets/select.png);
+    background-size: 100% 100%;
+    padding-left: 0.15rem;
+    font-size: 0.3rem;
+    z-index: 1000;
+    border: none;
+  }
+  .product-list {
+    position: absolute;
+    top: 1rem;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+    .product-item {
+      width: 50%;
+      margin-bottom: 5px;
+      padding: 5px;
+      border: 1px solid #f7f5f0;
+      color: #333;
+      .product-img {
+        position: relative;
+        padding: 50%;
+        overflow: hidden;
+        img {
+          .hv-cen;
+          width: 100%;
+        }
       }
-    }
-    .product-info {
-      line-height: 20px;
-      height: 40px;
-      .product-name {
-        display: -webkit-box;
-        .multi-ellipsis(2);
-        word-wrap: break-word;
-        word-break: break-all;
+      .product-info {
+        line-height: 20px;
+        height: 40px;
+        .product-name {
+          display: -webkit-box;
+          .multi-ellipsis(2);
+          word-wrap: break-word;
+          word-break: break-all;
+        }
       }
-    }
-    .product-price {
-      font-size: 0.28rem;
+      .product-price {
+        font-size: 0.28rem;
+      }
     }
   }
 }

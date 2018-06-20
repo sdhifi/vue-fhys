@@ -14,35 +14,35 @@
                 <h3>{{item.goodsId.name}}</h3>
                 <p class="attrs">{{item.goodsAttr}}</p>
                 <div class="flex just-between align-center">
-                  <template v-if="item.goodsId.honourPrice">
-                    <p v-if="item.goodsId.isCanUserCou=='3'" class="fs-16 danger-color">
-                      <yd-badge type="danger" style="vertical-align: text-bottom;">
-                        <span>{{item.goodsAttrStockId.price}}</span>代金券</yd-badge>
-                      <span v-if="item.goodsId.pointNicePrice">+￥{{item.goodsId.pointNicePrice}}</span>
-                    </p>
-                    <p class="fs-16 danger-color" v-else-if="+member.merchantType==1">
-                      ￥{{item.goodsAttrStockId.standardPrice}}
+                  <template v-if="item.goodsId.isWholesale=='1'">
+                    <p class="fs-16 danger-color" v-if="+member.merchantType==1">
+                      ￥{{item.goodsId.standardPrice}}
                     </p>
                     <p class="fs-16 danger-color" v-else-if="+member.merchantType>1">
-                      ￥{{item.goodsAttrStockId.honourPrice}}
+                      ￥{{item.goodsId.honourPrice}}
                     </p>
                   </template>
                   <template v-else>
                     <p v-if="item.goodsId.isCanUserCou=='0'" class="fs-16 danger-color">
-                      ￥{{item.goodsAttrStockId.price}}
+                      ￥{{item.goodsId.price}}
                     </p>
                     <p v-if="item.goodsId.isCanUserCou=='1'" class="fs-16 danger-color">
                       <yd-badge type="primary" style="vertical-align: text-bottom;">
-                        <span>{{item.goodsAttrStockId.price}}</span>积分</yd-badge>
+                        <span>{{item.goodsId.price}}</span>积分</yd-badge>
                       <span v-if="item.goodsId.pointNicePrice">+￥{{item.goodsId.pointNicePrice}}</span>
                     </p>
                     <p v-if="item.goodsId.isCanUserCou=='2'" class="fs-16 danger-color">
                       <yd-badge type="warning" style="vertical-align: text-bottom;">
-                        <span>{{item.goodsAttrStockId.price}}</span>责任金</yd-badge>
+                        <span>{{item.goodsId.price}}</span>责任金</yd-badge>
                       <span v-if="item.goodsId.pointNicePric">+￥{{item.goodsId.pointNicePrice}}</span>
                     </p>
+                    <p v-if="item.goodsId.isCanUserCou=='3'" class="fs-16 danger-color">
+                      <yd-badge type="danger" style="vertical-align: text-bottom;">
+                        <span>{{item.goodsId.price}}</span>代金券</yd-badge>
+                      <span v-if="item.goodsId.pointNicePrice">+￥{{item.goodsId.pointNicePrice}}</span>
+                    </p>
                   </template>
-                  <yd-spinner v-model="item.goodsNum" :min="1" :max="item.goodsAttrStockId.repertory" v-show="!item.close"></yd-spinner>
+                  <yd-spinner v-model="item.goodsNum" :min="1" :max="(Math.floor(item.goodsId.repertory/(+item.goodsId.multipleNumber||1)))*(item.goodsId.multipleNumber||1)" v-show="!item.close" :unit="+item.goodsId.multipleNumber||1"></yd-spinner>
                   <div v-show="item.close" class="fs-14">
                     ×{{item.goodsNum}}
                   </div>
@@ -222,19 +222,19 @@ export default {
         this.checkList.forEach((item, index) => {
           if (item.goodsId.isCanUserCou == "1") {
             a +=
-              (item.goodsAttrStockId.price + item.goodsId.pointNicePrice) *
+              (item.goodsId.price + item.goodsId.pointNicePrice) *
               item.goodsNum;
           } else if (item.goodsId.isCanUserCou == "0") {
-            if (item.goodsAttrStockId.honourPrice) {
+            if (item.goodsId.isWholesale == "1") {
               a +=
                 +this.member.merchantType > 1
-                  ? item.goodsAttrStockId.honourPrice * item.goodsNum
-                  : item.goodsAttrStockId.standardPrice * item.goodsNum;
+                  ? item.goodsId.honourPrice * item.goodsNum
+                  : item.goodsId.standardPrice * item.goodsNum;
             } else {
-              a += item.goodsAttrStockId.price * item.goodsNum;
+              a += item.goodsId.price * item.goodsNum;
             }
           } else {
-            a += item.goodsAttrStockId.price * item.goodsNum;
+            a += item.goodsId.price * item.goodsNum;
           }
         });
         this.totalPrice = a;
@@ -301,8 +301,23 @@ export default {
             "SET_PAY_PASSWORD",
             !!_result.gjfMemberInfo.payPassword
           );
+          var tips = "0";
+          if (_result.isWohsalse == "1") {
+            tips = "0";
+          } else {
+            if (_result.isCanUseCou == 0) {
+              tips = "1";
+            }
+            if (_result.isCanUseCou == 3) {
+              tips = "0";
+            }
+          }
+
           vm.$store.commit("RECORD_SETTLE_LIST", _result);
-          vm.$router.push({ name: "SettleBalance", query: { orderType } });
+          vm.$router.push({
+            name: "SettleBalance",
+            query: { orderType, tips }
+          });
         }
       });
     },
