@@ -1,15 +1,14 @@
 {
   "name": "vue-fhys",
   "version": "1.0.0",
-  "description": "凤凰云商O2O",
+  "description": "凤凰云商",
   "author": "hishion <956656628@qq.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "build": "node build/build.js && node build/r.js",
     "e2e": "node test/e2e/runner.js",
-    "test": "npm run e2e",
-    "replace": "node build/r.js"
+    "test": "npm run e2e"
   },
   "dependencies": {
     "fastclick": "^1.0.6",
