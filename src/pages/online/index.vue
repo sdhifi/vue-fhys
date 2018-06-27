@@ -263,7 +263,7 @@ section {
       line-height: 20px;
       h3 {
         .multi-ellipsis(2);
-        font-size: 0.3rem;
+        font-size: .26rem;
         font-weight: normal;
         word-wrap: break-word;
         word-break: break-all;
@@ -272,7 +272,7 @@ section {
     }
     .price {
       margin-top: 0.1rem;
-      font-size: 14px;
+      font-size: .28rem;
       span:first-of-type {
         color: @red;
       }
