@@ -18,5 +18,4 @@ npm run dev
 # build for production with minification
 npm run build
 ```
-## 截图
-看screenshots文件夹
+
